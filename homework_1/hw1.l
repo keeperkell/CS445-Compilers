@@ -1,25 +1,70 @@
 %{
-#include "y.tab.h"
-#include "symtbl.h"
-#include <math.h>
+// // // // // // // // // // // // // // // // // // // // // // // 
+// CS445 - hw1.l
+//
+// Keller Lawson
+// Jan 23, 2022   
+
+// this *order* of these includes is mandatory
+#include "scanType.h"  // TokenData Type
+#include "parser.tab.h"  // token definitions from the bison
+
+int line;
+int numErrors;    // ERR err count
+
+static int setToken(int tokenClass, int linenum, char *svalue)
+{
+    // create the pass-back data space
+    yylval.tokenData = new TokenData;
+
+    yylval.tokenData->tokenClass = tokenClass;
+    yylval.tokenData->linenum = linenum;
+    yylval.tokenData->tokenstr = strdup(svalue);
+
+    switch(tokenClass){
+        case BOOLCONST:
+            if(strcomp(svalue, "false") == 0){
+                yylval.tokenData->nvalue = 0;
+            }
+            else{
+                yylval.tokenData->nvalue = 1;
+            }
+            break;
+        case ID:
+            yylval.tokenData->svalue = strdup(svalue);
+            break;
+        case NUMCONST:
+            yylval.tokenData->nvalue = atoi(svalue);
+            break;
+        case CHARCONST:
+            yylval.tokenData->cvalue = svalue;
+            break;
+        case STRINGCONST:
+            yylval.tokenData->svalue = svalue;
+            break;
+    }
+}
+
 %}
 
+%option noyywrap
+LETTER  [a-zA-Z]
+DIGIT   [0-9]
+
 %%
-([0-9]+|([0-9]*\.[0-9]+)([eE][+-]?[0-9]+)?) {
-    yylval.dval = atof(yytext);
-    return NUMBER;
-    }
 
-[ \t] ; /* ignore whitespace */
+[ \t]+
+"##".*
+\n                                  {line++;}
 
-[A-Za-z][A-Za-z0-9]* {
-    /* return symbol pointer */
-    yylval.symptr = sym_lookup(yytext);
-    return NAME;
-    }
+"true"                              {return setToken(BOOLCONST, line, yytext)}
+"false"                             {return setToken(BOOLCONST, line, yytext)}
 
-"$" { return 0; }
-\n |
-. { return yytext[0]; };
+{LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext)}
+{DIGIT}+                            {return setToken(NUMCONST, line, yytext)}
+'\'\\?{LETTER}|{DIGIT}\''           {return setToken(CHARCONST, line, yytext)}
+"\".*\""                            {return setToken(STRINGCONST, line, yytext)}
+
+.                                   {printf("ERROR(%d): char \'%c\' is not in the language\n", line, yytext[0]); numErrors++;}
+
 %%
-int yywrap() { return 1; }
