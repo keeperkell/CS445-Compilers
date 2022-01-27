@@ -23,7 +23,7 @@ static int setToken(int tokenClass, int linenum, char *svalue)
 
     switch(tokenClass){
         case BOOLCONST:
-            if(strcomp(svalue, "false") == 0){
+            if(strcmp(svalue, "false") == 0){
                 yylval.tokenData->nvalue = 0;
             }
             else{
@@ -40,7 +40,7 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             yylval.tokenData->cvalue = svalue;
             break;
         case STRINGCONST:
-            yylval.tokenData->svalue = svalue;
+            yylval.tokenData->svalue = strdup(svalue);
             break;
     }
 
@@ -59,13 +59,13 @@ DIGIT   [0-9]
 "##".*
 \n                                  {line++;}
 
-"true"                              {return setToken(BOOLCONST, line, yytext)}
-"false"                             {return setToken(BOOLCONST, line, yytext)}
+"true"                              {return setToken(BOOLCONST, line, yytext);}
+"false"                             {return setToken(BOOLCONST, line, yytext);}
 
-{LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext)}
-{DIGIT}+                            {return setToken(NUMCONST, line, yytext)}
-'\'\\?{LETTER}|{DIGIT}\''           {return setToken(CHARCONST, line, yytext)}      
-\".*\"                              {return setToken(STRINGCONST, line, yytext)}    
+{LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext);}
+{DIGIT}+                            {return setToken(NUMCONST, line, yytext);}
+'\'\\?{LETTER}|{DIGIT}\''           {return setToken(CHARCONST, line, yytext);}      
+\".*\"                              {return setToken(STRINGCONST, line, yytext);}    
 
 .                                   {printf("ERROR(%d): char \'%c\' is not in the language\n", line, yytext[0]); numErrors++;}
 
