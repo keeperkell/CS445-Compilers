@@ -68,10 +68,10 @@ DIGIT   [0-9]
 "true"                              {return setToken(BOOLCONST, line, yytext);}
 "false"                             {return setToken(BOOLCONST, line, yytext);}
 
-{LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext);}
+{LETTER}[{LETTER}|{DIGIT}]*         {return setToken(ID, line, yytext);}
 {DIGIT}+                            {return setToken(NUMCONST, line, yytext);}
 
-'\'\\?{LETTER}|{DIGIT}\''           {return setToken(CHARCONST, line, yytext);}      
+'\'\\?[LETTER}|{DIGIT]\''           {return setToken(CHARCONST, line, yytext);}      
 \".*\"                              {return setToken(STRINGCONST, line, yytext);}    
 
 "<"|">"|"("|")"|"{"|"}"|"["|"]"     {printf("Line %d Token: %s\n", line, yytext);}
