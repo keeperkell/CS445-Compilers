@@ -6,7 +6,7 @@ HDRS = scanType.h
 OBJS = lex.yy.o $(BIN).tab.o
 
 $(BIN) : $(OBJS)
-	$(CC) $(OBJS) -o $(BIN)
+	$(CC) $(OBJS) -o c-
 
 lex.yy.c : $(BIN).l $(BIN).tab.h $(HDRS)
 	flex $(BIN).l
