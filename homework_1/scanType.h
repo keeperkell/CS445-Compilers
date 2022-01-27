@@ -8,6 +8,7 @@ struct TokenData {
     char cvalue;     // any character value
     int nvalue;      // any numeric value or Boolean
     char *svalue;    // any string value
+    int strlength;
 };
 
 #endif
