@@ -37,6 +37,10 @@ tokenlist     : tokenlist token
               | token
               ;
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// FIX DATA AND MEMORY HERE
 token         : ID                      {printf("Line %d Token: %d Value: %d\n", $1->linenum, $1->tokenclass, $1->idIndex);}
               | BOOLCONST               {printf("Line %d Token: %d Value: %d Input: %s\n", $1->linenum, $1->tokenclass, $1->nvalue, $1->tokeninput);}
               | NUMCONST                {printf("Line %d Token: %d Value: %d Input: %s\n", $1->linenum, $1->tokenclass, $1->nvalue, $1->tokeninput);}

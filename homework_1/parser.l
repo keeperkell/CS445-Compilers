@@ -70,6 +70,7 @@ DIGIT   [0-9]
 
 {LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext);}
 {DIGIT}+                            {return setToken(NUMCONST, line, yytext);}
+
 '\'\\?{LETTER}|{DIGIT}\''           {return setToken(CHARCONST, line, yytext);}      
 \".*\"                              {return setToken(STRINGCONST, line, yytext);}    
 
