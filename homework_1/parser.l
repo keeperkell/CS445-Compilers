@@ -74,6 +74,9 @@ DIGIT   [0-9]
 '\'\\?{LETTER}|{DIGIT}\''           {return setToken(CHARCONST, line, yytext);}      
 \".*\"                              {return setToken(STRINGCONST, line, yytext);}    
 
+"<"|">"|"("|")"|"{"|"}"|"["|"]"     {printf("Line %d Token: %s\n", line, yytext);}
+"+"|"="|"-"|"*"|"/"|"%"|";"|":"     {printf("Line %d Token: %s\n", line, yytext);}
+
 .                                   {printf("ERROR(%d): char \'%c\' is not in the language\n", line, yytext[0]); numErrors++;}
 
 %%
