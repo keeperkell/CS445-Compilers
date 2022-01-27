@@ -37,7 +37,7 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             yylval.tokenData->nvalue = atoi(svalue);
             break;
         case CHARCONST:
-            yylval.tokenData->cvalue = svalue;
+            yylval.tokenData->cvalue = &svalue[0];
             break;
         case STRINGCONST:
             yylval.tokenData->svalue = strdup(svalue);
