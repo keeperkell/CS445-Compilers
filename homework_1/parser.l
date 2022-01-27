@@ -8,9 +8,14 @@
 // this *order* of these includes is mandatory
 #include "scanType.h"  // TokenData Type
 #include "parser.tab.h"  // token definitions from the bison
+#include <string.h>
 
 int line;
 int numErrors;    // ERR err count
+
+static size_t getStrLength(char *svalue){
+    return strlen(svalue);
+}
 
 static int setToken(int tokenClass, int linenum, char *svalue)
 {
@@ -41,6 +46,7 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             break;
         case STRINGCONST:
             yylval.tokenData->svalue = strdup(svalue);
+            yylval.tokenData->strlength = getStrLength(svalue);
             break;
     }
 

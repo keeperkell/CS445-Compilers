@@ -41,7 +41,7 @@ token         : ID                      {printf("Line %d Token: %d Value: %d\n",
               | BOOLCONST               {printf("Line %d Token: %d Value: %d Input: %s\n", $1->linenum, $1->tokenclass, $1->nvalue, $1->tokeninput);}
               | NUMCONST                {printf("Line %d Token: %d Value: %d Input: %s\n", $1->linenum, $1->tokenclass, $1->nvalue, $1->tokeninput);}
               | CHARCONST               {printf("Line %d Token: %d Value: %c Input: %s\n", $1->linenum, $1->tokenclass, $1->cvalue, $1->tokeninput);}
-              | STRINGCONST             {printf("Line %d Token: %d Value: %s Len: %d Input: %s\n", $1->linenum, $1->tokenclass, $1->svalue, $1->strlen, $1->tokeninput);}
+              | STRINGCONST             {printf("Line %d Token: %d Value: %s Len: %d Input: %s\n", $1->linenum, $1->tokenclass, $1->svalue, $1->strlength, $1->tokeninput);}
               ;
 
 %%
