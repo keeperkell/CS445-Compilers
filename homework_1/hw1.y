@@ -37,13 +37,11 @@ tokenlist     : tokenlist token
               | token
               ;
 
-token         : ID                      {printf("Line %d", $1->linenum, $1->tokenstr);}
-              | BOOLCONST
-              | NUMCONST               
-              | CHARCONST
-              | STRINGCONST
-              | expression '\n'         { printf("THE ANSWER IS %lg\n", $1); }
-              | QUIT '\n'               { exit(0); }
+token         : ID                      {printf("Line %d Token: %s Value: %d\n", $1->linenum, $1->tokenclass, $1->tokeninput);}
+              | BOOLCONST               {printf("Line %d Token: %s Value: %d Input: %s\n", $1->linenum, $1->tokenclass, $1->nvalue, $1->tokeninput);}
+              | NUMCONST                {printf("Line %d Token: %s Value: %d Input: %s\n", $1->linenum, $1->tokenclass, $1->nvalue, $1->tokeninput);}
+              | CHARCONST               {printf("Line %d Token: %s Value: %c Input: %s\n", $1->linenum, $1->tokenclass, $1->cvalue, $1->tokeninput);}
+              | STRINGCONST             {printf("Line %d Token: %s Value: %s Len: %d Input: %s\n", $1->linenum, $1->tokenclass, $1->svalue, $1->strlen, $1->tokeninput);}
               ;
 
 %%

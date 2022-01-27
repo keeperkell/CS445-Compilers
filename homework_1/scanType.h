@@ -4,7 +4,7 @@
 struct TokenData {
     int tokenclass;  // token class
     int linenum;     // what line did this token occur on?
-    char *tokenstr;  // what string was actually read
+    char *tokeninput;  // what string was actually read
     char cvalue;     // any character value
     int nvalue;      // any numeric value or Boolean
     char *svalue;    // any string value

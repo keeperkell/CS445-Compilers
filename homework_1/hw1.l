@@ -17,9 +17,9 @@ static int setToken(int tokenClass, int linenum, char *svalue)
     // create the pass-back data space
     yylval.tokenData = new TokenData;
 
-    yylval.tokenData->tokenClass = tokenClass;
+    yylval.tokenData->tokenclass = tokenClass;
     yylval.tokenData->linenum = linenum;
-    yylval.tokenData->tokenstr = strdup(svalue);
+    yylval.tokenData->tokeninput = strdup(svalue);
 
     switch(tokenClass){
         case BOOLCONST:
@@ -31,7 +31,7 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             }
             break;
         case ID:
-            yylval.tokenData->svalue = strdup(svalue);
+            yylval.tokenData->idIndex = svalue[0] - 'a';
             break;
         case NUMCONST:
             yylval.tokenData->nvalue = atoi(svalue);
@@ -43,6 +43,8 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             yylval.tokenData->svalue = svalue;
             break;
     }
+
+    return tokenClass;
 }
 
 %}
@@ -63,7 +65,7 @@ DIGIT   [0-9]
 {LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext)}
 {DIGIT}+                            {return setToken(NUMCONST, line, yytext)}
 '\'\\?{LETTER}|{DIGIT}\''           {return setToken(CHARCONST, line, yytext)}      
-"\".*\""                            {return setToken(STRINGCONST, line, yytext)}    
+\".*\"                              {return setToken(STRINGCONST, line, yytext)}    
 
 .                                   {printf("ERROR(%d): char \'%c\' is not in the language\n", line, yytext[0]); numErrors++;}
 
