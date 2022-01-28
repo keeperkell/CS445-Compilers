@@ -39,7 +39,7 @@ void removeChars(char *str, char targetChar){
         if(*end != targetChar){
             end++;
             if(*end != targetChar){
-                end++
+                end++;
             }
         }
     }
