@@ -34,7 +34,7 @@ void toUpperCase(char *str){
 void removeChars(char *str, char targetChar){
 
     char *begin, *end;
-    boolean foundChar = false;
+    bool foundChar = false;
 
     for(begin = end = str; *str != '\0'; begin++){
 
