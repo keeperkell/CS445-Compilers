@@ -35,7 +35,7 @@ void removeChars(char *str, char targetChar){
     char *begin;
     char *end;
 
-    for(begin = end = str; *str; begin++){
+    for(begin = end = str; *begin = '\0'; begin++){
         *end = *begin;
         if(*end != targetChar){
             end++;
