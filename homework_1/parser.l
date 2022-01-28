@@ -9,12 +9,23 @@
 #include "scanType.h"  // TokenData Type
 #include "parser.tab.h"  // token definitions from the bison
 #include <string.h>
+#include <stdio.h>
+#include <ctype.h>
 
-int line;
+int line = 1;
 int numErrors;    // ERR err count
 
 static size_t getStrLength(char *svalue){
     return strlen(svalue);
+}
+
+void toUpperCase(char *str){
+    while(*str){
+        *str = toupper((unsigned char) *str);
+        str++;
+    }
+
+    return;
 }
 
 static int setToken(int tokenClass, int linenum, char *svalue)
@@ -54,6 +65,12 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             yylval.tokenData->strlength = getStrLength(svalue);
             yylval.tokenData->tokenClassStr = strdup("STRINGCONST");
             break;
+        case SYMBOL:
+            break;
+        case OTHER:
+            toUpperCase(svalue);
+            yylval.tokenData->svalue = strdup(svalue);
+            break;
     }
 
     return tokenClass;
@@ -74,15 +91,39 @@ DIGIT   [0-9]
 "true"                              {return setToken(BOOLCONST, line, yytext);}
 "false"                             {return setToken(BOOLCONST, line, yytext);}
 
+"<"|">"|"("|")"|"["|"]"             {return setToken(SYMBOL, line, yytext);}
+"+"|"="|"-"|"*"|"/"|"%"             {return setToken(SYMBOL, line, yytext);}
+":"|";"|"?"|","                     {return setToken(SYMBOL, line, yytext);}
+
+"int"                               {return setToken(OTHER, line, yytext);}
+"dec"                               {return setToken(OTHER, line, yytext);}
+"bool"                              {return setToken(OTHER, line, yytext);}
+"char"                              {return setToken(OTHER, line, yytext);}
+"static"                            {return setToken(OTHER, line, yytext);}
+"and"                               {return setToken(OTHER, line, yytext);}
+"or"                                {return setToken(OTHER, line, yytext);}
+"not"                               {return setToken(OTHER, line, yytext);}
+"by"                                {return setToken(OTHER, line, yytext);}
+"addasgn"                           {return setToken(OTHER, line, yytext);}
+"asgn"                              {return setToken(OTHER, line, yytext);}
+"inc"                               {return setToken(OTHER, line, yytext);}
+"geq"                               {return setToken(OTHER, line, yytext);}
+"leq"                               {return setToken(OTHER, line, yytext);}
+"neq"                               {return setToken(OTHER, line, yytext);}
+"if"                                {return setToken(OTHER, line, yytext);}
+"else"                              {return setToken(OTHER, line, yytext);}
+"then"                              {return setToken(OTHER, line, yytext);}
+"for"                               {return setToken(OTHER, line, yytext);}
+"break"                             {return setToken(OTHER, line, yytext);}
+"return"                            {return setToken(OTHER, line, yytext);}
+"begin"                             {return setToken(OTHER, line, yytext);}
+"end"                               {return setToken(OTHER, line, yytext);}
+
 {LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext);}
 {DIGIT}+                            {return setToken(NUMCONST, line, yytext);}
 
-\'([^\n\']|\\.)*\'                  {return setToken(CHARCONST, line, yytext);}
-\"([^\\\n\"]|\\.)*\"                {return setToken(STRINGCONST, line, yytext);}  
-
-
-"<"|">"|"("|")"|"["|"]"             {printf("Line %d Token: %s\n", line, yytext);}
-"+"|"="|"-"|"*"|"/"|"%"|";"|":"     {printf("Line %d Token: %s\n", line, yytext);}
+\'(\\.|[^\n\'])*\'                  {return setToken(CHARCONST, line, yytext);}
+\"(\\.|[^\\\n\"])*\"                {return setToken(STRINGCONST, line, yytext);}  
 
 .                                   {printf("ERROR(%d): char \'%c\' is not in the language\n", line, yytext[0]); numErrors++;}
 
