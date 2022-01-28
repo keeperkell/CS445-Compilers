@@ -32,9 +32,10 @@ void toUpperCase(char *str){
 
 void removeChars(char *str, char targetChar){
 
-    char *begin, *end;
+    char *begin;
+    char *end;
 
-    for(begin = end = str; *str != '\0'; begin++){
+    for(begin = end = str; *str; begin++){
         *end = *begin;
         if(*end != targetChar){
             end++;
@@ -97,7 +98,7 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             yylval.tokenData->tokenClassStr = strdup("CHARCONST");
             break;
         case STRINGCONST:
-            //removeChars(svalue, '\\');
+            removeChars(svalue, '\\');
 
             yylval.tokenData->svalue = strdup(svalue);
             yylval.tokenData->strlength = getStrLength(svalue);
