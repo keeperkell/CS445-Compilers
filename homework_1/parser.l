@@ -16,13 +16,31 @@ int line = 1;
 int numErrors;    // ERR err count
 
 static size_t getStrLength(char *svalue){
-    return strlen(svalue);
+    // remove 2 from length to account for quotations
+    return strlen(svalue)-2;
 }
 
 void toUpperCase(char *str){
     while(*str){
         *str = toupper((unsigned char) *str);
         str++;
+    }
+
+    return;
+}
+
+void removeEscapeChars(char *str, char *newString){
+
+    int length = strlen(str);
+    int i = 0;
+
+    while(i<length){
+        if(str[i] == 92){
+            i++;
+            *newString = str[i];
+            *newString++;
+            i++;
+        }
     }
 
     return;
@@ -64,8 +82,15 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             // letter n == 110
             */
 
+            // get length of char string
+            int length = strlen(svalue);
+
             // Check if start and end of C is a single quote
-            
+            if(svalue[0] == 39 && svalue[length-1] == 39){
+                yylval.tokenData->cvalue = svalue[1];
+            }
+
+            // if length is 
 
 
 
@@ -74,8 +99,11 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             yylval.tokenData->tokenClassStr = strdup("CHARCONST");
             break;
         case STRINGCONST:
-            yylval.tokenData->svalue = strdup(svalue);
-            yylval.tokenData->strlength = getStrLength(svalue);
+            char *sanitizedStr;
+            removeEscapeChars(svalue, sanitizedStr);
+
+            yylval.tokenData->svalue = strdup(sanitizedStr);
+            yylval.tokenData->strlength = getStrLength(sanitizedStr);
             yylval.tokenData->tokenClassStr = strdup("STRINGCONST");
             break;
         case SYMBOL:
