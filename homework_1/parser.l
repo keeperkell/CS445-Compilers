@@ -28,6 +28,8 @@ static int setToken(int tokenClass, int linenum, char *svalue)
 
     switch(tokenClass){
         case BOOLCONST:
+            yylval.tokenData->tokenClassStr = strdup("BOOLCONST");
+
             if(strcmp(svalue, "false") == 0){
                 yylval.tokenData->nvalue = 0;
             }
@@ -37,16 +39,20 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             break;
         case ID:
             yylval.tokenData->idIndex = svalue[0] - 'a';
+            yylval.tokenData->tokenClassStr = strdup("ID");
             break;
         case NUMCONST:
             yylval.tokenData->nvalue = atoi(svalue);
+            yylval.tokenData->tokenClassStr = strdup("NUMCONST");
             break;
         case CHARCONST:
             yylval.tokenData->cvalue = svalue[0];
+            yylval.tokenData->tokenClassStr = strdup("CHARCONST");
             break;
         case STRINGCONST:
             yylval.tokenData->svalue = strdup(svalue);
             yylval.tokenData->strlength = getStrLength(svalue);
+            yylval.tokenData->tokenClassStr = strdup("STRINGCONST");
             break;
     }
 
@@ -68,13 +74,14 @@ DIGIT   [0-9]
 "true"                              {return setToken(BOOLCONST, line, yytext);}
 "false"                             {return setToken(BOOLCONST, line, yytext);}
 
-{LETTER}[{LETTER}|{DIGIT}]*         {return setToken(ID, line, yytext);}
+{LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext);}
 {DIGIT}+                            {return setToken(NUMCONST, line, yytext);}
 
-'\'\\?[LETTER}|{DIGIT]\''           {return setToken(CHARCONST, line, yytext);}      
-\".*\"                              {return setToken(STRINGCONST, line, yytext);}    
+\'([^\n\']|\\.)*\'                  {return setToken(CHARCONST, line, yytext);}
+\"([^\\\n\"]|\\.)*\"                {return setToken(STRINGCONST, line, yytext);}  
 
-"<"|">"|"("|")"|"{"|"}"|"["|"]"     {printf("Line %d Token: %s\n", line, yytext);}
+
+"<"|">"|"("|")"|"["|"]"             {printf("Line %d Token: %s\n", line, yytext);}
 "+"|"="|"-"|"*"|"/"|"%"|";"|":"     {printf("Line %d Token: %s\n", line, yytext);}
 
 .                                   {printf("ERROR(%d): char \'%c\' is not in the language\n", line, yytext[0]); numErrors++;}
