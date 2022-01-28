@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 int line = 1;
 int numErrors;    // ERR err count
@@ -33,15 +34,25 @@ void toUpperCase(char *str){
 void removeChars(char *str, char targetChar){
 
     char *begin, *end;
+    boolean foundChar = false;
 
-    for(begin = end = str; *begin != '\0'; begin++){
+    for(begin = end = str; *str != '\0'; begin++){
+
         *end = *begin;
         if(*end != targetChar){
             end++;
-            if(*end != targetChar){
-                end++;
+        }
+        else{
+            if(foundChar){
+            end++;
+            foundChar = false;            
+            }
+            else{
+                foundChar = true;
             }
         }
+
+        str++;
     }
 
     *end = '\0';
