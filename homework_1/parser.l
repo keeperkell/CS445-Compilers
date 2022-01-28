@@ -34,12 +34,14 @@ void removeChars(char *str, char targetChar){
 
     char *begin, *end;
 
-    for(begin = end = str; *str != '\0'; begin++){
+    for(begin = end = str; *begin != '\0'; begin++){
         *end = *begin;
         if(*end != targetChar){
             end++;
+            if(*end != targetChar){
+                end++
+            }
         }
-        *str++;
     }
 
     *end = '\0';
