@@ -97,7 +97,7 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             yylval.tokenData->tokenClassStr = strdup("CHARCONST");
             break;
         case STRINGCONST:
-            removeChars(svalue, '\\');
+            //removeChars(svalue, '\\');
 
             yylval.tokenData->svalue = strdup(svalue);
             yylval.tokenData->strlength = getStrLength(svalue);
