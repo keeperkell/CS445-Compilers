@@ -32,10 +32,9 @@ void toUpperCase(char *str){
 
 void removeChars(char *str, char targetChar){
 
-    char *begin;
-    char *end;
+    char *begin, *end;
 
-    for(begin = end = str; *str = '\0'; begin++){
+    for(begin = end = str; *str != '\0'; begin++){
         *end = *begin;
         if(*end != targetChar){
             end++;
