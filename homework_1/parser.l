@@ -14,6 +14,7 @@
 
 int line = 1;
 int numErrors;    // ERR err count
+int charLength;
 
 static size_t getStrLength(char *svalue){
     // remove 2 from length to account for quotations
@@ -83,10 +84,10 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             */
 
             // get length of char string
-            int length = strlen(svalue);
+            charLength = strlen(svalue);
 
             // Check if start and end of C is a single quote
-            if(svalue[0] == 39 && svalue[length-1] == 39){
+            if(svalue[0] == 39 && svalue[charLength-1] == 39){
                 yylval.tokenData->cvalue = svalue[1];
             }
 
