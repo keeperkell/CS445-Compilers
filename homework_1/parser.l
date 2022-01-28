@@ -30,19 +30,18 @@ void toUpperCase(char *str){
     return;
 }
 
-void removeEscapeChars(char *str, char *newString){
+void removeEscapeChars(char *str){
 
-    int length = strlen(str);
-    int i = 0;
+    char *begin, *end;
 
-    while(i<length){
-        if(str[i] == 92){
-            i++;
-            *newString = str[i];
-            *newString++;
-            i++;
+    for(begin = end = str; *str != '\0'; begin++){
+        *end = *begin;
+        if(*end != '\\'){
+            end++;
         }
     }
+
+    *end = '\0';
 
     return;
 }
@@ -100,11 +99,10 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             yylval.tokenData->tokenClassStr = strdup("CHARCONST");
             break;
         case STRINGCONST:
-            char *sanitizedStr;
-            removeEscapeChars(svalue, sanitizedStr);
+            removeEscapeChars(svalue);
 
-            yylval.tokenData->svalue = strdup(sanitizedStr);
-            yylval.tokenData->strlength = getStrLength(sanitizedStr);
+            yylval.tokenData->svalue = strdup(svalue);
+            yylval.tokenData->strlength = getStrLength(svalue);
             yylval.tokenData->tokenClassStr = strdup("STRINGCONST");
             break;
         case SYMBOL:
