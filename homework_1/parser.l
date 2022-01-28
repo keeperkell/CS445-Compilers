@@ -57,6 +57,19 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             yylval.tokenData->tokenClassStr = strdup("NUMCONST");
             break;
         case CHARCONST:
+            /*
+            // single quote (') == 39
+            // digit 0 == 48
+            // backslash (\) == 92
+            // letter n == 110
+            */
+
+            // Check if start and end of C is a single quote
+            
+
+
+
+
             yylval.tokenData->cvalue = svalue[0];
             yylval.tokenData->tokenClassStr = strdup("CHARCONST");
             break;

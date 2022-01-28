@@ -37,9 +37,6 @@ tokenlist     : tokenlist token
               | token
               ;
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // FIX DATA AND MEMORY HERE
 token         : ID                      {printf("Line %d Token: %s Value: %s\n", $1->linenum, $1->tokenClassStr, $1->tokeninput);}
               | BOOLCONST               {printf("Line %d Token: %s Value: %d Input: %s\n", $1->linenum, $1->tokenClassStr, $1->nvalue, $1->tokeninput);}
