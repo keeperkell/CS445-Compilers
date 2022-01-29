@@ -47,6 +47,7 @@ void removeChars(char *str, char targetChar){
 
         // check if pointer value is the target character to be removed 
         if(*end != targetChar){
+            foundChar = false;
             end++;
         }
         else{
