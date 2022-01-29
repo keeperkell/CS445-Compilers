@@ -107,20 +107,16 @@ static int setToken(int tokenClass, int linenum, char *svalue)
                 if(svalue[1] == 92 && svalue[2] != 110 && svalue[2] != 48){
                     yylval.tokenData->cvalue = svalue[2];
                 }
-                elseif(svalue[1] == 92 && svalue[2] == 110 && svalue[2] != 48){
-                    yylval.tokenData->cvalue = '\\n';
+                else if(svalue[1] == 92 && svalue[2] == 110 && svalue[2] != 48){
+                    yylval.tokenData->cvalue = '\n';
                 }
-                elseif(svalue[1] == 92 && svalue[2] != 110 && svalue[2] == 48){
-                    yylval.tokenData->cvalue = '\\0';
+                else if(svalue[1] == 92 && svalue[2] != 110 && svalue[2] == 48){
+                    yylval.tokenData->cvalue = '\0';
                 }
-                elseif(svalue[1] != 92){
-                    printf("WARNING(%d): character is %d characters long and not a single character: %s. The first char will be used.\n", line, (charLength-2), svalue);
+                else if(svalue[1] != 92){
+                    printf("WARNING(%d): character is %d characters long and not a single character: \'%s\'. The first char will be used.\n", line, (charLength-2), svalue);
                      yylval.tokenData->cvalue = svalue[1];
                 }
-            }
-            // If char is empty
-            if(charLength == 2){
-                yylval.tokenData->cvalue = '';
             }
 
             yylval.tokenData->tokenClassStr = strdup("CHARCONST");
