@@ -41,7 +41,7 @@ tokenlist     : tokenlist token
 token         : ID                      {printf("Line %d Token: %s Value: %s\n", $1->linenum, $1->tokenClassStr, $1->tokeninput);}
               | BOOLCONST               {printf("Line %d Token: %s Value: %d Input: %s\n", $1->linenum, $1->tokenClassStr, $1->nvalue, $1->tokeninput);}
               | NUMCONST                {printf("Line %d Token: %s Value: %d Input: %s\n", $1->linenum, $1->tokenClassStr, $1->nvalue, $1->tokeninput);}
-              | CHARCONST               {printf("Line %d Token: %s Value: %c Input: %s\n", $1->linenum, $1->tokenClassStr, $1->cvalue, $1->tokeninput);}
+              | CHARCONST               {printf("Line %d Token: %s Value: \'%c\' Input: %s\n", $1->linenum, $1->tokenClassStr, $1->cvalue, $1->tokeninput);}
               | STRINGCONST             {printf("Line %d Token: %s Value: %s Len: %d Input: %s\n", $1->linenum, $1->tokenClassStr, $1->svalue, $1->strlength, $1->tokeninput);}
               | SYMBOL                  {printf("Line %d Token: %s\n", $1->linenum, $1->tokeninput);}
               | OTHER                   {printf("Line %d Token: %s\n", $1->linenum, $1->svalue);}
