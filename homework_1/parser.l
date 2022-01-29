@@ -8,6 +8,8 @@
 // this *order* of these includes is mandatory
 #include "scanType.h"  // TokenData Type
 #include "parser.tab.h"  // token definitions from the bison
+
+// extra includes for necesary packges or functions
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -17,11 +19,13 @@ int line = 1;
 int numErrors;    // ERR err count
 int charLength;
 
+// return length of string accounting for quotations
 static size_t getStrLength(char *svalue){
     // remove 2 from length to account for quotations
     return strlen(svalue)-2;
 }
 
+// increment through string, changing all chars to uppercase
 void toUpperCase(char *str){
     while(*str){
         *str = toupper((unsigned char) *str);
@@ -31,6 +35,7 @@ void toUpperCase(char *str){
     return;
 }
 
+// remove duplicate target characters. Specifically used for escape char '\'
 void removeChars(char *str, char targetChar){
 
     char *begin, *end;
@@ -39,22 +44,24 @@ void removeChars(char *str, char targetChar){
     for(begin = end = str; *str != '\0'; begin++){
 
         *end = *begin;
+
+        // check if pointer value is the target character to be removed 
         if(*end != targetChar){
             end++;
         }
         else{
+            // if char is found, check if it has been found already. If it was found
+            // then increment pointer again and change bool to false to reset pattern. 
             if(foundChar){
-            end++;
-            foundChar = false;            
+                end++;
+                foundChar = false;            
             }
             else{
                 foundChar = true;
             }
         }
-
         str++;
     }
-
     *end = '\0';
 }
 
@@ -104,15 +111,19 @@ static int setToken(int tokenClass, int linenum, char *svalue)
 
             // if length is longer than 3 produce warning unless escape character exists
             if(charLength > 3){
+                // check if char includes a backslash but no valid escape operators
                 if(svalue[1] == 92 && svalue[2] != 110 && svalue[2] != 48){
                     yylval.tokenData->cvalue = svalue[2];
                 }
+                // check if char is new line operator \n
                 else if(svalue[1] == 92 && svalue[2] == 110 && svalue[2] != 48){
                     yylval.tokenData->cvalue = '\n';
                 }
+                // check if char is empty char operator \0
                 else if(svalue[1] == 92 && svalue[2] != 110 && svalue[2] == 48){
                     yylval.tokenData->cvalue = '\0';
                 }
+                // if char input is longer than 3 chars and does not includes escape char, print warning
                 else if(svalue[1] != 92){
                     printf("WARNING(%d): character is %d characters long and not a single character: \'%s\'. The first char will be used.\n", line, (charLength-2), svalue);
                      yylval.tokenData->cvalue = svalue[1];
