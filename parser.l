@@ -140,11 +140,13 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             yylval.tokenData->strlength = getStrLength(svalue);
             yylval.tokenData->tokenClassStr = strdup("STRINGCONST");
             break;
-        case SYMBOL:
-            break;
+
         case OTHER:
             toUpperCase(svalue);
             yylval.tokenData->svalue = strdup(svalue);
+            break;
+
+        default:
             break;
     }
 
@@ -166,9 +168,36 @@ DIGIT   [0-9]
 "true"                              {return setToken(BOOLCONST, line, yytext);}
 "false"                             {return setToken(BOOLCONST, line, yytext);}
 
-"<"|">"|"("|")"|"["|"]"             {return setToken(SYMBOL, line, yytext);}
-"+"|"="|"-"|"*"|"/"|"%"             {return setToken(SYMBOL, line, yytext);}
-":"|";"|"?"|","                     {return setToken(SYMBOL, line, yytext);}
+"<-"                                {return setToken(ASGN, line, yytext);}
+"+="                                {return setToken(ADDASGN, line, yytext);}
+"-="                                {return setToken(SUBASGN, line, yytext);}
+"*="                                {return setToken(MULASGN, line, yytext);}
+"/="                                {return setToken(DIVASGN, line, yytext);}
+
+"++"                                {return setToken(INC, line, yytext);}
+"--"                                {return setToken(DEC, line, yytext);}
+">="                                {return setToken(GEQ, line, yytext);}
+"<="                                {return setToken(LEQ, line, yytext);}
+"!="                                {return setToken(NEQ, line, yytext);}
+
+"<"                                 {return setToken(LESSTHAN, line, yytext);}
+">"                                 {return setToken(GREATTHAN, line, yytext);}
+"("                                 {return setToken(LPAREN, line, yytext);}
+")"                                 {return setToken(RPAREN, line, yytext);}
+"["                                 {return setToken(LBRACKET, line, yytext);}
+"]"                                 {return setToken(RBRACKET, line, yytext);}
+
+"+"                                 {return setToken(PLUS, line, yytext);}
+"="                                 {return setToken(EQUAL, line, yytext);}
+"-"                                 {return setToken(MINUS, line, yytext);}
+"*"                                 {return setToken(MULT, line, yytext);}
+"/"                                 {return setToken(DIV, line, yytext);}
+"%"                                 {return setToken(MOD, line, yytext);}
+
+":"                                 {return setToken(COLON, line, yytext);}
+";"                                 {return setToken(SEMICOLON, line, yytext);}
+"?"                                 {return setToken(QUESTION, line, yytext);}
+","                                 {return setToken(COMMA, line, yytext);}
 
 "int"                               {return setToken(OTHER, line, yytext);}
 "dec"                               {return setToken(OTHER, line, yytext);}
@@ -179,12 +208,6 @@ DIGIT   [0-9]
 "or"                                {return setToken(OTHER, line, yytext);}
 "not"                               {return setToken(OTHER, line, yytext);}
 "by"                                {return setToken(OTHER, line, yytext);}
-"addasgn"                           {return setToken(OTHER, line, yytext);}
-"asgn"                              {return setToken(OTHER, line, yytext);}
-"inc"                               {return setToken(OTHER, line, yytext);}
-"geq"                               {return setToken(OTHER, line, yytext);}
-"leq"                               {return setToken(OTHER, line, yytext);}
-"neq"                               {return setToken(OTHER, line, yytext);}
 "if"                                {return setToken(OTHER, line, yytext);}
 "else"                              {return setToken(OTHER, line, yytext);}
 "then"                              {return setToken(OTHER, line, yytext);}
@@ -200,6 +223,6 @@ DIGIT   [0-9]
 \'(\\.|[^\n\'])*\'                  {return setToken(CHARCONST, line, yytext);}
 \"(\\.|[^\\\n\"])*\"                {return setToken(STRINGCONST, line, yytext);}  
 
-.                                   {printf("ERROR(%d): char \'%c\' is not in the language\n", line, yytext[0]); numErrors++;}
+.                                   {printf("ERROR(%d): Invalid or misplaced input character: \'%c\'. Character Ignored.\n", line, yytext[0]); numErrors++;}
 
 %%

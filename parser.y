@@ -31,20 +31,201 @@ void yyerror(const char *msg)
 }
 
 %token <tokenData> ID BOOLCONST NUMCONST CHARCONST STRINGCONST SYMBOL OTHER
+%token <tokenData> ASGN ADDASGN SUBASGN MULASGN DIVASGN INC DEC GEQ LEQ NEQ
+%token <tokenData> LESSTHAN GREATTHAN LPAREN RPAREN LBRACKET RBRACKET
+%token <tokenData> PLUS EQUAL MINUS MULT DIV MOD
+%token <tokenData> COLON SEMICOLON QUESTION COMMA
 
 %%
-tokenlist     : tokenlist token
-              | token
+
+program       : declList
               ;
 
-// FIX DATA AND MEMORY HERE
-token         : ID                      {printf("Line %d Token: %s Value: %s\n", $1->linenum, $1->tokenClassStr, $1->tokeninput);}
-              | BOOLCONST               {printf("Line %d Token: %s Value: %d Input: %s\n", $1->linenum, $1->tokenClassStr, $1->nvalue, $1->tokeninput);}
-              | NUMCONST                {printf("Line %d Token: %s Value: %d Input: %s\n", $1->linenum, $1->tokenClassStr, $1->nvalue, $1->tokeninput);}
-              | CHARCONST               {printf("Line %d Token: %s Value: \'%c\' Input: %s\n", $1->linenum, $1->tokenClassStr, $1->cvalue, $1->tokeninput);}
-              | STRINGCONST             {printf("Line %d Token: %s Value: %s Len: %d Input: %s\n", $1->linenum, $1->tokenClassStr, $1->svalue, $1->strlength, $1->tokeninput);}
-              | SYMBOL                  {printf("Line %d Token: %s\n", $1->linenum, $1->tokeninput);}
-              | OTHER                   {printf("Line %d Token: %s\n", $1->linenum, $1->svalue);}
+declList      : declList delc
+              | decl
+              ;
+
+decl          : varDecl
+              | funDecl
+              ;
+
+varDecl       : typeSpec varDeclList ;
+              ;
+
+scopedVarDecl : static typeSpec varDeclList ;
+              | typeSpec varDeclList ;
+              ;
+
+varDeclList   : varDeclList , varDecInit
+              | varDecInit
+              ;
+
+varDeclInit   : varDeclId
+              | varDeclId : simpleExp
+              ;
+
+varDeclId     : ID
+              | ID LBRACKET NUMCONST RBRACKET
+              ;
+
+typeSpec      : bool
+              | char
+              | int
+              ;
+
+funDecl       : typeSpec ID LPAREN parms RPAREN compoundStmt
+              | ID LPAREN parms RPAREN compoundStmt
+              ;
+
+parms         : parmList
+              | %empty
+              ;
+
+parmList      : parmList ; parmTypeList
+              | parmTypeList
+              ;
+
+parmTypeList  : typeSpec parmIdList
+              ;
+
+parmIdList    : parmIdList , parmId 
+              | parmId
+              ;
+
+parmId        : ID | ID LBRACKET RBRACKET
+              ;
+
+stmt          : expStmt 
+              | compoundStmt 
+              | selectStmt 
+              | iterStmt 
+              | returStmt 
+              | breakStmt
+              ;
+
+expStmt       : LESSTHAN exp GREATTHAN ;
+              | ;
+
+compoundStmt  : begin localDecls stmtList end
+              ;
+
+localDecls    : localDecls scopedVarDecl
+              | %empty
+              ;
+
+stmtList      : stmtList stmt
+              | %empty
+              ;
+
+selectStmt    : if simpleExp then stmt
+              | if simpleExp then stmt else stmt
+              ;
+
+iterStmt      : while simpleExp do stmt
+              | for ID ASGN iterRange do stmt
+              ;
+
+iterRange     : simpleExp to simpleExp
+              | simpleExp to simpleExp by simpleExp
+              ;
+
+returnStmt    : return ;
+              | return exp;
+              ;
+
+breakStmt     : break ; 
+              ;
+
+exp           : mutable assignop exp 
+              | mutable INC
+              | mutable DEC
+              | simpleExp
+              ;
+
+assignop      : ASGN 
+              | ADDASGN
+              | SUBASGN 
+              | MULASGN 
+              | DIVASGN
+              ;
+
+simpleExp     : simpleExp or andExp
+              | andExp
+              ;
+
+andExp        : andExp and unaryRelExp
+              | unaryRelExp
+              ;
+
+unaryRelExp   : not unaryRelExp
+              | relExp
+              ;
+
+relExp        : sumExp relop sumExp
+              | sumExp
+              ;
+
+relop         : LESSTHAN 
+              | LEQ 
+              | GREATTHAN 
+              | GEQ 
+              | EQUAL 
+              | NEQ
+              ;
+
+sumExp        : sumExp sumop mulExp
+              | mulExp
+              ;
+
+sumop         : PLUS
+              | MINUS
+              ;
+
+mulExp        : mulExp mulop unaryExp
+              | unaryExp
+              ;
+
+mulop         : MULT
+              | DIV
+              | MOD
+              ;
+
+unaryExp      : unaryop unaryExp
+              | factor
+              ;
+
+unaryop       : MINUS
+              | MULT
+              | QUESTION
+              ;
+
+factor        : mutable
+              | immutable
+              ;
+
+mutable       : ID
+              | ID LBRACKET exp RBRACKET
+              ;
+
+immutable     : LPAREN exp RPAREN
+              | call
+              | constant
+              ;
+
+call          : ID LPAREN args RPAREN
+              ;
+
+args          : argList
+              | %empty
+              ;
+
+argList       : argList , exp
+              | exp
+
+constant      : NUMCONST
+              | CHARCONST
+              | STRINGCONST
+              | BOOLCONST
               ;
 
 %%
@@ -62,14 +243,9 @@ int main(int argc, char *argv[])
         }
     }
 
-    // init variables a through z
-    for (int i=0; i<26; i++) vars[i] = 0.0;
-
     // do the parsing
     numErrors = 0;
     yyparse();
-
-    printf("Number of errors: %d\n", numErrors);   // ERR
 
     return 0;
 }
