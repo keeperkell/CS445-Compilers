@@ -1,9 +1,11 @@
 %{
 // // // // // // // // // // // // // // // // // // // // // // // 
-// CS445 - hw1.l
+// CS445 - parser.l
 //
 // Keller Lawson
-// Jan 23, 2022   
+// 
+// Last Updated
+// Feb 4, 2022   
 
 // this *order* of these includes is mandatory
 #include "scanType.h"  // TokenData Type
@@ -199,23 +201,25 @@ DIGIT   [0-9]
 "?"                                 {return setToken(QUESTION, line, yytext);}
 ","                                 {return setToken(COMMA, line, yytext);}
 
-"int"                               {return setToken(OTHER, line, yytext);}
-"dec"                               {return setToken(OTHER, line, yytext);}
-"bool"                              {return setToken(OTHER, line, yytext);}
-"char"                              {return setToken(OTHER, line, yytext);}
-"static"                            {return setToken(OTHER, line, yytext);}
-"and"                               {return setToken(OTHER, line, yytext);}
-"or"                                {return setToken(OTHER, line, yytext);}
-"not"                               {return setToken(OTHER, line, yytext);}
-"by"                                {return setToken(OTHER, line, yytext);}
-"if"                                {return setToken(OTHER, line, yytext);}
-"else"                              {return setToken(OTHER, line, yytext);}
-"then"                              {return setToken(OTHER, line, yytext);}
-"for"                               {return setToken(OTHER, line, yytext);}
-"break"                             {return setToken(OTHER, line, yytext);}
-"return"                            {return setToken(OTHER, line, yytext);}
-"begin"                             {return setToken(OTHER, line, yytext);}
-"end"                               {return setToken(OTHER, line, yytext);}
+"int"                               {return setToken(INT, line, yytext);}
+"bool"                              {return setToken(BOOL, line, yytext);}
+"char"                              {return setToken(CHAR, line, yytext);}
+"static"                            {return setToken(STATIC, line, yytext);}
+"and"                               {return setToken(AND, line, yytext);}
+"or"                                {return setToken(OR, line, yytext);}
+"not"                               {return setToken(NOT, line, yytext);}
+"by"                                {return setToken(BY, line, yytext);}
+"if"                                {return setToken(IF, line, yytext);}
+"else"                              {return setToken(ELSE, line, yytext);}
+"then"                              {return setToken(THEN, line, yytext);}
+"for"                               {return setToken(FOR, line, yytext);}
+"break"                             {return setToken(BREAK, line, yytext);}
+"return"                            {return setToken(RETURN, line, yytext);}
+"begin"                             {return setToken(BEGIN, line, yytext);}
+"end"                               {return setToken(END, line, yytext);}
+"to"                                {return setToken(TO, line, yytext);}
+"do"                                {return setToken(DO, line, yytext);}
+"by"                                {return setToken(BY, line, yytext);}
 
 {LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext);}
 {DIGIT}+                            {return setToken(NUMCONST, line, yytext);}

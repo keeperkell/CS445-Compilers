@@ -1,9 +1,11 @@
 %{
 // // // // // // // // // // // // // // // // // // // // // // // 
-// CS445 - hw1.y
+// CS445 - parser.y
 //
 // Keller Lawson
-// Jan 23, 2022    
+// 
+// Last Updated
+// Feb 4, 2022     
 
 #include "scanType.h"  // TokenData Type
 #include <stdio.h>
@@ -35,6 +37,16 @@ void yyerror(const char *msg)
 %token <tokenData> LESSTHAN GREATTHAN LPAREN RPAREN LBRACKET RBRACKET
 %token <tokenData> PLUS EQUAL MINUS MULT DIV MOD
 %token <tokenData> COLON SEMICOLON QUESTION COMMA
+%token <tokenData> INT BOOL CHAR STATIC AND OR NOT IF ELSE THEN FOR
+%token <tokenData> BREAK RETURN BEGIN END TO DO BY
+
+%type <tree> declList decl varDecl scopedVarDecl varDecDecl varDeclList
+%type <tree> varDeclInit varDeclId typeSpec funDecl parms parmList parmTypeList
+%type <tree> parmIdList parmId stmt expStmt compoundStmt localDecls stmtList 
+%type <tree> selectStmt iterStmt iterRange returnStmt breakStmt exp assignop
+%type <tree> simpleExp andExp unaryRelExp relExp relop sumExp sumop mulExp mulop
+%type <tree> unaryExp unaryop factor mutable immutable call args argList constant
+
 
 %%
 
@@ -49,28 +61,28 @@ decl          : varDecl
               | funDecl
               ;
 
-varDecl       : typeSpec varDeclList ;
+varDecl       : typeSpec varDeclList SEMICOLON
               ;
 
-scopedVarDecl : static typeSpec varDeclList ;
-              | typeSpec varDeclList ;
+scopedVarDecl : STATIC typeSpec varDeclList SEMICOLON
+              | typeSpec varDeclList SEMICOLON
               ;
 
-varDeclList   : varDeclList , varDecInit
+varDeclList   : varDeclList COMMA varDecInit
               | varDecInit
               ;
 
 varDeclInit   : varDeclId
-              | varDeclId : simpleExp
+              | varDeclId COLON simpleExp
               ;
 
 varDeclId     : ID
               | ID LBRACKET NUMCONST RBRACKET
               ;
 
-typeSpec      : bool
-              | char
-              | int
+typeSpec      : BOOL
+              | CHAR
+              | INT
               ;
 
 funDecl       : typeSpec ID LPAREN parms RPAREN compoundStmt
@@ -81,18 +93,19 @@ parms         : parmList
               | %empty
               ;
 
-parmList      : parmList ; parmTypeList
+parmList      : parmList SEMICOLON parmTypeList
               | parmTypeList
               ;
 
 parmTypeList  : typeSpec parmIdList
               ;
 
-parmIdList    : parmIdList , parmId 
+parmIdList    : parmIdList COMMA parmId 
               | parmId
               ;
 
-parmId        : ID | ID LBRACKET RBRACKET
+parmId        : ID 
+              | ID LBRACKET RBRACKET
               ;
 
 stmt          : expStmt 
@@ -103,7 +116,7 @@ stmt          : expStmt
               | breakStmt
               ;
 
-expStmt       : LESSTHAN exp GREATTHAN ;
+expStmt       : LESSTHAN exp GREATTHAN SEMICOLON
               | ;
 
 compoundStmt  : begin localDecls stmtList end
@@ -117,23 +130,23 @@ stmtList      : stmtList stmt
               | %empty
               ;
 
-selectStmt    : if simpleExp then stmt
-              | if simpleExp then stmt else stmt
+selectStmt    : IF simpleExp THEN stmt
+              | IF simpleExp THEN stmt ELSE stmt
               ;
 
-iterStmt      : while simpleExp do stmt
-              | for ID ASGN iterRange do stmt
+iterStmt      : WHILE simpleExp DO stmt
+              | FOR ID ASGN iterRange DO stmt
               ;
 
-iterRange     : simpleExp to simpleExp
-              | simpleExp to simpleExp by simpleExp
+iterRange     : simpleExp TO simpleExp
+              | simpleExp TO simpleExp BY simpleExp
               ;
 
-returnStmt    : return ;
-              | return exp;
+returnStmt    : RETURN SEMICOLON
+              | RETURN exp SEMICOLON
               ;
 
-breakStmt     : break ; 
+breakStmt     : BREAK SEMICOLON
               ;
 
 exp           : mutable assignop exp 
@@ -149,15 +162,15 @@ assignop      : ASGN
               | DIVASGN
               ;
 
-simpleExp     : simpleExp or andExp
+simpleExp     : simpleExp OR andExp
               | andExp
               ;
 
-andExp        : andExp and unaryRelExp
+andExp        : andExp AND unaryRelExp
               | unaryRelExp
               ;
 
-unaryRelExp   : not unaryRelExp
+unaryRelExp   : NOT unaryRelExp
               | relExp
               ;
 
@@ -219,7 +232,7 @@ args          : argList
               | %empty
               ;
 
-argList       : argList , exp
+argList       : argList COMMA exp
               | exp
 
 constant      : NUMCONST
