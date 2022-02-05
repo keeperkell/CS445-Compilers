@@ -50,11 +50,11 @@ void yyerror(const char *msg)
 
 %%
 
-program       : declList
+program       : declList                                    {}
               ;
 
-declList      : declList delc
-              | decl
+declList      : declList delc                               {}
+              | decl                                        {}
               ;
 
 decl          : varDecl
