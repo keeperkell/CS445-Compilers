@@ -1,7 +1,19 @@
+// // // // // // // // // // // // // // // // // // // // // // // 
+// CS445 - treeNode.h
+//
+// Keller Lawson
+// 
+// Last Updated
+// Feb 9, 2022  
+
 #ifndef TREENODE_H
 #define TREENODE_H
 
 #include "scanType.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #define MAXCHILDREN 3
 
 // Kind of Operators
@@ -32,7 +44,7 @@ typedef struct treeNode{
     struct treeNode *sibling;                   //sinblings for the node
 
     //what kind of node
-    int lineno;                                 // linenum relevant to this node
+    int linenum;                                 // linenum relevant to this node
     NodeKind nodekind;                          // type of this node
 
     union                                       //subtype of type
@@ -57,14 +69,9 @@ typedef struct treeNode{
 } TreeNode;
 
 // Functions
-TreeNode *newDeclNode(DeclKind kind, ExpType type, TokenData* token=NULL,
-                        TreeNode* c0=NULL, TreeNode* c1=NULL, TreeNode* c2=NULL);
-
-TreeNode *newStmtNode(DeclKind kind, ExpType type, TokenData* token=NULL,
-                        TreeNode* c0=NULL, TreeNode* c1=NULL, TreeNode* c2=NULL);
-
-TreeNode *newExpNode(DeclKind kind, ExpType type, TokenData* token=NULL,
-                        TreeNode* c0=NULL, TreeNode* c1=NULL, TreeNode* c2=NULL); 
+TreeNode *newDeclNode(DeclKind kind, TokenData* token);
+TreeNode *newStmtNode(DeclKind kind, TokenData* token);
+TreeNode *newExpNode(DeclKind kind, TokenData* token); 
 
 TreeNode *addSibling(TreeNode *t, TreeNode *s);
 

@@ -1,0 +1,17 @@
+## fact function
+int fact(int n)
+ begin 
+    if n<=1 then return 1;
+    else return fact(n-1) * n;
+ end 
+
+main()
+ begin 
+    for i <- 1 to 20 do  begin 
+        output(i);
+        output(fact(i));
+        outnl();
+     end 
+ end 
+
+        

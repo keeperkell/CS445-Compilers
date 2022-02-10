@@ -5,10 +5,11 @@
 // Keller Lawson
 // 
 // Last Updated
-// Feb 4, 2022   
+// Feb 9, 2022   
 
 // this *order* of these includes is mandatory
 #include "scanType.h"  // TokenData Type
+#include "treeNode.h"  // Tree Struct
 #include "parser.tab.h"  // token definitions from the bison
 
 // extra includes for necesary packges or functions
@@ -39,6 +40,9 @@ void toUpperCase(char *str){
 
 // remove duplicate target characters. Specifically used for escape char '\'
 void removeChars(char *str, char targetChar){
+
+    memmove(str, str+1, strlen(str)-2);
+    str[strlen(str)-2] = 0;
 
     char *begin, *end;
     bool foundChar = false;

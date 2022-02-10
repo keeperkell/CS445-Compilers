@@ -5,9 +5,10 @@
 // Keller Lawson
 // 
 // Last Updated
-// Feb 4, 2022     
+// Feb 9, 2022     
 
 #include "scanType.h"  // TokenData Type
+#include "treeNode.h"  // Tree Struct
 #include <stdio.h>
 
 double vars[26];    
@@ -17,12 +18,15 @@ extern FILE *yyin;
 extern int line;         // ERR line number from the scanner!!
 extern int numErrors;    // ERR err count
 
+static TreeNode *savedTree;
+
 #define YYERROR_VERBOSE
 void yyerror(const char *msg)
 {
     printf("ERROR(%d): %s\n", line, msg);
     numErrors++;
 }
+
 
 %}
 
@@ -50,7 +54,7 @@ void yyerror(const char *msg)
 
 %%
 
-program       : declList                                    {}
+program       : declList                                    {savedTree = $1;}
               ;
 
 declList      : declList delc                               {}
@@ -243,6 +247,7 @@ constant      : NUMCONST
 
 %%
 extern int yydebug;
+
 int main(int argc, char *argv[])
 {
     if (argc > 1) {

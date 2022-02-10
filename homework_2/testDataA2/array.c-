@@ -1,0 +1,27 @@
+## C-S22
+int w[33];
+
+int dog(int x)  begin 
+    int y[22], z;
+
+    y[11] <- x * 111 + 222;
+    z <- y[11];
+    w[13] <- -w[15] * x * y[17] * z;
+
+    return z*y[11];
+ end 
+
+cat(int x[], z)  begin 
+    x[10] <- 333;
+    w[11] <- 444;
+    for i <- 1 to *x-1 do
+        w[x[i]] += w[x[i-1]]*z;
+ end 
+
+main()  begin 
+    int y[20];
+
+    cat(y, 12);
+    dog(666);
+ end 
+

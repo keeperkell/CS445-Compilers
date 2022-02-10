@@ -1,0 +1,19 @@
+## C-S22
+int g;
+
+main()  begin 
+    int a;
+     begin 
+        int b;
+         begin 
+            int c;
+         end 
+     end 
+     begin 
+        int d;
+         begin 
+            int e;
+            int f;
+         end 
+     end 
+ end 

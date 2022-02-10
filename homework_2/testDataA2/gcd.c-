@@ -1,0 +1,9 @@
+## C-S22
+int gcd(int u, v)  begin 
+
+if (v=0) then return u; else return gcd(v, u - u/v*v); end 
+
+main()
+ begin 
+    output(gcd(input(), input()));
+ end 

@@ -2,7 +2,7 @@ BIN = parser
 CC = g++
 
 SRCS = $(BIN).y $(BIN).l
-HDRS = scanType.h
+HDRS = scanType.h treeNode.h
 OBJS = lex.yy.o $(BIN).tab.o
 
 $(BIN) : $(OBJS)
