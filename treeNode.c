@@ -4,7 +4,7 @@
 // Keller Lawson
 // 
 // Last Updated
-// Feb 9, 2022  
+// Feb 10, 2022  
 
 #include "scanType.h"
 #include "treeNode.h"
@@ -12,6 +12,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+// White space count needed
+int WS = 0;
 
 // create a new Decl node
 TreeNode *newDeclNode(DeclKind kind, TokenData* token){
@@ -99,6 +102,195 @@ TreeNode *addSibling(TreeNode *t, TreeNode *s){
     return t;
 }
 
+// Print Tree
 void printTree(TreeNode *t, int numSiblings){
+    int i;
+    int countSibs = numSiblings;
 
+    if(t == NULL){
+        printf("empty tree, will not print");
+    }
+
+    while(t != NULL){
+        switch(t->nodekind){
+            case DeclK:
+                switch(t->subkind.decl){
+                    case VarK:
+                        if(t->isArray){
+                            printf("Var: %s is array of type %s [line: %d]\n", 
+                                t->TokenData->tokeninput, getExpType(t->expType), t->linenum);
+                        }
+                        else{
+                            printf("Var: %s is of type %s [line: %d]\n", 
+                                t->attr.name, getExpType(t->expType), t->linenum);
+                        }
+
+                        break;
+
+                    case FuncK:
+                        printf("Func: %s returns type %s [line: %d]\n", 
+                                t->attr.name, getExpType(t->expType), t->linenum);
+
+                        break;
+
+                    case ParamK:
+                        if(t->isArray){
+                            printf("Var: %s is array of type %s [line: %d]\n", 
+                                t->TokenData->tokeninput, getExpType(t->expType), t->linenum);
+                        }
+                        else{
+                            printf("Var: %s is of type %s [line: %d]\n", 
+                                t->attr.name, getExpType(t->expType), t->linenum);
+                        }
+
+                        break;
+
+                    default:
+                }
+                break;
+
+            case StmtK:
+                switch(t->subkind.stmt){
+                    case NullK:
+                        printf("NULL [line: %d]\n", t->linenum);
+                        break;
+                        
+                    case IfK:
+                        printf("If [line: %d]\n", t->linenum);
+                        break;
+
+                    case WhileK:
+                        printf("While [line: %d]\n", t->linenum);
+                        break;
+
+                    case ForK:
+                        printf("For [line: %d]\n", t->linenum);
+                        break;
+
+                    case CompoundK:
+                        printf("Compound [line: %d]\n", t->linenum);
+                        break;
+
+                    case ReturnK:
+                        printf("Return [line: %d]\n", t->linenum);
+                        break;
+
+                    case BreakK:
+                        printf("Break [line: %d]\n", t->linenum);
+                        break;
+
+                    case RangeK:
+                        printf("Range [line: %d]\n", t->linenum);
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
+
+            case ExpK:
+                switch(t->subkind.exp){
+                    case OpK:
+                        if(t->child[1] == NULL && !strcmp(t->attr.name, "-")){
+                            printf("Op: chsign [line: %d]\n", t->linenum);
+                        }
+                        else if(t->child[1] == NULL && !strcmp(t->attr.name, "*")){
+                            printf("Op: sizeof [line: %d]\n", t->linenum);
+                        }
+                        else{
+                            printf("Op: %s [line: %d]\n", t->attr.name, t->linenum);
+                        }
+                        break;
+                        
+                    case ConstantK:
+                        switch (t->expType){
+                        case Boolean:
+                            printf("Const %s [line %d]", t->attr.name, t->linenum);
+                            break;
+
+                        case CharInt:
+                            printf("Const is array \"%s\" [line: %d]\n", t->attr.string, t->linenum);
+                            break;
+
+                        case Char:
+                            printf("Const ");
+                            break;
+
+                        default:
+                            break;
+
+                        }
+                        break;
+
+                    case IdK:
+                        printf("Id: %s [line: %d]\n", t->attr.name, t->linenum);
+                        break;
+
+                    case AssignK:
+                        printf("Assign: %s [line: %d]\n", t->attr.name, t->linenum);
+                        break;
+
+                    case InitK:
+                        printf("Init: %s [line: %d]\n", t->attr.name, t->linenum);
+                        break;
+
+                    case CallK:
+                        printf("Call: %s [line: %d]\n", t->attr.name, t->linenum);
+                        break;
+
+                    default:
+                        printf("ERROR %i Unknown ExpNode subkind Line: %d\n", CallK, t->linenum);
+                        break;
+                }
+                break;
+
+            default:
+                printf("Unknown node type: %d Line: %d\n", t->nodekind, t->linenum);
+                break;
+        }
+
+        for(i = 0; i < MAXCHILDREN; i++){
+            if(t->child[i] != NULL){
+                WS++;
+                printWhiteSpace(WS);
+                printf("Child: %d ", i);
+                printTree(t->child[i], 0);
+                WS--;
+            }
+        }
+
+        if(t->sibling != NULL){
+            numSiblings++;
+            printWhiteSpace(WS);
+            printf("Sibling: %d", numSiblings);
+        }
+
+        t = t->sibling;
+    }
+}
+
+// return expType as string
+char *getExpType(ExpType t){
+    switch(t){
+        case Void:
+            return ("void");
+        case Integer:
+            return ("int");
+        case Boolean:
+            return ("bool");
+        case Char:
+            return ("char");
+        case CharInt:
+            return ("CharInt");
+        case Equal:
+            return ("Equal");
+        case UndefinedType:
+            return ("undefined type");
+        default: 
+            return ("exprType not found\n");
+    }
+}
+
+void printWhiteSpace(int WS){
+    // write function to print WS
 }

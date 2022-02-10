@@ -4,12 +4,13 @@
 // Keller Lawson
 // 
 // Last Updated
-// Feb 9, 2022  
+// Feb 10, 2022  
 
 #ifndef TREENODE_H
 #define TREENODE_H
 
 #include "scanType.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,22 +22,22 @@
 typedef int OpKind;
 
 // Kind of statments
-enum NodeKind {DeclK, StmtK, ExpK};
+typedef enum NodeKind {DeclK, StmtK, ExpK};
 
 // Subkinds of Declarations
-enum DeclKind {VarK, FuncK, ParamK};
+typedef enum DeclKind {VarK, FuncK, ParamK};
 
 //Subkinds of Statements
-enum StmtKind {NullK, IfK, WhileK, ForK, CompoundK, ReturnK, BreakK, RangeK};
+typedef enum StmtKind {NullK, IfK, WhileK, ForK, CompoundK, ReturnK, BreakK, RangeK};
 
 //Subkinds of Expressions
-enum ExpKind {OpK, ConstantK, IdK, AssignK, InitK, CallK};
+typedef enum ExpKind {OpK, ConstantK, IdK, AssignK, InitK, CallK};
 
 // ExpType is used for type checking (void means no type or value, undedfined type means undefined)
-enum ExpType {Void, Integer, Boolean, Char, CharInt, Equal, UndefinedType};
+typedef enum ExpType {Void, Integer, Boolean, Char, CharInt, Equal, UndefinedType};
 
 //What kind of Scoping is used? (decided during typing)
-enum VarKind {None, Local, Global, Parameter, LocalStatic};
+typedef enum VarKind {None, Local, Global, Parameter, LocalStatic};
 
 typedef struct treeNode{
     // connectivity in the tree
@@ -44,8 +45,9 @@ typedef struct treeNode{
     struct treeNode *sibling;                   //sinblings for the node
 
     //what kind of node
-    int linenum;                                 // linenum relevant to this node
+    int linenum;                                // linenum relevant to this node
     NodeKind nodekind;                          // type of this node
+    TokenData TokenData;                        // Token data for node
 
     union                                       //subtype of type
     {
@@ -70,11 +72,11 @@ typedef struct treeNode{
 
 // Functions
 TreeNode *newDeclNode(DeclKind kind, TokenData* token);
-TreeNode *newStmtNode(DeclKind kind, TokenData* token);
-TreeNode *newExpNode(DeclKind kind, TokenData* token); 
+TreeNode *newStmtNode(StmtKind kind, TokenData* token);
+TreeNode *newExpNode(ExpKind kind, TokenData* token); 
 
 TreeNode *addSibling(TreeNode *t, TreeNode *s);
 
-void printTree(TreeNode *, int);
+void printTree(TreeNode *t, int numSiblings);
 
 #endif
