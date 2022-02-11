@@ -442,7 +442,7 @@ int main(int argc, char *argv[])
         }
     }
     // If no options are specified. 
-    else if{argc > 1){
+    else if(argc > 1){
         if ((yyin = fopen(argv[1], "r"))) {
             // file open successful
         }
