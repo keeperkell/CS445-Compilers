@@ -224,7 +224,6 @@ DIGIT   [0-9]
 "end"                               {return setToken(END, line, yytext);}
 "to"                                {return setToken(TO, line, yytext);}
 "do"                                {return setToken(DO, line, yytext);}
-"by"                                {return setToken(BY, line, yytext);}
 
 {LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext);}
 {DIGIT}+                            {return setToken(NUMCONST, line, yytext);}
