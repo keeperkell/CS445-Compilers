@@ -153,7 +153,8 @@ stmt          : expStmt                                          { $$ = $1; }
               ;
 
 expStmt       : LESSTHAN exp GREATTHAN SEMICOLON                 { $$ = $2; }
-              | ;                                                { $$ = NULL; }
+              | SEMICOLON                                        { $$ = NULL; }
+              ;
 
 compoundStmt  : BEGIN localDecls stmtList END                    { $$ = newStmtNode(CompoundK, $1);
                                                                    $$->child[0] = $2;
