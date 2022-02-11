@@ -429,7 +429,20 @@ extern int yydebug;
 
 int main(int argc, char *argv[])
 {
-    if (argc > 1) {
+
+    // options menu for running program. 
+    if(argc > 2){
+        if(!strcmp("-d", argv[1])){
+            yydebug = 1;
+            yyparse();
+        }
+        else if(!strcmp("-p", argv[1])){
+            yyparse();
+            printTree(AST, 0);
+        }
+    }
+    // If no options are specified. 
+    else if{argc > 1){
         if ((yyin = fopen(argv[1], "r"))) {
             // file open successful
         }
@@ -438,20 +451,8 @@ int main(int argc, char *argv[])
             printf("ERROR: failed to open \'%s\'\n", argv[1]);
             exit(1);
         }
-    }
 
-    // do the parsing
-    // numErrors = 0;
-    yyparse();
-
-    // options menu for running program. 
-    if(argc > 2){
-        if(!strcmp("-d", argv[2])){
-            yydebug = 1;
-        }
-        else if(!strcmp("-p", argv[2])){
-            printTree(AST, 0);
-        }
+        yyparse();
     }
 
     return 0;
