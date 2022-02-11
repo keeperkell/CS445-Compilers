@@ -446,10 +446,10 @@ int main(int argc, char *argv[])
 
     // options menu for running program. 
     if(argc > 2){
-        if(!strcmp("-d", argc[2])){
+        if(!strcmp("-d", argv[2])){
             yydebug = 1;
         }
-        else if(!strcmp("-p", argc[2])){
+        else if(!strcmp("-p", argv[2])){
             printTree(AST, 0);
         }
     }
