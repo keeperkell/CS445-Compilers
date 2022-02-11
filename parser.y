@@ -36,7 +36,7 @@ void yyerror(const char *msg)
     TokenData *tokenData;
 }
 
-%token <tokenData> ID BOOLCONST NUMCONST CHARCONST STRINGCONST SYMBOL OTHER
+%token <tokenData> ID BOOLCONST NUMCONST CHARCONST STRINGCONST SYMBOL
 %token <tokenData> ASGN ADDASGN SUBASGN MULASGN DIVASGN INC DEC GEQ LEQ NEQ
 %token <tokenData> LESSTHAN GREATTHAN LPAREN RPAREN LBRACKET RBRACKET
 %token <tokenData> PLUS EQUAL MINUS MULT DIV MOD
@@ -68,7 +68,10 @@ decl          : varDecl                                         { $$ = $1; }
 varDecl       : typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1); }
               ;
 
-scopedVarDecl : STATIC typeSpec varDeclList SEMICOLON           { $$ = $3; $$->isStatic = true; assignTyping($$, $2); }
+scopedVarDecl : STATIC typeSpec varDeclList SEMICOLON           { $$ = $3; 
+                                                                  $$->isStatic = true; 
+                                                                  assignTyping($$, $2); 
+                                                                }
               | typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1);}
               ;
 
@@ -152,123 +155,268 @@ compoundStmt  : BEGIN localDecls stmtList END                    { $$ = newStmtN
                                                                  }
               ;
 
-localDecls    : localDecls scopedVarDecl
+localDecls    : localDecls scopedVarDecl                         { $$ = addSibling($1, $2); }
               | %empty                                           { $$ = NULL; }
               ;
 
-stmtList      : stmtList stmt
+stmtList      : stmtList stmt                                    { $$ = addSibling($1, $2); }
               | %empty                                           { $$ = NULL; }
               ;
 
-selectStmt    : IF simpleExp THEN stmt
-              | IF simpleExp THEN stmt ELSE stmt
+selectStmt    : IF simpleExp THEN stmt                           { $$ = newStmtNode(IfK, $1); 
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $4; 
+                                                                 }
+              | IF simpleExp THEN stmt ELSE stmt                 { $$ = newStmtNode(IfK, $1); 
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $4;
+                                                                   $$->child[2] = $6;                // POSSIBLE DANGLING ELSE
+                                                                 }
               ;
 
-iterStmt      : WHILE simpleExp DO stmt
-              | FOR ID ASGN iterRange DO stmt
+iterStmt      : WHILE simpleExp DO stmt                          { $$ = newStmtNode(WhileK, $1);
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $4;
+                                                                 }
+              | FOR ID ASGN iterRange DO stmt                    { $$ = newStmtNode(ForK, $1);
+                                                                   $$->attr.name = $3->tokeninput;
+                                                                   $$->child[0] = newDeclNode(VarK, $2);
+                                                                   $$->child[0]->expType = Integer;
+                                                                   $$->child[1] = $4;
+                                                                   $$->child[2] = $6;
+                                                                 }
               ;
 
-iterRange     : simpleExp TO simpleExp
-              | simpleExp TO simpleExp BY simpleExp
+iterRange     : simpleExp TO simpleExp                           { $$ = newStmtNode(RangeK, $2);
+                                                                   $$->child[0] = $1;
+                                                                   $$->child[1] = $3;
+                                                                 }
+              | simpleExp TO simpleExp BY simpleExp              { $$ = newStmtNode(RangeK, $2);
+                                                                   $$->child[0] = $1;
+                                                                   $$->child[1] = $3;
+                                                                   $$->child[2] = $5;
+                                                                 }
               ;
 
-returnStmt    : RETURN SEMICOLON
-              | RETURN exp SEMICOLON
+returnStmt    : RETURN SEMICOLON                                 { $$ = newStmtNode(ReturnK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
+              | RETURN exp SEMICOLON                             { $$ = newStmtNode(ReturnK, $1);
+                                                                   $$->child[0] = $2;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = $2->expStmt;
+                                                                 }
               ;
 
-breakStmt     : BREAK SEMICOLON
+breakStmt     : BREAK SEMICOLON                                  { $$ = newDeclNode(BreakK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
               ;
 
-exp           : mutable assignop exp 
-              | mutable INC
-              | mutable DEC
+exp           : mutable assignop exp                             { $$ = newExpNode(AssignK, $2); 
+                                                                   $$->child[0] = $1;
+                                                                   $$->child[1] = $3;
+                                                                 }
+              | mutable INC                                      { $$ = newExpNode(AssignK, $2);
+                                                                   $$->child[0] = $1;
+                                                                   $$->attr.name = $2->tokeninput;
+                                                                   $$->expType = Integer;
+                                                                 }
+              | mutable DEC                                      { $$ = newExpNode(AssignK, $2);
+                                                                   $$->child[0] = $1;
+                                                                   $$->attr.name = $2->tokeninput;
+                                                                   $$->expType = Integer;
+                                                                 }
               | simpleExp                                        { $$ = $1; }
               ;
 
-assignop      : ASGN 
-              | ADDASGN
-              | SUBASGN 
-              | MULASGN 
-              | DIVASGN
+assignop      : ASGN                                             { $$ = $1;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
+              | ADDASGN                                          { $$ = $1;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
+              | SUBASGN                                          { $$ = $1;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
+              | MULASGN                                          { $$ = $1;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
+              | DIVASGN                                          { $$ = $1;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
               ;
 
-simpleExp     : simpleExp OR andExp
-              | andExp
+simpleExp     : simpleExp OR andExp                              { $$ = newExpNode(OpK, $2);
+                                                                   $$->child[0] = $1;
+                                                                   $$->child[1] = $3;
+                                                                   $$->attr.name = $2->tokeninput;
+                                                                   $$->expType = Boolean;
+                                                                 }
+              | andExp                                           { $$ = $1; }
               ;
 
-andExp        : andExp AND unaryRelExp
-              | unaryRelExp
+andExp        : andExp AND unaryRelExp                           { $$ = newExpNode(OpK, $2);
+                                                                   $$->child[0] = $1;
+                                                                   $$->child[1] = $3;
+                                                                   $$->attr.name = $2->tokeninput;
+                                                                   $$->expType = Boolean;
+                                                                 }
+              | unaryRelExp                                      { $$ = $1; }
               ;
 
-unaryRelExp   : NOT unaryRelExp
-              | relExp
+unaryRelExp   : NOT unaryRelExp                                  { $$ = newExpNode(OpK, $1);
+                                                                   $$->child[0] = $2;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Boolean;
+                                                                 }
+              | relExp                                           { $$ = $1; }
               ;
 
-relExp        : sumExp relop sumExp
-              | sumExp
+relExp        : sumExp relop sumExp                              { $$ = $2; 
+                                                                   $$->child[0] = $1;
+                                                                   $$->child[1] = $3;
+                                                                 }
+              | sumExp                                           { $$ = $1; }
               ;
 
-relop         : LESSTHAN 
-              | LEQ 
-              | GREATTHAN 
-              | GEQ 
-              | EQUAL 
-              | NEQ
+relop         : LESSTHAN                                         { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Boolean;
+                                                                 }
+              | LEQ                                              { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Boolean;
+                                                                 }
+              | GREATTHAN                                        { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Boolean;
+                                                                 }
+              | GEQ                                              { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Boolean;
+                                                                 }
+              | EQUAL                                            { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Boolean;
+                                                                 }
+              | NEQ                                              { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Boolean;
+                                                                 }
               ;
 
-sumExp        : sumExp sumop mulExp
-              | mulExp
+sumExp        : sumExp sumop mulExp                              { $$ = $2; 
+                                                                   $$->child[0] = $1;
+                                                                   $$->child[1] = $3;
+                                                                 }
+              | mulExp                                           { $$ = $1; }
               ;
 
-sumop         : PLUS
-              | MINUS
+sumop         : PLUS                                             { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
+                                                                 }
+              | MINUS                                            { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
+                                                                 }
               ;
 
-mulExp        : mulExp mulop unaryExp
-              | unaryExp
+mulExp        : mulExp mulop unaryExp                            { $$ = $2; 
+                                                                   $$->child[0] = $1;
+                                                                   $$->child[1] = $3;
+                                                                 }
+              | unaryExp                                         { $$ = $1; }
               ;
 
-mulop         : MULT
-              | DIV
-              | MOD
+mulop         : MULT                                             { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
+                                                                 }
+              | DIV                                              { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
+                                                                 }
+              | MOD                                              { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
+                                                                 }
               ;
 
-unaryExp      : unaryop unaryExp
-              | factor
+unaryExp      : unaryop unaryExp                                 { $$ = $1; 
+                                                                   $$->child[0] = $2;
+                                                                 }
+              | factor                                           { $$ = $1; }
               ;
 
-unaryop       : MINUS
-              | MULT
-              | QUESTION
+unaryop       : MINUS                                            { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
+                                                                 }
+              | MULT                                             { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
+                                                                 }
+              | QUESTION                                         { $$ = newExpNode(OpK, $1);
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
+                                                                 }
               ;
 
-factor        : mutable
-              | immutable
+factor        : mutable                                          { $$ = $1; }
+              | immutable                                        { $$ = $1; }
               ;
 
-mutable       : ID
-              | ID LBRACKET exp RBRACKET
+mutable       : ID                                               { $$ = newDeclNode(VarK, $1);
+                                                                   $$.attr.name = $1->tokeninput;    
+                                                                 }
+              | ID LBRACKET exp RBRACKET                         { $$ = newExpNode(OpK, $2);  
+                                                                  $$->child[0] = newExpNode(IdK, $1);
+                                                                  $$->child[0]->attr.name = $1->tokeninput;
+                                                                  $$->child[0]->isArray = true;
+                                                                  $$->child[1] = $3; 
+                                                                }
               ;
 
-immutable     : LPAREN exp RPAREN
-              | call
-              | constant
+immutable     : LPAREN exp RPAREN                                { $$ = $2; }
+              | call                                             { $$ = $1; }
+              | constant                                         { $$ = $1; }
               ;
 
-call          : ID LPAREN args RPAREN
+call          : ID LPAREN args RPAREN                            { $$ = newExpNode(CallK, $1);
+                                                                   $$->child[0] = $3;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
               ;
 
-args          : argList
-              | %empty                              { $$ = NULLl; }
+args          : argList                                          { $$ = $1; }
+              | %empty                                           { $$ = NULLl; }
               ;
 
-argList       : argList COMMA exp
-              | exp
+argList       : argList COMMA exp                                { $$ = addSibling($1, $3); }
+              | exp                                              { $$ = $1; }
 
-constant      : NUMCONST
-              | CHARCONST
-              | STRINGCONST
-              | BOOLCONST
+constant      : NUMCONST                                         { $$ = newExpNode(ConstantK, $1);
+                                                                   $$->attr.value = $1->nvalue; 
+                                                                   $$->expType = Integer;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
+              | CHARCONST                                        { $$ = newExpNode(ConstantK, $1);
+                                                                   $$->attr.cvalue = $1->cvalue; 
+                                                                   $$->expType = Char;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
+              | STRINGCONST                                      { $$ = newExpNode(ConstantK, $1);
+                                                                   $$->attr.string = $1->svalue; 
+                                                                   $$->expType = CharInt;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
+              | BOOLCONST                                        { $$ = newExpNode(ConstantK, $1);
+                                                                   $$->attr.value = $1->nvalue; 
+                                                                   $$->expType = Boolean;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
               ;
 
 %%
@@ -288,8 +436,18 @@ int main(int argc, char *argv[])
     }
 
     // do the parsing
-    numErrors = 0;
+    // numErrors = 0;
     yyparse();
+
+    // options menu for running program. 
+    if(argc > 2){
+        if(!strcmp("-d", argc[2])){
+            yydebug = 1;
+        }
+        else if(!strcmp("-p", argc[2])){
+            printTree(AST, 0);
+        }
+    }
 
     return 0;
 }
