@@ -9,11 +9,11 @@
 #ifndef TREENODE_H
 #define TREENODE_H
 
-#include "scanType.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
+#include "scanType.h"
 
 #define MAXCHILDREN 3
 
@@ -22,32 +22,32 @@
 typedef int OpKind;
 
 // Kind of statments
-typedef enum NodeKind {DeclK, StmtK, ExpK};
+typedef enum {DeclK, StmtK, ExpK} NodeKind;
 
 // Subkinds of Declarations
-typedef enum DeclKind {VarK, FuncK, ParamK};
+typedef enum {VarK, FuncK, ParamK} DeclKind;
 
 //Subkinds of Statements
-typedef enum StmtKind {NullK, IfK, WhileK, ForK, CompoundK, ReturnK, BreakK, RangeK};
+typedef enum {NullK, IfK, WhileK, ForK, CompoundK, ReturnK, BreakK, RangeK} StmtKind;
 
 //Subkinds of Expressions
-typedef enum ExpKind {OpK, ConstantK, IdK, AssignK, InitK, CallK};
+typedef enum {OpK, ConstantK, IdK, AssignK, InitK, CallK} ExpKind;
 
 // ExpType is used for type checking (void means no type or value, undedfined type means undefined)
-typedef enum ExpType {Void, Integer, Boolean, Char, CharInt, Equal, UndefinedType};
+typedef enum {Void, Integer, Boolean, Char, CharInt, Equal, UndefinedType} ExpType;
 
 //What kind of Scoping is used? (decided during typing)
-typedef enum VarKind {None, Local, Global, Parameter, LocalStatic};
+typedef enum {None, Local, Global, Parameter, LocalStatic} VarKind;
 
 typedef struct treeNode{
     // connectivity in the tree
     struct treeNode *child[MAXCHILDREN];        // children of the node
-    struct treeNode *sibling;                   //sinblings for the node
+    struct treeNode *sibling;                   // siblings for the node
 
     //what kind of node
     int linenum;                                // linenum relevant to this node
     NodeKind nodekind;                          // type of this node
-    TokenData TokenData;                        // Token data for node
+    TokenData tokenData;                        // Token data for node
 
     union                                       //subtype of type
     {
@@ -68,6 +68,7 @@ typedef struct treeNode{
     ExpType expType;                            // used when ExpK for type checking
     bool isArray;                               // is this an array
     bool isStatic;                              // is staticly allocated
+
 } TreeNode;
 
 // Functions

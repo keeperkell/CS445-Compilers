@@ -118,7 +118,7 @@ void printTree(TreeNode *t, int numSiblings){
                     case VarK:
                         if(t->isArray){
                             printf("Var: %s is array of type %s [line: %d]\n", 
-                                t->TokenData->tokeninput, getExpType(t->expType), t->linenum);
+                                t->tokenData->tokeninput, getExpType(t->expType), t->linenum);
                         }
                         else{
                             printf("Var: %s is of type %s [line: %d]\n", 
@@ -136,7 +136,7 @@ void printTree(TreeNode *t, int numSiblings){
                     case ParamK:
                         if(t->isArray){
                             printf("Var: %s is array of type %s [line: %d]\n", 
-                                t->TokenData->tokeninput, getExpType(t->expType), t->linenum);
+                                t->tokenData->tokeninput, getExpType(t->expType), t->linenum);
                         }
                         else{
                             printf("Var: %s is of type %s [line: %d]\n", 
@@ -213,7 +213,7 @@ void printTree(TreeNode *t, int numSiblings){
                             break;
 
                         case Char:
-                            printf("Const ");
+                            printf("Const \'%c\' [line: %d]\n",t->tokenData->cvalue, t->linenum);
                             break;
 
                         default:
@@ -287,10 +287,27 @@ char *getExpType(ExpType t){
         case UndefinedType:
             return ("undefined type");
         default: 
-            return ("exprType not found\n");
+            return ("exprType not found");
     }
 }
 
+// print the . and white space for each indented child
 void printWhiteSpace(int WS){
     // write function to print WS
+    int i;
+    for(i = 0; i < WS; i++){
+        printf(".   ");
+    }
+}
+
+void assignTyping(TreeNode *t, ExpType type){
+
+    TreeNode *tmp = t;
+    
+    if(t != NULL){
+        while(tmp != NULL){
+            tmp->expType = type;
+            tmp = tmp->sibling;
+        }
+    }
 }

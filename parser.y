@@ -18,7 +18,7 @@ extern FILE *yyin;
 extern int line;         // ERR line number from the scanner!!
 extern int numErrors;    // ERR err count
 
-static TreeNode *savedTree;
+static TreeNode *AST;
 
 #define YYERROR_VERBOSE
 void yyerror(const char *msg)
@@ -45,8 +45,8 @@ void yyerror(const char *msg)
 %token <tokenData> BREAK RETURN BEGIN END TO DO BY
 
 %type <tree> declList decl varDecl scopedVarDecl varDecDecl varDeclList
-%type <tree> varDeclInit varDeclId typeSpec funDecl parms parmList parmTypeList
-%type <tree> parmIdList parmId stmt expStmt compoundStmt localDecls stmtList 
+%type <tree> varDeclInit varDeclId typeSpec funDecl params paramList paramTypeList
+%type <tree> paramIdList paramId stmt expStmt compoundStmt localDecls stmtList 
 %type <tree> selectStmt iterStmt iterRange returnStmt breakStmt exp assignop
 %type <tree> simpleExp andExp unaryRelExp relExp relop sumExp sumop mulExp mulop
 %type <tree> unaryExp unaryop factor mutable immutable call args argList constant
@@ -54,84 +54,110 @@ void yyerror(const char *msg)
 
 %%
 
-program       : declList                                    {savedTree = $1;}
+program       : declList                                        { AST = $1;}
               ;
 
-declList      : declList delc                               {}
-              | decl                                        {}
+declList      : declList decl                                   { $$ = addSibling($1, $2); }
+              | decl                                            { $$ = $1; }
               ;
 
-decl          : varDecl
-              | funDecl
+decl          : varDecl                                         { $$ = $1; }
+              | funDecl                                         { $$ = $1; }
               ;
 
-varDecl       : typeSpec varDeclList SEMICOLON
+varDecl       : typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1); }
               ;
 
-scopedVarDecl : STATIC typeSpec varDeclList SEMICOLON
-              | typeSpec varDeclList SEMICOLON
+scopedVarDecl : STATIC typeSpec varDeclList SEMICOLON           { $$ = $3; $$->isStatic = true; assignTyping($$, $2); }
+              | typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1);}
               ;
 
-varDeclList   : varDeclList COMMA varDecInit
-              | varDecInit
+varDeclList   : varDeclList COMMA varDeclInit                   { $$ = addSibling($1, $3); }
+              | varDeclInit                                     { $$ = $1; }
               ;
 
-varDeclInit   : varDeclId
-              | varDeclId COLON simpleExp
+varDeclInit   : varDeclId                                       { $$ = $1; }
+              | varDeclId COLON simpleExp                       { $$ = $1; $$->child[0] = $3; }
               ;
 
-varDeclId     : ID
-              | ID LBRACKET NUMCONST RBRACKET
+varDeclId     : ID                                              { $$ = newDeclNode(VarK, $1); 
+                                                                  $$->attr.name = $1->tokeninput;
+                                                                }
+              | ID LBRACKET NUMCONST RBRACKET                   { $$ = newDeclNode(VarK, $1);       // Ex: ID[NUMCONST]
+                                                                  $$->attr.name = $1->tokeninput;
+                                                                  $$->tokenData = $1;
+                                                                  $$->isArray = true;
+                                                                  $$->expType = UndefinedType;
+                                                                }
               ;
 
-typeSpec      : BOOL
-              | CHAR
-              | INT
+typeSpec      : BOOL                                             { $$ = Boolean; }
+              | CHAR                                             { $$ = Char; }
+              | INT                                              { $$ = Integer; }
               ;
 
-funDecl       : typeSpec ID LPAREN parms RPAREN compoundStmt
-              | ID LPAREN parms RPAREN compoundStmt
+funDecl       : typeSpec ID LPAREN params RPAREN compoundStmt    { $$ = newDeclNode(FuncK, $2);     // Ex: BOOL ID(params) compoundStmt
+                                                                   $$->attr.name = $2->tokeninput;
+                                                                   $$->child[0] = $4;
+                                                                   $$->child[1] = $6;
+                                                                   $$->expType = $1;
+                                                                   $$->tokenData = $2;
+                                                                 }
+              | ID LPAREN params RPAREN compoundStmt             { $$ = newDeclNode(FuncK, $1);     // Ex: BOOL ID(params) compoundStmt
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                   $$->child[0] = $3;
+                                                                   $$->child[1] = $5;
+                                                                   $$->tokenData = $1;
+                                                                 }
               ;
 
-parms         : parmList
-              | %empty
+params        : paramList                                        { $$ = $1; }
+              | %empty                                           { $$ = NULL; }
               ;
 
-parmList      : parmList SEMICOLON parmTypeList
-              | parmTypeList
+paramList     : paramList SEMICOLON paramTypeList                { $$ = addSibling($1, $3); }
+              | paramTypeList                                    { $$ = $1; }
               ;
 
-parmTypeList  : typeSpec parmIdList
+paramTypeList : typeSpec paramIdList                             { $$ = $2; assignTyping($$, $1); }
               ;
 
-parmIdList    : parmIdList COMMA parmId 
-              | parmId
+paramIdList   : paramIdList COMMA paramId                        { $$ = addSibling($1, $3); }
+              | paramId                                          { $$ = $1; }
               ;
 
-parmId        : ID 
-              | ID LBRACKET RBRACKET
+paramId       : ID                                               { $$ = newDeclNode(ParamK, $1);
+                                                                   $$.attr.name = $1->tokeninput; 
+                                                                 }
+              | ID LBRACKET RBRACKET                             { $$ = newDeclNode(ParamK, $1);
+                                                                   $$.isArray = true;
+                                                                   $$.attr.name = $1->tokeninput; 
+                                                                 }
               ;
 
-stmt          : expStmt 
-              | compoundStmt 
-              | selectStmt 
-              | iterStmt 
-              | returStmt 
-              | breakStmt
+stmt          : expStmt                                          { $$ = $1; }
+              | compoundStmt                                     { $$ = $1; }
+              | selectStmt                                       { $$ = $1; }
+              | iterStmt                                         { $$ = $1; }
+              | returnStmt                                       { $$ = $1; }
+              | breakStmt                                        { $$ = $1; }
               ;
 
-expStmt       : LESSTHAN exp GREATTHAN SEMICOLON
-              | ;
+expStmt       : LESSTHAN exp GREATTHAN SEMICOLON                 { $$ = $2; }
+              | ;                                                { $$ = NULL; }
 
-compoundStmt  : begin localDecls stmtList end
+compoundStmt  : BEGIN localDecls stmtList END                    { $$ = newStmtNode(CompoundK, $1);
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $3;
+                                                                 }
               ;
 
 localDecls    : localDecls scopedVarDecl
-              | %empty
+              | %empty                                           { $$ = NULL; }
               ;
 
 stmtList      : stmtList stmt
-              | %empty
+              | %empty                                           { $$ = NULL; }
               ;
 
 selectStmt    : IF simpleExp THEN stmt
@@ -156,7 +182,7 @@ breakStmt     : BREAK SEMICOLON
 exp           : mutable assignop exp 
               | mutable INC
               | mutable DEC
-              | simpleExp
+              | simpleExp                                        { $$ = $1; }
               ;
 
 assignop      : ASGN 
@@ -233,7 +259,7 @@ call          : ID LPAREN args RPAREN
               ;
 
 args          : argList
-              | %empty
+              | %empty                              { $$ = NULLl; }
               ;
 
 argList       : argList COMMA exp
