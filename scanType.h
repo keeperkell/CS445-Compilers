@@ -1,7 +1,7 @@
 #ifndef SCANTYPE_H
 #define SCANTYPE_H
 
-struct TokenData {
+typedef struct TokenData {
     int tokenclass;      // token class
     char *tokenClassStr; // string to print tokenClass
     int idIndex;

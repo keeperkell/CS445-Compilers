@@ -209,11 +209,11 @@ returnStmt    : RETURN SEMICOLON                                 { $$ = newStmtN
               | RETURN exp SEMICOLON                             { $$ = newStmtNode(ReturnK, $1);
                                                                    $$->child[0] = $2;
                                                                    $$->attr.name = $1->tokeninput;
-                                                                   $$->expType = $2->expStmt;
+                                                                   $$->expType = $2->expStmt;           // ERROR HERE
                                                                  }
               ;
 
-breakStmt     : BREAK SEMICOLON                                  { $$ = newDeclNode(BreakK, $1);
+breakStmt     : BREAK SEMICOLON                                  { $$ = newStmtNode(BreakK, $1);
                                                                    $$->attr.name = $1->tokeninput;
                                                                  }
               ;
