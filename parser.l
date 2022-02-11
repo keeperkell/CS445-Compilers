@@ -217,6 +217,7 @@ DIGIT   [0-9]
 "else"                              {return setToken(ELSE, line, yytext);}
 "then"                              {return setToken(THEN, line, yytext);}
 "for"                               {return setToken(FOR, line, yytext);}
+"while"                             {return setToken(WHILE, line, yytext);}
 "break"                             {return setToken(BREAK, line, yytext);}
 "return"                            {return setToken(RETURN, line, yytext);}
 "begin"                             {return setToken(BEGIN, line, yytext);}

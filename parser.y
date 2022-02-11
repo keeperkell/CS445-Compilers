@@ -48,9 +48,9 @@ void yyerror(const char *msg)
 %token <tokenData> PLUS EQUAL MINUS MULT DIV MOD
 %token <tokenData> COLON SEMICOLON QUESTION COMMA
 %token <tokenData> INT BOOL CHAR STATIC AND OR NOT IF ELSE THEN FOR
-%token <tokenData> BREAK RETURN BEGIN END TO DO BY
+%token <tokenData> BREAK RETURN BEGIN END TO DO BY WHILE
 
-%type <tree> declList decl varDecl scopedVarDecl varDecDecl varDeclList
+%type <tree> declList decl varDecl scopedVarDecl varDeclList
 %type <tree> varDeclInit varDeclId typeSpec funDecl params paramList paramTypeList
 %type <tree> paramIdList paramId stmt expStmt compoundStmt localDecls stmtList 
 %type <tree> selectStmt iterStmt iterRange returnStmt breakStmt exp assignop
