@@ -396,7 +396,7 @@ call          : ID LPAREN args RPAREN                            { $$ = newExpNo
               ;
 
 args          : argList                                          { $$ = $1; }
-              | %empty                                           { $$ = NULLl; }
+              | %empty                                           { $$ = NULL; }
               ;
 
 argList       : argList COMMA exp                                { $$ = addSibling($1, $3); }
