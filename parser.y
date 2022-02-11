@@ -10,6 +10,8 @@
 #include "scanType.h"  // TokenData Type
 #include "treeNode.h"  // Tree Struct
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 double vars[26];    
 
