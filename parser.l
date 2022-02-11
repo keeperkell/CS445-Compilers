@@ -147,11 +147,6 @@ static int setToken(int tokenClass, int linenum, char *svalue)
             yylval.tokenData->tokenClassStr = strdup("STRINGCONST");
             break;
 
-        case OTHER:
-            toUpperCase(svalue);
-            yylval.tokenData->svalue = strdup(svalue);
-            break;
-
         default:
             break;
     }
@@ -220,7 +215,7 @@ DIGIT   [0-9]
 "while"                             {return setToken(WHILE, line, yytext);}
 "break"                             {return setToken(BREAK, line, yytext);}
 "return"                            {return setToken(RETURN, line, yytext);}
-"begin"                             {return setToken(BEGIN, line, yytext);}
+"begin"                             {return setToken(BEGN, line, yytext);}
 "end"                               {return setToken(END, line, yytext);}
 "to"                                {return setToken(TO, line, yytext);}
 "do"                                {return setToken(DO, line, yytext);}
