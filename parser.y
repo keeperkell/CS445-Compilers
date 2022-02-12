@@ -437,34 +437,42 @@ int main(int argc, char *argv[])
 {
     int option;
 
-    // open file to parse
-    if(argc > 1){
-        if ((yyin = fopen(argv[1], "r"))) {
-            // file open successful
-        }
-        else {
-            // failed to open file
-            printf("ERROR: failed to open \'%s\'\n", argv[1]);
-            exit(1);
-        }       
-    }
-
     // get CLI option when program is run
     if((option = getopt(argc, argv, "dp")) != -1){
+
+      if ((yyin = fopen(argv[2], "r"))) {
+            // file open successful
+      }
+      else {
+            // failed to open file
+            printf("ERROR: failed to open \'%s\'\n", argv[2]);
+            exit(1);
+      }    
+
       switch(option){
         case 'd':
           yydebug = 1;
           yyparse();
           break;
+
         case 'p':
           yyparse();
           printTree(AST, 0);
           break;
+          
         default:
           break;
       }
     }
     else{
+      if ((yyin = fopen(argv[1], "r"))) {
+            // file open successful
+      }
+      else {
+            // failed to open file
+            printf("ERROR: failed to open \'%s\'\n", argv[1]);
+            exit(1);
+      }   
       yyparse();
     }
 
