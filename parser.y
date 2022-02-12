@@ -107,7 +107,7 @@ funDecl       : typeSpec ID LPAREN params RPAREN compoundStmt    { $$ = newDeclN
                                                                    $$->attr.name = $2->tokeninput;
                                                                    $$->child[0] = $4;
                                                                    $$->child[1] = $6;
-                                                                   $$->expType = $1;
+                                                                   $$->expType = $1->expType;
                                                                       //$$->tokenData = $2;
                                                                  }
               | ID LPAREN params RPAREN compoundStmt             { $$ = newDeclNode(FuncK, $1);     // Ex: BOOL ID(params) compoundStmt
@@ -134,11 +134,11 @@ paramIdList   : paramIdList COMMA paramId                        { $$ = addSibli
               ;
 
 paramId       : ID                                               { $$ = newDeclNode(ParamK, $1);
-                                                                   $$.attr.name = $1->tokeninput; 
+                                                                   $$->attr.name = $1->tokeninput; 
                                                                  }
               | ID LBRACKET RBRACKET                             { $$ = newDeclNode(ParamK, $1);
-                                                                   $$.isArray = true;
-                                                                   $$.attr.name = $1->tokeninput; 
+                                                                   $$->isArray = true;
+                                                                   $$->attr.name = $1->tokeninput; 
                                                                  }
               ;
 
@@ -209,7 +209,7 @@ returnStmt    : RETURN SEMICOLON                                 { $$ = newStmtN
               | RETURN exp SEMICOLON                             { $$ = newStmtNode(ReturnK, $1);
                                                                    $$->child[0] = $2;
                                                                    $$->attr.name = $1->tokeninput;
-                                                                   $$->expType = $2->expStmt;           // ERROR HERE
+                                                                   $$->expType = $2->expType;           // ERROR HERE
                                                                  }
               ;
 
@@ -374,7 +374,7 @@ factor        : mutable                                          { $$ = $1; }
               ;
 
 mutable       : ID                                               { $$ = newDeclNode(VarK, $1);
-                                                                   $$.attr.name = $1->tokeninput;    
+                                                                   $$->attr.name = $1->tokeninput;    
                                                                  }
               | ID LBRACKET exp RBRACKET                         { $$ = newExpNode(OpK, $2);  
                                                                   $$->child[0] = newExpNode(IdK, $1);
