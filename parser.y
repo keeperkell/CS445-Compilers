@@ -143,19 +143,78 @@ paramId       : ID                                               { $$ = newDeclN
                                                                  }
               ;
 
-stmt          : expStmt                                          { $$ = $1; }
-              | compoundStmt                                     { $$ = $1; }
-              | selectStmt                                       { $$ = $1; }
-              | iterStmt                                         { $$ = $1; }
-              | returnStmt                                       { $$ = $1; }
-              | breakStmt                                        { $$ = $1; }
+stmt          : stmtEnter                                        { $$ = $1; }           // Fix for dangling else
+              | stmtElse                                         { $$ = $1; }
+              ;
+
+stmtEnter     : iterStmtEnter                                    { $$ = $1; }
+              | selectStmtEnter                                  { $$ = $1; }
+              | stmtEnd                                          { $$ = $1; }
+              ;
+
+stmtElse      : iterStmtElse                                     { $$ = $1; }
+              | selectStmtElse                                   { $$ = $1; }
               ;
 
 expStmt       : LESSTHAN exp GREATTHAN SEMICOLON                 { $$ = $2; }
               | SEMICOLON                                        { $$ = NULL; }
               ;
 
-compoundStmt  : BEGN localDecls stmtList END                    { $$ = newStmtNode(CompoundK, $1);
+selectStmtEnter : IF simpleExp THEN stmtEnter                    { $$ = newStmtNode(IfK, $1); 
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $4; 
+                                                                 }
+              | IF simpleExp THEN stmt ELSE stmtEnter          { $$ = newStmtNode(IfK, $1); 
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $4;
+                                                                   $$->child[2] = $6; 
+                                                                 } 
+              ;   
+
+iterStmtEnter : WHILE simpleExp DO stmtEnter                     { $$ = newStmtNode(WhileK, $1);
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $4;
+                                                                 }
+              | FOR ID ASGN iterRange DO stmtEnter               { $$ = newStmtNode(ForK, $1);
+                                                                   $$->attr.name = $3->tokeninput;
+                                                                   $$->child[0] = newDeclNode(VarK, $2);
+                                                                   $$->child[0]->expType = Integer;
+                                                                   $$->child[1] = $4;
+                                                                   $$->child[2] = $6;
+                                                                 }
+              ;                                                 
+
+selectStmtElse : IF simpleExp THEN stmtElse                      { $$ = newStmtNode(IfK, $1); 
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $4; 
+                                                                 }
+              | IF simpleExp THEN stmt ELSE stmtElse             { $$ = newStmtNode(IfK, $1); 
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $4;
+                                                                   $$->child[2] = $6; 
+                                                                 } 
+              ;
+
+iterStmtElse  : WHILE simpleExp DO stmtElse                      { $$ = newStmtNode(WhileK, $1);
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $4;
+                                                                 }
+              | FOR ID ASGN iterRange DO stmtElse                { $$ = newStmtNode(ForK, $1);
+                                                                   $$->attr.name = $3->tokeninput;
+                                                                   $$->child[0] = newDeclNode(VarK, $2);
+                                                                   $$->child[0]->expType = Integer;
+                                                                   $$->child[1] = $4;
+                                                                   $$->child[2] = $6;
+                                                                 }
+              ;
+
+stmtEnd       : expStmt                                          { $$ = $1; }
+              | compoundStmt                                     { $$ = $1; }
+              | returnStmt                                       { $$ = $1; }
+              | breakStmt                                        { $$ = $1; }
+              ;
+
+compoundStmt  : BEGN localDecls stmtList END                     { $$ = newStmtNode(CompoundK, $1);
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $3;
                                                                  }
@@ -167,30 +226,6 @@ localDecls    : localDecls scopedVarDecl                         { $$ = addSibli
 
 stmtList      : stmtList stmt                                    { $$ = addSibling($1, $2); }
               | %empty                                           { $$ = NULL; }
-              ;
-
-selectStmt    : IF simpleExp THEN stmt                           { $$ = newStmtNode(IfK, $1); 
-                                                                   $$->child[0] = $2;
-                                                                   $$->child[1] = $4; 
-                                                                 }
-              | IF simpleExp THEN stmt ELSE stmt                 { $$ = newStmtNode(IfK, $1); 
-                                                                   $$->child[0] = $2;
-                                                                   $$->child[1] = $4;
-                                                                   $$->child[2] = $6;                // POSSIBLE DANGLING ELSE
-                                                                 }
-              ;
-
-iterStmt      : WHILE simpleExp DO stmt                          { $$ = newStmtNode(WhileK, $1);
-                                                                   $$->child[0] = $2;
-                                                                   $$->child[1] = $4;
-                                                                 }
-              | FOR ID ASGN iterRange DO stmt                    { $$ = newStmtNode(ForK, $1);
-                                                                   $$->attr.name = $3->tokeninput;
-                                                                   $$->child[0] = newDeclNode(VarK, $2);
-                                                                   $$->child[0]->expType = Integer;
-                                                                   $$->child[1] = $4;
-                                                                   $$->child[2] = $6;
-                                                                 }
               ;
 
 iterRange     : simpleExp TO simpleExp                           { $$ = newStmtNode(RangeK, $2);
@@ -210,7 +245,7 @@ returnStmt    : RETURN SEMICOLON                                 { $$ = newStmtN
               | RETURN exp SEMICOLON                             { $$ = newStmtNode(ReturnK, $1);
                                                                    $$->child[0] = $2;
                                                                    $$->attr.name = $1->tokeninput;
-                                                                   $$->expType = $2->expType;           // ERROR HERE
+                                                                   $$->expType = $2->expType;
                                                                  }
               ;
 
