@@ -74,9 +74,9 @@ varDecl       : typeSpec varDeclList SEMICOLON                  { $$ = $2; assig
 
 scopedVarDecl : STATIC typeSpec varDeclList SEMICOLON           { $$ = $3; 
                                                                   $$->isStatic = true; 
-                                                                  assignTyping($$, $2); 
+                                                                  assignTyping($$, $2->expType); 
                                                                 }
-              | typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1);}
+              | typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1->expType); }
               ;
 
 varDeclList   : varDeclList COMMA varDeclInit                   { $$ = addSibling($1, $3); }
@@ -126,7 +126,7 @@ paramList     : paramList SEMICOLON paramTypeList                { $$ = addSibli
               | paramTypeList                                    { $$ = $1; }
               ;
 
-paramTypeList : typeSpec paramIdList                             { $$ = $2; assignTyping($$, $1); }
+paramTypeList : typeSpec paramIdList                             { $$ = $2; assignTyping($$, $1->expType); }
               ;
 
 paramIdList   : paramIdList COMMA paramId                        { $$ = addSibling($1, $3); }
