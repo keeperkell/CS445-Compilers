@@ -55,7 +55,7 @@ void yyerror(const char *msg)
 %type <tree> iterRange returnStmt breakStmt exp assignop
 %type <tree> simpleExp andExp unaryRelExp relExp relop sumExp sumop mulExp mulop
 %type <tree> unaryExp unaryop factor mutable immutable call args argList constant
-%type <tree> matched unmatached stmtEnd
+%type <tree> matched unmatched stmtEnd
 
 %type <type> typeSpec
 
