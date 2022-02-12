@@ -437,6 +437,15 @@ int main(int argc, char *argv[])
 
     // options menu for running program. 
     if(argc > 2){
+        if ((yyin = fopen(argv[1], "r"))) {
+            // file open successful
+        }
+        else {
+            // failed to open file
+            printf("ERROR: failed to open \'%s\'\n", argv[1]);
+            exit(1);
+        }
+
         if(!strcmp("-d", argv[1])){
             yydebug = 1;
             yyparse();
