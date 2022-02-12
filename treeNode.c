@@ -146,6 +146,7 @@ void printTree(TreeNode *t, int numSiblings){
                         break;
 
                     default:
+                        break;
                 }
                 break;
 
