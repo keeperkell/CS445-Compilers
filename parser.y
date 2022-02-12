@@ -148,31 +148,11 @@ stmt          : stmtEnter                                        { $$ = $1; }   
               | stmtElse                                         { $$ = $1; }
               ;
 
-stmtEnter     : iterStmtEnter                                    { $$ = $1; }
-              | selectStmtEnter                                  { $$ = $1; }
-              | stmtEnd                                          { $$ = $1; }
-              ;
-
-stmtElse      : iterStmtElse                                     { $$ = $1; }
-              | selectStmtElse                                   { $$ = $1; }
-              ;
-
-expStmt       : LESSTHAN exp GREATTHAN SEMICOLON                 { $$ = $2; }
-              | SEMICOLON                                        { $$ = NULL; }
-              ;
-
-selectStmtEnter : IF simpleExp THEN stmtEnter                    { $$ = newStmtNode(IfK, $1); 
-                                                                   $$->child[0] = $2;
-                                                                   $$->child[1] = $4; 
-                                                                 }
-              | IF simpleExp THEN stmt ELSE stmtEnter          { $$ = newStmtNode(IfK, $1); 
+stmtEnter     : IF simpleExp THEN stmtEnter ELSE stmtEnter       { $$ = newStmtNode(IfK, $1); 
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $4;
-                                                                   $$->child[2] = $6; 
-                                                                 } 
-              ;   
-
-iterStmtEnter : WHILE simpleExp DO stmtEnter                     { $$ = newStmtNode(WhileK, $1);
+                                                                   $$->child[2] = $6;
+              | WHILE simpleExp DO stmtEnter                     { $$ = newStmtNode(WhileK, $1);
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $4;
                                                                  }
@@ -183,20 +163,19 @@ iterStmtEnter : WHILE simpleExp DO stmtEnter                     { $$ = newStmtN
                                                                    $$->child[1] = $4;
                                                                    $$->child[2] = $6;
                                                                  }
-              ;                                                 
+              | stmtEnd                                          { $$ = $1; }
+              ;
 
-selectStmtElse : IF simpleExp THEN stmtElse                      { $$ = newStmtNode(IfK, $1); 
+stmtElse      : IF simpleExp THEN stmt                           { $$ = newStmtNode(IfK, $1); 
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $4; 
                                                                  }
-              | IF simpleExp THEN stmt ELSE stmtElse             { $$ = newStmtNode(IfK, $1); 
+              | IF simpleExp THEN stmtEnter ELSE stmtElse        { $$ = newStmtNode(IfK, $1); 
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $4;
                                                                    $$->child[2] = $6; 
                                                                  } 
-              ;
-
-iterStmtElse  : WHILE simpleExp DO stmtElse                      { $$ = newStmtNode(WhileK, $1);
+              | WHILE simpleExp DO stmtElse                      { $$ = newStmtNode(WhileK, $1);
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $4;
                                                                  }
@@ -208,11 +187,15 @@ iterStmtElse  : WHILE simpleExp DO stmtElse                      { $$ = newStmtN
                                                                    $$->child[2] = $6;
                                                                  }
               ;
-
+              
 stmtEnd       : expStmt                                          { $$ = $1; }
               | compoundStmt                                     { $$ = $1; }
               | returnStmt                                       { $$ = $1; }
               | breakStmt                                        { $$ = $1; }
+              ;
+
+expStmt       : LESSTHAN exp GREATTHAN SEMICOLON                 { $$ = $2; }
+              | SEMICOLON                                        { $$ = NULL; }
               ;
 
 compoundStmt  : BEGN localDecls stmtList END                     { $$ = newStmtNode(CompoundK, $1);
