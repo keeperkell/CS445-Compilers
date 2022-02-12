@@ -108,7 +108,7 @@ void printTree(TreeNode *t, int numSiblings){
     int countSibs = numSiblings;
 
     if(t == NULL){
-        printf("empty tree, will not print");
+        printf("empty tree, will not print\n");
     }
 
     while(t != NULL){
