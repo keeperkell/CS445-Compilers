@@ -218,7 +218,7 @@ breakStmt     : BREAK SEMICOLON                                  { $$ = newStmtN
                                                                  }
               ;
 
-exp           : mutable assignop exp                             { $$ = newExpNode(AssignK, $2); 
+exp           : mutable assignop exp                             { $$ = $2; 
                                                                    $$->child[0] = $1;
                                                                    $$->child[1] = $3;
                                                                  }
