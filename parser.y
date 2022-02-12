@@ -451,7 +451,7 @@ int main(int argc, char *argv[])
 
     // get CLI option when program is run
     if((option = getopt(argc, argv, "dp")) != -1){
-      switch(option):
+      switch(option){
         case 'd':
           yydebug = 1;
           yyparse();
@@ -462,6 +462,7 @@ int main(int argc, char *argv[])
           break;
         default:
           break;
+      }
     }
     else{
       yyparse();
