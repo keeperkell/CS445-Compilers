@@ -92,7 +92,7 @@ varDeclId     : ID                                              { $$ = newDeclNo
                                                                 }
               | ID LBRACKET NUMCONST RBRACKET                   { $$ = newDeclNode(VarK, $1);       // Ex: ID[NUMCONST]
                                                                   $$->attr.name = $1->tokeninput;
-                                                                  $$->tokenData = $1;
+                                                                      //$$->TokenData = $1;
                                                                   $$->isArray = true;
                                                                   $$->expType = UndefinedType;
                                                                 }
@@ -108,13 +108,13 @@ funDecl       : typeSpec ID LPAREN params RPAREN compoundStmt    { $$ = newDeclN
                                                                    $$->child[0] = $4;
                                                                    $$->child[1] = $6;
                                                                    $$->expType = $1;
-                                                                   $$->tokenData = $2;
+                                                                      //$$->tokenData = $2;
                                                                  }
               | ID LPAREN params RPAREN compoundStmt             { $$ = newDeclNode(FuncK, $1);     // Ex: BOOL ID(params) compoundStmt
                                                                    $$->attr.name = $1->tokeninput;
                                                                    $$->child[0] = $3;
                                                                    $$->child[1] = $5;
-                                                                   $$->tokenData = $1;
+                                                                      //$$->tokenData = $1;
                                                                  }
               ;
 
