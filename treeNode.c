@@ -271,24 +271,28 @@ void printTree(TreeNode *t, int numSiblings){
 
 // return expType as string
 char *getExpType(ExpType t){
+    char *exp;
+
     switch(t){
         case Void:
-            return ("void");
+            exp = strdup("void");
         case Integer:
-            return ("int");
+            exp = strdup("int");
         case Boolean:
-            return ("bool");
+            exp = strdup("bool");
         case Char:
-            return ("char");
+            exp = strdup("char");
         case CharInt:
-            return ("CharInt");
+            exp = strdup("CharInt");
         case Equal:
-            return ("Equal");
+            exp = strdup("Equal");
         case UndefinedType:
-            return ("undefined type");
+            exp = strdup("undefined type");
         default: 
-            return ("exprType not found");
+            exp = strdup("exprType not found");
     }
+
+    return exp;
 }
 
 // print the . and white space for each indented child

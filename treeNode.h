@@ -48,7 +48,7 @@ typedef struct treeNode{
     //what kind of node
     int linenum;                                // linenum relevant to this node
     NodeKind nodekind;                          // type of this node
-    TokenData tokenData;                        // Token data for node
+    TokenData *tokenData;                        // Token data for node
 
     union                                       //subtype of type
     {
