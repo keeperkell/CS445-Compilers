@@ -13,7 +13,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>   
+#include <ctype.h>
+#include <unistd.h>   
 
 extern int yylex();
 extern FILE *yyin;
@@ -434,9 +435,10 @@ extern int yydebug;
 
 int main(int argc, char *argv[])
 {
+    int option;
 
-    // options menu for running program. 
-    if(argc > 2){
+    // open file to parse
+    if(argc > 1){
         if ((yyin = fopen(argv[1], "r"))) {
             // file open successful
         }
@@ -444,29 +446,25 @@ int main(int argc, char *argv[])
             // failed to open file
             printf("ERROR: failed to open \'%s\'\n", argv[1]);
             exit(1);
-        }
-
-        if(!strcmp("-d", argv[1])){
-            yydebug = 1;
-            yyparse();
-        }
-        else if(!strcmp("-p", argv[1])){
-            yyparse();
-            printTree(AST, 0);
-        }
+        }       
     }
-    // If no options are specified. 
-    else if(argc > 1){
-        if ((yyin = fopen(argv[1], "r"))) {
-            // file open successful
-        }
-        else {
-            // failed to open file
-            printf("ERROR: failed to open \'%s\'\n", argv[1]);
-            exit(1);
-        }
 
-        yyparse();
+    // get CLI option when program is run
+    if((option = getopt(argc, argv, "dp")) != -1){
+      switch(option):
+        case 'd':
+          yydebug = 1;
+          yyparse();
+          break;
+        case 'p':
+          yyparse();
+          printTree(AST, 0);
+          break;
+        default:
+          break;
+    }
+    else{
+      yyparse();
     }
 
     return 0;
