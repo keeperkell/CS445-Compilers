@@ -143,7 +143,7 @@ paramId       : ID                                               { $$ = newDeclN
               ;
 
 stmt          : matched                                          { $$ = $1; }           // Fix for dangling else
-              | unmactched                                       { $$ = $1; }
+              | unmatched                                        { $$ = $1; }
               ;
 
 matched       : stmtEnd                                          { $$ = $1; }
