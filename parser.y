@@ -69,7 +69,7 @@ decl          : varDecl                                         { $$ = $1; }
               | funDecl                                         { $$ = $1; }
               ;
 
-varDecl       : typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1); }
+varDecl       : typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1->expType); }
               ;
 
 scopedVarDecl : STATIC typeSpec varDeclList SEMICOLON           { $$ = $3; 
