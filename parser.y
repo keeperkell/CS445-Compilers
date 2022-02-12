@@ -56,8 +56,7 @@ void yyerror(const char *msg)
 %type <tree> simpleExp andExp unaryRelExp relExp relop sumExp sumop mulExp mulop
 %type <tree> unaryExp unaryop factor mutable immutable call args argList constant
 
-%type <tree> stmtEnter iterStmtEnter selectStmtEnter stmtEnd
-%type <tree> stmtElse iterStmtElse selectStmtElse
+%type <tree> stmtEnter stmtEnd stmtElse
 
 %type <type> typeSpec
 
