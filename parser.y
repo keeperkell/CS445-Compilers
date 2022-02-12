@@ -52,14 +52,12 @@ void yyerror(const char *msg)
 %type <tree> declList decl varDecl scopedVarDecl varDeclList
 %type <tree> varDeclInit varDeclId funDecl params paramList paramTypeList
 %type <tree> paramIdList paramId stmt expStmt compoundStmt localDecls stmtList 
-%type <tree> selectStmt iterStmt iterRange returnStmt breakStmt exp assignop
+%type <tree> iterRange returnStmt breakStmt exp assignop
 %type <tree> simpleExp andExp unaryRelExp relExp relop sumExp sumop mulExp mulop
 %type <tree> unaryExp unaryop factor mutable immutable call args argList constant
+%type <tree> stmtEnter stmtEnd stmtElse
 
 %type <type> typeSpec
-
-%nonassoc LOWER_THAN_ELSE
-%nonassoc ELSE
 
 %%
 
@@ -144,36 +142,57 @@ paramId       : ID                                               { $$ = newDeclN
                                                                  }
               ;
 
-stmt          : expStmt                                          { $$ = $1; }
-              | compoundStmt                                     { $$ = $1; }
-              | selectStmt                                       { $$ = $1; }
-              | iterStmt                                         { $$ = $1; }
-              | returnStmt                                       { $$ = $1; }
-              | breakStmt                                        { $$ = $1; }
+stmt          : stmtEnter                                        { $$ = $1; }           // Fix for dangling else
+              | stmtElse                                         { $$ = $1; }
               ;
 
-selectStmt    : IF simpleExp THEN stmt   %prec LOWER_THAN_ELSE   { $$ = newStmtNode(IfK, $1); 
+stmtEnter     : IF simpleExp THEN stmtEnter ELSE stmtEnter       { $$ = newStmtNode(IfK, $1); 
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $4;
+                                                                   $$->child[2] = $6;
+                                                                 } 
+              | WHILE simpleExp DO stmtEnter                     { $$ = newStmtNode(WhileK, $1);
+                                                                   $$->child[0] = $2;
+                                                                   $$->child[1] = $4;
+                                                                   $$->attr.name = $1->tokeninput;
+                                                                 }
+              | FOR ID ASGN iterRange DO stmtEnter               { $$ = newStmtNode(ForK, $1);
+                                                                   $$->child[0] = newDeclNode(VarK, $2);
+                                                                   $$->child[0]->expType = Integer;
+                                                                   $$->child[1] = $4;
+                                                                   $$->child[2] = $6;
+                                                                   $$->attr.name = $3->tokeninput;
+                                                                 }
+              | stmtEnd                                          { $$ = $1; }
+              ;
+
+stmtElse      : IF simpleExp THEN stmt                           { $$ = newStmtNode(IfK, $1); 
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $4; 
                                                                  }
-              | IF simpleExp THEN stmt ELSE stmt                 { $$ = newStmtNode(IfK, $1); 
+              | IF simpleExp THEN stmtEnter ELSE stmtElse        { $$ = newStmtNode(IfK, $1); 
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $4;
-                                                                   $$->child[2] = $6;   
-                                                                 }
-              ;
-
-iterStmt      : WHILE simpleExp DO stmt                          { $$ = newStmtNode(WhileK, $1);
+                                                                   $$->child[2] = $6; 
+                                                                 } 
+              | WHILE simpleExp DO stmtElse                      { $$ = newStmtNode(WhileK, $1);
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $4;
+                                                                   $$->attr.name = $1->tokeninput;
                                                                  }
-              | FOR ID ASGN iterRange DO stmt                    { $$ = newStmtNode(ForK, $1);
+              | FOR ID ASGN iterRange DO stmtElse                { $$ = newStmtNode(ForK, $1);
                                                                    $$->attr.name = $3->tokeninput;
                                                                    $$->child[0] = newDeclNode(VarK, $2);
                                                                    $$->child[0]->expType = Integer;
                                                                    $$->child[1] = $4;
                                                                    $$->child[2] = $6;
                                                                  }
+              ;
+
+stmtEnd       : expStmt                                          { $$ = $1; }
+              | compoundStmt                                     { $$ = $1; }
+              | returnStmt                                       { $$ = $1; }
+              | breakStmt                                        { $$ = $1; }
               ;
 
 expStmt       : LESSTHAN exp GREATTHAN SEMICOLON                 { $$ = $2; }
