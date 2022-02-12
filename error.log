@@ -1,0 +1,11 @@
+parser.y: In function ‘int yyparse()’:
+parser.y:221:121: error: cannot convert ‘TokenData’ to ‘TokenData*’
+  221 | exp           : mutable assignop exp                             { $$ = newExpNode(AssignK, $2->tokenData);
+      |                                                                                                       ~~~~~             ^        
+      |                                                                                                                         |
+      |                                                                                                                         TokenData
+In file included from parser.y:11:
+treeNode.h:78:47: note:   initializing argument 2 of ‘TreeNode* newExpNode(ExpKind, TokenData*)’
+   78 | TreeNode *newExpNode(ExpKind kind, TokenData* token);
+      |                                    ~~~~~~~~~~~^~~~~
+make: *** [<builtin>: parser.tab.o] Error 1
