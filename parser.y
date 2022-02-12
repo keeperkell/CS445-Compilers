@@ -218,7 +218,7 @@ breakStmt     : BREAK SEMICOLON                                  { $$ = newStmtN
                                                                  }
               ;
 
-exp           : mutable assignop exp                             { $$ = newExpNode(AssignK, $2); 
+exp           : mutable assignop exp                             { $$ = newExpNode(AssignK, $2->tokenData); 
                                                                    $$->child[0] = $1;
                                                                    $$->child[1] = $3;
                                                                  }
@@ -235,20 +235,25 @@ exp           : mutable assignop exp                             { $$ = newExpNo
               | simpleExp                                        { $$ = $1; }
               ;
 
-assignop      : ASGN                                             { $$ = $1;
+assignop      : ASGN                                             { $$ = newExpNode(AssignK, $1);
                                                                    $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
                                                                  }
-              | ADDASGN                                          { $$ = $1;
+              | ADDASGN                                          { $$ = newExpNode(AssignK, $1);
                                                                    $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
                                                                  }
-              | SUBASGN                                          { $$ = $1;
+              | SUBASGN                                          { $$ = newExpNode(AssignK, $1);
                                                                    $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
                                                                  }
-              | MULASGN                                          { $$ = $1;
+              | MULASGN                                          { $$ = newExpNode(AssignK, $1);
                                                                    $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
                                                                  }
-              | DIVASGN                                          { $$ = $1;
+              | DIVASGN                                          { $$ = newExpNode(AssignK, $1);
                                                                    $$->attr.name = $1->tokeninput;
+                                                                   $$->expType = Integer;
                                                                  }
               ;
 
