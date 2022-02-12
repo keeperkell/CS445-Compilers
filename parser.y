@@ -50,15 +50,16 @@ void yyerror(const char *msg)
 %token <tokenData> BREAK RETURN BEGN END TO DO BY WHILE
 
 %type <tree> declList decl varDecl scopedVarDecl varDeclList
-%type <tree> varDeclInit varDeclId typeSpec funDecl params paramList paramTypeList
+%type <tree> varDeclInit varDeclId funDecl params paramList paramTypeList
 %type <tree> paramIdList paramId stmt expStmt compoundStmt localDecls stmtList 
-%type <tree> selectStmt iterStmt iterRange returnStmt breakStmt exp assignop
+%type <tree> iterRange returnStmt breakStmt exp assignop
 %type <tree> simpleExp andExp unaryRelExp relExp relop sumExp sumop mulExp mulop
 %type <tree> unaryExp unaryop factor mutable immutable call args argList constant
 
 %type <tree> stmtEnter iterStmtEnter selectStmtEnter stmtEnd
 %type <tree> stmtElse iterStmtElse selectStmtElse
 
+%type <type> typeSpec
 
 %%
 
@@ -73,14 +74,14 @@ decl          : varDecl                                         { $$ = $1; }
               | funDecl                                         { $$ = $1; }
               ;
 
-varDecl       : typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1->expType); }
+varDecl       : typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1); }
               ;
 
 scopedVarDecl : STATIC typeSpec varDeclList SEMICOLON           { $$ = $3; 
                                                                   $$->isStatic = true; 
-                                                                  assignTyping($$, $2->expType); 
+                                                                  assignTyping($$, $2); 
                                                                 }
-              | typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1->expType); }
+              | typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1); }
               ;
 
 varDeclList   : varDeclList COMMA varDeclInit                   { $$ = addSibling($1, $3); }
@@ -96,29 +97,26 @@ varDeclId     : ID                                              { $$ = newDeclNo
                                                                 }
               | ID LBRACKET NUMCONST RBRACKET                   { $$ = newDeclNode(VarK, $1);       // Ex: ID[NUMCONST]
                                                                   $$->attr.name = $1->tokeninput;
-                                                                      //$$->TokenData = $1;
                                                                   $$->isArray = true;
                                                                   $$->expType = UndefinedType;
                                                                 }
               ;
 
-typeSpec      : BOOL                                             { $$->expType = Boolean; }
-              | CHAR                                             { $$->expType = Char; }
-              | INT                                              { $$->expType = Integer; }
+typeSpec      : BOOL                                             { $$ = Boolean; }
+              | CHAR                                             { $$ = Char; }
+              | INT                                              { $$ = Integer; }
               ;
 
 funDecl       : typeSpec ID LPAREN params RPAREN compoundStmt    { $$ = newDeclNode(FuncK, $2);     // Ex: BOOL ID(params) compoundStmt
                                                                    $$->attr.name = $2->tokeninput;
                                                                    $$->child[0] = $4;
                                                                    $$->child[1] = $6;
-                                                                   $$->expType = $1->expType;
-                                                                      //$$->tokenData = $2;
+                                                                   $$->expType = $1;
                                                                  }
               | ID LPAREN params RPAREN compoundStmt             { $$ = newDeclNode(FuncK, $1);     // Ex: BOOL ID(params) compoundStmt
                                                                    $$->attr.name = $1->tokeninput;
                                                                    $$->child[0] = $3;
                                                                    $$->child[1] = $5;
-                                                                      //$$->tokenData = $1;
                                                                  }
               ;
 
@@ -130,7 +128,7 @@ paramList     : paramList SEMICOLON paramTypeList                { $$ = addSibli
               | paramTypeList                                    { $$ = $1; }
               ;
 
-paramTypeList : typeSpec paramIdList                             { $$ = $2; assignTyping($$, $1->expType); }
+paramTypeList : typeSpec paramIdList                             { $$ = $2; assignTyping($$, $1); }
               ;
 
 paramIdList   : paramIdList COMMA paramId                        { $$ = addSibling($1, $3); }
