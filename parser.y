@@ -98,9 +98,9 @@ varDeclId     : ID                                              { $$ = newDeclNo
                                                                 }
               ;
 
-typeSpec      : BOOL                                             { $$ = Boolean; }
-              | CHAR                                             { $$ = Char; }
-              | INT                                              { $$ = Integer; }
+typeSpec      : BOOL                                             { $$->expType = Boolean; }
+              | CHAR                                             { $$->expType = Char; }
+              | INT                                              { $$->expType = Integer; }
               ;
 
 funDecl       : typeSpec ID LPAREN params RPAREN compoundStmt    { $$ = newDeclNode(FuncK, $2);     // Ex: BOOL ID(params) compoundStmt
