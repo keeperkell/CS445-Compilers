@@ -152,6 +152,7 @@ stmtEnter     : IF simpleExp THEN stmtEnter ELSE stmtEnter       { $$ = newStmtN
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $4;
                                                                    $$->child[2] = $6;
+                                                                 } 
               | WHILE simpleExp DO stmtEnter                     { $$ = newStmtNode(WhileK, $1);
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $4;
@@ -187,7 +188,7 @@ stmtElse      : IF simpleExp THEN stmt                           { $$ = newStmtN
                                                                    $$->child[2] = $6;
                                                                  }
               ;
-              
+
 stmtEnd       : expStmt                                          { $$ = $1; }
               | compoundStmt                                     { $$ = $1; }
               | returnStmt                                       { $$ = $1; }
