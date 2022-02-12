@@ -46,7 +46,7 @@ void yyerror(const char *msg)
 %token <tokenData> LESSTHAN GREATTHAN LPAREN RPAREN LBRACKET RBRACKET
 %token <tokenData> PLUS EQUAL MINUS MULT DIV MOD
 %token <tokenData> COLON SEMICOLON QUESTION COMMA
-%token <tokenData> INT BOOL CHAR STATIC AND OR NOT IF THEN FOR
+%token <tokenData> INT BOOL CHAR STATIC AND OR NOT IF ELSE THEN FOR
 %token <tokenData> BREAK RETURN BEGN END TO DO BY WHILE
 
 %type <tree> declList decl varDecl scopedVarDecl varDeclList
