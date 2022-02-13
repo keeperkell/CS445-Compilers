@@ -225,7 +225,7 @@ void printTree(TreeNode *t, int numSiblings){
                             break;
 
                         case Char:
-                            printf("Const \'%c\' [line: %d]\n",t->tokenData->cvalue, t->linenum);
+                            printf("Const \'%c\' [line: %d]\n",t->attr.cvalue, t->linenum);
                             break;
 
                         default:
