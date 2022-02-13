@@ -195,7 +195,7 @@ stmtEnd       : expStmt                                          { $$ = $1; }
               | breakStmt                                        { $$ = $1; }
               ;
 
-expStmt       : LESSTHAN exp GREATTHAN SEMICOLON                 { $$ = $2; }
+expStmt       : exp SEMICOLON                                    { $$ = $1; }
               | SEMICOLON                                        { $$ = NULL; }
               ;
 
