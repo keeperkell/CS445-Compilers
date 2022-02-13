@@ -120,12 +120,12 @@ void printTree(TreeNode *t, int numSiblings){
                     case VarK:
                         if(t->isArray){
                             
-                            printf("Var: %s is array of type ",t->attr.name);
+                            printf("Var: %s of array of type ",t->attr.name);
                             getExpType(t->expType);
                             printf(" [line: %d]\n", t->linenum);
                         }
                         else{
-                            printf("Var: %s is of type ", t->attr.name);
+                            printf("Var: %s of type ", t->attr.name);
                             getExpType(t->expType);
                             printf(" [line: %d]\n", t->linenum);
                         }
@@ -213,7 +213,7 @@ void printTree(TreeNode *t, int numSiblings){
                     case ConstantK:
                         switch (t->expType){
                         case Integer:
-                            printf("Const %s [line %d]\n", t->attr.name, t->linenum);
+                            printf("Const %d [line %d]\n", t->attr.value, t->linenum);
                             break;
                         
                         case Boolean:
