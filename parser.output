@@ -74,7 +74,7 @@ Grammar
    43 expStmt: LESSTHAN exp GREATTHAN SEMICOLON
    44        | SEMICOLON
 
-   45 compoundStmt: BEGN localDecls stmtList END
+   45 compoundStmt: BEGN localDecls stmtList FINISH
 
    46 localDecls: localDecls scopedVarDecl
    47           | %empty
@@ -214,7 +214,7 @@ Terminals, with rules where they appear
     BREAK <tokenData> (301) 54
     RETURN <tokenData> (302) 52 53
     BEGN <tokenData> (303) 45
-    END <tokenData> (304) 45
+    FINISH <tokenData> (304) 45
     TO <tokenData> (305) 50 51
     DO <tokenData> (306) 33 34 36 37
     BY <tokenData> (307) 51
@@ -992,7 +992,7 @@ State 60
 
 State 61
 
-   45 compoundStmt: BEGN . localDecls stmtList END
+   45 compoundStmt: BEGN . localDecls stmtList FINISH
 
     $default  reduce using rule 47 (localDecls)
 
@@ -1368,7 +1368,7 @@ State 90
 
 State 91
 
-   45 compoundStmt: BEGN localDecls . stmtList END
+   45 compoundStmt: BEGN localDecls . stmtList FINISH
    46 localDecls: localDecls . scopedVarDecl
 
     INT     shift, and go to state 2
@@ -1590,7 +1590,7 @@ State 113
 
 State 114
 
-   45 compoundStmt: BEGN localDecls stmtList . END
+   45 compoundStmt: BEGN localDecls stmtList . FINISH
    48 stmtList: stmtList . stmt
 
     LESSTHAN   shift, and go to state 121
@@ -1600,7 +1600,7 @@ State 114
     BREAK      shift, and go to state 125
     RETURN     shift, and go to state 126
     BEGN       shift, and go to state 61
-    END        shift, and go to state 127
+    FINISH     shift, and go to state 127
     WHILE      shift, and go to state 128
 
     stmt          go to state 129
@@ -1805,7 +1805,7 @@ State 126
 
 State 127
 
-   45 compoundStmt: BEGN localDecls stmtList END .
+   45 compoundStmt: BEGN localDecls stmtList FINISH .
 
     $default  reduce using rule 45 (compoundStmt)
 
