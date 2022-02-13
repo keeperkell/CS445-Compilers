@@ -279,7 +279,7 @@ void getExpType(ExpType t){
 
     switch(t){
         case Void:
-            prtinf("void");
+            printf("void");
             break;
         case Integer:
             printf("int");
