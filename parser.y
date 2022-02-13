@@ -47,7 +47,7 @@ void yyerror(const char *msg)
 %token <tokenData> PLUS EQUAL MINUS MULT DIV MOD
 %token <tokenData> COLON SEMICOLON QUESTION COMMA
 %token <tokenData> INT BOOL CHAR STATIC AND OR NOT IF ELSE THEN FOR
-%token <tokenData> BREAK RETURN BEGN END TO DO BY WHILE
+%token <tokenData> BREAK RETURN BEGN FINISH TO DO BY WHILE
 
 %type <tree> declList decl varDecl scopedVarDecl varDeclList
 %type <tree> varDeclInit varDeclId funDecl params paramList paramTypeList
@@ -183,7 +183,7 @@ unmatched     : IF simpleExp THEN matched ELSE unmatched         { $$ = newStmtN
                                                                    $$->child[1] = $4;
                                                                    $$->child[2] = $6;
                                                                  }
-              | IF simpleExp THEN stmt                           { $$ = newStmtNode(IfK, $1);               // moved to bottom for precedence
+              | IF simpleExp THEN stmt                           { $$ = newStmtNode(IfK, $1);              
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $4; 
                                                                  }
@@ -199,7 +199,7 @@ expStmt       : LESSTHAN exp GREATTHAN SEMICOLON                 { $$ = $2; }
               | SEMICOLON                                        { $$ = NULL; }
               ;
 
-compoundStmt  : BEGN localDecls stmtList END                     { $$ = newStmtNode(CompoundK, $1);
+compoundStmt  : BEGN localDecls stmtList FINISH                  { $$ = newStmtNode(CompoundK, $1);
                                                                    $$->child[0] = $2;
                                                                    $$->child[1] = $3;
                                                                  }

@@ -216,7 +216,7 @@ DIGIT   [0-9]
 "break"                             {return setToken(BREAK, line, yytext);}
 "return"                            {return setToken(RETURN, line, yytext);}
 "begin"                             {return setToken(BEGN, line, yytext);}
-"end"                               {return setToken(END, line, yytext);}
+"end"                               {return setToken(FINISH, line, yytext);}
 "to"                                {return setToken(TO, line, yytext);}
 "do"                                {return setToken(DO, line, yytext);}
 
