@@ -57,6 +57,7 @@ void yyerror(const char *msg)
 %type <tree> unaryExp unaryop factor mutable immutable call args argList constant
 %type <tree> matched unmatched stmtEnd
 
+%nonassoc ELSE
 %type <type> typeSpec
 
 %%
