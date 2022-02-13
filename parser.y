@@ -160,9 +160,10 @@ matched       : stmtEnd                                          { $$ = $1; }
               | FOR ID ASGN iterRange DO matched                 { $$ = newStmtNode(ForK, $1);
                                                                    $$->child[0] = newDeclNode(VarK, $2);
                                                                    $$->child[0]->expType = Integer;
+                                                                   $$->attr.name = $3->tokeninput;
                                                                    $$->child[1] = $4;
                                                                    $$->child[2] = $6;
-                                                                   $$->attr.name = $3->tokeninput;
+                                                                   
                                                                  }
               ;
 
@@ -177,11 +178,12 @@ unmatched     : IF simpleExp THEN matched ELSE unmatched         { $$ = newStmtN
                                                                    $$->attr.name = $1->tokeninput;
                                                                  }
               | FOR ID ASGN iterRange DO unmatched               { $$ = newStmtNode(ForK, $1);
-                                                                   $$->attr.name = $3->tokeninput;
                                                                    $$->child[0] = newDeclNode(VarK, $2);
                                                                    $$->child[0]->expType = Integer;
+                                                                   $$->attr.name = $3->tokeninput;
                                                                    $$->child[1] = $4;
                                                                    $$->child[2] = $6;
+                                                                   
                                                                  }
               | IF simpleExp THEN stmt                           { $$ = newStmtNode(IfK, $1);              
                                                                    $$->child[0] = $2;

@@ -156,11 +156,11 @@ void printTree(TreeNode *t, int numSiblings){
 
             case StmtK:
                 switch(t->subkind.stmt){
-                    /*
+                    
                     case NullK:
                         printf("NULL [line: %d]\n", t->linenum);
                         break;
-                    */    
+                    
                     case IfK:
                         printf("If [line: %d]\n", t->linenum);
                         break;
@@ -211,7 +211,7 @@ void printTree(TreeNode *t, int numSiblings){
                     case ConstantK:
                         switch (t->expType){
                         case Integer:
-                            printf("Const %d [line %d]\n", t->attr.value, t->linenum);
+                            printf("Const %s [line %d]\n", t->attr.name, t->linenum);
                             break;
                         case Boolean:
                             printf("Const %s [line %d]\n", t->attr.name, t->linenum);
