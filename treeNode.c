@@ -268,7 +268,7 @@ void printTree(TreeNode *t, int numSiblings){
         if(t->sibling != NULL){
             numSiblings++;
             printWhiteSpace(WS);
-            printf("Sibling: %d", numSiblings);
+            printf("Sibling: %d ", numSiblings);
         }
 
         t = t->sibling;
