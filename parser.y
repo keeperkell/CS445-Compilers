@@ -401,11 +401,11 @@ factor        : mutable                                          { $$ = $1; }
               | immutable                                        { $$ = $1; }
               ;
 
-mutable       : ID                                               { $$ = newDeclNode(VarK, $1);
+mutable       : ID                                               { $$ = newDeclNode(IdK, $1);
                                                                    $$->attr.name = $1->tokeninput;    
                                                                  }
               | ID LBRACKET exp RBRACKET                         { $$ = newExpNode(OpK, $2);  
-                                                                  $$->child[0] = newExpNode(IdK, $1);
+                                                                  $$->child[0] = newDeclNode(IdK, $1);
                                                                   $$->child[0]->attr.name = $1->tokeninput;
                                                                   $$->child[0]->isArray = true;
                                                                   $$->child[1] = $3; 
