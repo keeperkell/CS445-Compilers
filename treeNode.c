@@ -139,12 +139,12 @@ void printTree(TreeNode *t, int numSiblings){
 
                     case ParamK:
                         if(t->isArray){
-                            printf("Parm: %s is array of type", t->attr.name);
+                            printf("Parm: %s of array of type ", t->attr.name);
                             getExpType(t->expType);
                             printf(" [line: %d]\n", t->linenum);
                         }
                         else{
-                            printf("Parm: %s is of type ", t->attr.name);
+                            printf("Parm: %s of type ", t->attr.name);
                             getExpType(t->expType);
                             printf(" [line: %d]\n", t->linenum);
                         }
