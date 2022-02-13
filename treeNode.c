@@ -213,6 +213,7 @@ void printTree(TreeNode *t, int numSiblings){
                         case Integer:
                             printf("Const %s [line %d]\n", t->attr.name, t->linenum);
                             break;
+                        
                         case Boolean:
                             printf("Const %s [line %d]\n", t->attr.name, t->linenum);
                             break;

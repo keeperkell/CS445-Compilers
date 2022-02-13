@@ -409,6 +409,7 @@ mutable       : ID                                               { $$ = newDeclN
                                                                   $$->child[0]->attr.name = $1->tokeninput;
                                                                   $$->child[0]->isArray = true;
                                                                   $$->child[1] = $3; 
+                                                                  $$->attr.name = $2->tokeninput
                                                                 }
               ;
 
