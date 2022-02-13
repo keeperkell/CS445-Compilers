@@ -443,7 +443,7 @@ constant      : NUMCONST                                         { $$ = newExpNo
               | CHARCONST                                        { $$ = newExpNode(ConstantK, $1);
                                                                    $$->attr.cvalue = $1->cvalue; 
                                                                    $$->expType = Char;
-                                                                   $$->attr.name = $1->tokeninput;
+                                                                   //$$->attr.name = $1->tokeninput;
                                                                  }
               | STRINGCONST                                      { $$ = newExpNode(ConstantK, $1);
                                                                    $$->attr.string = $1->svalue; 

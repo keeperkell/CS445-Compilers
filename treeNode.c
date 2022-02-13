@@ -124,6 +124,11 @@ void printTree(TreeNode *t, int numSiblings){
                             getExpType(t->expType);
                             printf(" [line: %d]\n", t->linenum);
                         }
+                        else if(t->isStatic){
+                            printf("Var: %s of static type ",t->attr.name);
+                            getExpType(t->expType);
+                            printf(" [line: %d]\n", t->linenum);
+                        }
                         else{
                             printf("Var: %s of type ", t->attr.name);
                             getExpType(t->expType);
@@ -221,7 +226,7 @@ void printTree(TreeNode *t, int numSiblings){
                             break;
 
                         case CharInt:
-                            printf("Const is array \"%s\" [line: %d]\n", t->attr.string, t->linenum);
+                            printf("Const %s [line: %d]\n", t->attr.string, t->linenum);
                             break;
 
                         case Char:
