@@ -118,7 +118,7 @@ void printTree(TreeNode *t, int numSiblings){
                     case VarK:
                         if(t->isArray){
                             
-                            printf("Var: %s is array of type ",t->tokenData->tokeninput);
+                            printf("Var: %s is array of type ",t->attr.name);
                             getExpType(t->expType);
                             printf(" [line: %d]\n", t->linenum);
                         }
@@ -137,7 +137,7 @@ void printTree(TreeNode *t, int numSiblings){
 
                     case ParamK:
                         if(t->isArray){
-                            printf("Var: %s is array of type", t->tokenData->tokeninput);
+                            printf("Var: %s is array of type", t->attr.name);
                             getExpType(t->expType);
                             printf(" [line: %d]\n", t->linenum);
                         }
@@ -156,10 +156,11 @@ void printTree(TreeNode *t, int numSiblings){
 
             case StmtK:
                 switch(t->subkind.stmt){
+                    /*
                     case NullK:
                         printf("NULL [line: %d]\n", t->linenum);
                         break;
-                        
+                    */    
                     case IfK:
                         printf("If [line: %d]\n", t->linenum);
                         break;
@@ -236,7 +237,7 @@ void printTree(TreeNode *t, int numSiblings){
                         break;
 
                     case InitK:
-                        printf("Init: %s [line: %d]\n", t->attr.name, t->linenum);
+                        //printf("Init: %s [line: %d]\n", t->attr.name, t->linenum);
                         break;
 
                     case CallK:
