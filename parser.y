@@ -438,17 +438,14 @@ argList       : argList COMMA exp                                { $$ = addSibli
 constant      : NUMCONST                                         { $$ = newExpNode(ConstantK, $1);
                                                                    $$->attr.value = $1->nvalue; 
                                                                    $$->expType = Integer;
-                                                                   //$$->attr.name = $1->tokeninput;
                                                                  }
               | CHARCONST                                        { $$ = newExpNode(ConstantK, $1);
                                                                    $$->attr.cvalue = $1->cvalue; 
                                                                    $$->expType = Char;
-                                                                   //$$->attr.name = $1->tokeninput;
                                                                  }
               | STRINGCONST                                      { $$ = newExpNode(ConstantK, $1);
                                                                    $$->attr.string = $1->svalue; 
                                                                    $$->expType = CharInt;
-                                                                   $$->attr.name = $1->tokeninput;
                                                                  }
               | BOOLCONST                                        { $$ = newExpNode(ConstantK, $1);
                                                                    $$->attr.value = $1->nvalue; 
