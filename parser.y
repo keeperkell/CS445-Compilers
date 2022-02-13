@@ -57,7 +57,6 @@ void yyerror(const char *msg)
 %type <tree> unaryExp unaryop factor mutable immutable call args argList constant
 %type <tree> matched unmatched stmtEnd
 
-%nonassoc ELSE
 %type <type> typeSpec
 
 %%
@@ -202,7 +201,7 @@ expStmt       : LESSTHAN exp GREATTHAN SEMICOLON                 { $$ = $2; }
 
 compoundStmt  : BEGN localDecls stmtList END                     { $$ = newStmtNode(CompoundK, $1);
                                                                    $$->child[0] = $2;
-                                                                   $$->child[1] = $3;
+                                                                   //$$->child[1] = $3;
                                                                  }
               ;
 
