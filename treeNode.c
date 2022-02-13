@@ -117,30 +117,34 @@ void printTree(TreeNode *t, int numSiblings){
                 switch(t->subkind.decl){
                     case VarK:
                         if(t->isArray){
-                            printf("Var: %s is array of type %s [line: %d]\n", 
-                                t->tokenData->tokeninput, getExpType(t->expType), t->linenum);
+                            
+                            printf("Var: %s is array of type ",t->tokenData->tokeninput);
+                            getExpType(t->expType);
+                            printf(" [line: %d]\n", t->linenum);
                         }
                         else{
-                            printf("Var: %s is of type %s [line: %d]\n", 
-                                t->attr.name, getExpType(t->expType), t->linenum);
+                            printf("Var: %s is of type ", t->attr.name);
+                            getExpType(t->expType);
+                            printf(" [line: %d]\n", t->linenum);
                         }
-
                         break;
 
                     case FuncK:
-                        printf("Func: %s returns type %s [line: %d]\n", 
-                                t->attr.name, getExpType(t->expType), t->linenum);
-
+                        printf("Func: %s returns type ", t->attr.name);
+                        getExpType(t->expType);
+                        printf(" [line: %d]\n", t->linenum);
                         break;
 
                     case ParamK:
                         if(t->isArray){
-                            printf("Var: %s is array of type %s [line: %d]\n", 
-                                t->tokenData->tokeninput, getExpType(t->expType), t->linenum);
+                            printf("Var: %s is array of type", t->tokenData->tokeninput);
+                            getExpType(t->expType);
+                            printf(" [line: %d]\n", t->linenum);
                         }
                         else{
-                            printf("Var: %s is of type %s [line: %d]\n", 
-                                t->attr.name, getExpType(t->expType), t->linenum);
+                            printf("Var: %s is of type ", t->attr.name);
+                            getExpType(t->expType);
+                            printf(" [line: %d]\n", t->linenum);
                         }
 
                         break;
@@ -271,29 +275,34 @@ void printTree(TreeNode *t, int numSiblings){
 }
 
 // return expType as string
-char *getExpType(ExpType t){
-    char *exp;
+void getExpType(ExpType t){
 
     switch(t){
         case Void:
-            exp = strdup("void");
+            prtinf("void");
+            break;
         case Integer:
-            exp = strdup("int");
+            printf("int");
+            break;
         case Boolean:
-            exp = strdup("bool");
+            printf("bool");
+            break;
         case Char:
-            exp = strdup("char");
+            printf("char");
+            break;
         case CharInt:
-            exp = strdup("CharInt");
+            printf("CharInt");
+            break;
         case Equal:
-            exp = strdup("Equal");
+            printf("Equal");
+            break;
         case UndefinedType:
-            exp = strdup("undefined type");
+            printf("undefined type");
+            break;
         default: 
-            exp = strdup("exprType not found");
+            printf("exprType not found");
+            break;
     }
-
-    return exp;
 }
 
 // print the . and white space for each indented child
