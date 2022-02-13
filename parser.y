@@ -79,7 +79,9 @@ scopedVarDecl : STATIC typeSpec varDeclList SEMICOLON           { $$ = $3;
                                                                   $$->isStatic = true; 
                                                                   assignTyping($$, $2); 
                                                                 }
-              | typeSpec varDeclList SEMICOLON                  { $$ = $2; assignTyping($$, $1); }
+              | typeSpec varDeclList SEMICOLON                  { $$ = $2; 
+                                                                  assignTyping($$, $1);
+                                                                 }
               ;
 
 varDeclList   : varDeclList COMMA varDeclInit                   { $$ = addSibling($1, $3); }
@@ -87,7 +89,9 @@ varDeclList   : varDeclList COMMA varDeclInit                   { $$ = addSiblin
               ;
 
 varDeclInit   : varDeclId                                       { $$ = $1; }
-              | varDeclId COLON simpleExp                       { $$ = $1; $$->child[0] = $3; }
+              | varDeclId COLON simpleExp                       { $$ = $1; 
+                                                                  $1->child[0] = $3; 
+                                                                }
               ;
 
 varDeclId     : ID                                              { $$ = newDeclNode(VarK, $1); 
