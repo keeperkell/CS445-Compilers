@@ -26,12 +26,13 @@ TreeNode *newDeclNode(DeclKind kind, TokenData* token){
     else{
         for(i=0; i<MAXCHILDREN; i++){
             t->child[i] = NULL;
+            t->sibling = NULL;
+            t->nodekind = DeclK;
+            t->subkind.decl = kind;
+            t->linenum = token->linenum;
+            t->expType = Void;
+            t->attr.name = strdup(token->tokeninput);
         }
-        t->sibling = NULL;
-        t->nodekind = DeclK;
-        t->subkind.decl = kind;
-        t->linenum = token->linenum;
-        t->expType = Void;
     }
 
     return t;
@@ -47,12 +48,13 @@ TreeNode *newStmtNode(StmtKind kind, TokenData *token){
     else{
         for(i=0; i<MAXCHILDREN; i++){
             t->child[i] = NULL;
+            t->sibling = NULL;
+            t->nodekind = StmtK;
+            t->subkind.stmt = kind;
+            t->linenum = token->linenum;
+            t->expType = Void;
+            t->attr.name = strdup(token->tokeninput);
         }
-        t->sibling = NULL;
-        t->nodekind = StmtK;
-        t->subkind.stmt = kind;
-        t->linenum = token->linenum;
-        t->expType = Void;
     }
 
     return t;
@@ -63,17 +65,17 @@ TreeNode *newExpNode(ExpKind kind, TokenData *token){
     TreeNode *t = (TreeNode *) malloc(sizeof(TreeNode));
     int i;
     if( t==NULL){
-        printf("Out of memory errat at line %d\n", token->linenum);
+        printf("Out of memory error at line %d\n", token->linenum);
     }  
     else{
         for(i=0; i<MAXCHILDREN; i++){
             t->child[i] = NULL;
+            t->sibling = NULL;
+            t->nodekind = ExpK;
+            t->subkind.exp = kind;
+            t->linenum = token->linenum;
+            t->expType = Void;
         }
-        t->sibling = NULL;
-        t->nodekind = ExpK;
-        t->subkind.exp = kind;
-        t->linenum = token->linenum;
-        t->expType = Void;
     }
 
     return t;

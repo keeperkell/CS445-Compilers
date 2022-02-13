@@ -159,7 +159,6 @@ matched       : stmtEnd                                          { $$ = $1; }
                                                                  }
               | FOR ID ASGN iterRange DO matched                 { $$ = newStmtNode(ForK, $1);
                                                                    $$->child[0] = newDeclNode(VarK, $2);
-                                                                   $$->child[0]->attr.name = $3->tokeninput;
                                                                    $$->child[0]->expType = Integer;
                                                                    $$->attr.name = $3->tokeninput;
                                                                    $$->child[1] = $4;
