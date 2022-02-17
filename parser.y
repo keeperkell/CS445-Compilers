@@ -479,11 +479,27 @@ int main(int argc, char *argv[])
           yyparse();
           break;
 
+        case 'D':
+          break;
+          
+        case 'h':
+          printf("usage: c- [options] [sourcefile\n");
+          printf("options: \n")
+          printf("-d          - turn on parser debugging\n");
+          printf("-D          - turn on symbol table debugging\n");
+          printf("-h          - print this usage message\n");
+          printf("-p          - print the abstract syntax tree");
+          printf("-P          - print the abstract syntax tree plus type information");     
+          break;
+
         case 'p':
           yyparse();
           printTree(AST, 0);
           break;
-          
+
+        case 'P':
+          break;
+
         default:
           break;
       }
