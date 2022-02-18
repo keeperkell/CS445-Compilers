@@ -18,6 +18,9 @@
 
 #define MAXCHILDREN 3
 
+// prints out typing when -P used for CLI argument 
+extern bool W_TYPING;
+
 // Kind of Operators
 // these are the token numbers for the operators same as in flex
 typedef int OpKind;

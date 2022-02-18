@@ -205,32 +205,80 @@ void printTree(TreeNode *t, int numSiblings){
                 switch(t->subkind.exp){
                     case OpK:
                         if(t->child[1] == NULL && !strcmp(t->attr.name, "-")){
-                            printf("Op: chsign [line: %d]\n", t->linenum);
+                            
+                            printf("Op: chsign");
+                            if(W_TYPING){
+                                if(t->expType == UndefinedType){
+                                    printf(" of undefined type ");
+                                }
+                                else{
+                                    printf(" of type ");
+                                    getExpType(t->expType);
+                                }
+                            }
+                            printf(" [line: %d]\n", t->linenum);
                         }
                         else if(t->child[1] == NULL && !strcmp(t->attr.name, "*")){
-                            printf("Op: sizeof [line: %d]\n", t->linenum);
+
+                            printf("Op: sizeof");
+                            if(W_TYPING){
+                                if(t->expType == UndefinedType){
+                                    printf(" of undefined type ");
+                                }
+                                else{
+                                    printf(" of type ");
+                                    getExpType(t->expType);
+                                }
+                            }
+                            printf(" [line: %d]\n", t->linenum);
                         }
                         else{
-                            printf("Op: %s [line: %d]\n", t->attr.name, t->linenum);
+                            printf("Op: %s", t->attr.name);
+                            if(W_TYPING){
+                                if(t->expType == UndefinedType){
+                                    prinft(" of undefined type ");
+                                }
+                                else{
+                                    printf(" of type ");
+                                    getExpType(t->expType);
+                                }
+                            }
+                            printf(" [line: %d]\n", t->linenum);
                         }
                         break;
                         
                     case ConstantK:
                         switch (t->expType){
                         case Integer:
-                            printf("Const %d [line: %d]\n", t->attr.value, t->linenum);
+                            printf("Const %d", t->attr.value);
+                            if(W_TYPING){
+                                printf(" of type int");
+                            }
+                            printf(" [line: %d]\n", t->linenum);
                             break;
                         
                         case Boolean:
-                            printf("Const %s [line: %d]\n", t->attr.name, t->linenum);
+                            printf("Const %s",t->attr.name);
+                            if(W_TYPING){
+                                printf(" of type bool");
+                            }
+                            printf(" [line: %d]\n", t->linenum);
                             break;
 
                         case CharInt:
-                            printf("Const %s [line: %d]\n", t->attr.string, t->linenum);
+                            printf("Const %s", t->attr.string);
+                            if(W_TYPING){
+                                printf(" of type char");
+                            }
+                            printf(" [line: %d]\n", t->linenum);
                             break;
 
                         case Char:
-                            printf("Const \'%c\' [line: %d]\n",t->attr.cvalue, t->linenum);
+                            printf("Const \'%c\'",t->attr.cvalue);
+                            if(W_TYPING){
+                                printf(" of type char");
+                            }
+                            printf(" [line: %d]\n", t->linenum);
                             break;
 
                         default:
@@ -240,11 +288,21 @@ void printTree(TreeNode *t, int numSiblings){
                         break;
 
                     case IdK:
-                        printf("Id: %s [line: %d]\n", t->attr.name, t->linenum);
+                        printf("Id: %s", t->attr.name);
+                        if(W_TYPING){
+                            printf(" of type ");
+                            getExpType(t->expType);
+                        }
+                        printf(" [line: %d]\n", t->linenum);
                         break;
 
                     case AssignK:
-                        printf("Assign: %s [line: %d]\n", t->attr.name, t->linenum);
+                        printf("Assign: %s", t->attr.name);
+                        if(W_TYPING){
+                            printf(" of type ");
+                            getExpType(t->expType);
+                        }
+                        printf(" [line: %d]\n", t->linenum);
                         break;
 
                     case InitK:
@@ -252,7 +310,12 @@ void printTree(TreeNode *t, int numSiblings){
                         break;
 
                     case CallK:
-                        printf("Call: %s [line: %d]\n", t->attr.name, t->linenum);
+                        printf("Call: %s", t->attr.name);
+                        if(W_TYPING){
+                            printf(" of type ");
+                            getExpType(t->expType);
+                        }
+                        printf(" [line: %d]\n", t->linenum);
                         break;
 
                     default:
