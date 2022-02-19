@@ -20,6 +20,7 @@ extern int yylex();
 extern FILE *yyin;
 extern int line;         // ERR line number from the scanner!!
 extern int numErrors;    // ERR err count
+int numWarnings;         // ERR warning count
 bool W_TYPING; 
 
 static TreeNode *AST;
@@ -472,38 +473,61 @@ int main(int argc, char *argv[])
             // failed to open file
             printf("ERROR: failed to open \'%s\'\n", argv[2]);
             exit(1);
-      }    
-
-      switch(option){
-        case 'd':
-          yydebug = 1;
-          yyparse();
-          break;
-
-        case 'D':
-          break;
-          
-        case 'h':
-          printf("usage: c- [options] [sourcefile\n");
-          printf("options: \n")
-          printf("-d          - turn on parser debugging\n");
-          printf("-D          - turn on symbol table debugging\n");
-          printf("-h          - print this usage message\n");
-          printf("-p          - print the abstract syntax tree");
-          printf("-P          - print the abstract syntax tree plus type information");     
-          break;
-
-        case 'p':
-          yyparse();
-          printTree(AST, 0);
-          break;
-
-        case 'P':
-          break;
-
-        default:
-          break;
       }
+      
+      if(option == 'd' || option == 'D' | option == 'h'){
+        switch(option){
+          case 'd':
+            yydebug = 1;
+            yyparse();
+            break;
+
+          case 'D':
+            symbolTable = new SymbolTable;
+            symbolTable->debugFlg = 1;
+            yyparse();
+            break;
+            
+          case 'h':
+            printf("usage: c- [options] [sourcefile\n");
+            printf("options: \n")
+            printf("-d          - turn on parser debugging\n");
+            printf("-D          - turn on symbol table debugging\n");
+            printf("-h          - print this usage message\n");
+            printf("-p          - print the abstract syntax tree");
+            printf("-P          - print the abstract syntax tree plus type information");     
+            break; 
+        }
+      }
+      else{
+        // Parse Tree and check for errors
+        yyparse();
+
+        if(!numErrors){
+          switch(option){
+            case 'p':
+              W_TYPING = false;
+              printTree(AST, W_TYPING);
+              break;
+
+            case 'P':
+              symbolTable = new SymbolTable;     // instantiate the symbol table
+              semanticAnalysis(AST, symbolTable);
+
+              W_TYPING = true;
+              printTree(AST, W_TYPING);
+              break;
+
+            default:
+              break;
+          }
+        } 
+      }
+
+      // report number of errors and warning
+      printf("Number of errors: %d\n", numErrors);
+      printf("Number of warnings: %d\n", numWarnings);
+
     }
     else{
       if ((yyin = fopen(argv[1], "r"))) {

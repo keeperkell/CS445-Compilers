@@ -105,9 +105,10 @@ TreeNode *addSibling(TreeNode *t, TreeNode *s){
 }
 
 // Print Tree
-void printTree(TreeNode *t, int numSiblings){
+void printTree(TreeNode *t, bool typing_option){
     int i;
-    int countSibs = numSiblings;
+    bool W_TYPING = typing_option;
+    int countSibs = 0;
 
     if(t == NULL){
         printf("empty tree, will not print\n");

@@ -18,9 +18,6 @@
 
 #define MAXCHILDREN 3
 
-// prints out typing when -P used for CLI argument 
-extern bool W_TYPING;
-
 // Kind of Operators
 // these are the token numbers for the operators same as in flex
 typedef int OpKind;
@@ -81,7 +78,7 @@ TreeNode *newStmtNode(StmtKind kind, TokenData* token);
 TreeNode *newExpNode(ExpKind kind, TokenData* token); 
 TreeNode *addSibling(TreeNode *t, TreeNode *s);
 
-void printTree(TreeNode *t, int numSiblings);
+void printTree(TreeNode *t, bool typing_option);
 void getExpType(ExpType t);
 void printWhiteSpace(int WS);
 void assignTyping(TreeNode *t, ExpType type);
