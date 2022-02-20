@@ -1,3 +1,11 @@
+// // // // // // // // // // // // // // // // // // // // // // // 
+// CS445 - symbolTable.h
+//
+// Keller Lawson
+// 
+// Last Updated
+// Feb 19, 2022   
+
 #ifndef _SYMBOLTABLE_H_
 #define _SYMBOLTABLE_H_
 #include <map>

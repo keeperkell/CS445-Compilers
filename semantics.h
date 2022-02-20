@@ -1,4 +1,10 @@
-// semantics.h
+// // // // // // // // // // // // // // // // // // // // // // // 
+// CS445 - semantics.h
+//
+// Keller Lawson
+// 
+// Last Updated
+// Feb 19, 2022   
 
 #ifndef SEMANTICS
 #define SEMANTICS
@@ -8,6 +14,9 @@
 #include "symbolTable.h"
 
 void semanticAnalysis(TreeNode *, SymbolTable);
+void unaryOps(TreeNode *, enum);
+void binaryOps(TreeNode *, enum);
+
 void isUnaryOps(TreeNode *);
 void unaryAssign(TreeNode *);
 void isBinaryOps(TreeNode *);
