@@ -1,0 +1,6 @@
+ERROR(11): Symbol 'output' is not declared.
+ERROR(12): Symbol 'output' is not declared.
+WARNING(12): Variable 'b' may be uninitialized when used here.
+ERROR(13): Symbol 'output' is not declared.
+Number of warnings: 1
+Number of errors: 3

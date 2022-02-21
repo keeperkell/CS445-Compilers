@@ -1,0 +1,13 @@
+ERROR(13): Symbol 'outputc' is not declared.
+ERROR(37): Symbol 'outnl' is not declared.
+ERROR(39): Symbol 'output' is not declared.
+ERROR(40): Symbol 'output' is not declared.
+ERROR(41): Symbol 'outnl' is not declared.
+ERROR(43): Symbol 'outputc' is not declared.
+ERROR(44): Symbol 'outputb' is not declared.
+ERROR(45): Symbol 'outnl' is not declared.
+ERROR(47): Symbol 'outputb' is not declared.
+ERROR(48): Symbol 'outputb' is not declared.
+ERROR(49): Symbol 'outnl' is not declared.
+Number of warnings: 0
+Number of errors: 11

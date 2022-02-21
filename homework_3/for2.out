@@ -1,0 +1,6 @@
+ERROR(8): Symbol 'j' is already declared at line 6.
+WARNING(9): Variable 'i' may be uninitialized when used here.
+WARNING(5): The variable 'i' seems not to be used.
+WARNING(3): The variable 'a' seems not to be used.
+Number of warnings: 3
+Number of errors: 1

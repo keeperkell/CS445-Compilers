@@ -1,0 +1,7 @@
+## C-S22
+main()
+ begin 
+   int x;
+
+   555>666+x*777;
+ end 

@@ -1,0 +1,7 @@
+ERROR(16): Symbol 'lyra' is not declared.
+ERROR(22): Symbol 'lyra' is not declared.
+ERROR(23): Symbol 'lyra' is not declared.
+ERROR(27): '<-' requires operands of the same type but lhs is type int and rhs is type void.
+ERROR(LINKER): A function named 'main()' must be defined.
+Number of warnings: 0
+Number of errors: 5

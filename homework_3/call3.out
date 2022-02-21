@@ -1,0 +1,11 @@
+ERROR(3): Symbol 'output' is not declared.
+ERROR(5): Symbol 'outnl' is not declared.
+ERROR(12): Symbol 'output' is not declared.
+ERROR(14): Symbol 'output' is not declared.
+ERROR(21): Symbol 'output' is not declared.
+ERROR(23): Symbol 'output' is not declared.
+ERROR(34): Symbol 'output' is not declared.
+ERROR(35): Symbol 'output' is not declared.
+ERROR(36): Symbol 'outnl' is not declared.
+Number of warnings: 0
+Number of errors: 9

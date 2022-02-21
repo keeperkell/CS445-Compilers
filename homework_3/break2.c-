@@ -1,0 +1,18 @@
+## C-S22
+main()
+ begin 
+    int i;
+
+    i <- 0;
+    while true  do  begin 
+        while true  do  begin 
+           i++;
+           output(i);
+           if i>4 then  break;
+           outnl();
+         end 
+        if i>8 then  break;
+     end 
+    output(i);
+    outnl();
+ end 

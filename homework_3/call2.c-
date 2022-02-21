@@ -1,0 +1,31 @@
+## C-S22
+three(int z[])  begin 
+    output(z[7]);
+    z[7] <- 666;
+    outnl();
+ end 
+
+
+two(int y[])  begin 
+    output(y[7]);
+    three(y);
+    output(y[7]);
+ end 
+
+
+one(int x[])  begin 
+    output(x[7]);
+    two(x);
+    output(x[7]);
+ end 
+
+
+main()
+ begin 
+    int w[10];
+
+    w[7] <- 42;
+    one(w);
+    output(w[7]);
+    outnl();
+ end 

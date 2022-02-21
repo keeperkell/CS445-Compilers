@@ -1,0 +1,68 @@
+## C-S22
+cheyenne(int a; bool b; char c)
+ begin 
+    output(a);
+    outputb(b);
+    outputc(c);
+    outnl();
+ end 
+
+
+sioux(int a[]; bool b[]; char c[])
+ begin 
+    output(a[1]);
+    outputb(b[2]);
+    outputc(c[3]);
+    outnl();
+ end 
+
+
+comanche(int z[])
+ begin 
+    bool b[5];
+    char c[5];
+
+    b[2] <- true;
+    c[3] <- 'z';
+    sioux(z, b, c);
+ end 
+
+
+
+int ga[5];
+bool gb[6];
+char gc[7];
+
+main()
+ begin 
+    int a[5];
+    bool b[6];
+    char c[7];
+
+    a[1] <- 555;
+    b[2] <- true;
+    c[3] <- 'z';
+    cheyenne(666, true, 'c');
+    cheyenne(777, false, 'd');
+    sioux(a, b, c);
+    comanche(a);
+
+    ga[1] <- 888;
+    gb[2] <- false;
+    gc[3] <- 'g';
+    sioux(ga, gb, gc);
+    comanche(ga);
+
+     begin 
+        static int ga[5];
+        static bool gb[6];
+        static char gc[7];
+        ga[1] <- 999;
+        gb[2] <- true;
+        gc[3] <- 's';
+
+        sioux(ga, gb, gc);
+        comanche(ga);
+
+     end 
+ end 

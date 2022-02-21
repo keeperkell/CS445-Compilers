@@ -1,0 +1,22 @@
+ERROR(19): Unary '--' requires an operand of type int but was given type char.
+ERROR(20): Unary '?' requires an operand of type int but was given type char.
+ERROR(22): Cannot index nonarray 'e'.
+ERROR(22): Cannot index nonarray 'e'.
+ERROR(22): '+' requires operands of type int but lhs is of type bool.
+ERROR(22): '+' requires operands of type int but rhs is of type bool.
+ERROR(23): Cannot index nonarray 'e'.
+ERROR(23): Cannot index nonarray 'e'.
+ERROR(23): Array 'e' should be indexed by type int but got type bool.
+ERROR(26): 'and' requires operands of type bool but lhs is of type int.
+ERROR(26): 'and' requires operands of type bool but rhs is of type int.
+WARNING(31): The variable 'i' seems not to be used.
+WARNING(31): The variable 'x' seems not to be used.
+WARNING(39): Variable 'b' may be uninitialized when used here.
+WARNING(39): Variable 'd' may be uninitialized when used here.
+WARNING(39): Variable 'e' may be uninitialized when used here.
+WARNING(39): Variable 'f' may be uninitialized when used here.
+WARNING(35): The variable 'a' seems not to be used.
+WARNING(36): The variable 'c' seems not to be used.
+WARNING(38): The variable 'g' seems not to be used.
+Number of warnings: 9
+Number of errors: 11

@@ -1,0 +1,15 @@
+ERROR(3): Symbol 'z' is already declared at line 3.
+ERROR(3): Symbol 'z' is already declared at line 3.
+WARNING(5): Variable 'i' may be uninitialized when used here.
+WARNING(7): Variable 'g' may be uninitialized when used here.
+WARNING(8): Variable 'h' may be uninitialized when used here.
+WARNING(9): Variable 'j' may be uninitialized when used here.
+WARNING(10): Variable 'k' may be uninitialized when used here.
+WARNING(11): Variable 'l' may be uninitialized when used here.
+WARNING(12): Variable 'm' may be uninitialized when used here.
+ERROR(13): Symbol 'dog' is not declared.
+ERROR(14): Cannot use function 'main' as a variable.
+WARNING(1): The variable 'x' seems not to be used.
+ERROR(LINKER): A function named 'main()' must be defined.
+Number of warnings: 8
+Number of errors: 5

@@ -1,0 +1,27 @@
+ERROR(8): Symbol 'output' is not declared.
+ERROR(9): Symbol 'output' is not declared.
+ERROR(10): Symbol 'output' is not declared.
+ERROR(11): Symbol 'outnl' is not declared.
+ERROR(12): Symbol 'output' is not declared.
+ERROR(13): Symbol 'output' is not declared.
+ERROR(14): Symbol 'outnl' is not declared.
+ERROR(15): Symbol 'output' is not declared.
+ERROR(16): Symbol 'output' is not declared.
+ERROR(17): Symbol 'outnl' is not declared.
+ERROR(18): Symbol 'output' is not declared.
+ERROR(19): Symbol 'output' is not declared.
+ERROR(20): Symbol 'output' is not declared.
+ERROR(21): Symbol 'outnl' is not declared.
+ERROR(22): Symbol 'outputb' is not declared.
+ERROR(23): Symbol 'outputb' is not declared.
+ERROR(24): Symbol 'outnl' is not declared.
+ERROR(25): Symbol 'outputb' is not declared.
+ERROR(26): Symbol 'outputb' is not declared.
+ERROR(27): Symbol 'outnl' is not declared.
+ERROR(28): Symbol 'outputb' is not declared.
+ERROR(29): Symbol 'outputb' is not declared.
+ERROR(30): Symbol 'outnl' is not declared.
+ERROR(31): Symbol 'outputb' is not declared.
+ERROR(32): Symbol 'outnl' is not declared.
+Number of warnings: 0
+Number of errors: 25

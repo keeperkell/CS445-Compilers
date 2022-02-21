@@ -1,0 +1,14 @@
+ERROR(10): Symbol 'outputc' is not declared.
+ERROR(12): Symbol 'outputc' is not declared.
+ERROR(14): Symbol 'outputc' is not declared.
+ERROR(16): Symbol 'outputc' is not declared.
+ERROR(17): Symbol 'outnl' is not declared.
+ERROR(19): Symbol 'outputc' is not declared.
+ERROR(21): Symbol 'outputc' is not declared.
+ERROR(23): Symbol 'outputc' is not declared.
+ERROR(25): Symbol 'outputc' is not declared.
+ERROR(26): Symbol 'outnl' is not declared.
+WARNING(33): Variable 'zx' may be uninitialized when used here.
+WARNING(33): Variable 'zy' may be uninitialized when used here.
+Number of warnings: 2
+Number of errors: 10

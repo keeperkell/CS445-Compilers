@@ -1,0 +1,28 @@
+## C-S22
+
+int lund;
+
+lund(int a)
+ begin 
+ end 
+
+int fred(int a; int a)
+ begin 
+    int a;
+    a();
+    fred+4;
+ end 
+
+int fred;
+
+linda(int linda)
+ begin 
+    int linda;
+ end 
+
+int  galadriel;
+arwen(int eowyn)
+ begin 
+    arwen+4;
+ end        
+

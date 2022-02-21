@@ -1,0 +1,50 @@
+## C-S22
+int bender()
+ begin 
+ end 
+
+int fry()
+ begin 
+    return 114;
+ end 
+
+leela()
+ begin 
+    outputc('L');
+ end 
+
+char zoidberg()
+ begin 
+    return 'z';
+ end 
+
+char zapp()
+ begin 
+ end 
+
+bool amy()
+ begin 
+     return true;
+ end 
+
+bool hermes()
+ begin 
+ end 
+
+int main()
+ begin 
+   leela();
+   outnl();
+
+   output(bender());
+   output(fry());
+   outnl();
+
+   outputc(zoidberg());
+   outputb(zapp()='\0');
+   outnl();
+
+   outputb(amy());
+   outputb(hermes());
+   outnl();
+ end 

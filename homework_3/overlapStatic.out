@@ -1,0 +1,9 @@
+WARNING(8): The variable 'b' seems not to be used.
+WARNING(11): The variable 'c' seems not to be used.
+WARNING(15): The variable 'b' seems not to be used.
+WARNING(18): The variable 'c' seems not to be used.
+WARNING(6): The variable 'a' seems not to be used.
+WARNING(4): The variable 'p' seems not to be used.
+ERROR(LINKER): A function named 'main()' must be defined.
+Number of warnings: 6
+Number of errors: 1

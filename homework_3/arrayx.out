@@ -1,0 +1,7 @@
+ERROR(10): '<-' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+ERROR(11): '<-' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+ERROR(12): '<-' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+WARNING(19): Variable 'd' may be uninitialized when used here.
+WARNING(2): The variable 'e' seems not to be used.
+Number of warnings: 2
+Number of errors: 3

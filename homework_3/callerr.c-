@@ -1,0 +1,28 @@
+int dory()
+ begin 
+    return 6;
+ end 
+
+ella(int x)
+ begin 
+    return x;
+ end 
+
+fred()
+ begin 
+    int x;
+
+    fred();
+    lyra(ella(3));
+
+    ella(ella(9));
+    ella(dory());
+    dory(ella(7));
+    dory(dory());
+    lyra(dory());
+    dory(lyra());
+    
+
+    x<-dory();
+    x<-ella(8);
+ end 
