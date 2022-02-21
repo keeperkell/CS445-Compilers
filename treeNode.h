@@ -78,7 +78,7 @@ TreeNode *newStmtNode(StmtKind kind, TokenData* token);
 TreeNode *newExpNode(ExpKind kind, TokenData* token); 
 TreeNode *addSibling(TreeNode *t, TreeNode *s);
 
-void printTree(TreeNode *t, bool typing_option);
+void printTree(TreeNode *t, bool typing_option, int numSiblings);
 void getExpType(ExpType t);
 void printWhiteSpace(int WS);
 void assignTyping(TreeNode *t, ExpType type);

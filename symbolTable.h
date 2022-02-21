@@ -69,6 +69,7 @@ public:
     void leave();                                    // leave a scope (not allowed to leave global)
     void *lookup(std::string sym);                   // returns ptr associated with sym anywhere in symbol table
                                                      // returns NULL if symbol not found
+    TreeNode *convertToTreeNode(std::string sym);
     void *lookupGlobal(std::string sym);             // returns ptr associated with sym in globals
                                                      // returns NULL if symbol not found
     bool insert(std::string sym, void *ptr);         // inserts new ptr associated with symbol sym in current scope

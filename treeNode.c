@@ -105,7 +105,7 @@ TreeNode *addSibling(TreeNode *t, TreeNode *s){
 }
 
 // Print Tree
-void printTree(TreeNode *t, bool typing_option){
+void printTree(TreeNode *t, bool typing_option, int numSiblings){
     int i;
     bool W_TYPING = typing_option;
     int countSibs = 0;
@@ -237,7 +237,7 @@ void printTree(TreeNode *t, bool typing_option){
                             printf("Op: %s", t->attr.name);
                             if(W_TYPING){
                                 if(t->expType == UndefinedType){
-                                    prinft(" of undefined type ");
+                                    printf(" of undefined type ");
                                 }
                                 else{
                                     printf(" of type ");
@@ -335,7 +335,7 @@ void printTree(TreeNode *t, bool typing_option){
                 WS++;
                 printWhiteSpace(WS);
                 printf("Child: %d ", i);
-                printTree(t->child[i], 0);
+                printTree(t->child[i], W_TYPING, 0);
                 WS--;
             }
         }

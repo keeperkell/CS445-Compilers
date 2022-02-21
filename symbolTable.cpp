@@ -7,6 +7,7 @@
 // Feb 19, 2022   
 
 #include "symbolTable.h"
+#include "treeNode.h"
 
 // // // // // // // // // // // // // // // // // // // // 
 //
@@ -246,6 +247,9 @@ void * SymbolTable::lookup(std::string sym)
     return data;
 }
 
+TreeNode *SymbolTable::convertToTreeNode(std::string sym){
+    return (TreeNode *)lookup(sym);
+}
 
 // Lookup a symbol in the global scope
 // returns NULL if symbol not found, otherwise it returns the stored void * associated with the symbol
