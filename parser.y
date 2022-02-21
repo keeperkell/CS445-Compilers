@@ -515,9 +515,12 @@ int main(int argc, char *argv[])
 
             case 'P':
               semanticAnalysis(AST, st);
-
-              W_TYPING = true;
-              printTree(AST, W_TYPING, 0);
+              
+              if(!numErrors){
+                W_TYPING = true;
+                printTree(AST, W_TYPING, 0);
+              }
+              
               break;
 
             default:
