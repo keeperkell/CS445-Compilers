@@ -79,8 +79,6 @@ public:
                                                      // returns false if already defined
     void applyToAll(void (*action)(std::string , void *));        // apply func to all symbol/data pairs in local scope
     void applyToAllGlobal(void (*action)(std::string , void *));  // apply func to all symbol/data pairs in global scope
-
-    TreeNode *convertToTreeNode(std::string sym);
 };
 
 #endif

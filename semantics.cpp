@@ -30,7 +30,7 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                     if( !st.insert(t->attr.name, (TreeNode *) t)){
                         numErrors++;
 
-                        currentNode = (TreeNode *)st.convertToTreeNode(t->attr.name);
+                        currentNode = (TreeNode *)st.lookup(t->attr.name);
                         printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
                     }
                     
@@ -46,7 +46,7 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                             break;
 
                         case FuncK:
-                            currentNode = st.convertToTreeNode(t->attr.name);
+                            currentNode = (TreeNode *)st.lookup(t->attr.name);
 
                             if(!currentNode){
                                 st.insert(t->attr.name, (TreeNode *) t);
@@ -64,7 +64,7 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                             break;
 
                         case ParamK:
-                            currentNode = st.convertToTreeNode(t->attr.name);
+                            currentNode = (TreeNode *)st.lookup(t->attr.name);
 
                             if(t->isArray){
                                 if(!currentNode){
@@ -138,7 +138,7 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
 
                             if(t->child[0]){
                                 if(t->child[0]->nodekind == ExpK && t->child[0]->subkind.exp == IdK){
-                                    currentNode = st.convertToTreeNode(t->child[0]->attr.name);
+                                    currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
 
                                     if(currentNode && currentNode->isArray){
                                         numErrors++;
@@ -196,7 +196,7 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                             break;
 
                         case IdK:
-                            currentNode = st.convertToTreeNode(t->attr.name);
+                            currentNode = (TreeNode *)st.lookup(t->attr.name);
 
                             if(!currentNode){
                                 numErrors++;
@@ -232,12 +232,12 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
 
                             currentNode;
                             if(t->child[0]->subkind.exp == IdK){
-                                currentNode = st.convertToTreeNode(t->child[0]->attr.name);
+                                currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
                             }
 
                             if(t->child[0]->subkind.exp == OpK){
                                 if(t->child[0]->child[0]->subkind.exp == IdK){
-                                    currentNode = st.convertToTreeNode(t->child[0]->child[0]->attr.name);
+                                    currentNode = (TreeNode *)st.lookup(t->child[0]->child[0]->attr.name);
                                 }
                             }
 
@@ -250,7 +250,7 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                                 semanticAnalysis(t->child[i], st);
                             }
 
-                            currentNode = st.convertToTreeNode(t->attr.name);
+                            currentNode = (TreeNode *)st.lookup(t->attr.name);
 
                             if(currentNode){
                                 if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK){
@@ -300,7 +300,7 @@ void unaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
                     }
                 }
                 if(childNode->subkind.exp == IdK){
-                    TreeNode *currentChildNode = st.convertToTreeNode(childNode->attr.name);
+                    TreeNode *currentChildNode = (TreeNode *)st.lookup(childNode->attr.name);
 
                     if(currentChildNode){
                         if(currentChildNode->expType != Integer){
@@ -319,7 +319,7 @@ void unaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
 
             else if(!strcmp(t->attr.name, "?")){
                 if(childNode->subkind.exp == IdK){
-                    TreeNode *currentChildNode = st.convertToTreeNode(childNode->attr.name);
+                    TreeNode *currentChildNode = (TreeNode *)st.lookup(childNode->attr.name);
 
                     if(currentChildNode){
                         if(currentChildNode->expType != Integer){
@@ -367,7 +367,7 @@ void unaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
                         break;
 
                         case IdK:
-                            TreeNode *currentChildNode = st.convertToTreeNode(childNode->attr.name);
+                            TreeNode *currentChildNode = (TreeNode *)st.lookup(childNode->attr.name);
 
                             if(currentChildNode){
                                 if(currentChildNode->expType != Boolean){
@@ -478,12 +478,12 @@ void binaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
                     if(childLeft->expType != Boolean && childLeft->expType != Void && childLeft->expType != UndefinedType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
-                        }
+                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "bool", returnExpType(childLeft->expType));
+                    }
                     if(childRight->expType != Boolean && childRight->expType != Void && childRight->expType != UndefinedType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
+                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, "bool", returnExpType(childRight->expType));
                     }
                     if(childLeft->isArray || childRight->isArray){
                         numErrors++;
@@ -495,12 +495,12 @@ void binaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
                     if(childLeft->expType != Boolean && childLeft->expType != Void && childLeft->expType != UndefinedType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
+                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "bool", returnExpType(childLeft->expType));
                         }
                     if(childRight->expType != Boolean && childRight->expType != Void && childRight->expType != UndefinedType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
+                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, "bool", returnExpType(childRight->expType));
                     }
                 }
             }
@@ -540,12 +540,12 @@ void binaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
                     if(childLeft->expType != Integer && childLeft->expType != Void && childLeft->expType != UndefinedType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
+                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(childLeft->expType));
                         }
                     if(childRight->expType != Integer && childRight->expType != Void && childRight->expType != UndefinedType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
+                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(childRight->expType));
                     }
                 }
 
@@ -553,12 +553,12 @@ void binaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
                     if(childLeft->expType != Integer && childLeft->expType != UndefinedType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
+                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(childLeft->expType));
                     }
                     if(childRight->expType != Integer && childRight->expType != UndefinedType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
+                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(childRight->expType));
                     }
                 }
             }
@@ -566,7 +566,7 @@ void binaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
             else if(!strcmp(t->attr.name, "[")){
 
                 if(childLeft->subkind.exp == IdK){
-                    TreeNode *temp = st.convertToTreeNode(childLeft->attr.name);
+                    TreeNode *temp = (TreeNode *)st.lookup(childLeft->attr.name);
 
                     if(temp){
                         t->child[0]->expType = temp->expType;
