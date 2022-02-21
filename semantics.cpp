@@ -627,50 +627,51 @@ void binaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
 
             else if(!strcmp(t->attr.name, ":=")){
 
-                switch (t->subkind.decl){
-                    case ParamK:
+                if(t->subkind.decl == ParamK){
+
+                    if(childLeft->expType != childRight->expType){
+                        if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
+                            numErrors++;
+
+                            printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
+                                        t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
+                        }
+                    }
+                }
+
+                if(t->subkind.exp == IdK){
+
+                    if(childLeft->subkind.exp != IdK){
                         if(childLeft->expType != childRight->expType){
                             if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
                                 numErrors++;
 
                                 printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
-                                            t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
+                                        t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
                             }
                         }
-                        break;
-
-                    case IdK:
-                        if(childLeft->subkind.exp != IdK){
-                            if(childLeft->expType != childRight->expType){
-                                if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
-                                    numErrors++;
-
-                                    printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
-                                            t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
-                                }
-                            }
-                        }
-                        if(childLeft->expType != childRight->expType){
-                            if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
-                                
-                                numErrors++;
-
-                                printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
-                                            t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
-                            }
-                        }
-
-                        if(childLeft->isArray && !childRight->isArray){
+                    }
+                    if(childLeft->expType != childRight->expType){
+                        if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
+                            
                             numErrors++;
 
-                            printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is %s an array and rhs is %s an array.\n", 
+                            printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
                                         t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
                         }
-                        else if(!childLeft->isArray && childRight->isArray){
-                            numErrors++;
+                    }
 
-                            printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is %s an array and rhs is %s an array.\n", 
-                                        t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
+                    if(childLeft->isArray && !childRight->isArray){
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is %s an array and rhs is %s an array.\n", 
+                                    t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
+                    }
+                    else if(!childLeft->isArray && childRight->isArray){
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is %s an array and rhs is %s an array.\n", 
+                                    t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
                     }
                 }
             }

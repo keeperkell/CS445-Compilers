@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "treeNode.h"
+
 // // // // // // // // // // // // // // // // // // // // 
 //
 // Some sample void * printing routines.   User should supply their own.
@@ -69,7 +71,6 @@ public:
     void leave();                                    // leave a scope (not allowed to leave global)
     void *lookup(std::string sym);                   // returns ptr associated with sym anywhere in symbol table
                                                      // returns NULL if symbol not found
-    TreeNode *convertToTreeNode(std::string sym);
     void *lookupGlobal(std::string sym);             // returns ptr associated with sym in globals
                                                      // returns NULL if symbol not found
     bool insert(std::string sym, void *ptr);         // inserts new ptr associated with symbol sym in current scope
@@ -78,6 +79,8 @@ public:
                                                      // returns false if already defined
     void applyToAll(void (*action)(std::string , void *));        // apply func to all symbol/data pairs in local scope
     void applyToAllGlobal(void (*action)(std::string , void *));  // apply func to all symbol/data pairs in global scope
+
+    TreeNode *convertToTreeNode(std::string sym);
 };
 
 #endif

@@ -247,7 +247,7 @@ void * SymbolTable::lookup(std::string sym)
     return data;
 }
 
-TreeNode *SymbolTable::convertToTreeNode(std::string sym){
+TreeNode *convertToTreeNode(std::string sym){
     return (TreeNode *)lookup(sym);
 }
 
