@@ -282,114 +282,113 @@ void unaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
                 childNode = t->child[0];
             }
 
-            switch(t->attr.name){
-                case "-":
-                    if(childNode->subkind.exp == ConstantK){
-                        if(childNode->child[0]){
-                            if(childNode->child[0]->subkind.exp != ConstantK){
-                                numErrors++;
-
-                                printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                            t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
-                            }
-                            if(childNode->expType != Integer){
-                                numErrors++;
-
-                                printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                            t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
-                            }
-                        }
-                    }
-                    if(childNode->subkind.exp == IdK){
-                        TreeNode *currentChildNode = st.convertToTreeNode(childNode->attr.name);
-
-                        if(currentChildNode){
-                            if(currentChildNode->expType != Integer){
-                                numErrors++;
-
-                                printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                            t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
-                            }
-                        }
-                    }
-                    break;
-
-                case "*":
-                    break;
-
-                case "?":
-                        if(childNode->subkind.exp == IdK){
-                            TreeNode *currentChildNode = st.convertToTreeNode(childNode->attr.name);
-
-                            if(currentChildNode){
-                                if(currentChildNode->expType != Integer){
-                                    numErrors++;
-
-                                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                                t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
-                                    }
-                            }
-                        }
-                        else{
-                            if(childNode->expType != Integer){
-                                numErrors++;
-
-                                printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                            t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
-                            }
-                        }
-                    break;
-
-                case "not":
+            if(!strcmp(t->attr.name, "-")){
+                if(childNode->subkind.exp == ConstantK){
                     if(childNode->child[0]){
+                        if(childNode->child[0]->subkind.exp != ConstantK){
+                            numErrors++;
+
+                            printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                        t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
+                        }
+                        if(childNode->expType != Integer){
+                            numErrors++;
+
+                            printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                        t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
+                        }
+                    }
+                }
+                if(childNode->subkind.exp == IdK){
+                    TreeNode *currentChildNode = st.convertToTreeNode(childNode->attr.name);
+
+                    if(currentChildNode){
+                        if(currentChildNode->expType != Integer){
+                            numErrors++;
+
+                            printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                        t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
+                        }
+                    }
+                }
+            }
+
+            else if(!strcmp(t->attr.name, "*")){
+
+            }
+
+            else if(!strcmp(t->attr.name, "?")){
+                if(childNode->subkind.exp == IdK){
+                    TreeNode *currentChildNode = st.convertToTreeNode(childNode->attr.name);
+
+                    if(currentChildNode){
+                        if(currentChildNode->expType != Integer){
+                            numErrors++;
+
+                            printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                        t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
+                            }
+                    }
+                }
+                else{
+                    if(childNode->expType != Integer){
                         numErrors++;
 
                         printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                    t->linenum, t->attr.name, "bool", returnExpType(childNode->expType));
+                                    t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
                     }
-                    else{
-                        switch(childNode->subkind.exp){
-
-                            case ConstantK:
-                                if(childNode->expType != Boolean){
-                                    numErrors++;
-
-                                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                                t->linenum, t->attr.name, "bool", returnExpType(childNode->expType));
-                                }
-                                else if(t->expType != childNode->expType){
-                                    numErrors++;
-
-                                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                                t->linenum, t->attr.name, "bool", returnExpType(childNode->expType));
-                                }
-
-                            break;
-
-                            case IdK:
-                                TreeNode *currentChildNode = st.convertToTreeNode(childNode->attr.name);
-
-                                if(currentChildNode){
-                                    if(currentChildNode->expType != Boolean){
-                                        numErrors++;
-
-                                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                                    t->linenum, t->attr.name, "bool", returnExpType(childNode->expType));
-                                    }
-                                }
-                        }
-                    }
-                    break;
-
-                case "++":
-                    break;
-
-                case "--":
-                    break;
-                
-                default:
-                    break;
+                }
             }
+
+            else if(!strcmp(t->attr.name, "not")){
+                if(childNode->child[0]){
+                    numErrors++;
+
+                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                t->linenum, t->attr.name, "bool", returnExpType(childNode->expType));
+                }
+                else{
+                    switch(childNode->subkind.exp){
+
+                        case ConstantK:
+                            if(childNode->expType != Boolean){
+                                numErrors++;
+
+                                printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                            t->linenum, t->attr.name, "bool", returnExpType(childNode->expType));
+                            }
+                            else if(t->expType != childNode->expType){
+                                numErrors++;
+
+                                printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                            t->linenum, t->attr.name, "bool", returnExpType(childNode->expType));
+                            }
+
+                        break;
+
+                        case IdK:
+                            TreeNode *currentChildNode = st.convertToTreeNode(childNode->attr.name);
+
+                            if(currentChildNode){
+                                if(currentChildNode->expType != Boolean){
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                                t->linenum, t->attr.name, "bool", returnExpType(childNode->expType));
+                                }
+                            }
+                    }
+                }
+            }
+
+            else if(!strcmp(t->attr.name, "++")){
+            
+            }
+
+            else if(!strcmp(t->attr.name, "--")){
+
+            }
+
             break;
 
         case AssignK:
@@ -398,60 +397,62 @@ void unaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
                 childNode = t->child[0];
             }
 
-            switch(t->attr.name){
-                case "-":
-                    if(childNode->expType != Integer && childNode->expType != UndefinedType){
-                        numErrors++;
+            if(!strcmp(t->attr.name, "-")){
 
-                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                         t->linenum, "chsign", "int", returnExpType(childNode->expType));
-                    }
-                    break;
+                if(childNode->expType != Integer && childNode->expType != UndefinedType){
+                    numErrors++;
 
-                case "*":
-                    if(!childNode->isArray){
-                        unaryOps(t, OpK, st);
-                    }
-                    break;
+                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                        t->linenum, "chsign", "int", returnExpType(childNode->expType));
+                }
 
-                case "?":
-                    if(childNode->expType != Integer && childNode->expType != UndefinedType){
-                        numErrors++;
+            }
 
-                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                         t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
-                    }
-                    break;
+            else if(!strcmp(t->attr.name, "*")){
 
-                case "not":
-                    if(childNode->expType != Integer && childNode->expType != UndefinedType){
-                        numErrors++;
+                if(!childNode->isArray){
+                    unaryOps(t, OpK, st);
+                }
+            }
 
-                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                         t->linenum, t->attr.name, "bool", returnExpType(childNode->expType));
-                    }
-                    break;
+            else if(!strcmp(t->attr.name, "?")){
 
-                case "++":
-                    if(childNode->expType != Integer && childNode->expType != UndefinedType){
-                        numErrors++;
+                if(childNode->expType != Integer && childNode->expType != UndefinedType){
+                    numErrors++;
 
-                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                         t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
-                    }
-                    break;
+                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                        t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
+                }
+            }
 
-                case "--":
-                    if(childNode->expType != Integer && childNode->expType != UndefinedType){
-                        numErrors++;
+            else if(!strcmp(t->attr.name, "not")){
 
-                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
-                                         t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
-                    }
-                    break;
+                if(childNode->expType != Integer && childNode->expType != UndefinedType){
+                    numErrors++;
 
-                default:
-                    break;
+                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                        t->linenum, t->attr.name, "bool", returnExpType(childNode->expType));
+                }
+            }                  
+
+            else if(!strcmp(t->attr.name, "++")){
+
+                if(childNode->expType != Integer && childNode->expType != UndefinedType){
+                    numErrors++;
+
+                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                        t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
+                }
+            }
+
+            else if(!strcmp(t->attr.name, "--")){
+
+                if(childNode->expType != Integer && childNode->expType != UndefinedType){
+                    numErrors++;
+
+                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                        t->linenum, t->attr.name, "int", returnExpType(childNode->expType));
+                }
             }
             break;
     }
@@ -472,46 +473,41 @@ void binaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
     switch(subkind){
         case OpK:
             // multiple cases without a break use the same code as last case before break
-            switch(t->attr.name){
-                case "or":
-                case "and":
-                    if(childLeft->subkind.exp == IdK){
-                        if(childLeft->expType != Boolean && childLeft->expType != Void && childLeft->expType != UndefinedType){
-                            numErrors++;
+            if(!strcmp(t->attr.name, "or") || !strcmp(t->attr.name, "and")){
+                if(childLeft->subkind.exp == IdK){
+                    if(childLeft->expType != Boolean && childLeft->expType != Void && childLeft->expType != UndefinedType){
+                        numErrors++;
 
-                            printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
-                         }
-                        if(childRight->expType != Boolean && childRight->expType != Void && childRight->expType != UndefinedType){
-                            numErrors++;
-
-                            printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
+                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
                         }
-                        if(childLeft->isArray || childRight->isArray){
-                            numErrors++;
+                    if(childRight->expType != Boolean && childRight->expType != Void && childRight->expType != UndefinedType){
+                        numErrors++;
 
-                        printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
-                        }
+                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
                     }
-                    else if(childLeft->subkind.exp == CallK){
-                        if(childLeft->expType != Boolean && childLeft->expType != Void && childLeft->expType != UndefinedType){
-                            numErrors++;
+                    if(childLeft->isArray || childRight->isArray){
+                        numErrors++;
 
-                            printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
-                         }
-                        if(childRight->expType != Boolean && childRight->expType != Void && childRight->expType != UndefinedType){
-                            numErrors++;
-
-                            printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
-                        }
+                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
                     }
-                    
-                    break;
+                }
+                else if(childLeft->subkind.exp == CallK){
+                    if(childLeft->expType != Boolean && childLeft->expType != Void && childLeft->expType != UndefinedType){
+                        numErrors++;
 
-                case "<":
-                case ">":
-                case "=":
-                case ">=":
-                case "<=":
+                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
+                        }
+                    if(childRight->expType != Boolean && childRight->expType != Void && childRight->expType != UndefinedType){
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
+                    }
+                }
+            }
+
+            else if(!strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "=") ||
+                        !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=")){
+
                     if(childLeft->expType != childRight->expType){
                         if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
                             if(childLeft->expType != Void && childRight->expType != Void){
@@ -535,154 +531,148 @@ void binaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
                         printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is %s an array and rhs is %s an array.\n", 
                                             t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
                     }
-                    break;
-
-                case "+":
-                case "-":
-                case "*":
-                case "/":
-                case "%":
-                    if(!t->isArray){
-                        if(childLeft->expType != Integer && childLeft->expType != Void && childLeft->expType != UndefinedType){
-                            numErrors++;
-
-                            printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
-                         }
-                        if(childRight->expType != Integer && childRight->expType != Void && childRight->expType != UndefinedType){
-                            numErrors++;
-
-                            printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
-                        }
-                    }
-
-                    if(childLeft->subkind.exp == CallK && childRight->subkind.exp == CallK){
-                        if(childLeft->expType != Integer && childLeft->expType != UndefinedType){
-                            numErrors++;
-
-                            printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
-                        }
-                        if(childRight->expType != Integer && childRight->expType != UndefinedType){
-                            numErrors++;
-
-                            printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
-                        }
-                    }
-                    break;
-
-                case "[":
-                    if(childLeft->subkind.exp == IdK){
-                        TreeNode *temp = st.convertToTreeNode(childLeft->attr.name);
-
-                        if(temp){
-                            t->child[0]->expType = temp->expType;
-                            t->expType = temp->expType;
-                        }
-
-                        if(!temp){
-                            numErrors++;
-
-                            printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, t->child[0]->attr.name);
-                        }
-                        if(!temp->isArray){
-                            numErrors++;
-                            
-                            printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, temp->attr.name);
-                        }
-                    }
-                    else{
-                        numErrors++;
-                            
-                        printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, childLeft->attr.name);
-                    }
-
-                    if(childRight){
-                        if(childRight->expType != Integer && childRight->expType != UndefinedType){
-                            numErrors++;
-
-                            printf("ERROR(%d): Array '%s' should be indexed by type int but got %s.\n", t->linenum, childRight->attr.name, returnExpType(childRight->expType));
-                        }
-
-                        if(childRight->subkind.exp == IdK){
-                            if(childRight->isArray){
-                                numErrors++;
-
-                                printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, childRight->attr.name);
-                            }
-                        }
-                    }
-                    break;
-
-                default:
-                    break;
             }
-            break;
 
-        case AssignK:
-            switch(t->attr.name){
-                case "+=":
-                case "-=":
-                case "*=":
-                case "/=":
+            else if(!strcmp(t->attr.name, "+") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "*") ||
+                        !strcmp(t->attr.name, "/") || !strcmp(t->attr.name, "%")){
+
+                if(!t->isArray){
+                    if(childLeft->expType != Integer && childLeft->expType != Void && childLeft->expType != UndefinedType){
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
+                        }
+                    if(childRight->expType != Integer && childRight->expType != Void && childRight->expType != UndefinedType){
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
+                    }
+                }
+
+                if(childLeft->subkind.exp == CallK && childRight->subkind.exp == CallK){
                     if(childLeft->expType != Integer && childLeft->expType != UndefinedType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(childLeft->expType));
+                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childLeft->expType));
                     }
                     if(childRight->expType != Integer && childRight->expType != UndefinedType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(childRight->expType));
+                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, returnExpType(childRight->expType));
                     }
-                    break;
+                }
+            }
 
-                case ":=":
-                    switch (t->subkind.decl){
-                        case ParamK:
-                            if(childLeft->expType != childRight->expType){
-                                if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
-                                    numErrors++;
+            else if(!strcmp(t->attr.name, "[")){
 
-                                    printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
-                                                t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
-                                }
-                            }
-                            break;
+                if(childLeft->subkind.exp == IdK){
+                    TreeNode *temp = st.convertToTreeNode(childLeft->attr.name);
 
-                        case IdK:
-                            if(childLeft->subkind.exp != IdK){
-                                if(childLeft->expType != childRight->expType){
-                                    if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
-                                        numErrors++;
+                    if(temp){
+                        t->child[0]->expType = temp->expType;
+                        t->expType = temp->expType;
+                    }
 
-                                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
-                                                t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
-                                    }
-                                }
-                            }
-                            if(childLeft->expType != childRight->expType){
-                                if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
-                                    
-                                    numErrors++;
+                    if(!temp){
+                        numErrors++;
 
-                                    printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
-                                                t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
-                                }
-                            }
+                        printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, t->child[0]->attr.name);
+                    }
+                    if(!temp->isArray){
+                        numErrors++;
+                        
+                        printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, temp->attr.name);
+                    }
+                }
+                else{
+                    numErrors++;
+                        
+                    printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, childLeft->attr.name);
+                }
 
-                            if(childLeft->isArray && !childRight->isArray){
-                                numErrors++;
+                if(childRight){
+                    if(childRight->expType != Integer && childRight->expType != UndefinedType){
+                        numErrors++;
 
-                                printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is %s an array and rhs is %s an array.\n", 
-                                            t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
-                            }
-                            else if(!childLeft->isArray && childRight->isArray){
-                                numErrors++;
+                        printf("ERROR(%d): Array '%s' should be indexed by type int but got %s.\n", t->linenum, childRight->attr.name, returnExpType(childRight->expType));
+                    }
 
-                                printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is %s an array and rhs is %s an array.\n", 
-                                            t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
+                    if(childRight->subkind.exp == IdK){
+                        if(childRight->isArray){
+                            numErrors++;
+
+                            printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, childRight->attr.name);
                         }
                     }
-                    break;
+                }
+            }
+
+            break;
+
+        case AssignK:
+            if(!strcmp(t->attr.name, "+") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "*") ||
+                        !strcmp(t->attr.name, "/") || !strcmp(t->attr.name, "%")){
+
+                if(childLeft->expType != Integer && childLeft->expType != UndefinedType){
+                    numErrors++;
+
+                    printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(childLeft->expType));
+                }
+                if(childRight->expType != Integer && childRight->expType != UndefinedType){
+                    numErrors++;
+
+                    printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(childRight->expType));
+                }
+            }
+
+            else if(!strcmp(t->attr.name, ":=")){
+
+                switch (t->subkind.decl){
+                    case ParamK:
+                        if(childLeft->expType != childRight->expType){
+                            if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
+                                            t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
+                            }
+                        }
+                        break;
+
+                    case IdK:
+                        if(childLeft->subkind.exp != IdK){
+                            if(childLeft->expType != childRight->expType){
+                                if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
+                                    numErrors++;
+
+                                    printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
+                                            t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
+                                }
+                            }
+                        }
+                        if(childLeft->expType != childRight->expType){
+                            if(childLeft->expType != UndefinedType && childRight->expType != UndefinedType){
+                                
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
+                                            t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
+                            }
+                        }
+
+                        if(childLeft->isArray && !childRight->isArray){
+                            numErrors++;
+
+                            printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is %s an array and rhs is %s an array.\n", 
+                                        t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
+                        }
+                        else if(!childLeft->isArray && childRight->isArray){
+                            numErrors++;
+
+                            printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is %s an array and rhs is %s an array.\n", 
+                                        t->linenum, t->attr.name, returnExpType(childLeft->expType), returnExpType(childRight->expType));
+                    }
+                }
             }
             break;
     }
