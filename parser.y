@@ -7,8 +7,10 @@
 // Last Updated
 // Feb 19, 2022     
 
-#include "scanType.h"  // TokenData Type
-#include "treeNode.h"  // Tree Struct
+#include "scanType.h"     // TokenData Type
+#include "treeNode.h"     // Tree Struct
+#include "symbolTable.h"  // Symbol Table
+#include "semantics.h"    // Semantics  
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -490,7 +492,7 @@ int main(int argc, char *argv[])
             
           case 'h':
             printf("usage: c- [options] [sourcefile\n");
-            printf("options: \n")
+            printf("options: \n");
             printf("-d          - turn on parser debugging\n");
             printf("-D          - turn on symbol table debugging\n");
             printf("-h          - print this usage message\n");
