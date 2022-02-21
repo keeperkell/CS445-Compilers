@@ -1,5 +1,5 @@
 // // // // // // // // // // // // // // // // // // // // // // // 
-// CS445 - symbolTable.cpp
+// CS445 - symbolTable.cpp  
 //
 // Keller Lawson
 // 
@@ -38,6 +38,7 @@
 // use a user supplied function to print the pointer.
 //
 
+/*
 // print nothing about the pointer
 void pointerPrintNothing(void *data)
 {
@@ -60,6 +61,7 @@ void pointerPrintStr(void *data)
 {
     printf("%s ", (char *)(data));
 }
+*/
 
 // // // // // // // // // // // // // // // // // // // //
 //
