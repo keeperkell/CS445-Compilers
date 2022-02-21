@@ -14,7 +14,7 @@
 #include "symbolTable.h"
 
 void semanticAnalysis(TreeNode *, SymbolTable);
-void unaryOps(TreeNode *, enum);
-void binaryOps(TreeNode *, enum);
+void unaryOps(TreeNode *, ExpKind);
+void binaryOps(TreeNode *, ExpKind);
 
 #endif

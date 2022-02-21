@@ -26,6 +26,7 @@ int numWarnings;         // ERR warning count
 bool W_TYPING; 
 
 static TreeNode *AST;
+SymbolTable st;
 
 #define YYERROR_VERBOSE
 void yyerror(const char *msg)
@@ -485,8 +486,8 @@ int main(int argc, char *argv[])
             break;
 
           case 'D':
-            symbolTable = new SymbolTable;
-            symbolTable->debugFlg = 1;
+            st = new SymbolTable;
+            st->debugFlg = 1;
             yyparse();
             break;
             
@@ -513,8 +514,8 @@ int main(int argc, char *argv[])
               break;
 
             case 'P':
-              symbolTable = new SymbolTable;     // instantiate the symbol table
-              semanticAnalysis(AST, symbolTable);
+              st = new SymbolTable;     // instantiate the symbol table
+              semanticAnalysis(AST, st);
 
               W_TYPING = true;
               printTree(AST, W_TYPING);

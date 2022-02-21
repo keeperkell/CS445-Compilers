@@ -270,7 +270,7 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
 }
 
 // moved logic from inside OpK & AssignK
-void unaryOps(TreeNode *t, enum subkind){
+void unaryOps(TreeNode *t, ExpKind subkind){
     switch(subkind){
         case OpK:
             TreeNode *childNode;
@@ -455,7 +455,7 @@ void unaryOps(TreeNode *t, enum subkind){
     }
 }
 
-void binaryOps(TreeNode *t, enum subkind){
+void binaryOps(TreeNode *t, ExpKind subkind){
 
     TreeNode *childLeft;
     TreeNode *childRight;
