@@ -284,10 +284,16 @@ void unaryOps(TreeNode *t, enum subkind){
                     if(childNode->subkind.exp == ConstantK){
                         if(childNode->child[0]){
                             if(childNode->child[0]->subkind.exp != ConstantK){
-                                printError(t, (char *) "int");
+                                numErrors++;
+
+                                printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                            t->linenum, t->attr.name, "int", getExpType(childNode->expType));
                             }
                             if(childNode->expType != Integer){
-                                printError(t, (char *) "int");
+                                numErrors++;
+
+                                printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                            t->linenum, t->attr.name, "int", getExpType(childNode->expType));
                             }
                         }
                     }
@@ -296,7 +302,10 @@ void unaryOps(TreeNode *t, enum subkind){
 
                         if(currentChildNode){
                             if(currentChildNode->expType != Integer){
-                                printError(t, (char *) "int");
+                                numErrors++;
+
+                                printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                            t->linenum, t->attr.name, "int", getExpType(childNode->expType));
                             }
                         }
                     }
@@ -311,30 +320,45 @@ void unaryOps(TreeNode *t, enum subkind){
 
                             if(currentChildNode){
                                 if(currentChildNode->expType != Integer){
-                                    printError(t, (char *) "int");
-                                }
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                                t->linenum, t->attr.name, "int", getExpType(childNode->expType));
+                                    }
                             }
                         }
                         else{
                             if(childNode->expType != Integer){
-                                printError(t, (char *) "int");
+                                numErrors++;
+
+                                printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                            t->linenum, t->attr.name, "int", getExpType(childNode->expType));
                             }
                         }
                     break;
 
                 case "not":
                     if(childNode->child[0]){
-                        printError(t, (char *) "bool");
+                        numErrors++;
+
+                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                    t->linenum, t->attr.name, "bool", getExpType(childNode->expType));
                     }
                     else{
                         switch(childNode->subkind.exp){
 
                             case ConstantK:
                                 if(childNode->expType != Boolean){
-                                    printError(t, (char *) "bool");
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                                t->linenum, t->attr.name, "bool", getExpType(childNode->expType));
                                 }
                                 else if(t->expType != childNode->expType){
-                                    printError(t, (char *) "bool");
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                                t->linenum, t->attr.name, "bool", getExpType(childNode->expType));
                                 }
 
                             break;
@@ -344,7 +368,10 @@ void unaryOps(TreeNode *t, enum subkind){
 
                                 if(currentChildNode){
                                     if(currentChildNode->expType != Boolean){
-                                        printError(t, (char *) "bool");
+                                        numErrors++;
+
+                                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                                    t->linenum, t->attr.name, "bool", getExpType(childNode->expType));
                                     }
                                 }
                         }
@@ -372,7 +399,10 @@ void unaryOps(TreeNode *t, enum subkind){
             switch(t->attr.name){
                 case "-":
                     if(childNode->expType != Integer && childNode->expType != UndefinedType){
-                        printError(t, (char *) "int");
+                        numErrors++;
+
+                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                         t->linenum, "chsign", "int", getExpType(childNode->expType));
                     }
                     break;
 
@@ -384,25 +414,37 @@ void unaryOps(TreeNode *t, enum subkind){
 
                 case "?":
                     if(childNode->expType != Integer && childNode->expType != UndefinedType){
-                        printError(t, (char *) "int");
+                        numErrors++;
+
+                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                         t->linenum, t->attr.name, "int", getExpType(childNode->expType));
                     }
                     break;
 
                 case "not":
                     if(childNode->expType != Integer && childNode->expType != UndefinedType){
-                        printError(t, (char *) "bool");
+                        numErrors++;
+
+                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                         t->linenum, t->attr.name, "bool", getExpType(childNode->expType));
                     }
                     break;
 
                 case "++":
                     if(childNode->expType != Integer && childNode->expType != UndefinedType){
-                        printError(t, (char *) "int");
+                        numErrors++;
+
+                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                         t->linenum, t->attr.name, "int", getExpType(childNode->expType));
                     }
                     break;
 
                 case "--":
                     if(childNode->expType != Integer && childNode->expType != UndefinedType){
-                        printError(t, (char *) "int");
+                        numErrors++;
+
+                        printf("ERROR(%d): Unary '%s' requires an operand of %s but was given %s.\n",
+                                         t->linenum, t->attr.name, "int", getExpType(childNode->expType));
                     }
                     break;
 
@@ -411,10 +453,6 @@ void unaryOps(TreeNode *t, enum subkind){
             }
             break;
     }
-}
-
-void printErrors(TreeNode *t, char *type){
-
 }
 
 void binaryOps(TreeNode *t, enum subkind){

@@ -17,8 +17,4 @@ void semanticAnalysis(TreeNode *, SymbolTable);
 void unaryOps(TreeNode *, enum);
 void binaryOps(TreeNode *, enum);
 
-void isUnaryOps(TreeNode *);
-void unaryAssign(TreeNode *);
-void isBinaryOps(TreeNode *);
-void binaryAssign(TreeNode *);
 #endif
