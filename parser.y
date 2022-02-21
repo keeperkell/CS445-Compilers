@@ -492,7 +492,7 @@ int main(int argc, char *argv[])
             break;
             
           case 'h':
-            printf("usage: c- [options] [sourcefile\n");
+            printf("usage: c- [options] [sourcefile]\n");
             printf("options: \n");
             printf("-d          - turn on parser debugging\n");
             printf("-D          - turn on symbol table debugging\n");
