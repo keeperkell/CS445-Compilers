@@ -467,14 +467,18 @@ int main(int argc, char *argv[])
     int option;
 
     // get CLI option when program is run
-    if((option = getopt(argc, argv, "dDpP")) != -1){
+    if((option = getopt(argc, argv, "dDhpP")) != -1){
 
       if ((yyin = fopen(argv[2], "r"))) {
             // file open successful
       }
       else {
             // failed to open file
-            printf("ERROR: failed to open \'%s\'\n", argv[2]);
+            numErrors++; 
+
+            printf("ERROR(ARGLIST): source file \"%s\" could not be opened. \n", argv[2]);
+            printf("Number of warnings: %d\n", numWarnings);
+            printf("Number of errors: %d\n", numErrors);
             exit(1);
       }
       
