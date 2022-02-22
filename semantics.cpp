@@ -29,6 +29,9 @@ TreeNode *funcScope;
 
 void semanticAnalysis(TreeNode *t, SymbolTable st){
     TreeNode *currentNode;
+    TreeNode *childNode1 = t->child[0];
+    TreeNode *childNode2 = t->child[1];
+    TreeNode *childNode3 = t->child[2];
 
     if(!t){
         return;
@@ -91,21 +94,18 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
 
             case StmtK:
 
-                TreeNode *childNode1 = t->child[0];
                 if(childNode1){
                     if(childNode1->child[0]){
                         childNode1->isArray = false;
                     }
                 }
 
-                TreeNode *childNode2 = t->child[1];
                 if(childNode2){
                     if(childNode2->child[0]){
                         childNode2->isArray = false;
                     }
                 }
 
-                TreeNode *childNode3 = t->child[2];
                 if(childNode2){
                     if(childNode2->child[0]){
                         childNode2->isArray = false;
@@ -185,7 +185,6 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                                 semanticAnalysis(t->child[i], st);
                             }
                         }
- ghb 
                         if(t->child[0] && t->child[1]){
                             // long set of checks, should move into function
                             binaryOps(t, t->subkind.exp, st);
