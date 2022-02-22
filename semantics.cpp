@@ -18,43 +18,60 @@
 extern SymbolTable symbolTable;
 extern int numErrors;
 extern int numWarnings;
+
 int scopeDepth = 0;
+int loopDepth = 1;
+bool insideLoop = false;
+bool stayInScope = true;
+TreeNode *funcScope;
+
+
 
 void semanticAnalysis(TreeNode *t, SymbolTable st){
     TreeNode *currentNode;
 
-    while(t){
+    if(!t){
+        return;
+    }
+    else{
         switch(t->nodekind){
             case DeclK:
-                if( !st.insert(t->attr.name, (TreeNode *) t)){
-                    numErrors++;
 
-                    currentNode = (TreeNode *)st.lookup(t->attr.name);
-                    printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
+                // change attempt here, name change from (TreeNode *) t ==> t
+                if(t->subkind.decl != VarK){
+                    if( !st.insert(t->attr.name, t)){
+                        numErrors++;
+
+                        currentNode = (TreeNode *)st.lookup(t->attr.name);
+                        printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
+                    }
                 }
                 
-                // while
                 switch(t->subkind.decl){
                     case VarK:
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[0] != NULL){
-                                semanticAnalysis(t->child[i], st);
+                                semanticAnalysis(t->child[0], st);
                             }
                         }
+
+                        if( !st.insert(t->attr.name, t)){
+                            numErrors++;
+
+                            currentNode = (TreeNode *)st.lookup(t->attr.name);
+                            printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
+                         }
 
                         break;
 
                     case FuncK:
-                        currentNode = (TreeNode *)st.lookup(t->attr.name);
-
-                        if(!currentNode){
-                            st.insert(t->attr.name, (TreeNode *) t);
-                        }
+                        // start new function scope
+                        funcScope = t;
 
                         //enter for scope
                         st.enter(t->attr.name);
                         for(int i = 0; i < MAXCHILDREN; i++){
-                            if(t->child[0] != NULL){
+                            if(t->child[i] != NULL){
                                 semanticAnalysis(t->child[i], st);
                             }
                         }
@@ -65,94 +82,88 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                     case ParamK:
                         currentNode = (TreeNode *)st.lookup(t->attr.name);
 
-                        if(t->isArray){
-                            if(!currentNode){
-                                st.insert(t->attr.name, (TreeNode *) t);
-                            }
+                        for(int i = 0; i < MAXCHILDREN; i++){
+                            semanticAnalysis(t->child[i], st);
                         }
-                        else{
-                            st.insert(t->attr.name, (TreeNode *) t);
-                        }
+
                         break;
                 }
 
             case StmtK:
+
+                TreeNode *childNode1 = t->child[0];
+                if(childNode1){
+                    if(childNode1->child[0]){
+                        childNode1->isArray = false;
+                    }
+                }
+
+                TreeNode *childNode2 = t->child[1];
+                if(childNode2){
+                    if(childNode2->child[0]){
+                        childNode2->isArray = false;
+                    }
+                }
+
+                TreeNode *childNode3 = t->child[2];
+                if(childNode2){
+                    if(childNode2->child[0]){
+                        childNode2->isArray = false;
+                    }
+                }
+
                 switch(t->subkind.stmt){
                     case NullK:
                         break;
 
                     case IfK:
-                        // enter if scope
-                        st.enter(t->attr.name);
-                        for(int i = 0; i < MAXCHILDREN; i++){
-                            if(t->child[i]){
-                                semanticAnalysis(t->child[i], st);
-                            }
-                        }
-                        st.leave();
-
                         break;
 
                     case WhileK:
-
-                        scopeDepth++;
-
-                        st.enter(t->attr.name);
-                        for(int i = 0; i < MAXCHILDREN; i++){
-                            if(t->child[i]){
-                                semanticAnalysis(t->child[i], st);
-                            }
-                        }
-                        st.leave();
-
-                        scopeDepth--;
-                        break;
-
                     case ForK:
-
-                        scopeDepth ++;
-
-                        st.enter(t->attr.name);
-                        for(int i = 0; i < MAXCHILDREN; i++){
-                            if(t->child[i]){
-                                semanticAnalysis(t->child[i], st);
-                            }
+                        
+                        // find initial loop depth
+                        if(!insideLoop){
+                            insideLoop = true;
+                            loopDepth = st.depth();
                         }
-                        st.leave();
 
-                        scopeDepth--;
+                        if(loopDepth == st.depth()){
+                            insideLoop = false;
+                        }
                         break;
 
                     case CompoundK:
-                        // not sure for now
+                        
+                        if(stayInScope){
+                            st.enter("compound");
+                        }
+                        else{
+                            stayInScope = true;
+                        }
+
+                        for(int i = 0; i < MAXCHILDREN; i++){
+                            semanticAnalysis(t->child[i], st);
+                        }
+
+                        if(stayInScope){
+                            st.leave();
+                        }
                         break;
 
                     case ReturnK:
 
-                        for(int i = 0; i < MAXCHILDREN; i++){
-                            if(t->child[i]){
-                                semanticAnalysis(t->child[i], st);
+                        semanticAnalysis(childNode1, st);
+
+                        if(childNode1){
+                            if(!funcScope){
+                                break;
                             }
-                        }
-
-                        if(t->child[0]){
-                            if(t->child[0]->nodekind == ExpK && t->child[0]->subkind.exp == IdK){
-                                currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
-
-                                if(currentNode && currentNode->isArray){
+                            else{
+                                if(t->isArray){
                                     numErrors++;
 
                                     printf("ERROR(%d): Cannot return an array.\n", currentNode->linenum);
-                                }
-                            }
-
-                            if(t->child[0]->subkind.exp == AssignK){
-                                if(t->child[0]->child[0] && t->child[0]->child[1]){
-                                    if(t->child[0]->child[0]->isArray){
-                                        numErrors++;
-
-                                        printf("ERROR(%d): Cannot return an array.\n", currentNode->linenum);
-                                    }
                                 }
                             }
                         }
@@ -162,14 +173,8 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                     case BreakK:
                         break;
 
-                    case RangeK:
-                        for(int i = 0; i < MAXCHILDREN; i++){
-                            if(t->child[i]){
-                                semanticAnalysis(t->child[i], st);
-                            }
-                        }
-
                         break;
+                    case RangeK:
                 }
 
             case ExpK:
@@ -180,8 +185,8 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                                 semanticAnalysis(t->child[i], st);
                             }
                         }
-
-                        if(t->child[1]){
+ ghb 
+                        if(t->child[0] && t->child[1]){
                             // long set of checks, should move into function
                             binaryOps(t, t->subkind.exp, st);
                         }
@@ -192,6 +197,9 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                         break;
 
                     case ConstantK:
+                        for(int i = 0; i < MAXCHILDREN; i++){
+                            semanticAnalysis(t->child[i], st);
+                        }
                         break;
 
                     case IdK:
@@ -256,7 +264,12 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                                 numErrors++;
 
                                 printf("ERROR(%d): '%s' is a simple variable and cannot be called.\n", currentNode->linenum, currentNode->attr.name);
-                            }     
+                            } 
+                            else{
+                                t->expType = currentNode->expType;
+                                t->isStatic = currentNode->isStatic;
+                                t->isArray = currentNode->isArray;
+                            }    
                         }
                         else{
                             numErrors++;
@@ -267,6 +280,10 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                         break;
                 }  
                 break;
+        }
+
+        if(t->sibling){
+            semanticAnalysis(t->sibling, st);
         }
     }
 }
