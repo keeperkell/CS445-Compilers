@@ -173,8 +173,8 @@ void semanticAnalysis(TreeNode *t, SymbolTable st){
                     case BreakK:
                         break;
 
-                        break;
                     case RangeK:
+                        break;
                 }
 
             case ExpK:
