@@ -31,14 +31,14 @@ void semanticAnalysis(TreeNode *t){
     TreeNode *childNode1 = t->child[0];
     TreeNode *childNode2 = t->child[1];
     TreeNode *childNode3 = t->child[2];
-
-    printf("I am working");
-    /*
+    
     if(!t){
         return;
     }
     else{
         switch(t->nodekind){
+        
+        /*
             case DeclK:
 
                 // check if on a global score or not
@@ -282,7 +282,14 @@ void semanticAnalysis(TreeNode *t){
                         }
 
                         break;
+
+                    default:
+                        break;
                 }  
+                break;
+    */
+            default:
+                printf("I am working \n");
                 break;
         }
 
@@ -290,7 +297,6 @@ void semanticAnalysis(TreeNode *t){
             semanticAnalysis(t->sibling);
         }
     }
-    */
 }
 
 // moved logic from inside OpK & AssignK
