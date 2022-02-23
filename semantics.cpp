@@ -27,7 +27,7 @@ bool stayInScope = true;
 
 TreeNode *funcScope;
 
-void semanticAnalysis(TreeNode *t,){
+void semanticAnalysis(TreeNode *t){
     TreeNode *currentNode;
     TreeNode *childNode1 = t->child[0];
     TreeNode *childNode2 = t->child[1];

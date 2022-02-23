@@ -518,7 +518,7 @@ int main(int argc, char *argv[])
               break;
 
             case 'P':
-              semanticAnalysis(AST, st);
+              semanticAnalysis(AST);
               
               if(!numErrors){
                 W_TYPING = true;
