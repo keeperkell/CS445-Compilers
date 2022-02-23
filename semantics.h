@@ -13,7 +13,7 @@
 #include "treeNode.h"
 #include "symbolTable.h"
 
-void semanticAnalysis(TreeNode *, SymbolTable);
+void semanticAnalysis(TreeNode *);
 void unaryOps(TreeNode *, ExpKind, SymbolTable);
 void binaryOps(TreeNode *, ExpKind, SymbolTable);
 char *returnExpType(ExpType);

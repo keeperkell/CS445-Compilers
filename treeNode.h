@@ -69,6 +69,11 @@ typedef struct treeNode{
     ExpType expType;                            // used when ExpK for type checking
     bool isArray;                               // is this an array
     bool isStatic;                              // is staticly allocated
+    bool isGlobal;                              // is a global node
+    bool isBinary;
+    bool isChild;
+    bool isConst;
+    bool isFunc;
 
 } TreeNode;
 
