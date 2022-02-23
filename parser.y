@@ -26,7 +26,7 @@ int numWarnings;         // ERR warning count
 bool W_TYPING; 
 
 static TreeNode *AST;
-SymbolTable st;
+extern SymbolTable st;
 
 #define YYERROR_VERBOSE
 void yyerror(const char *msg)
@@ -490,8 +490,8 @@ int main(int argc, char *argv[])
             break;
 
           case 'D':
-            //SymbolTable st;
-            st.debug(true);
+
+            st.debug(1);
             semanticAnalysis(AST);
             yyparse();
             break;
