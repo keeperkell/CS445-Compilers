@@ -38,7 +38,7 @@ void semanticAnalysis(TreeNode *t){
     else{
         switch(t->nodekind){
             
-            /*
+            
             case DeclK:
 
                 // check if on a global score or not
@@ -103,8 +103,8 @@ void semanticAnalysis(TreeNode *t){
                         break;
                 }
                 break;
-            */
-
+            
+            /*
             case StmtK:
 
                 // check if childnodes 1 through 3 exist. If they exists, check if their children exist
@@ -200,7 +200,7 @@ void semanticAnalysis(TreeNode *t){
                         //placeholder for future errors/checks
                         break;
                 }
-
+            */
             case ExpK:
                 switch(t->subkind.exp){
                     case OpK:
