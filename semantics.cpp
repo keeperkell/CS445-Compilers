@@ -37,8 +37,8 @@ void semanticAnalysis(TreeNode *t){
     }
     else{
         switch(t->nodekind){
-        
-        /*
+            
+            /*
             case DeclK:
 
                 // check if on a global score or not
@@ -102,6 +102,8 @@ void semanticAnalysis(TreeNode *t){
 
                         break;
                 }
+                break;
+            */
 
             case StmtK:
 
@@ -287,9 +289,9 @@ void semanticAnalysis(TreeNode *t){
                         break;
                 }  
                 break;
-    */
+
             default:
-                printf("I am working \n");
+                printf("I am in default \n");
                 break;
         }
 
