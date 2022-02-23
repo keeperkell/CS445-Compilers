@@ -492,8 +492,9 @@ int main(int argc, char *argv[])
           case 'D':
 
             st.debug(1);
-            semanticAnalysis(AST);
             yyparse();
+            semanticAnalysis(AST);
+            
             break;
             
           case 'h':
