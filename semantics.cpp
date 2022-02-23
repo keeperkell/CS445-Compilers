@@ -63,7 +63,7 @@ void semanticAnalysis(TreeNode *t){
                     case VarK:
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[0] != NULL){
-                                semanticAnalysis(t->child[0], st);
+                                semanticAnalysis(t->child[0]);
                             }
                         }
 
@@ -85,7 +85,7 @@ void semanticAnalysis(TreeNode *t){
                         st.enter(t->attr.name);
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i] != NULL){
-                                semanticAnalysis(t->child[i], st);
+                                semanticAnalysis(t->child[i]);
                             }
                         }
                         st.leave();
@@ -96,7 +96,7 @@ void semanticAnalysis(TreeNode *t){
                         //currentNode = (TreeNode *)st.lookup(t->attr.name);
 
                         for(int i = 0; i < MAXCHILDREN; i++){
-                            semanticAnalysis(t->child[i], st);
+                            semanticAnalysis(t->child[i]);
                         }
 
                         break;
@@ -160,7 +160,7 @@ void semanticAnalysis(TreeNode *t){
                         }
 
                         for(int i = 0; i < MAXCHILDREN; i++){
-                            semanticAnalysis(t->child[i], st);
+                            semanticAnalysis(t->child[i]);
                         }
 
                         if(stayInScope){
@@ -171,7 +171,7 @@ void semanticAnalysis(TreeNode *t){
                     case ReturnK:
 
                         // return should only have 1 child to return
-                        semanticAnalysis(childNode1, st);
+                        semanticAnalysis(childNode1);
 
                         if(childNode1){
                             if(!funcScope){
@@ -207,7 +207,7 @@ void semanticAnalysis(TreeNode *t){
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
-                                semanticAnalysis(t->child[i], st);
+                                semanticAnalysis(t->child[i]);
                             }
                         }
 
@@ -216,10 +216,10 @@ void semanticAnalysis(TreeNode *t){
                         }
 
                         if(t->isBinary){
-                            binaryOps(t, t->subkind.exp, st);
+                            binaryOps(t, t->subkind.exp);
                         }
                         else{
-                            unaryOps(t, t->subkind.exp, st);
+                            unaryOps(t, t->subkind.exp);
                         }
 
                         // check left child for Void Call Exp
@@ -240,7 +240,7 @@ void semanticAnalysis(TreeNode *t){
 
                     case ConstantK:
                         for(int i = 0; i < MAXCHILDREN; i++){
-                            semanticAnalysis(t->child[i], st);
+                            semanticAnalysis(t->child[i]);
                         }
                         break;
 
@@ -270,7 +270,7 @@ void semanticAnalysis(TreeNode *t){
                     case CallK:
 
                         for(int i = 0; i < MAXCHILDREN; i++){
-                            semanticAnalysis(t->child[i], st);
+                            semanticAnalysis(t->child[i]);
                         }
 
                         currentNode = (TreeNode *)st.lookup(t->attr.name);
@@ -300,13 +300,13 @@ void semanticAnalysis(TreeNode *t){
         }
 
         if(t->sibling){
-            semanticAnalysis(t->sibling, st);
+            semanticAnalysis(t->sibling);
         }
     }
 }
 
 // moved logic from inside OpK & AssignK
-void unaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
+void unaryOps(TreeNode *t, ExpKind subkind){
     switch(subkind){
         case OpK:
             TreeNode *childNode;
@@ -491,7 +491,7 @@ void unaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
     }
 }
 
-void binaryOps(TreeNode *t, ExpKind subkind, SymbolTable st){
+void binaryOps(TreeNode *t, ExpKind subkind){
 
     TreeNode *leftChild = t->child[0];
     ExpType leftChildExpType;
