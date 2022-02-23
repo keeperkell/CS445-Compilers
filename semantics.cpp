@@ -62,7 +62,7 @@ void semanticAnalysis(TreeNode *t){
                 
                 // check subkind and switch off of it
                 switch(t->subkind.decl){
-                    /*
+                    
                     case VarK:
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[0] != NULL){
@@ -79,7 +79,7 @@ void semanticAnalysis(TreeNode *t){
                          }
 
                         break;
-                    */
+                    /*
                     case FuncK:
                         // assign function scope as current TreeNode
                         funcScope = t;
@@ -94,6 +94,7 @@ void semanticAnalysis(TreeNode *t){
                         st.leave();
 
                         break;
+                    */
 
                     case ParamK:
                         //currentNode = (TreeNode *)st.lookup(t->attr.name);
