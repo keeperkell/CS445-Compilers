@@ -80,6 +80,7 @@ void semanticAnalysis(TreeNode *t){
 
                         break;
 
+/*
                     case FuncK:
                         // assign function scope as current TreeNode
                         funcScope = t;
@@ -94,7 +95,7 @@ void semanticAnalysis(TreeNode *t){
                         st.leave();
 
                         break;
-
+*/
                     case ParamK:
                         //currentNode = (TreeNode *)st.lookup(t->attr.name);
 
