@@ -492,6 +492,7 @@ int main(int argc, char *argv[])
           case 'D':
             //SymbolTable st;
             st.debug(true);
+            semanticAnalysis(AST);
             yyparse();
             break;
             
