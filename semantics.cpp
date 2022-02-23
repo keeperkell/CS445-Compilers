@@ -41,6 +41,7 @@ void semanticAnalysis(TreeNode *t){
             
             case DeclK:
 
+                /*
                 // check if on a global score or not
                 if(st.depth() != 1){
                     t->isGlobal = false;
@@ -48,6 +49,7 @@ void semanticAnalysis(TreeNode *t){
                 else{
                     t->isGlobal = true;
                 }
+                
 
                 // if symbol is already declared, print error and increase count
                 if(t->subkind.decl != VarK){
@@ -58,6 +60,8 @@ void semanticAnalysis(TreeNode *t){
                         printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
                     }
                 }
+
+                */
                 
                 // check subkind and switch off of it
                 switch(t->subkind.decl){
@@ -104,7 +108,6 @@ void semanticAnalysis(TreeNode *t){
                 }
                 break;
             
-            /*
             case StmtK:
 
                 // check if childnodes 1 through 3 exist. If they exists, check if their children exist
@@ -200,7 +203,8 @@ void semanticAnalysis(TreeNode *t){
                         //placeholder for future errors/checks
                         break;
                 }
-            */
+                break;
+
             case ExpK:
                 switch(t->subkind.exp){
                     case OpK:
