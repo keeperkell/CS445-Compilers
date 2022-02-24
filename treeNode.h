@@ -71,6 +71,8 @@ typedef struct treeNode{
     bool isStatic;                              // is staticly allocated
     bool isGlobal;                              // is a global node
     bool isBinary;
+    bool isInit;
+    bool isDeclared;
     bool isChild;
     bool isConst;
     bool isFunc;

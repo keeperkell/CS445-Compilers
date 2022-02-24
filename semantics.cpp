@@ -80,7 +80,6 @@ void semanticAnalysis(TreeNode *t){
 
                         break;
 
-/*
                     case FuncK:
                         // assign function scope as current TreeNode
                         funcScope = t;
@@ -95,7 +94,7 @@ void semanticAnalysis(TreeNode *t){
                         st.leave();
 
                         break;
-*/
+
                     case ParamK:
                         //currentNode = (TreeNode *)st.lookup(t->attr.name);
 
@@ -108,55 +107,48 @@ void semanticAnalysis(TreeNode *t){
                 break;
             
             case StmtK:
-
-                // check if childnodes 1 through 3 exist. If they exists, check if their children exist
-                // if children of children do exist, then they cannot be an array
-                if(childNode1){
-                    if(childNode1->child[0]){
-                        childNode1->isArray = false;
-                    }
-                }
-
-                if(childNode2){
-                    if(childNode2->child[0]){
-                        childNode2->isArray = false;
-                    }
-                }
-
-                if(childNode2){
-                    if(childNode2->child[0]){
-                        childNode2->isArray = false;
-                    }
-                }
-
                 switch(t->subkind.stmt){
                     case NullK:
                         //placeholder for future errors/checks
                         break;
 
                     case IfK:
-                        //placeholder for future errors/checks
+                        //enter loop
+                        insideLoop = true;
+                        st.enter(t->attr.name);
+
+                        for(int i = 0; i < MAXCHILDREN; i++){
+                            if(t->child[0]){
+                                semanticAnalysis(t->child[i]);
+                            }
+                        }
+
+                        //exit loop
+                        insideLoop = false;
+                        st.leave();
                         break;
 
                     // multiple cases in a row without a break default to the last cases code
                     case WhileK:
                     case ForK:
-                        
-                        // find initial loop depth and enter loop
-                        if(!insideLoop){
-                            insideLoop = true;
-                            loopDepth = st.depth();
+                        //enter loop
+                        insideLoop = true;
+                        st.enter(t->attr.name);
+
+                        for(int i = 0; i < MAXCHILDREN; i++){
+                            if(t->child[i]){
+                                semanticAnalysis(t->child[i]);
+                            }
                         }
 
-                        // if current loopDepth is the same as symbol table, exit loop
-                        if(loopDepth == st.depth()){
-                            insideLoop = false;
-                        }
+                        //exit loop
+                        insideLoop = false;
+                        st.leave();
                         break;
 
                     case CompoundK:
-                        
 
+                    // need to fix, not working properly. 
                         if(stayInScope){
                             st.enter("compound");
                         }
@@ -174,20 +166,19 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case ReturnK:
-
                         // return should only have 1 child to return
-                        semanticAnalysis(childNode1);
+                        semanticAnalysis(t->child[0]);
 
-                        if(childNode1){
+                        if(t->child[0]){
                             if(!funcScope){
                                 break;
                             }
                             else{
                                 // check if attempting to return an array, print error and increment count
-                                if(t->isArray){
+                                if(t->child[0]->isArray){
                                     numErrors++;
 
-                                    printf("ERROR(%d): Cannot return an array.\n", currentNode->linenum);
+                                    printf("ERROR(%d): Cannot return an array.\n", t->linenum);
                                 }
                             }
                         }
@@ -199,7 +190,11 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case RangeK:
-                        //placeholder for future errors/checks
+                        for(int i = 0; i < MAXCHILDREN; i++){
+                            if(t->child[i]){
+                                semanticAnalysis(t->child[i]);
+                            }
+                        }
                         break;
                 }
                 break;
@@ -217,16 +212,12 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }
 
-                        if(childNode1 && childNode2){
+                        // if both children exist, op is binary
+                        if(t->child[0] && t->child[1]){
                             t->isBinary = true;
                         }
 
-                        if(t->isBinary){
-                            binaryOps(t, t->subkind.exp);
-                        }
-                        else{
-                            unaryOps(t, t->subkind.exp);
-                        }
+                        unaryBinaryOps(t, t->subkind.exp);
 
                         break;
 
@@ -490,7 +481,9 @@ void unaryOps(TreeNode *t, ExpKind subkind){
     }
 }
 
-void binaryOps(TreeNode *t, ExpKind subkind){
+void unaryBinaryOps(TreeNode *t, ExpKind subkind){
+
+
 
     TreeNode *leftChild = t->child[0];
     ExpType leftChildExpType;
@@ -549,141 +542,247 @@ void binaryOps(TreeNode *t, ExpKind subkind){
         t->isBinary = true;
     }
 
-    switch(subkind){ 
-        // multiple cases without a break use the same code as last case before break
-        case OpK:
-        case AssignK:
+    // check left child for Void Call Exp
+    if(leftChildExpType == Void){
+        if(!(leftChild->nodekind == ExpK && leftChild->subkind.exp == CallK)){
+            leftChildError = true;
+        }
+    }
 
-            // check left child for Void Call Exp
-            if(leftChildExpType == Void){
-                if(!(leftChild->nodekind == ExpK && leftChild->subkind.exp == CallK)){
-                    leftChildError = true;
-                }
+    // check right child for Void Call Exp
+    if(rightChildExpType == Void){
+        if(!(rightChild->nodekind == ExpK && rightChild->subkind.exp == CallK)){
+            rightChildError = true;
+        }
+    }
+
+    // start error check and print error functions
+
+    // start with unary and check for error on left side of op
+    if(!t->isBinary && !leftChildError){
+        
+        if(!strcmp(t->attr.name, "-")){
+            //Integer
+            if(t->child[0]->expType != Integer){
+                //print error
+                numErrors++;
+
+                printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", getExpType(t->child[0]));
             }
-
-            // check right child for Void Call Exp
-            if(rightChildExpType == Void){
-                if(!(rightChild->nodekind == ExpK && rightChild->subkind.exp == CallK)){
-                    rightChildError = true;
-                }
-            }
-           
-            // "or" and "and" have same logic. Check if types are not boolean on either side
-            if(!strcmp(t->attr.name, "or") || !strcmp(t->attr.name, "and")){
-                if(leftChild->subkind.exp == IdK){
-
-                    // If left of Op is not boolean, produce error
-                    if(leftChildExpType != Boolean){
-                        numErrors++;
-
-                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "bool", returnExpType(leftChildExpType));
-                    }
-                    // If right of Op is not boolean, produce error
-                    if(rightChildExpType != Boolean){
-                        numErrors++;
-
-                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, "bool", returnExpType(rightChildExpType));
-                    }
-                    // if either child is an array, produce error
-                    if(leftChildExpType || rightChildExpType){
-                        numErrors++;
-
-                        printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
-                    }
-                }
-            }
-            // The following operators require both children be of the same type, Int, bool, char, CharInt. 
-            else if(!strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "=") ||
-                        !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=")){
-
-                    if(leftChildExpType != rightChildExpType){
-                        if(leftChildExpType != UndefinedType && rightChildExpType != UndefinedType){
-                            if(leftChildExpType != Void && rightChildExpType != Void){
-                                numErrors++;
-
-                                printf("ERROR(%d): '%s' requires operands of the same type but lhs is %s and rhs is %s.\n", 
-                                            t->linenum, t->attr.name, returnExpType(leftChildExpType), returnExpType(rightChildExpType));
-                            }
-                        }
-                    }
-
-                    // operands must match being arrays if one of them is, then ther other must be as well. 
-                    if(leftChildExpType && !rightChildExpType){
-                        numErrors++;
-
-                        printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is %s an array and rhs is %s an array.\n", 
-                                            t->linenum, t->attr.name, returnExpType(leftChildExpType), returnExpType(rightChildExpType));
-                    }
-                    else if(!leftChildExpType && rightChildExpType){
-                        numErrors++;
-
-                        printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is %s an array and rhs is %s an array.\n", 
-                                            t->linenum, t->attr.name, returnExpType(leftChildExpType), returnExpType(rightChildExpType));
-                    }
-            }
-            // the following operands require type int and cannot be an array
-            else if(!strcmp(t->attr.name, "+") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "*") ||
-                        !strcmp(t->attr.name, "/") || !strcmp(t->attr.name, "%")){
-                
-                if(!t->isArray){
-                    if(leftChildExpType != Integer){
-                        numErrors++;
-
-                        printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(leftChildExpType));
-                        }
-                    if(rightChildExpType != Integer){
-                        numErrors++;
-
-                        printf("ERROR(%d): '%s' requires operands of %s but rhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(rightChildExpType));
-                    }
-                }
-            }
-
-            else if(!strcmp(t->attr.name, "[")){
-
-                if(leftChild->subkind.exp == IdK){
-                    TreeNode *temp = (TreeNode *)st.lookup(leftChild->attr.name);
-
-                    if(temp){
-                        t->child[0]->expType = temp->expType;
-                        t->expType = temp->expType;
-                    }
-
-                    if(!temp){
-                        numErrors++;
-
-                        printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, temp->attr.name);
-                    }
-                    if(!temp->isArray){
-                        numErrors++;
-                        
-                        printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, temp->attr.name);
-                    }
-                }
-                else{
+        }
+        // size of, not multiply
+        else if(!strcmp(t->attr.name, "*")){
+            if(!t->child[0]->isArray){
+                if(t->child[0]->expType != UndefinedType){
+                    //print error
                     numErrors++;
-                        
-                    printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, leftChild->attr.name);
+
+                    printf("ERROR(%d): The operation '%s' only works with arrays.\n", t->linenum, "sizeof");
                 }
+            }
+        }
+        else if(!strcmp(t->attr.name, "?")){
+            //Integer
+            if(t->child[0]->expType != Integer){
+                //print error
+                numErrors++;
 
-                if(rightChild){
-                    if(rightChildExpType != Integer && rightChildExpType != UndefinedType){
-                        numErrors++;
+                printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", getExpType(t->child[0]));
+            }
+        }
+        else if(!strcmp(t->attr.name, "not")){
+            //Boolean
+            if(t->child[0]->expType != Boolean){
+                //print error
+                numErrors++;
 
-                        printf("ERROR(%d): Array '%s' should be indexed by type int but got %s.\n", t->linenum, rightChild->attr.name, returnExpType(rightChildExpType));
-                    }
+                printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "bool", getExpType(t->child[0]));
+            }
+        }
+        else if(!strcmp(t->attr.name, "++")){
+            //Integer
+            if(t->child[0]->expType != Integer){
+                //print error
+                numErrors++;
 
-                    if(rightChild->subkind.exp == IdK){
-                        if(rightChildExpType){
+                printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", getExpType(t->child[0]));
+            }
+        }
+        else if(!strcmp(t->attr.name, "--")){
+            //Integer
+            if(t->child[0]->expType != Integer){
+                //print error
+                numErrors++;
+
+                printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", getExpType(t->child[0]));
+            }
+        }
+
+        // if the child is an array, then it only works with size of
+        if(t->child[0]->isArray){
+            if(strcmp(t->attr.name, "*")){
+                numErrors++;
+
+                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+            }
+        }
+        
+         // if node is initialized, set flag
+        if(!strcmp(t->attr.name, "<-") && t->isBinary){
+            if(subkind == AssignK){
+                t->child[0]->isInit = true;
+            }
+        }
+        else{
+            t->child[0]->isInit = false;
+        }
+    }
+    else{
+        if(!strcmp(t->attr.name, "or") || !strcmp(t->attr.name, "and")){
+            // Boolean
+
+            // check left side of op
+            if(t->child[0]->expType != Boolean){
+                if(!leftChildError){
+                    numErrors++;
+
+                    printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, "bool", getExpType(t->child[0]->expType));
+                }
+            }
+
+            // check right side of op
+            if(t->child[1]->expType != Boolean){
+                if(!rightChildError){
+                    numErrors++;
+
+                    printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, "bool", getExpType(t->child[1]->expType));
+                }
+            }
+
+            // ddoes not work with arrays
+            if(leftChildIsArray || rightChildIsArray){
+                numErrors++;
+
+                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+            }
+        }
+        else if(!strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "=") ||
+                    !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=")){
+            // CharInt
+
+            // children types do not match
+            if(t->child[0]->expType != t->child[1]->expType){
+                if(!leftChildError && !rightChildError){
+                    if(!strcmp(getExpType(t->child[0]->expType), "int") && !strcmp(getExpType(t->child[1]->expType), "CharInt")){
+                        if(!strcmp(getExpType(t->child[0]->expType), "int") && !strcmp(getExpType(t->child[1]->expType), "CharInt")){
                             numErrors++;
 
-                            printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, rightChild->attr.name);
+                            printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->linenum, t->attr.name, "int", "char");
                         }
+                    }
+                    else if(!strcmp(getExpType(t->child[0]->expType), "char") && !strcmp(getExpType(t->child[1]->expType), "CharInt")){
+                        // types match properly. 
+                    }
+                    else{
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->linenum, t->attr.name, getExpType(t->child[0]->expType), getExpType(t->child[1]->expType));
                     }
                 }
             }
 
-            break;
+            //This one works with arrays
+        }
+        else if(!strcmp(t->attr.name, "+") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "*") || !strcmp(t->attr.name, "/") || !strcmp(t->attr.name, "%") ||
+                    !strcmp(t->attr.name, "+=") || !strcmp(t->attr.name, "-=") || !strcmp(t->attr.name, "*=") || !strcmp(t->attr.name, "/=")){
+            // Integer
+
+            // check left side of op
+            if(t->child[0]->expType != Integer){
+                if(!leftChildError){
+                    numErrors++;
+
+                    printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, "int", getExpType(t->child[0]->expType));
+                }
+            }
+
+            // check right side of op
+            if(t->child[1]->expType != Integer){
+                if(!rightChildError){
+                    numErrors++;
+
+                    printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, "int", getExpType(t->child[1]->expType));
+                }
+            }
+
+            // ddoes not work with arrays
+            if(leftChildIsArray || rightChildIsArray){
+                numErrors++;
+
+                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+            }
+
+        }
+        else if(!strcmp(t->attr.name, "==") || !strcmp(t->attr.name, "!=")){
+            // Undefined type
+            // children types do not match
+            if(t->child[0]->expType != t->child[1]->expType){
+                if(!leftChildError && !rightChildError){
+                    if(!strcmp(getExpType(t->child[0]->expType), "int") && !strcmp(getExpType(t->child[1]->expType), "CharInt")){
+                        if(!strcmp(getExpType(t->child[0]->expType), "int") && !strcmp(getExpType(t->child[1]->expType), "CharInt")){
+                            numErrors++;
+
+                            printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->linenum, t->attr.name, "int", "char");
+                        }
+                    }
+                    else if(!strcmp(getExpType(t->child[0]->expType), "char") && !strcmp(getExpType(t->child[1]->expType), "CharInt")){
+                        // types match properly. 
+                    }
+                    else{
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->linenum, t->attr.name, getExpType(t->child[0]->expType), getExpType(t->child[1]->expType));
+                    }
+                }
+            }
+
+             // ddoes not work with arrays
+            if(leftChildIsArray || rightChildIsArray){
+                numErrors++;
+
+                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+            }
+        }
+        else if(!strcmp(t->attr.name, "=")){
+            // Undefined type
+            // children types do not match
+            if(t->child[0]->expType != t->child[1]->expType){
+                if(!leftChildError && !rightChildError){
+                    if(!strcmp(getExpType(t->child[0]->expType), "int") && !strcmp(getExpType(t->child[1]->expType), "CharInt")){
+                        if(!strcmp(getExpType(t->child[0]->expType), "int") && !strcmp(getExpType(t->child[1]->expType), "CharInt")){
+                            numErrors++;
+
+                            printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->linenum, t->attr.name, "int", "char");
+                        }
+                    }
+                    else if(!strcmp(getExpType(t->child[0]->expType), "char") && !strcmp(getExpType(t->child[1]->expType), "CharInt")){
+                        // types match properly. 
+                    }
+                    else{
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->linenum, t->attr.name, getExpType(t->child[0]->expType), getExpType(t->child[1]->expType));
+                    }
+                }
+            }
+
+             // ddoes not work with arrays
+            if(leftChildIsArray || rightChildIsArray){
+                numErrors++;
+
+                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+            }
+        }
     }
 }
 
