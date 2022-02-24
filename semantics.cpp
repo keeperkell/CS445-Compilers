@@ -201,6 +201,7 @@ void semanticAnalysis(TreeNode *t){
 
             case ExpK:
                 switch(t->subkind.exp){
+                    case AssignK:
                     case OpK:
                         // OpK will 1 or 2 child nodes(unary or binary)
                         // Need to have logic specific for each side, starting with left
@@ -234,20 +235,50 @@ void semanticAnalysis(TreeNode *t){
                             numErrors++;
 
                             printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
-                            t->expType = UndefinedType;
                         }
-                        else if(currentNode){
+                        else{
+                            // need to possible change these up
+                            t->expType = currentNode->expType;
+                            t->isArray = currentNode->isArray;
+                            t->isStatic = currentNode->isStatic;
+                            t->isGlobal = currentNode->isGlobal;
+                            t->isInit = currentNode->isInit;
+                            t->isDeclared = currentNode->isDeclared;
+
+                            if(t->child[0]){
+                                semanticAnalysis(t->child[0]);
+
+                                if(t->isArray){
+                                    if(t->child[0]->expType != Integer){
+                                        printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, t->attr.name, getExpType(t->child[0]->expType));
+                                    }
+
+                                    if(t->child[0]->isArray){
+                                        if(!t->child[0]->child[0]){
+                                            printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, t->attr.name);
+                                        }
+                                    }
+                                }
+                            }
+
+                            // attempt to pop warning if Id is used without being initialized
+                            if(t->isDeclared){
+                                if(!t->isInit){
+                                    numErrors++;
+
+                                    printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->attr.name);
+
+                                }
+                            }
+
+                            // functions can not be used for variables
                             if(currentNode->subkind.decl == FuncK){
                                 numErrors++;
 
                                 printf("ERROR(%d): Cannot use function '%s' as a variable.\n", currentNode->linenum, currentNode->attr.name);
-                                t->expType = UndefinedType;
                             }
-                        }
-                        break;
+                        } 
 
-                    case AssignK:
-                        //placeholder for future errors/checks
                         break;
 
                     case CallK:
@@ -258,25 +289,23 @@ void semanticAnalysis(TreeNode *t){
 
                         currentNode = (TreeNode *)st.lookup(t->attr.name);
 
-                        if(currentNode){
-                            // if call is not to a func
-                            if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK){
-                                numErrors++;
-
-                                printf("ERROR(%d): '%s' is a simple variable and cannot be called.\n", currentNode->linenum, currentNode->attr.name);
-                            } 
-                            else{
-                                t->expType = currentNode->expType;
-                                t->isStatic = currentNode->isStatic;
-                                t->isArray = currentNode->isArray;
-                            }    
-                        }
-                        else{
-                            numErrors++;
-
+                        if(!currentNode){
                             printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
                         }
+                        else{
+                            t->expType = currentNode->expType;
+                            t->isArray = currentNode->isArray;
+                            t->isStatic = currentNode->isStatic;
+                            t->isGlobal = currentNode->isGlobal;
+                        }
 
+                        // if call is not to a func
+                        if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK){
+                            numErrors++;
+
+                            printf("ERROR(%d): '%s' is a simple variable and cannot be called.\n", currentNode->linenum, currentNode->attr.name);
+                        } 
+                        
                         break;
 
                     default:
