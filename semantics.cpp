@@ -27,6 +27,7 @@ bool stayInScope = true;
 TreeNode *funcScope;
 
 void semanticAnalysis(TreeNode *t){
+    printf("Start of semantic Analysis\n");
 
     TreeNode *currentNode;
 
