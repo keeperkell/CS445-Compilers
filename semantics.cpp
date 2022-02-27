@@ -40,6 +40,7 @@ void semanticAnalysis(TreeNode *t){
             
             
             case DeclK:
+                printf("DeclK\n");
 
                 // check if on a global score or not
                 if(st.depth() != 1){
@@ -64,6 +65,8 @@ void semanticAnalysis(TreeNode *t){
                 switch(t->subkind.decl){
                     
                     case VarK:
+                        printf("DeclK->VarK\n");
+
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[0] != NULL){
                                 semanticAnalysis(t->child[0]);
@@ -81,6 +84,7 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case FuncK:
+                        printf("DeclK->FuncK\n");
                         // assign function scope as current TreeNode
                         funcScope = t;
 
@@ -99,6 +103,7 @@ void semanticAnalysis(TreeNode *t){
 
                     case ParamK:
                         //currentNode = (TreeNode *)st.lookup(t->attr.name);
+                        printf("DeclK->ParamK\n");
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             semanticAnalysis(t->child[i]);
@@ -115,6 +120,8 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case IfK:
+                        printf("StmtK->IfK\n");
+
                         //enter loop
                         insideLoop = true;
                         st.enter(t->attr.name);
@@ -133,6 +140,7 @@ void semanticAnalysis(TreeNode *t){
                     // multiple cases in a row without a break default to the last cases code
                     case WhileK:
                     case ForK:
+                        printf("Stmt->ForK, WhileK\n");
                         //enter loop
                         insideLoop = true;
                         st.enter(t->attr.name);
@@ -149,7 +157,7 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case CompoundK:
-
+                        printf("StmtK->CompoundK\n");
                     // VERIFIED SEGFAULT INSIDE THIS CASE 
 
                         if(stayInScope){
@@ -159,7 +167,7 @@ void semanticAnalysis(TreeNode *t){
                             stayInScope = true;
                         }
                         
-                        printf("I am in compound\n");
+                        
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
@@ -174,7 +182,7 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case ReturnK:
-
+                        printf("StmtK->ReturnK\n");
                         // return should only have 1 child to return
                         
                         semanticAnalysis(t->child[0]);
@@ -200,6 +208,8 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case RangeK:
+                        printf("Stmt->RangeK\n");
+
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
                                 semanticAnalysis(t->child[i]);
@@ -210,12 +220,14 @@ void semanticAnalysis(TreeNode *t){
                 break;
 
             case ExpK:
+                printf("ExpK\n");
                 switch(t->subkind.exp){
                     case AssignK:
                     case OpK:
                         // OpK will 1 or 2 child nodes(unary or binary)
                         // Need to have logic specific for each side, starting with left
                         // to account for unary
+                        printf("ExpK->AssignK,OpK\n");
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
@@ -242,6 +254,8 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case IdK:
+                        printf("ExpK->IdK\n");
+
                         currentNode = (TreeNode *)st.lookup(t->attr.name);
 
                         if(!currentNode){
@@ -295,6 +309,7 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case CallK:
+                        printf("ExpK->CallK\n");
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             semanticAnalysis(t->child[i]);
