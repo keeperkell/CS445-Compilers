@@ -46,7 +46,6 @@ void semanticAnalysis(TreeNode *t){
                 else{
                     t->isGlobal = true;
                 }
-                
 
                 // if symbol is already declared, print error and increase count
                 if(t->subkind.decl != VarK){
@@ -309,7 +308,7 @@ void semanticAnalysis(TreeNode *t){
                             if(currentNode->subkind.decl == FuncK){
                                 numErrors++;
 
-                                printf("ERROR(%d): Cannot use function '%s' as a variable.\n", currentNode->linenum, currentNode->attr.name);
+                                printf("ERROR(%d): Cannot use function '%s' as a variable.\n", t->linenum, currentNode->attr.name);
                             }
                         } 
 
