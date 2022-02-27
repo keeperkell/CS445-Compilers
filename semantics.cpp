@@ -32,7 +32,7 @@ void semanticAnalysis(TreeNode *t){
     TreeNode *childNode2 = t->child[1];
     TreeNode *childNode3 = t->child[2];
     
-    if(t == NULL){
+    if(!t){
         return;
     }
     else{
@@ -173,6 +173,7 @@ void semanticAnalysis(TreeNode *t){
                         // return should only have 1 child to return
                         semanticAnalysis(t->child[0]);
 
+                        /*
                         if(t->child[0]){
                             if(!funcScope){
                                 break;
@@ -186,6 +187,7 @@ void semanticAnalysis(TreeNode *t){
                                 }
                             }
                         }
+                        */
             
                         break;
 
