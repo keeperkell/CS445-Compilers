@@ -150,6 +150,7 @@ void semanticAnalysis(TreeNode *t){
 
                     case CompoundK:
 
+                        /*
                     // need to fix, not working properly. 
                         if(stayInScope){
                             st.enter("compound");
@@ -165,14 +166,15 @@ void semanticAnalysis(TreeNode *t){
                         if(stayInScope){
                             st.leave();
                         }
+                        */
                         break;
 
                     case ReturnK:
 
                         // return should only have 1 child to return
-                        //semanticAnalysis(t->child[0]);
+                        semanticAnalysis(t->child[0]);
 
-                        /*
+                        
                         if(t->child[0]){
                             if(!funcScope){
                                 break;
@@ -186,7 +188,6 @@ void semanticAnalysis(TreeNode *t){
                                 }
                             }
                         }
-                        */
             
                         break;
 
