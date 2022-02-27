@@ -28,11 +28,18 @@ TreeNode *funcScope;
 
 void semanticAnalysis(TreeNode *t){
     printf("start of semantic analysis\n");
-    
+
     TreeNode *currentNode;
-    TreeNode *childNode1 = t->child[0];
-    TreeNode *childNode2 = t->child[1];
-    TreeNode *childNode3 = t->child[2];
+    if(t->child[0]){
+        TreeNode *childNode1 = t->child[0];
+    }
+    if(t->child[1]){
+        TreeNode *childNode2 = t->child[1];
+    }
+    if(t->child[2]){
+       TreeNode *childNode3 = t->child[2]; 
+    }
+    
 
     
     if(!t){
