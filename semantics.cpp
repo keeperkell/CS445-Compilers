@@ -156,6 +156,8 @@ void semanticAnalysis(TreeNode *t){
                             stayInScope = true;
                         }
 
+                        printf("Inside compound scope");
+
                         for(int i = 0; i < MAXCHILDREN; i++){
                             semanticAnalysis(t->child[i]);
                         }
@@ -166,6 +168,8 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case ReturnK:
+
+                        printf("inside ReturnK");
                         // return should only have 1 child to return
                         semanticAnalysis(t->child[0]);
 
