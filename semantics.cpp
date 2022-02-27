@@ -30,7 +30,7 @@ void semanticAnalysis(TreeNode *t){
     
     TreeNode *currentNode;
 
-    if(t){
+    if(t->attr.name){
         printf("Start of semantic Analysis: %s\n", t->attr.name);
     }
 
