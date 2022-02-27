@@ -27,16 +27,13 @@ bool stayInScope = true;
 TreeNode *funcScope;
 
 void semanticAnalysis(TreeNode *t){
-    printf("start of semantic analysis\n");
 
     TreeNode *currentNode;
 
     if(!t){
-        printf("node is null, returning\n");
         return;
     }
     else{
-        printf("node exists, continue checking\n");
         switch(t->nodekind){
             
             
