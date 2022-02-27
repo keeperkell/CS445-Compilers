@@ -22,7 +22,7 @@ extern int numWarnings;
 int scopeDepth = 0;
 int loopDepth = 1;
 bool insideLoop = false;
-bool stayInScope = true;
+bool stayInScope = false;
 
 TreeNode *funcScope;
 
@@ -148,14 +148,13 @@ void semanticAnalysis(TreeNode *t){
 
                     case CompoundK:
 
-                        //bool tmpScope = stayInScope;
                     // need to fix, not working properly. 
                         if(!stayInScope){
-                            st.enter("compound");
+                            st.enter((char *)"compound");
                             printf("inside of compound scope");
                         }
                         else{
-                            stayInScope = true;
+                            stayInScope = false;
                         }
 
                         printf("Inside compound scope");
@@ -164,7 +163,7 @@ void semanticAnalysis(TreeNode *t){
                             semanticAnalysis(t->child[i]);
                         }
 
-                        if(stayInScope){
+                        if(!stayInScope){
                             st.leave();
                         }
                         break;
