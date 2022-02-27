@@ -31,11 +31,14 @@ void semanticAnalysis(TreeNode *t){
     TreeNode *childNode1 = t->child[0];
     TreeNode *childNode2 = t->child[1];
     TreeNode *childNode3 = t->child[2];
-    
+
+    print("start of semantic analysis");
     if(!t){
+        print("node is null, returning\n");
         return;
     }
     else{
+        print("node exists, continue checking\n");
         switch(t->nodekind){
             
             
@@ -102,10 +105,11 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case ParamK:
-                        //currentNode = (TreeNode *)st.lookup(t->attr.name);
+                        
                         printf("DeclK->ParamK\n");
 
                         for(int i = 0; i < MAXCHILDREN; i++){
+                            printf("DeclK->ParamK=> before semantic analysis\n");
                             semanticAnalysis(t->child[i]);
                         }
 
