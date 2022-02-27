@@ -281,16 +281,15 @@ void semanticAnalysis(TreeNode *t){
                             if(t->child[0]){
                                 semanticAnalysis(t->child[0]);
 
-                                if(t->isArray){
-                                    if(t->child[0]->expType != Integer){
-                                        printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType));
+                                if(t->child[0]->isArray){
+                                    if(!t->child[1]){
+                                        printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, t->attr.name);
+                                    }
+                                    else if(t->child[1]->expType != Integer){
+                                        printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[1]->expType));
                                     }
 
-                                    if(t->child[0]->isArray){
-                                        if(!t->child[0]->child[0]){
-                                            printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, t->attr.name);
-                                        }
-                                    }
+                                    
                                 }
                             }
 
