@@ -158,13 +158,13 @@ void semanticAnalysis(TreeNode *t){
                         else{
                             stayInScope = true;
                         }
-
-                        /*
+                        
                         for(int i = 0; i < MAXCHILDREN; i++){
-                            semanticAnalysis(t->child[i]);
-                        }
-                        */
-                       
+                            if(t->child[i]){
+                                semanticAnalysis(t->child[i]);
+                            }
+                        }            
+
                         if(stayInScope){
                             st.leave();
                         }
@@ -174,9 +174,9 @@ void semanticAnalysis(TreeNode *t){
                     case ReturnK:
 
                         // return should only have 1 child to return
-                        semanticAnalysis(t->child[0]);
-
                         
+                        //semanticAnalysis(t->child[0]);
+   
                         if(t->child[0]){
                             if(!funcScope){
                                 break;
