@@ -231,9 +231,11 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case ConstantK:
+                        /*                   
                         for(int i = 0; i < MAXCHILDREN; i++){
                             semanticAnalysis(t->child[i]);
                         }
+                        */
                         break;
 
                     case IdK:
