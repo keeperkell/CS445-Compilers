@@ -36,8 +36,9 @@ void semanticAnalysis(TreeNode *t){
         printf("childNode1 decl\n");
         TreeNode *childNode1 = t->child[0];
     }
+    printf("between children decls\n");
     if(t->child[1] != NULL){
-        printf("childNode1 decl\n");
+        printf("childNode2 decl\n");
         TreeNode *childNode2 = t->child[1];
     }
     /*
