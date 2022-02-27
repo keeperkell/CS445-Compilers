@@ -441,7 +441,7 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
                 //print error
                 numErrors++;
 
-                printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
+                printf("ERROR(%d): Unary '%s' requires an operand of type %s but lhs was given type %s.\n", t->linenum, "chsign", "int", returnExpType(t->child[0]->expType));
             }
         }
         // size of, not multiply
