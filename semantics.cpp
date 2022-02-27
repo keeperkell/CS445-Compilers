@@ -175,7 +175,7 @@ void semanticAnalysis(TreeNode *t){
 
                         // return should only have 1 child to return
                         
-                        //semanticAnalysis(t->child[0]);
+                        semanticAnalysis(t->child[0]);
    
                         if(t->child[0]){
                             if(!funcScope){
