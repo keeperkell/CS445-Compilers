@@ -83,6 +83,7 @@ void semanticAnalysis(TreeNode *t){
 
                     case FuncK:
                         //printf("DeclK->FuncK\n");
+                        
                         // assign function scope as current TreeNode
                         funcScope = t;
 
@@ -104,7 +105,7 @@ void semanticAnalysis(TreeNode *t){
                         //printf("DeclK->ParamK\n");
 
                         for(int i = 0; i < MAXCHILDREN; i++){
-                            printf("DeclK->ParamK=> before semantic analysis\n");
+                            //printf("DeclK->ParamK=> before semantic analysis\n");
                             semanticAnalysis(t->child[i]);
                         }
 
@@ -219,7 +220,7 @@ void semanticAnalysis(TreeNode *t){
                 break;
 
             case ExpK:
-                printf("ExpK\n");
+                //printf("ExpK\n");
                 switch(t->subkind.exp){
                     case AssignK:
                     case OpK:
