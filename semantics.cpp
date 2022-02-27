@@ -27,12 +27,14 @@ bool stayInScope = true;
 TreeNode *funcScope;
 
 void semanticAnalysis(TreeNode *t){
+    printf("start of semantic analysis\n");
+    
     TreeNode *currentNode;
     TreeNode *childNode1 = t->child[0];
     TreeNode *childNode2 = t->child[1];
     TreeNode *childNode3 = t->child[2];
 
-    printf("start of semantic analysis");
+    
     if(!t){
         printf("node is null, returning\n");
         return;
