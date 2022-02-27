@@ -36,7 +36,6 @@ void semanticAnalysis(TreeNode *t){
     else{
         
         switch(t->nodekind){
-            
             case DeclK:
                 printf("DeclK\n");
 
@@ -225,7 +224,6 @@ void semanticAnalysis(TreeNode *t){
                 break;
 
             case ExpK:
-                printf("ExpK\n");
                 switch(t->subkind.exp){
                     case AssignK:
                     case OpK:
@@ -547,8 +545,6 @@ void unaryOps(TreeNode *t, ExpKind subkind){
 
 void unaryBinaryOps(TreeNode *t, ExpKind subkind){
 
-
-
     TreeNode *leftChild = t->child[0];
     ExpType leftChildExpType;
     bool leftChildIsArray, leftChildIsStr, leftChildError;
@@ -690,9 +686,16 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
                 printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
             }
         }
+    }
+    else{
         
          // if node is initialized, set flag
-        if(!strcmp(t->attr.name, "<-") && t->isBinary){
+        if(!strcmp(t->attr.name, "<-"){
+            if(t->child[0]->expType != t->child[1]->expType){
+                numErrors++;
+
+                printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
+            }
             if(subkind == AssignK){
                 t->child[0]->isInit = true;
             }
@@ -700,8 +703,7 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
         else{
             t->child[0]->isInit = false;
         }
-    }
-    else{
+
         if(!strcmp(t->attr.name, "or") || !strcmp(t->attr.name, "and")){
             // Boolean
 
