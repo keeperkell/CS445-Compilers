@@ -151,6 +151,7 @@ void semanticAnalysis(TreeNode *t){
                     // need to fix, not working properly. 
                         if(stayInScope){
                             st.enter("compound");
+                            printf("inside of compound scope");
                         }
                         else{
                             stayInScope = true;
