@@ -150,8 +150,8 @@ void semanticAnalysis(TreeNode *t){
 
                     case CompoundK:
 
-                        /*
-                    // need to fix, not working properly. 
+                    // VERIFIED SEGFAULT INSIDE THIS CASE 
+
                         if(stayInScope){
                             st.enter("compound");
                         }
@@ -159,14 +159,16 @@ void semanticAnalysis(TreeNode *t){
                             stayInScope = true;
                         }
 
+                        /*
                         for(int i = 0; i < MAXCHILDREN; i++){
                             semanticAnalysis(t->child[i]);
                         }
-
+                        */
+                       
                         if(stayInScope){
                             st.leave();
                         }
-                        */
+                        
                         break;
 
                     case ReturnK:
