@@ -159,6 +159,8 @@ void semanticAnalysis(TreeNode *t){
                             stayInScope = true;
                         }
                         
+                        printf("I am in compound\n");
+
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
                                 semanticAnalysis(t->child[i]);
@@ -231,6 +233,7 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case ConstantK:
+                        // need to review this section
                         /*                   
                         for(int i = 0; i < MAXCHILDREN; i++){
                             semanticAnalysis(t->child[i]);
