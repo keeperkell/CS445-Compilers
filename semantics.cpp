@@ -40,10 +40,12 @@ void semanticAnalysis(TreeNode *t){
         printf("childNode1 decl\n");
         TreeNode *childNode2 = t->child[1];
     }
+    /*
     if(t->child[2]){
         printf("childNode1 decl\n");
        TreeNode *childNode3 = t->child[2]; 
     }
+    */
     
     printf("After children decls\n");
     
