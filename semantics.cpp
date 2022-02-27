@@ -336,7 +336,7 @@ void semanticAnalysis(TreeNode *t){
                         if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK){
                             numErrors++;
 
-                            printf("ERROR(%d): '%s' is a simple variable and cannot be called.\n", currentNode->linenum, currentNode->attr.name);
+                            printf("ERROR(%d): '%s' is a simple variable and cannot be called.\n", t->linenum, currentNode->attr.name);
                         } 
                         
                         break;
@@ -683,7 +683,7 @@ char *returnExpType(ExpType t){
             returnStmt = strdup("char");
             return returnStmt;
         case CharInt:
-            returnStmt = strdup("CharInt");
+            returnStmt = strdup("char");
             return returnStmt;
         case Equal:
             returnStmt = strdup("Equal");
