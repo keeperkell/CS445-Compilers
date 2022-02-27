@@ -154,6 +154,7 @@ void semanticAnalysis(TreeNode *t){
                             printf("inside of compound scope");
                         }
                         else{
+                            printf("inside of compound scope else");
                             stayInScope = false;
                         }
 
@@ -164,6 +165,7 @@ void semanticAnalysis(TreeNode *t){
                         }
 
                         if(!stayInScope){
+                            printf("leaving compound scope");
                             st.leave();
                         }
                         break;
