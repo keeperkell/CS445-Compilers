@@ -30,12 +30,15 @@ void semanticAnalysis(TreeNode *t){
     
     TreeNode *currentNode;
 
+    if(t){
+        printf("Start of semantic Analysis: %s\n", t->attr.name);
+    }
+
     if(!t){
-        //printf("Empty Node \n");
         return;
     }
     else{
-        //printf("Start of semantic Analysis: %s\n", t->attr.name);
+        
         switch(t->nodekind){
             
             case DeclK:
