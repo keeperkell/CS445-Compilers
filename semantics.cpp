@@ -83,7 +83,7 @@ void semanticAnalysis(TreeNode *t){
 
                     case FuncK:
                         //printf("DeclK->FuncK\n");
-                        
+
                         // assign function scope as current TreeNode
                         funcScope = t;
 
@@ -96,7 +96,11 @@ void semanticAnalysis(TreeNode *t){
                                 semanticAnalysis(t->child[i]);
                             }
                         }
-                        st.leave();
+
+                        // Only leave scope if you are not in global
+                        if(st.depth != 1){
+                            st.leave();
+                        }
 
                         break;
 

@@ -465,6 +465,7 @@ extern int yydebug;
 int main(int argc, char *argv[])
 {
     int option;
+    TreeNode *funcMainNode;
 
     // get CLI option when program is run
     if((option = getopt(argc, argv, "dDhpP")) != -1){
@@ -521,7 +522,15 @@ int main(int argc, char *argv[])
 
             case 'P':
               semanticAnalysis(AST);
+              funcMainNode = (TreeNode *)st.lookup("main");
               
+              // if main doesnt exist, print error
+              if(!funcMainNode){
+                numErrors++;
+                
+                printf("ERROR(LINKER): A function named \'main()\' must be defined\n");
+              }
+
               if(!numErrors){
                 W_TYPING = true;
                 printTree(AST, W_TYPING, 0);
@@ -546,7 +555,9 @@ int main(int argc, char *argv[])
       }
       else {
             // failed to open file
-            printf("ERROR: failed to open \'%s\'\n", argv[1]);
+            printf("ERROR(ARGLIST): source file \"%s\" could not be opened\n", argv[1]);
+            printf("Number of errors: %d\n", numErrors);
+            printf("Number of warnings: %d\n", numWarnings);
             exit(1);
       }   
       yyparse();
