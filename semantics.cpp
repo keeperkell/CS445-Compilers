@@ -35,7 +35,7 @@ void semanticAnalysis(TreeNode *t){
         return;
     }
     else{
-        //printf("Start of semantic Analysis: %s\n", t->attr.name);
+        printf("Start of semantic Analysis: %s\n", t->attr.name);
         switch(t->nodekind){
             
             case DeclK:
