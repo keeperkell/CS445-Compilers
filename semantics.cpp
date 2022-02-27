@@ -32,13 +32,13 @@ void semanticAnalysis(TreeNode *t){
     TreeNode *childNode2 = t->child[1];
     TreeNode *childNode3 = t->child[2];
 
-    print("start of semantic analysis");
+    printf("start of semantic analysis");
     if(!t){
-        print("node is null, returning\n");
+        printf("node is null, returning\n");
         return;
     }
     else{
-        print("node exists, continue checking\n");
+        printf("node exists, continue checking\n");
         switch(t->nodekind){
             
             
