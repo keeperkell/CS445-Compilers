@@ -32,7 +32,7 @@ void semanticAnalysis(TreeNode *t){
     TreeNode *childNode2 = t->child[1];
     TreeNode *childNode3 = t->child[2];
     
-    if(!t){
+    if(t == NULL){
         return;
     }
     else{
