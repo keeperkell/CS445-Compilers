@@ -150,19 +150,20 @@ void semanticAnalysis(TreeNode *t){
 
                     case CompoundK:
 
+                        bool tmpScope = stayInScope;
                     // need to fix, not working properly. 
-                        if(stayInScope){
+                        if(tmpScope){
                             st.enter("compound");
                         }
                         else{
-                            stayInScope = true;
+                            tmpScope = true;
                         }
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             semanticAnalysis(t->child[i]);
                         }
 
-                        if(stayInScope){
+                        if(tmpScope){
                             st.leave();
                         }
                         break;
