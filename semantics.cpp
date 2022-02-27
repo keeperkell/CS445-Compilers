@@ -148,8 +148,9 @@ void semanticAnalysis(TreeNode *t){
 
                     case CompoundK:
 
+                        //bool tmpScope = stayInScope;
                     // need to fix, not working properly. 
-                        if(stayInScope){
+                        if(!stayInScope){
                             st.enter("compound");
                             printf("inside of compound scope");
                         }
