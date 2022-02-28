@@ -336,6 +336,7 @@ void semanticAnalysis(TreeNode *t){
                                 numErrors++;
 
                             printf("ERROR(%d): '%s' is a simple variable and cannot be called.\n", t->linenum, currentNode->attr.name);
+                            }
                         }
                         
                         break;
