@@ -330,14 +330,13 @@ void semanticAnalysis(TreeNode *t){
                             t->isArray = currentNode->isArray;
                             t->isStatic = currentNode->isStatic;
                             t->isGlobal = currentNode->isGlobal;
-                        }
-
-                        // if call is not to a func
-                        if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK){
-                            numErrors++;
+                            
+                            // if call is not to a func
+                            if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK){
+                                numErrors++;
 
                             printf("ERROR(%d): '%s' is a simple variable and cannot be called.\n", t->linenum, currentNode->attr.name);
-                        } 
+                        }
                         
                         break;
 
