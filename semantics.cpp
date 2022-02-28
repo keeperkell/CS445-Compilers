@@ -34,7 +34,7 @@ void semanticAnalysis(TreeNode *t){
         return;
     }
     else{
-        
+        printf("Line: %d", t->linenum);
         switch(t->nodekind){
             case DeclK:
                 //printf("DeclK\n");
