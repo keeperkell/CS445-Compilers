@@ -166,6 +166,7 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case ForK:
+                    
                         //printf("Stmt->ForK, WhileK\n");
 
                         //enter loop
@@ -191,6 +192,7 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case CompoundK:
+                    {
                         //printf("StmtK->CompoundK\n");
                         bool tempScope = stayInScope;
 
@@ -214,6 +216,7 @@ void semanticAnalysis(TreeNode *t){
                         }
                         
                         break;
+                    }
 
                     case ReturnK:
                         //printf("StmtK->ReturnK\n");
