@@ -213,8 +213,8 @@ void semanticAnalysis(TreeNode *t){
                                 semanticAnalysis(t->child[i]);
                             }
                         }            
-
-                        if(tempScope){
+                        
+                        if(tempScope && st.depth() > 1){
                             st.leave();
                             scopeDepth--;
                         }
