@@ -29,7 +29,6 @@ TreeNode *funcScope;
 void semanticAnalysis(TreeNode *t){
     
     TreeNode *currentNode;
-    printf("Line: %d", t->linenum);
     
     if(!t){
         return;
