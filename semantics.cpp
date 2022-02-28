@@ -369,7 +369,8 @@ void semanticAnalysis(TreeNode *t){
 
                     case CallK:
                         //printf("ExpK->CallK\n");
-
+                        printf("%s\n", t->attr.name);
+                        
                         for(int i = 0; i < MAXCHILDREN; i++){
                             semanticAnalysis(t->child[i]);
                         }
@@ -378,7 +379,7 @@ void semanticAnalysis(TreeNode *t){
 
                         if(!currentNode){
                             numErrors++;
-                            
+
                             printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
                         }
                         else{
