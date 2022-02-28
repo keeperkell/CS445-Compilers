@@ -521,6 +521,15 @@ int main(int argc, char *argv[])
               break;
 
             case 'P':
+
+
+              W_TYPING = false;
+              printTree(AST, W_TYPING, 0);
+
+
+
+
+            /*
               semanticAnalysis(AST);
               funcMainNode = (TreeNode *)st.lookup("main");
               
@@ -533,7 +542,7 @@ int main(int argc, char *argv[])
 
               W_TYPING = true;
               printTree(AST, W_TYPING, 0);
-              
+            */
               /*
               if(!numErrors){
                 W_TYPING = true;
