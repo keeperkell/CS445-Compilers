@@ -510,10 +510,8 @@ int main(int argc, char *argv[])
         }
       }
       else{
-        printf("before parse");
         // Parse Tree and check for errors
         yyparse();
-        printf("after parse");
 
         if(!numErrors){
           switch(option){
@@ -523,7 +521,6 @@ int main(int argc, char *argv[])
               break;
 
             case 'P':
-              printf("Inside -P option\n");
 
               semanticAnalysis(AST);
               funcMainNode = (TreeNode *)st.lookup("main");
@@ -535,15 +532,10 @@ int main(int argc, char *argv[])
                 printf("ERROR(LINKER): A function named \'main()\' must be defined\n");
               }
 
-              W_TYPING = true;
-              printTree(AST, W_TYPING, 0);
-
-              /*
               if(!numErrors){
                 W_TYPING = true;
                 printTree(AST, W_TYPING, 0);
               }
-              */
               
               break;
 
