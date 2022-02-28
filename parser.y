@@ -531,10 +531,15 @@ int main(int argc, char *argv[])
                 printf("ERROR(LINKER): A function named \'main()\' must be defined\n");
               }
 
+              W_TYPING = true;
+              printTree(AST, W_TYPING, 0);
+              
+              /*
               if(!numErrors){
                 W_TYPING = true;
                 printTree(AST, W_TYPING, 0);
               }
+              */
               
               break;
 
