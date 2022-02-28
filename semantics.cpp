@@ -29,12 +29,13 @@ TreeNode *funcScope;
 void semanticAnalysis(TreeNode *t){
     
     TreeNode *currentNode;
-
+    printf("Line: %d", t->linenum);
+    
     if(!t){
         return;
     }
     else{
-        printf("Line: %d", t->linenum);
+        
         switch(t->nodekind){
             case DeclK:
                 //printf("DeclK\n");
