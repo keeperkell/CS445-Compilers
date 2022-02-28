@@ -510,8 +510,10 @@ int main(int argc, char *argv[])
         }
       }
       else{
+        printf("before parse");
         // Parse Tree and check for errors
         yyparse();
+        printf("after parse");
 
         if(!numErrors){
           switch(option){
