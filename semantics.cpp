@@ -61,7 +61,7 @@ void semanticAnalysis(TreeNode *t){
                 switch(t->subkind.decl){
                     
                     case VarK:
-                        //printf("DeclK->VarK\n");
+                        printf("VarK %s\n", t->attr.name);
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[0] != NULL){
@@ -197,6 +197,7 @@ void semanticAnalysis(TreeNode *t){
 
                     case CompoundK:
                     {
+                        printf("Compound %s\n", t->attr.name);
                         //printf("StmtK->CompoundK\n");
                         bool tempScope = stayInScope;
 
@@ -370,7 +371,7 @@ void semanticAnalysis(TreeNode *t){
                     case CallK:
                         //printf("ExpK->CallK\n");
                         printf("%s\n", t->attr.name);
-                        
+
                         for(int i = 0; i < MAXCHILDREN; i++){
                             semanticAnalysis(t->child[i]);
                         }
