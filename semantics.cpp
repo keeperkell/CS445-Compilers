@@ -377,6 +377,8 @@ void semanticAnalysis(TreeNode *t){
                         currentNode = (TreeNode *)st.lookup(t->attr.name);
 
                         if(!currentNode){
+                            numErrors++;
+                            
                             printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
                         }
                         else{
