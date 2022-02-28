@@ -96,7 +96,7 @@ void semanticAnalysis(TreeNode *t){
                         }
 
                         // Only leave scope if you are not in global
-                        if(st.depth() != 1){
+                        if(st.depth() > 1){
                             st.leave();
                         }
 
@@ -160,8 +160,10 @@ void semanticAnalysis(TreeNode *t){
                         insideLoop = false;
 
                         stayInScope = true;
-                        st.leave();
-                        loopDepth--;
+                        if(st.depth() > 1){
+                            st.leave();
+                            loopDepth--;
+                        }
 
                         break;
 
@@ -186,8 +188,10 @@ void semanticAnalysis(TreeNode *t){
                         insideLoop = false;
 
                         stayInScope = true;
-                        st.leave();
-                        loopDepth--;
+                        if(st.depth() > 1){
+                            st.leave();
+                            loopDepth--;
+                        }
 
                         break;
 
