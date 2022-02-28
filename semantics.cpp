@@ -141,12 +141,14 @@ void semanticAnalysis(TreeNode *t){
 
                     // multiple cases in a row without a break default to the last cases code
                     case WhileK:
-                    case ForK:
                         //printf("Stmt->ForK, WhileK\n");
 
                         //enter loop
                         insideLoop = true;
+
                         st.enter(t->attr.name);
+                        stayInScope = false;
+                        loopDepth++;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
@@ -156,29 +158,59 @@ void semanticAnalysis(TreeNode *t){
 
                         //exit loop
                         insideLoop = false;
+
+                        stayInScope = true;
                         st.leave();
+                        loopDepth--;
+
+                        break;
+
+                    case ForK:
+                        //printf("Stmt->ForK, WhileK\n");
+
+                        //enter loop
+                        insideLoop = true;
+
+                        st.enter(t->attr.name);
+                        stayInScope = false;
+                        loopDepth++;
+
+                        for(int i = 0; i < MAXCHILDREN; i++){
+                            if(t->child[i]){
+                                semanticAnalysis(t->child[i]);
+                            }
+                        }
+
+                        //exit loop
+                        insideLoop = false;
+
+                        stayInScope = true;
+                        st.leave();
+                        loopDepth--;
+
                         break;
 
                     case CompoundK:
                         //printf("StmtK->CompoundK\n");
+                        bool tempScope = stayInScope;
 
                         if(stayInScope){
                             st.enter("compound");
+                            scopeDepth++;
                         }
                         else{
-                            stayInScope = true;
+                            tempScope = true;
                         }
                         
-                        
-
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
                                 semanticAnalysis(t->child[i]);
                             }
                         }            
 
-                        if(stayInScope){
+                        if(tempScope){
                             st.leave();
+                            scopeDepth--;
                         }
                         
                         break;
@@ -225,6 +257,21 @@ void semanticAnalysis(TreeNode *t){
             case ExpK:
                 switch(t->subkind.exp){
                     case AssignK:
+                        for(int i = 0; i < MAXCHILDREN; i++){
+                            if(t->child[i]){
+                                semanticAnalysis(t->child[i]);
+                            }
+                        }
+
+                        // if both children exist, op is binary
+                        if(t->child[0] && t->child[1]){
+                            t->isBinary = true;
+                        }
+
+                        unaryBinaryOps(t, t->subkind.exp);
+
+                        break;
+
                     case OpK:
                         // OpK will 1 or 2 child nodes(unary or binary)
                         // Need to have logic specific for each side, starting with left
