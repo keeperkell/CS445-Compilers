@@ -483,12 +483,15 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
         }
     }
 
-    // check right child for Void Call Exp
-    if(rightChildExpType == Void){
-        if(!(rightChild->nodekind == ExpK && rightChild->subkind.exp == CallK)){
-            rightChildError = true;
+    if(rightChild){
+        // check right child for Void Call Exp
+        if(rightChildExpType == Void){
+            if(!(rightChild->nodekind == ExpK && rightChild->subkind.exp == CallK)){
+                rightChildError = true;
+            }
         }
     }
+    
 
     // start error check and print error functions
 
