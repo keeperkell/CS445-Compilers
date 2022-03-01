@@ -529,7 +529,7 @@ int main(int argc, char *argv[])
               if(!funcMainNode){
                 numErrors++;
                 
-                printf("ERROR(LINKER): A function named \'main()\' must be defined\n");
+                printf("ERROR(LINKER): A function named \'main()\' must be defined.\n");
               }
 
               if(!numErrors){
@@ -557,7 +557,7 @@ int main(int argc, char *argv[])
       else {
             // failed to open file
             numErrors++;
-            printf("ERROR(ARGLIST): source file \"%s\" could not be opened\n", argv[1]);
+            printf("ERROR(ARGLIST): source file \"%s\" could not be opened.\n", argv[1]);
             printf("Number of warnings: %d\n", numWarnings);
             printf("Number of errors: %d\n", numErrors);
             exit(1);
