@@ -565,7 +565,7 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
             }
         }
     }
-    else{
+    else if(t->isBinary){
         
          // if node is initialized, set flag
         if(!strcmp(t->attr.name, "<-")){
