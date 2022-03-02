@@ -1,3 +1,4 @@
+
 // // // // // // // // // // // // // // // // // // // // // // // 
 // CS445 - semantics.cpp
 //
@@ -288,7 +289,7 @@ void semanticAnalysis(TreeNode *t){
                         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                         
                         // This print statement is necesary to prevent a segfault I could not figure out
-                        printf("\n");
+                        //printf("\n");
                         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                         for(int i = 0; i < MAXCHILDREN; i++){
@@ -483,11 +484,11 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
         }
     }
 
+    // check right child for Void Call Exp
     if(rightChild){
-        // check right child for Void Call Exp
         if(rightChildExpType == Void){
             if(!(rightChild->nodekind == ExpK && rightChild->subkind.exp == CallK)){
-                rightChildError = true;
+            rightChildError = true;
             }
         }
     }

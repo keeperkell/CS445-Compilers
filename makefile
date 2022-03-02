@@ -1,5 +1,5 @@
 BIN = parser
-CC = g++
+CC = g++ -g
 NAME = c-
 
 SRCS = $(BIN).y $(BIN).l
