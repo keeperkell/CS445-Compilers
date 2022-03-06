@@ -525,7 +525,7 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
                 //print error
                 numErrors++;
 
-                printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
+                printf("ERROR(%d): Unary '%s' requires operands of type %s but lhs was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
             }
         }
         else if(!strcmp(t->attr.name, "not")){
@@ -534,7 +534,7 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
                 //print error
                 numErrors++;
 
-                printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[0]->expType));
+                printf("ERROR(%d): Unary '%s' requires operands of type %s but lhs was given type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[0]->expType));
             }
         }
         else if(!strcmp(t->attr.name, "++")){
@@ -543,7 +543,7 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
                 //print error
                 numErrors++;
 
-                printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
+                printf("ERROR(%d): Unary '%s' requires operands of type %s but lhs was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
             }
         }
         else if(!strcmp(t->attr.name, "--")){
@@ -552,7 +552,7 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
                 //print error
                 numErrors++;
 
-                printf("ERROR(%d): '%s' requires operands of %s but lhs is of %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
+                printf("ERROR(%d): Unary '%s' requires operands of type %s but lhs was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
             }
         }
 

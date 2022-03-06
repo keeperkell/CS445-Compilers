@@ -76,6 +76,7 @@ typedef struct treeNode{
     bool isChild;
     bool isConst;
     bool isFunc;
+    bool isUsed;
 
 } TreeNode;
 
