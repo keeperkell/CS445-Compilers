@@ -525,7 +525,7 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
                 //print error
                 numErrors++;
 
-                printf("ERROR(%d): Unary '%s' requires operands of type %s but lhs was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
+                printf("ERROR(%d): Unary '%s' requires operands of type %s but was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
             }
         }
         else if(!strcmp(t->attr.name, "not")){
@@ -534,7 +534,7 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
                 //print error
                 numErrors++;
 
-                printf("ERROR(%d): Unary '%s' requires operands of type %s but lhs was given type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[0]->expType));
+                printf("ERROR(%d): Unary '%s' requires operands of type %s but was given type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[0]->expType));
             }
         }
         else if(!strcmp(t->attr.name, "++")){
@@ -543,7 +543,7 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
                 //print error
                 numErrors++;
 
-                printf("ERROR(%d): Unary '%s' requires operands of type %s but lhs was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
+                printf("ERROR(%d): Unary '%s' requires operands of type %s but was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
             }
         }
         else if(!strcmp(t->attr.name, "--")){
@@ -552,7 +552,7 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
                 //print error
                 numErrors++;
 
-                printf("ERROR(%d): Unary '%s' requires operands of type %s but lhs was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
+                printf("ERROR(%d): Unary '%s' requires operands of type %s but was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
             }
         }
 
@@ -717,6 +717,29 @@ void unaryBinaryOps(TreeNode *t, ExpKind subkind){
 
                         printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
                     }
+                }
+            }
+
+            // checks for arrays
+            else if(!strcmp(t->attr.name, "[")){
+                if(leftChild && rightChild){
+                    // if index of array is not another array
+                    if(rightChild->expType != Integer && !rightChild->child[0]){
+                        numErrors++;
+
+                        printf("ERROR(%d): Array '%s' should be indexed by type int but got %s.\n", t->linenum, leftChild->attr.name, returnExpType(rightChild->expType));
+                    }
+                    // if index of array is another array
+                    if(rightChild->expType != Integer && rightChild->child[0]){
+                        // if there is no index to child array
+                        if(!rightChild->child[1]){
+                            numErrors++;
+
+                            printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, rightChild->child[0]->attr.name);
+                        }
+                    }
+
+                    
                 }
             }
 
