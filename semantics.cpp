@@ -22,8 +22,7 @@ extern int numWarnings;
 
 int scopeDepth = 0;
 int loopDepth = 1;
-bool insideLoop = false;
-bool stayInScope = true;
+bool insideScope = false;
 
 TreeNode *funcScope;
 
@@ -88,7 +87,7 @@ void semanticAnalysis(TreeNode *t){
 
                         //enter for scope
                         st.enter(t->attr.name);
-                        stayInScope = false;
+                        insideScope = true;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i] != NULL){
@@ -100,6 +99,7 @@ void semanticAnalysis(TreeNode *t){
                         if(st.depth() > 1){
                             st.leave();
                         }
+                        insideScope = false;
 
                         break;
 
@@ -126,7 +126,7 @@ void semanticAnalysis(TreeNode *t){
                         //printf("StmtK->IfK\n");
 
                         //enter loop
-                        insideLoop = true;
+                        insideScope = true;
                         st.enter(t->attr.name);
 
                         for(int i = 0; i < MAXCHILDREN; i++){
@@ -136,7 +136,7 @@ void semanticAnalysis(TreeNode *t){
                         }
 
                         //exit loop
-                        insideLoop = false;
+                        insideScope = false;
                         st.leave();
                         break;
 
@@ -146,7 +146,7 @@ void semanticAnalysis(TreeNode *t){
 
                         //enter loop
                         st.enter(t->attr.name);
-                        insideLoop = true;
+                        insideScope = true;
                         loopDepth++;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
@@ -156,7 +156,7 @@ void semanticAnalysis(TreeNode *t){
                         }
 
                         //exit loop
-                        insideLoop = false;
+                        insideScope = false;
 
                         if(st.depth() > 1){
                             st.leave();
@@ -169,7 +169,7 @@ void semanticAnalysis(TreeNode *t){
                     
                         //enter loop
                         st.enter(t->attr.name);
-                        insideLoop = true;
+                        insideScope = true;
                         loopDepth++;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
@@ -178,13 +178,14 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }
 
-                        //exit loop
-                        insideLoop = false;
+                        
 
                         if(st.depth() > 1){
                             st.leave();
                             loopDepth--;
                         }
+                        //exit loop
+                        insideScope = false;
 
                         break;
 
@@ -192,14 +193,14 @@ void semanticAnalysis(TreeNode *t){
                     {
                         //printf("Compound %s\n", t->attr.name);
                         //printf("StmtK->CompoundK\n");
-                        bool tempScope = insideLoop;
+                        bool tempScope = insideScope;
 
                         if(!tempScope){
                             st.enter("compound");
                             scopeDepth++;
                         }
                         else{
-                            insideLoop = false;
+                            insideScope = false;
                         }
                         
                         for(int i = 0; i < MAXCHILDREN; i++){
@@ -494,7 +495,7 @@ void checkOpK(TreeNode *t){
             if(!t->child[0]->isArray){
                 numErrors++;
 
-                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, "sizeof");
+                printf("ERROR(%d): The operation '%s' only works with arrays.\n", t->linenum, "sizeof");
             }
         }
 
@@ -532,7 +533,7 @@ void checkOpK(TreeNode *t){
                 if(t->expType != t->child[0]->expType){
                     numErrors++;
 
-                    printf("ERROR(%d): Unary '%s' requires operand of type %s but was given type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[0]->expType));
+                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[0]->expType));
                 }
             }
 
