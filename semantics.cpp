@@ -448,8 +448,6 @@ void checkOpK(TreeNode *t){
             leftChild = (TreeNode *)st.lookup(t->child[0]->attr.name);
 
             if(leftChild){
-                printf("t->expType: %s, lookUpNode->expType: %s. \n", returnExpType(t->expType), returnExpType(t->child[0]->expType));
-
                 t->child[0]->expType = leftChild->expType;
                 t->child[0]->isArray = leftChild->isArray;
             }
@@ -559,7 +557,6 @@ void checkOpK(TreeNode *t){
             rightChild = (TreeNode *)st.lookup(t->child[1]->attr.name);
 
             if(rightChild){
-                printf("t->expType: %s, child[1]->expType: %s. \n", returnExpType(t->expType), returnExpType(t->child[1]->expType));
 
                 t->child[1]->expType = rightChild->expType;
                 t->child[1]->isArray = rightChild->isArray;
