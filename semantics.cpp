@@ -377,13 +377,13 @@ void checkAssignK(TreeNode *t){
         if(t->child[0]->isArray){
             numErrors++;
 
-            printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->child[0]->linenum, t->attr.name);
+            printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
         }
 
-        if(tree->child[0]->expType != Integer){
+        if(t->child[0]->expType != Integer){
             numErrors++;
 
-            printf("ERROR(%d): Unary '%s' requires an operand of type int but was given type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType));
+            printf("ERROR(%d): Unary '%s' requires an operand of type int but was given type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType));
         }
     }
     else{
@@ -400,7 +400,7 @@ void checkAssignK(TreeNode *t){
                 t->expType = t->child[0]->expType;
 
                 //check for matching types for both children
-                if(t->child[0]->expType != UndefinedType && t->child[1] != UndefinedType){
+                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
                     if(t->child[0]->expType != t->child[1]->expType){
                         numErrors++;
 
