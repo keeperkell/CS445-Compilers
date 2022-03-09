@@ -316,7 +316,6 @@ void semanticAnalysis(TreeNode *t){
                         if(!currentNode){
                             numErrors++;
 
-                            printf("Line %d, Inside CallK for symbol '%s'.\n", t->linenum, t->attr.name);
                             printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
                         }
                         // if call is not to a func
@@ -793,7 +792,6 @@ void checkIdK(TreeNode *t){
     if(!currentNode){
         numErrors++;
 
-        printf("Line %d, Inside CheckId for symbol '%s'.\n", t->linenum, t->attr.name);
         printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
     }
     //node is found
