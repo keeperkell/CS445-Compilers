@@ -387,9 +387,10 @@ void checkAssignK(TreeNode *t){
         }
     }
     else{
-        rightChild = (TreeNode *)st.lookup(t->child[1]->attr.name);
+        
 
         if(rightChild){
+            rightChild = (TreeNode *)st.lookup(t->child[1]->attr.name);
             t->child[1]->expType = rightChild->expType;
             t->child[1]->isArray = rightChild->isArray;
 
@@ -403,8 +404,7 @@ void checkAssignK(TreeNode *t){
                     if(t->child[0]->expType != t->child[1]->expType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n",
-                                        t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
+                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
                     }
                 }
 
