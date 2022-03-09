@@ -607,10 +607,10 @@ void checkOpK(TreeNode *t){
                 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 printf("Line %d, Comparison Op: '%s'. \n",t->linenum, t->attr.name);
                 if(t->child[0]){
-                    printf("Line %d, Child 0: '%s'. \n", t->linenum, t->child[0]->attr.name);
+                    printf("Line %d, Child 0: '%s'. \n", t->linenum, t->expType);
                 }
                 if(t->child[1]){
-                    printf("Line %d, Child 0: '%s'. \n", t->linenum, t->child[1]->attr.name);
+                    printf("Line %d, Child 1: '%s'. \n", t->linenum, t->expType);
                 }
 
                 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
