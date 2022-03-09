@@ -147,7 +147,6 @@ void semanticAnalysis(TreeNode *t){
                         //enter loop
                         st.enter(t->attr.name);
                         insideLoop = true;
-                        stayInScope = false;
                         loopDepth++;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
@@ -159,7 +158,6 @@ void semanticAnalysis(TreeNode *t){
                         //exit loop
                         insideLoop = false;
 
-                        stayInScope = true;
                         if(st.depth() > 1){
                             st.leave();
                             loopDepth--;
@@ -169,13 +167,9 @@ void semanticAnalysis(TreeNode *t){
 
                     case ForK:
                     
-                        //printf("Stmt->ForK, WhileK\n");
-
                         //enter loop
-                        insideLoop = true;
-
                         st.enter(t->attr.name);
-                        stayInScope = false;
+                        insideLoop = true;
                         loopDepth++;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
@@ -187,7 +181,6 @@ void semanticAnalysis(TreeNode *t){
                         //exit loop
                         insideLoop = false;
 
-                        stayInScope = true;
                         if(st.depth() > 1){
                             st.leave();
                             loopDepth--;
@@ -199,14 +192,14 @@ void semanticAnalysis(TreeNode *t){
                     {
                         //printf("Compound %s\n", t->attr.name);
                         //printf("StmtK->CompoundK\n");
-                        bool tempScope = stayInScope;
+                        bool tempScope = insideLoop;
 
-                        if(stayInScope){
+                        if(!tempScope){
                             st.enter("compound");
                             scopeDepth++;
                         }
                         else{
-                            tempScope = true;
+                            insideLoop = false;
                         }
                         
                         for(int i = 0; i < MAXCHILDREN; i++){
@@ -215,7 +208,7 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }            
                         
-                        if(tempScope && st.depth() > 1){
+                        if(!tempScope && st.depth() > 1){
                             st.leave();
                             scopeDepth--;
                         }
@@ -322,7 +315,7 @@ void semanticAnalysis(TreeNode *t){
 
                         if(!currentNode){
                             numErrors++;
-                            
+
                             printf("Line %d, Inside CallK for symbol '%s'.\n", t->linenum, t->attr.name);
                             printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
                         }
