@@ -797,6 +797,7 @@ void checkIdK(TreeNode *t){
     }
     //node is found
     else{
+        printf("t->expType: %s, lookUpNode->expType: %s. \n", returnExpType(t->expType), returnExpType(currentNode->expType));
         t->expType = currentNode->expType;
         t->subkind.decl = currentNode->subkind.decl;
         t->isArray = currentNode->isArray;
