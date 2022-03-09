@@ -448,6 +448,8 @@ void checkOpK(TreeNode *t){
             leftChild = (TreeNode *)st.lookup(t->child[0]->attr.name);
 
             if(leftChild){
+                printf("t->expType: %s, lookUpNode->expType: %s. \n", returnExpType(t->expType), returnExpType(t->child[0]->expType));
+
                 t->child[0]->expType = leftChild->expType;
                 t->child[0]->isArray = leftChild->isArray;
             }
