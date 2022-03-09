@@ -236,7 +236,7 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings){
                         else{
                             printf("Op: %s", t->attr.name);
                             if(W_TYPING){
-                                if(t->expType == UndefinedType){
+                                if(t->expType == UndefinedType || t->expType == Void){
                                     printf(" of undefined type ");
                                 }
                                 else{

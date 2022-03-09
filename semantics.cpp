@@ -799,7 +799,7 @@ void checkIdK(TreeNode *t){
     else{
         printf("t->expType: %s, lookUpNode->expType: %s. \n", returnExpType(t->expType), returnExpType(currentNode->expType));
         t->expType = currentNode->expType;
-        t->subkind.decl = currentNode->subkind.decl;
+        t->subkind.exp = currentNode->subkind.exp;
         t->isArray = currentNode->isArray;
 
         // id cannot be a function
