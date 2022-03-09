@@ -387,71 +387,64 @@ void checkAssignK(TreeNode *t){
         }
     }
     else{
-        
 
-        if(rightChild){
-            rightChild = (TreeNode *)st.lookup(t->child[1]->attr.name);
-            t->child[1]->expType = rightChild->expType;
-            t->child[1]->isArray = rightChild->isArray;
+        // match assignment op
+        if(!strcmp(t->attr.name, "<-")){
+            //assign childs typing to t node
+            t->expType = t->child[0]->expType;
 
-            // match assignment op
-            if(!strcmp(t->attr.name, "<-")){
-                //assign childs typing to t node
-                t->expType = t->child[0]->expType;
-
-                //check for matching types for both children
-                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
-                    if(t->child[0]->expType != t->child[1]->expType){
-                        numErrors++;
-
-                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
-                    }
-                }
-
-                // check if one of children is an arry but not the other
-                if(t->child[0]->isArray && !t->child[1]->isArray){
+            //check for matching types for both children
+            if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
+                if(t->child[0]->expType != t->child[1]->expType){
                     numErrors++;
 
-                    printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is an array and rhs is not an array.\n", t->linenum, t->attr.name);
-                }
-                if(!t->child[0]->isArray && t->child[1]->isArray){
-                    numErrors++;
-
-                    printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
+                    printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
                 }
             }
-            else{
-                // review this section. possible issues
-                t->expType = Integer;
 
-                // assign ops besides <- must be of type int
-                // Ex: *= += ++
-                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
-                    if(t->child[0]->expType != Integer){
-                        numErrors++;
+            // check if one of children is an arry but not the other
+            if(t->child[0]->isArray && !t->child[1]->isArray){
+                numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of type int but lhs is of type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType));
-                    }
+                printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is an array and rhs is not an array.\n", t->linenum, t->attr.name);
+            }
+            if(!t->child[0]->isArray && t->child[1]->isArray){
+                numErrors++;
 
-                    if(t->child[1]->expType != Integer){
-                        numErrors++;
+                printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
+            }
+        }
+        else{
+            // review this section. possible issues
+            t->expType = Integer;
 
-                        printf("ERROR(%d): '%s' requires operands of type int but rhs is of type %s.\n", t->child[1]->linenum, t->attr.name, returnExpType(t->child[1]->expType));
-                    }
-                }
-
-                // cannot increment-assign arrays or by arrays
-                if(t->child[0]->isArray){
+            // assign ops besides <- must be of type int
+            // Ex: *= += ++
+            if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
+                if(t->child[0]->expType != Integer){
                     numErrors++;
 
-                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->child[0]->linenum, t->attr.name);
+                    printf("ERROR(%d): '%s' requires operands of type int but lhs is of type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType));
                 }
 
-                if(t->child[1]->isArray){
+                if(t->child[1]->expType != Integer){
                     numErrors++;
 
-                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->child[1]->linenum, t->attr.name);
+                    printf("ERROR(%d): '%s' requires operands of type int but rhs is of type %s.\n", t->child[1]->linenum, t->attr.name, returnExpType(t->child[1]->expType));
                 }
+            }
+
+            // cannot increment-assign arrays or by arrays
+            if(t->child[0]->isArray){
+                numErrors++;
+
+                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->child[0]->linenum, t->attr.name);
+            }
+
+            if(t->child[1]->isArray){
+                numErrors++;
+
+                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->child[1]->linenum, t->attr.name);
             }
         }
     }
