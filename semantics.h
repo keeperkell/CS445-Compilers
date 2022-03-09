@@ -14,9 +14,12 @@
 #include "symbolTable.h"
 
 void semanticAnalysis(TreeNode *);
+
+void checkAssignK(TreeNode *);
+void checkOpK(TreeNode *);
+void checkIdK(TreeNode *);
+
 void unaryBinaryOps(TreeNode *, ExpKind);
-void unaryOps(TreeNode *, ExpKind);
-void binaryOps(TreeNode *, ExpKind);
 char *returnExpType(ExpType);
 
 #endif
