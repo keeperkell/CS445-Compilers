@@ -557,6 +557,8 @@ void checkOpK(TreeNode *t){
             rightChild = (TreeNode *)st.lookup(t->child[1]->attr.name);
 
             if(rightChild){
+                printf("t->expType: %s, child[1]->expType: %s. \n", returnExpType(t->expType), returnExpType(t->child[1]->expType));
+
                 t->child[1]->expType = rightChild->expType;
                 t->child[1]->isArray = rightChild->isArray;
             }
@@ -797,9 +799,8 @@ void checkIdK(TreeNode *t){
     }
     //node is found
     else{
-        printf("t->expType: %s, lookUpNode->expType: %s. \n", returnExpType(t->expType), returnExpType(currentNode->expType));
         t->expType = currentNode->expType;
-        t->subkind.exp = currentNode->subkind.exp;
+        t->subkind.decl = currentNode->subkind.decl;
         t->isArray = currentNode->isArray;
 
         // id cannot be a function
