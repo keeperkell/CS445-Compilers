@@ -799,7 +799,7 @@ void checkIdK(TreeNode *t){
     //node is found
     else{
         t->expType = currentNode->expType;
-        t->subkind.decl = currentNode->subkind.decl;
+        //t->subkind.decl = currentNode->subkind.decl;
         t->isArray = currentNode->isArray;
 
         // id cannot be a function
