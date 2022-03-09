@@ -18,8 +18,6 @@ void semanticAnalysis(TreeNode *);
 void checkAssignK(TreeNode *);
 void checkOpK(TreeNode *);
 void checkIdK(TreeNode *);
-
-void unaryBinaryOps(TreeNode *, ExpKind);
 char *returnExpType(ExpType);
 
 #endif
