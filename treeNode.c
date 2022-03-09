@@ -291,8 +291,13 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings){
                     case IdK:
                         printf("Id: %s", t->attr.name);
                         if(W_TYPING){
-                            printf(" of type ");
-                            getExpType(t->expType);
+                            if(t->expType == Void || t->expType == UndefinedType){
+                                printf(" of undefined type ");
+                            }
+                            else{
+                                printf(" of type ");
+                                getExpType(t->expType);
+                            }
                         }
                         printf(" [line: %d]\n", t->linenum);
                         break;
