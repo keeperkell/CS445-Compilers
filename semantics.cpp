@@ -695,6 +695,130 @@ void checkOpK(TreeNode *t){
                 }
             }
         }
+        else{
+            
+            // or/and have the same errors and checks
+            if(!strcmp(t->attr.name, "or") || !strcmp(t->attr.name, "and")){
+
+                t->expType = Boolean;
+
+                // check if left and right children are boolean
+                if(t->child[0]->expType != Boolean){
+                    numErrors++;
+
+                    printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[0]->expType));
+                }
+
+                if(t->child[1]->expType != Boolean){
+                    numErrors++;
+
+                    printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[1]->expType));
+                }
+
+                //check if either child is an array
+                if(t->child[0]->isArray || t->child[1]->isArray){
+                    numErrors++;
+
+                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+                }
+            }
+            // all comparison operators are the same
+            else if(!strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "=") ||
+                    !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=") || !strcmp(t->attr.name, "!=")){
+
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                printf("Line %d, Comparison Op: '%s'. \n",t->linenum, t->attr.name);
+                if(t->child[0]){
+                    printf("Line %d, Child 0: '%s'. \n", t->linenum, returnExpType(t->expType));
+                }
+                if(t->child[1]){
+                    printf("Line %d, Child 1: '%s'. \n", t->linenum, returnExpType(t->expType));
+                }
+
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                t->expType = Boolean;
+
+                //check for mathcing types of children
+                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
+                    if(t->child[0]->expType != t->child[1]->expType){
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
+                    }
+                }
+
+                //check if 1 child is array but other isnt
+                if(t->child[0]->isArray && !t->child[1]->isArray){
+                    numErrors++;
+
+					printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is an array and rhs is not an array.\n", t->linenum, t->attr.name);
+                }
+
+                if(!t->child[0]->isArray && t->child[1]->isArray){
+                    numErrors++;
+
+					printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
+                }
+            }
+            // check for arrays
+            else if(!strcmp(t->attr.name, "[")){
+
+                t->expType = t->child[0]->expType;
+
+                //check if child is an array
+                if(!t->child[0]->isArray){
+                    numErrors++;
+
+                    printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, t->child[0]->attr.name);
+                }
+
+                // check for index of array
+                if(t->child[1]->isArray){
+                    numErrors++;
+
+                    printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, t->child[1]->attr.name);
+                }
+
+                // check if index is Int
+                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
+                    if(t->child[1]->expType != Integer){
+                        numErrors++;
+
+                        printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, t->child[0]->attr.name, returnExpType(t->child[1]->expType));
+                    }
+                }
+            }
+            // the rest of the cases are the same
+            else{
+
+                t->expType = Integer;
+
+                //check left and right typings
+                if(t->child[0]->expType != Integer){
+                    numErrors++;
+
+				    printf("ERROR(%d): '%s' requires operands of type int but lhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType));
+                }
+
+                if(t->child[1]->expType != Integer){
+                    numErrors++;
+                    
+				    printf("ERROR(%d): '%s' requires operands of type int but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[1]->expType));
+                }
+
+                //check for arrays
+                if(t->child[0]->isArray || t->child[1]->isArray){
+                    numErrors++;
+
+                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+                }
+            }
+        }
 
         //END OF BINARY
     }
