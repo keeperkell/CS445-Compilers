@@ -322,7 +322,8 @@ void semanticAnalysis(TreeNode *t){
 
                         if(!currentNode){
                             numErrors++;
-
+                            
+                            printf("Line %d, Inside CallK for symbol '%s'.\n", t->linenum, t->attr.name);
                             printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
                         }
                         // if call is not to a func
@@ -479,7 +480,7 @@ void checkOpK(TreeNode *t){
                 if(t->expType != t->child[0]->expType){
                     numErrors++;
 
-                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but lhs was given type %s.\n", t->linenum, "chsign", "int", returnExpType(t->child[0]->expType));
+                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, "chsign", "int", returnExpType(t->child[0]->expType));
                 }
             }
 
@@ -515,7 +516,7 @@ void checkOpK(TreeNode *t){
                 if(t->expType != t->child[0]->expType){
                     numErrors++;
 
-                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but lhs was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
+                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
                 }
             }
 
@@ -799,6 +800,7 @@ void checkIdK(TreeNode *t){
     if(!currentNode){
         numErrors++;
 
+        printf("Line %d, Inside CheckId for symbol '%s'.\n", t->linenum, t->attr.name);
         printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
     }
     //node is found
