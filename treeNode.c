@@ -121,7 +121,7 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings){
                     case VarK:
                         if(t->isArray){
                             
-                            printf("Var: %s of array of type ",t->attr.name);
+                            printf("Var: %s is array of type ",t->attr.name);
                             getExpType(t->expType);
                             printf(" [line: %d]\n", t->linenum);
                         }
