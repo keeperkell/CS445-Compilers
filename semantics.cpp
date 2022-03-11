@@ -12,6 +12,7 @@
 #include "parser.tab.h"
 #include "treeNode.h"
 #include "symbolTable.h"
+#include "IOSupport.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,6 +28,8 @@ bool insideScope = false;
 TreeNode *funcScope;
 
 void semanticAnalysis(TreeNode *t){
+    //load IO funcs into symboltable
+    IOconstructor();
     
     TreeNode *currentNode;
     
