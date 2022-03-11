@@ -324,13 +324,7 @@ void semanticAnalysis(TreeNode *t){
                         }
 
                         currentNode = (TreeNode *)st.lookup(t->attr.name);
-                        if(t->child[0]){
-                            if(t->child[0]->subkind.decl == FuncK){
-                                numErrors++;
-
-                                printf("ERROR(%d): Cannot use function '%s' as a variable.\n", t->linenum, t->child[0]->attr.name);
-                            }
-                        }
+                        
                         if(!currentNode){
                             numErrors++;
 
@@ -820,7 +814,7 @@ void checkIdK(TreeNode *t){
         t->isArray = currentNode->isArray;
 
         // id cannot be a function
-        if(t->subkind.decl == FuncK){
+        if(currentNode->subkind.decl == FuncK){
             numErrors++;
 
             printf("ERROR(%d): Cannot use function '%s' as a variable.\n", t->linenum, t->attr.name);
