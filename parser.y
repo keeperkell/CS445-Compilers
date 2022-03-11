@@ -450,7 +450,7 @@ constant      : NUMCONST                                         { $$ = newExpNo
                                                                  }
               | STRINGCONST                                      { $$ = newExpNode(ConstantK, $1);
                                                                    $$->attr.string = $1->svalue; 
-                                                                   $$->expType = CharInt;
+                                                                   $$->expType = Char;
                                                                    $$->isArray = true;
                                                                  }
               | BOOLCONST                                        { $$ = newExpNode(ConstantK, $1);
