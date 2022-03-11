@@ -500,7 +500,7 @@ void checkOpK(TreeNode *t){
 
         // check sizeof op
         if(!strcmp(t->attr.name, "*")){
-            t->expType = Integer;
+            //t->expType = Integer;
 
             //check for array
             if(!t->child[0]->isArray){
@@ -657,7 +657,7 @@ void checkOpK(TreeNode *t){
             // the rest of the cases are the same
             else{
 
-                t->expType = Integer;
+                //t->expType = Integer;
 
                 //check left and right typings
                 if(t->child[0]->expType != Integer){
