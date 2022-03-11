@@ -146,6 +146,20 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }
 
+                        //cannot use array in if
+                        if(t->child[0]->isArray){
+                            numErrors++;
+
+                            printf("ERROR(%d): Cannot use array as test condition in %s statement.\n", t->linenum, "if");
+                        }
+
+                        //if condition should be bool
+                        if(t->child[0]->expType != Boolean){
+                            numErrors++;
+
+                            printf("ERROR(%d): Expecting Boolean test condition in %s statement but got type %s.\n", t->linenum, "if", returnExpType(t->child[0]->expType));
+                        }
+
                         //exit loop
                         insideScope = false;
                         st.leave();
@@ -164,6 +178,20 @@ void semanticAnalysis(TreeNode *t){
                             if(t->child[i]){
                                 semanticAnalysis(t->child[i]);
                             }
+                        }
+
+                        //cannot use array in while
+                        if(t->child[0]->isArray){
+                            numErrors++;
+
+                            printf("ERROR(%d): Cannot use array as test condition in %s statement.\n", t->linenum, "while");
+                        }
+
+                        //if condition should be bool
+                        if(t->child[0]->expType != Boolean){
+                            numErrors++;
+
+                            printf("ERROR(%d): Expecting Boolean test condition in %s statement but got type %s.\n", t->linenum, "while", returnExpType(t->child[0]->expType));
                         }
 
                         //exit loop
@@ -189,7 +217,36 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }
 
-                        
+                        //For has 3 positions for children of 2 children, check all for array
+                        if(t->child[0] && t->child[1]){
+                            //t->child[1] contains range
+                            if(t->child[1]->child[0] && t->child[1]->child[1]){
+                                //position 1
+                                if(t->child[1]->child[0]->isArray){
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Cannot use array in position %d in range of for statement.\n", t->linenum, 1);
+                                }
+
+                                //position 2
+                                if(t->child[1]->child[1]->isArray){
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Cannot use array in position %d in range of for statement.\n", t->linenum, 2);
+                                }
+
+                                // position 3 does not always exist, check for it
+                                if(t->child[1]->child[2]){
+                                    if(t->child[1]->child[2]->isArray){
+                                        numErrors++;
+
+                                        printf("ERROR(%d): Cannot use array in position %d in range of for statement.\n", t->linenum, 3);
+                                    }
+                                }
+                            }
+
+                            
+                        }
 
                         if(st.depth() > 1){
                             st.leave();
@@ -252,7 +309,13 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case BreakK:
-                        //placeholder for future errors/checks
+                        
+                        // if scope depth is less than or equal to 2, then on global or func scope
+                        if(scopeDepth <= 2){
+                            numErrors++;
+
+                            printf("ERROR(%d): Cannot have a break statement outside of loop.\n", t->linenum);
+                        }
                         break;
 
                     case RangeK:
