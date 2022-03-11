@@ -3,9 +3,9 @@ CC = g++ -g
 NAME = c-
 
 SRCS = $(BIN).y $(BIN).l
-HDRS = scanType.h treeNode.h semantics.h symbolTable.h
+HDRS = scanType.h treeNode.h semantics.h symbolTable.h IO.h
 OBJS = lex.yy.o $(BIN).tab.o
-DOCS = treeNode.c semantics.cpp symbolTable.cpp
+DOCS = treeNode.c semantics.cpp symbolTable.cpp IO.cpp
 
 $(BIN) : $(OBJS)
 	$(CC) $(OBJS) $(DOCS) -o $(NAME)
