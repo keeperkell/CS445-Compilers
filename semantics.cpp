@@ -25,11 +25,17 @@ int scopeDepth = 0;
 int loopDepth = 1;
 bool insideScope = false;
 
+bool firstRun = true;
+
 TreeNode *funcScope;
 
 void semanticAnalysis(TreeNode *t){
+
     //load IO funcs into symboltable
-    IOconstructor();
+    if(firstRun){
+       IOconstructor(); 
+       firstRun = false;
+    }
     
     TreeNode *currentNode;
     
