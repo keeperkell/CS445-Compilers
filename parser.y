@@ -451,6 +451,7 @@ constant      : NUMCONST                                         { $$ = newExpNo
               | STRINGCONST                                      { $$ = newExpNode(ConstantK, $1);
                                                                    $$->attr.string = $1->svalue; 
                                                                    $$->expType = CharInt;
+                                                                   $$->isArray = true;
                                                                  }
               | BOOLCONST                                        { $$ = newExpNode(ConstantK, $1);
                                                                    $$->attr.value = $1->nvalue; 
