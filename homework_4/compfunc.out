@@ -1,0 +1,8 @@
+ERROR(4): Symbol 'x' is already declared at line 3.
+WARNING(26): The parameter 'x' seems not to be used.
+WARNING(3): The function 'elk' seems not to be used.
+WARNING(11): The function 'fox' seems not to be used.
+WARNING(19): The function 'gnu' seems not to be used.
+WARNING(26): The function 'hog' seems not to be used.
+Number of warnings: 5
+Number of errors: 1

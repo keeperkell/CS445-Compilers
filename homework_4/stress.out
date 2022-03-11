@@ -1,0 +1,12 @@
+WARNING(5): Variable 'z' may be uninitialized when used here.
+ERROR(8): Symbol 'x' is not declared.
+ERROR(8): Cannot index nonarray 'x'.
+WARNING(12): The variable 'z' seems not to be used.
+ERROR(14): Symbol 'j' is already declared at line 14.
+WARNING(14): The variable 'j' seems not to be used.
+WARNING(1): The parameter 'Archimedes' seems not to be used.
+WARNING(17): The function 'LadyCampanula' seems not to be used.
+WARNING(1): The function 'fred' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 6
+Number of errors: 4

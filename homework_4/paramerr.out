@@ -1,0 +1,57 @@
+WARNING(15): Expecting to return type int but function 'antno' has no return statement.
+WARNING(16): Expecting to return type bool but function 'bearno' has no return statement.
+WARNING(17): Expecting to return type char but function 'catno' has no return statement.
+WARNING(19): The parameter 'aardvark' seems not to be used.
+WARNING(19): The parameter 'baboon' seems not to be used.
+WARNING(19): The parameter 'cow' seems not to be used.
+WARNING(22): The parameter 'asp' seems not to be used.
+WARNING(22): The parameter 'bull' seems not to be used.
+WARNING(22): The parameter 'crow' seems not to be used.
+WARNING(30): Variable 'a' may be uninitialized when used here.
+WARNING(30): Variable 'b' may be uninitialized when used here.
+WARNING(30): Variable 'c' may be uninitialized when used here.
+ERROR(31): Expecting array in parameter 1 of call to 'elk' declared on line 22.
+ERROR(31): Expecting array in parameter 2 of call to 'elk' declared on line 22.
+ERROR(31): Expecting array in parameter 3 of call to 'elk' declared on line 22.
+ERROR(32): Symbol 'fox' is not declared.
+WARNING(34): Variable 'aa' may be uninitialized when used here.
+ERROR(34): Not expecting array in parameter 1 of call to 'dog' declared on line 19.
+WARNING(34): Variable 'bb' may be uninitialized when used here.
+ERROR(34): Not expecting array in parameter 2 of call to 'dog' declared on line 19.
+WARNING(34): Variable 'cc' may be uninitialized when used here.
+ERROR(34): Not expecting array in parameter 3 of call to 'dog' declared on line 19.
+ERROR(36): Symbol 'fox' is not declared.
+ERROR(40): Expecting array in parameter 1 of call to 'elk' declared on line 22.
+ERROR(40): Expecting array in parameter 2 of call to 'elk' declared on line 22.
+ERROR(40): Expecting array in parameter 3 of call to 'elk' declared on line 22.
+ERROR(41): Symbol 'fox' is not declared.
+ERROR(43): '+' requires operands of type int but rhs is of type bool.
+ERROR(43): '-' requires operands of type int but lhs is of type bool.
+ERROR(43): '-' requires operands of type int but rhs is of type char.
+ERROR(43): Expecting type bool in parameter 2 of call to 'dog' declared on line 19 but got type int.
+ERROR(43): '*' requires operands of type int but rhs is of type char.
+ERROR(43): Expecting type char in parameter 3 of call to 'dog' declared on line 19 but got type int.
+ERROR(44): '+' requires operands of type int but rhs is of type bool.
+ERROR(44): Expecting array in parameter 1 of call to 'elk' declared on line 22.
+ERROR(44): '-' requires operands of type int but lhs is of type bool.
+ERROR(44): '-' requires operands of type int but rhs is of type char.
+ERROR(44): Expecting type bool in parameter 2 of call to 'elk' declared on line 22 but got type int.
+ERROR(44): Expecting array in parameter 2 of call to 'elk' declared on line 22.
+ERROR(44): '*' requires operands of type int but rhs is of type char.
+ERROR(44): Expecting type char in parameter 3 of call to 'elk' declared on line 22 but got type int.
+ERROR(44): Expecting array in parameter 3 of call to 'elk' declared on line 22.
+ERROR(46): Symbol 'emu' is not declared.
+ERROR(46): Symbol 'x' is not declared.
+ERROR(46): '+' requires operands of type int but rhs is of type bool.
+ERROR(46): Symbol 'parrot' is not declared.
+ERROR(46): Symbol 'x' is not declared.
+ERROR(47): Symbol 'emu' is not declared.
+ERROR(47): Symbol 'emu' is not declared.
+ERROR(47): Symbol 'x' is not declared.
+ERROR(47): '+' requires operands of type int but rhs is of type bool.
+ERROR(47): Symbol 'parrot' is not declared.
+ERROR(47): Symbol 'x' is not declared.
+ERROR(47): Symbol 'x' is not declared.
+ERROR(47): '*' requires operands of type int but rhs is of type bool.
+Number of warnings: 15
+Number of errors: 40

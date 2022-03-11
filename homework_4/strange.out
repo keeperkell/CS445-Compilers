@@ -1,0 +1,10 @@
+ERROR(2): Symbol 'main' is already declared at line 1.
+WARNING(2): Expecting to return type int but function 'main' has no return statement.
+ERROR(3): Symbol 'main' is already declared at line 1.
+ERROR(9): 'main' is a simple variable and cannot be called.
+ERROR(18): 'main' is a simple variable and cannot be called.
+ERROR(21): Expecting Boolean test condition in if statement but got type int.
+ERROR(23): Expecting Boolean test condition in if statement but got type int.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 1
+Number of errors: 7

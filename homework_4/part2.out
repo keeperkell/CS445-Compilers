@@ -1,0 +1,42 @@
+WARNING(4): Variable 'z' may be uninitialized when used here.
+ERROR(4): Expecting Boolean test condition in if statement but got type int.
+ERROR(4): Cannot use array as test condition in if statement.
+ERROR(5): Cannot return an array.
+ERROR(10): Function 'bat' at line 8 is expecting no return value, but return has a value.
+ERROR(15): Function 'cat' at line 13 is expecting to return type int but return has no value.
+ERROR(20): Symbol 'x' is already declared at line 18.
+ERROR(26): Symbol 'dog' is already declared at line 18.
+WARNING(26): Expecting to return type char but function 'dog' has no return statement.
+WARNING(28): The parameter 'z' seems not to be used.
+ERROR(34): Initializer for variable 'c' of type char is of type int
+ERROR(35): '+' requires operands of type int but lhs is of type char.
+ERROR(35): Initializer for variable 'd' is not a constant expression.
+ERROR(35): Initializer for variable 'd' of type char is of type int
+ERROR(38): Cannot have a break statement outside of loop.
+ERROR(39): Expecting Boolean test condition in while statement but got type int.
+ERROR(40): Expecting Boolean test condition in if statement but got type int.
+ERROR(42): Symbol 'zebu' is not declared.
+ERROR(44): Too few parameters passed for function 'dog' declared on line 18.
+ERROR(45): Expecting type int in parameter 1 of call to 'dog' declared on line 18 but got type char.
+ERROR(45): Too few parameters passed for function 'dog' declared on line 18.
+ERROR(46): Expecting type int in parameter 1 of call to 'dog' declared on line 18 but got type char.
+ERROR(46): Expecting type int in parameter 2 of call to 'dog' declared on line 18 but got type char.
+ERROR(47): Expecting type int in parameter 1 of call to 'dog' declared on line 18 but got type char.
+ERROR(47): Expecting type int in parameter 2 of call to 'dog' declared on line 18 but got type char.
+ERROR(47): Too many parameters passed for function 'dog' declared on line 18.
+ERROR(47): '+' requires operands of type int but lhs is of type char.
+ERROR(47): Unary 'chsign' requires an operand of type int but was given type bool.
+WARNING(49): Variable 'z' may be uninitialized when used here.
+ERROR(49): Not expecting array in parameter 1 of call to 'dog' declared on line 18.
+ERROR(49): Too few parameters passed for function 'dog' declared on line 18.
+ERROR(50): Expecting type bool in parameter 1 of call to 'elk' declared on line 28 but got type int.
+ERROR(50): Expecting array in parameter 1 of call to 'elk' declared on line 28.
+ERROR(51): Expecting type int in parameter 1 of call to 'dog' declared on line 18 but got type bool.
+ERROR(51): Expecting type bool in parameter 1 of call to 'elk' declared on line 28 but got type void.
+ERROR(51): Expecting array in parameter 1 of call to 'elk' declared on line 28.
+WARNING(35): The variable 'd' seems not to be used.
+WARNING(1): The function 'ant' seems not to be used.
+WARNING(8): The function 'bat' seems not to be used.
+WARNING(13): The function 'cat' seems not to be used.
+Number of warnings: 8
+Number of errors: 32

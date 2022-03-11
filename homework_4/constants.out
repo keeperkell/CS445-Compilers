@@ -1,0 +1,13 @@
+Func: main returns type void [line: 2]
+.   Child: 1  Compound [line: 3]
+.   .   Child: 1  Call: output of type void [line: 4]
+.   .   .   Child: 0  Const 111 of type int [line: 4]
+.   .   Sibling: 1  Call: outputb of type void [line: 5]
+.   .   .   Child: 0  Const true of type bool [line: 5]
+.   .   Sibling: 2  Call: outputb of type void [line: 6]
+.   .   .   Child: 0  Const false of type bool [line: 6]
+.   .   Sibling: 3  Call: outputc of type void [line: 7]
+.   .   .   Child: 0  Const 'x' of type char [line: 7]
+.   .   Sibling: 4  Call: outnl of type void [line: 8]
+Number of warnings: 0
+Number of errors: 0

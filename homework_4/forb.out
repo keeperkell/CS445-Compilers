@@ -1,0 +1,5 @@
+WARNING(7): Variable 'y' may be uninitialized when used here.
+WARNING(8): Variable 'z' may be uninitialized when used here.
+ERROR(8): Cannot use array in position 1 in range of for statement.
+Number of warnings: 2
+Number of errors: 1

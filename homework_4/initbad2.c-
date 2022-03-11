@@ -1,0 +1,11 @@
+int a:'a';
+bool b:3;
+char c:true;
+char s[10];
+
+main()
+ begin 
+   int aa:a;
+   bool bb:b;
+   char cc:c;
+    end 

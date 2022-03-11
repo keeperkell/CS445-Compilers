@@ -1,0 +1,13 @@
+ERROR(1): Function 'ruby' at line 1 is expecting to return type int but returns type bool.
+ERROR(2): Function 'weiss' at line 2 is expecting to return type int but return has no value.
+WARNING(3): Expecting to return type int but function 'blake' has no return statement.
+ERROR(4): Function 'yang' at line 4 is expecting no return value, but return has a value.
+ERROR(5): Cannot return an array.
+WARNING(3): The function 'blake' seems not to be used.
+WARNING(1): The function 'ruby' seems not to be used.
+WARNING(5): The function 'rwby' seems not to be used.
+WARNING(2): The function 'weiss' seems not to be used.
+WARNING(4): The function 'yang' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 6
+Number of errors: 5

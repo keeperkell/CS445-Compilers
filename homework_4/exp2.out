@@ -1,0 +1,27 @@
+ERROR(22): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(23): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(25): 'and' requires operands of type bool but rhs is of type int.
+ERROR(25): 'and' requires operands of type bool but lhs is of type int.
+ERROR(25): 'and' requires operands of type bool but rhs is of type int.
+ERROR(25): 'or' requires operands of type bool but lhs is of type int.
+ERROR(25): 'or' requires operands of type bool but rhs is of type int.
+ERROR(25): 'and' requires operands of type bool but lhs is of type int.
+ERROR(25): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(26): Unary 'not' requires an operand of type bool but was given type int.
+ERROR(26): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+WARNING(28): Variable 'z' may be uninitialized when used here.
+ERROR(36): Symbol 'x' is not declared.
+WARNING(36): Variable 'z' may be uninitialized when used here.
+ERROR(37): Symbol 'x' is not declared.
+ERROR(39): '+' requires operands of type int but lhs is of type bool.
+ERROR(39): '+' requires operands of type int but rhs is of type bool.
+ERROR(39): '<-' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(40): Symbol 'x' is not declared.
+ERROR(40): '*' requires operands of type int but lhs is of type bool.
+ERROR(40): '*' requires operands of type int but rhs is of type bool.
+ERROR(40): '+' requires operands of type int but lhs is of type bool.
+ERROR(40): '*' requires operands of type int but lhs is of type bool.
+ERROR(40): Symbol 'x' is not declared.
+ERROR(40): '+' requires operands of type int but lhs is of type bool.
+Number of warnings: 2
+Number of errors: 23

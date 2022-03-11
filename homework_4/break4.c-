@@ -1,0 +1,11 @@
+## C-S22
+main()
+ begin 
+    while true do  begin 
+        while true do  begin 
+            break;
+         end 
+        break;
+     end 
+    break;
+ end 

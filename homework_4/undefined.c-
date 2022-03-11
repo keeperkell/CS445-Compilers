@@ -1,0 +1,43 @@
+## C-S22
+main()
+ begin 
+    *y;
+    x<-3;
+    false or true and x < 222 + y*444;
+    444*y + 222 > x and true or false;
+    (444*((x) + 222) > 111) and (y or false);
+    x <- true or not - ? * array * - - 42 / 13 % 5 + 31 - 331 = 12 and 7 < 9;
+ end 
+
+int cat()
+ begin 
+    dog();
+    dog <- 3;
+    dog <- dog * dog;
+
+    mouse <- 7;
+
+     begin 
+        int mouse;
+
+        mouse <- 8;
+     end 
+    mouse <- 9;
+     begin 
+        mouse <- 10;
+     end 
+    mouse <- 11;
+
+    return mouse;
+ end 
+         
+int dog()
+ begin 
+    mouse and mouse;
+    mouse > mouse;
+    mouse = mouse;
+    mouse += mouse;
+
+    if mouse then 666;
+    while mouse do 666;
+ end 

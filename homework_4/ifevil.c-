@@ -1,0 +1,20 @@
+int ant()
+ begin  
+int bat, hog, fox;
+  
+if hog then bat;
+else fox;
+
+if hog then 
+      if fox then fox;
+      else fox;
+
+if hog then bat;
+else
+      if fox then fox;
+
+if hog then bat;
+else
+      if fox then 
+          if bat then hog;
+ end 

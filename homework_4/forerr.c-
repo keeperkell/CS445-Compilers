@@ -1,0 +1,13 @@
+main()
+ begin 
+   int a, aa[10];
+   bool b, bb[11];
+   char c, cc[12];
+
+   for d <- a to aa do 111*d;
+   for d <- b to bb do 222*d;
+   for d <- bb to bb by bb do 333*d;
+   for d <- cc to c do 444*d;
+   for d <- aa[0] to aa[1] by aa[2] do 555 or d;
+ end    
+

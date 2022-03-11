@@ -1,0 +1,6 @@
+int x, y, z;
+
+int fred(int a, b, c, d, e; char f, g, h, i; bool j, k; int l[], m[])
+ begin 
+   int ii, hh, gg, ff, ee, dd, cc, bb, aa;
+ end 

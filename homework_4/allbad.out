@@ -1,0 +1,76 @@
+ERROR(2): Function 'ant' at line 2 is expecting to return type char but returns type int.
+ERROR(7): '<-' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(8): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(9): '<-' requires operands of the same type but lhs is type int and rhs is type char.
+ERROR(11): '>' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(12): '<' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(13): '<=' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(13): '>=' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(14): '=' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(15): Expecting Boolean test condition in if statement but got type int.
+ERROR(15): Unary 'not' requires an operand of type bool but was given type int.
+ERROR(15): 'and' requires operands of type bool but lhs is of type int.
+ERROR(16): Expecting Boolean test condition in if statement but got type int.
+ERROR(16): Unary 'not' requires an operand of type bool but was given type int.
+ERROR(16): 'or' requires operands of type bool but lhs is of type int.
+ERROR(17): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(17): Expecting Boolean test condition in if statement but got type int.
+ERROR(21): '+' requires operands of type int but lhs is of type bool.
+ERROR(22): '-' requires operands of type int but rhs is of type bool.
+ERROR(23): '*' requires operands of type int but lhs is of type bool.
+ERROR(24): '/' requires operands of type int but rhs is of type bool.
+ERROR(25): '%' requires operands of type int but lhs is of type bool.
+ERROR(27): '+=' requires operands of type int but lhs is of type bool.
+ERROR(28): '-=' requires operands of type int but lhs is of type bool.
+ERROR(29): '*=' requires operands of type int but lhs is of type bool.
+ERROR(30): '/=' requires operands of type int but lhs is of type bool.
+ERROR(32): Unary 'chsign' requires an operand of type int but was given type bool.
+ERROR(33): Unary 'not' requires an operand of type bool but was given type int.
+ERROR(34): Unary '?' requires an operand of type int but was given type bool.
+WARNING(42): Variable 'aa' may be uninitialized when used here.
+ERROR(43): Array 'ba' should be indexed by type int but got type char.
+WARNING(43): Variable 'b' may be uninitialized when used here.
+ERROR(43): '<-' requires operands of the same type but lhs is type char and rhs is type int.
+ERROR(44): Array 'ca' should be indexed by type int but got type bool.
+WARNING(44): Variable 'c' may be uninitialized when used here.
+ERROR(44): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(45): Array 'aa' should be indexed by type int but got type bool.
+ERROR(45): Array index is the unindexed array 'aa'.
+ERROR(46): Cannot use function 'cat' as a variable.
+ERROR(46): Cannot index nonarray 'cat'.
+ERROR(47): Too many parameters passed for function 'cat' declared on line 37.
+ERROR(47): Cannot use function 'cat' as a variable.
+ERROR(54): '<-' requires operands of the same type but lhs is type char and rhs is type int.
+ERROR(65): '<-' requires operands of the same type but lhs is type int and rhs is type char.
+ERROR(67): Cannot return an array.
+WARNING(73): Variable 'i' may be uninitialized when used here.
+ERROR(79): Symbol 'a' is already declared at line 79.
+ERROR(81): Symbol 'a' is already declared at line 79.
+ERROR(82): Symbol 'b' is not declared.
+ERROR(85): Symbol 'c' is not declared.
+ERROR(85): Symbol 'c' is not declared.
+ERROR(86): Symbol 'c' is not declared.
+WARNING(86): Variable 'b' may be uninitialized when used here.
+WARNING(84): The variable 'a' seems not to be used.
+ERROR(96): Unary '?' requires an operand of type int but was given type char.
+ERROR(96): The operation '?' does not work with arrays.
+ERROR(97): '/' requires operands of type int but lhs is of type char.
+ERROR(97): '/' requires operands of type int but rhs is of type char.
+ERROR(97): The operation '/' does not work with arrays.
+ERROR(98): The operation 'sizeof' only works with arrays.
+ERROR(99): 'bbb' is a simple variable and cannot be called.
+ERROR(101): Expecting type bool in parameter 1 of call to 'bat' declared on line 4 but got type int.
+ERROR(101): Expecting type int in parameter 2 of call to 'bat' declared on line 4 but got type char.
+ERROR(102): '<-' requires operands of the same type but lhs is type char and rhs is type bool.
+ERROR(103): Expecting type bool in parameter 1 of call to 'bat' declared on line 4 but got type char.
+ERROR(103): Expecting type int in parameter 2 of call to 'bat' declared on line 4 but got type bool.
+ERROR(105): Too few parameters passed for function 'dog' declared on line 70.
+ERROR(105): '+' requires operands of type int but lhs is of type void.
+ERROR(105): '+' requires operands of type int but rhs is of type bool.
+ERROR(107): '+' requires operands of type int but lhs is of type char.
+ERROR(110): Symbol 'mane' is already declared at line 91.
+WARNING(79): The function 'elk' seems not to be used.
+WARNING(91): The function 'mane' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 8
+Number of errors: 66

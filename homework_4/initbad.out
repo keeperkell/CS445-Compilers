@@ -1,0 +1,17 @@
+ERROR(2): Initializer for variable 'a' requires both operands be arrays or not but variable is an array and rhs is not an array.
+ERROR(4): Initializer for variable 'c' is not a constant expression.
+ERROR(6): Initializer for variable 'x' of type int is of type char
+ERROR(7): Initializer for variable 'y' of type int is of type char
+ERROR(7): Initializer for variable 'y' requires both operands be arrays or not but variable is not an array and rhs is an array.
+ERROR(8): Initializer for variable 'z' is not a constant expression.
+ERROR(8): Initializer for variable 'z' of type int is of type void
+ERROR(10): '<-' requires operands of the same type but lhs is type int and rhs is type char.
+ERROR(11): '<-' requires operands of the same type but lhs is type int and rhs is type char.
+ERROR(11): '<-' requires both operands be arrays or not but lhs is not an array and rhs is an array.
+ERROR(12): '<-' requires operands of the same type but lhs is type int and rhs is type void.
+WARNING(2): The variable 'a' seems not to be used.
+WARNING(3): The variable 'b' seems not to be used.
+WARNING(4): The variable 'c' seems not to be used.
+WARNING(5): The variable 'd' seems not to be used.
+Number of warnings: 4
+Number of errors: 11

@@ -1,0 +1,5 @@
+WARNING(12): Variable 'x' may be uninitialized when used here.
+WARNING(13): Variable 'y' may be uninitialized when used here.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 2
+Number of errors: 1

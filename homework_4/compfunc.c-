@@ -1,0 +1,27 @@
+main()  begin  end 
+
+elk(int x)  begin 
+   int x;
+    begin  int x;
+       x<-1;
+    end 
+   x<-1;
+ end 
+
+fox(int x)  begin 
+   if true then
+    begin  int x;
+       x<-1;
+    end 
+   x<-1;
+ end 
+
+gnu(bool x)  begin  
+   if x then
+    begin  int x;
+       x<-1;
+    end 
+ end 
+
+hog(int x)  begin  
+   for x <- 1 to 731 do x<-8;  end 

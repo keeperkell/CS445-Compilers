@@ -1,0 +1,11 @@
+ERROR(21): Symbol 'aardvark' is not declared.
+ERROR(21): Cannot index nonarray 'aardvark'.
+WARNING(21): Variable 'in' may be uninitialized when used here.
+ERROR(23): Cannot index nonarray 'in'.
+WARNING(24): Variable 'zz' may be uninitialized when used here.
+ERROR(28): Function 'max' at line 7 is expecting to return type int but return has no value.
+WARNING(10): The variable 'c' seems not to be used.
+WARNING(3): The variable 'a' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 4
+Number of errors: 5

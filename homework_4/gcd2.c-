@@ -1,0 +1,16 @@
+## C-S22
+## A program to perform Euclid's algorithm
+##  to find the greatest common denominator
+int gcd(int u, v)
+ begin  
+    if v = 0 then 
+        return u;
+    else 
+        return gcd(v, u-u/v*v);
+ end 
+
+main()
+ begin   
+    output(gcd(input(), input()));
+    outnl();
+ end 

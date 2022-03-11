@@ -1,0 +1,18 @@
+ERROR(6): Expecting Boolean test condition in if statement but got type int.
+WARNING(6): Variable 't' may be uninitialized when used here.
+WARNING(6): Variable 'a' may be uninitialized when used here.
+WARNING(6): Variable 'b' may be uninitialized when used here.
+ERROR(7): Expecting Boolean test condition in if statement but got type int.
+WARNING(7): Variable 'u' may be uninitialized when used here.
+ERROR(8): Expecting Boolean test condition in if statement but got type int.
+WARNING(8): Variable 'v' may be uninitialized when used here.
+WARNING(8): Variable 'c' may be uninitialized when used here.
+WARNING(8): Variable 'd' may be uninitialized when used here.
+ERROR(9): Expecting Boolean test condition in if statement but got type int.
+ERROR(10): Expecting Boolean test condition in if statement but got type int.
+WARNING(10): The variable 'z' seems not to be used.
+ERROR(11): Expecting Boolean test condition in if statement but got type int.
+WARNING(11): The variable 'z' seems not to be used.
+WARNING(3): The variable 's' seems not to be used.
+Number of warnings: 10
+Number of errors: 6

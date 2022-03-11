@@ -1,0 +1,24 @@
+ERROR(5): Too many parameters passed for function 'DArtagnan' declared on line 2.
+ERROR(6): Too many parameters passed for function 'DArtagnan' declared on line 2.
+ERROR(6): '+' requires operands of type int but lhs is of type bool.
+WARNING(4): Expecting to return type int but function 'Athos' has no return statement.
+ERROR(11): Not expecting array in parameter 2 of call to 'Athos' declared on line 4.
+ERROR(11): Too few parameters passed for function 'Athos' declared on line 4.
+ERROR(13): Too many parameters passed for function 'Athos' declared on line 4.
+ERROR(13): 'and' requires operands of type bool but lhs is of type int.
+ERROR(13): 'and' requires operands of type bool but rhs is of type int.
+WARNING(10): Expecting to return type char but function 'Aramis' has no return statement.
+WARNING(22): Variable 'a' may be uninitialized when used here.
+WARNING(22): Variable 'b' may be uninitialized when used here.
+WARNING(22): Variable 'c' may be uninitialized when used here.
+ERROR(24): Too few parameters passed for function 'Athos' declared on line 4.
+ERROR(25): Too many parameters passed for function 'Athos' declared on line 4.
+ERROR(26): Expecting type int in parameter 1 of call to 'Athos' declared on line 4 but got type void.
+ERROR(26): Symbol 'thx1138' is not declared.
+ERROR(26): Expecting type char in parameter 3 of call to 'Athos' declared on line 4 but got type int.
+WARNING(17): The parameter 'aa' seems not to be used.
+WARNING(17): The parameter 'bb' seems not to be used.
+WARNING(17): The parameter 'cc' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 8
+Number of errors: 14

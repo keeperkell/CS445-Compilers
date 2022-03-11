@@ -1,0 +1,9 @@
+## C-S22
+main()
+ begin 
+   static int x:111;
+
+   output(x);
+   x <- 222;
+   output(x);
+ end 

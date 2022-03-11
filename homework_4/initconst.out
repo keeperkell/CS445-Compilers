@@ -1,0 +1,7 @@
+ERROR(3): Initializer for variable 'u' is not a constant expression.
+ERROR(5): Initializer for variable 'y' is not a constant expression.
+WARNING(3): The variable 'u' seems not to be used.
+WARNING(5): The variable 'y' seems not to be used.
+WARNING(6): The variable 'z' seems not to be used.
+Number of warnings: 3
+Number of errors: 2

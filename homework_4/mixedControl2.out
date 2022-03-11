@@ -1,0 +1,12 @@
+ERROR(4): Expecting Boolean test condition in if statement but got type int.
+ERROR(5): Expecting Boolean test condition in while statement but got type int.
+ERROR(6): Expecting Boolean test condition in if statement but got type int.
+ERROR(7): Expecting Boolean test condition in while statement but got type int.
+ERROR(11): Expecting Boolean test condition in if statement but got type int.
+ERROR(12): Expecting Boolean test condition in while statement but got type int.
+ERROR(14): Expecting Boolean test condition in while statement but got type int.
+ERROR(16): Expecting Boolean test condition in if statement but got type int.
+ERROR(17): Expecting Boolean test condition in while statement but got type int.
+ERROR(18): Expecting Boolean test condition in while statement but got type int.
+Number of warnings: 0
+Number of errors: 10

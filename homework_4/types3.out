@@ -1,0 +1,18 @@
+ERROR(5): Symbol 'lund' is already declared at line 3.
+WARNING(5): The parameter 'a' seems not to be used.
+ERROR(9): Symbol 'a' is already declared at line 9.
+ERROR(11): Symbol 'a' is already declared at line 9.
+ERROR(12): 'a' is a simple variable and cannot be called.
+ERROR(13): Cannot use function 'fred' as a variable.
+WARNING(9): Expecting to return type int but function 'fred' has no return statement.
+ERROR(16): Symbol 'fred' is already declared at line 9.
+ERROR(20): Symbol 'linda' is already declared at line 18.
+WARNING(18): The parameter 'linda' seems not to be used.
+ERROR(26): Cannot use function 'arwen' as a variable.
+WARNING(24): The parameter 'eowyn' seems not to be used.
+WARNING(23): The variable 'galadriel' seems not to be used.
+WARNING(18): The function 'linda' seems not to be used.
+WARNING(3): The variable 'lund' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 7
+Number of errors: 9

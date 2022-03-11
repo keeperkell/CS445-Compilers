@@ -1,0 +1,14 @@
+ERROR(5): Cannot use array in position 1 in range of for statement.
+ERROR(6): Symbol 'x' is already declared at line 5.
+ERROR(10): Cannot use array in position 1 in range of for statement.
+WARNING(10): The variable 'x' seems not to be used.
+ERROR(15): Cannot use array in position 1 in range of for statement.
+ERROR(16): Symbol 'x' is already declared at line 15.
+WARNING(15): The variable 'x' seems not to be used.
+ERROR(22): Cannot use array in position 1 in range of for statement.
+ERROR(28): Cannot use array in position 1 in range of for statement.
+ERROR(29): Symbol 'x' is already declared at line 28.
+ERROR(35): Cannot use array in position 1 in range of for statement.
+ERROR(44): Cannot use array in position 1 in range of for statement.
+Number of warnings: 2
+Number of errors: 10

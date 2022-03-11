@@ -1,0 +1,48 @@
+## C-S22
+##
+## IMPORTANT:
+##
+## This file has many if not all semantic errors.
+## The errors in the comments are not necessarily the
+## the exact text generated for each error!   Use the
+## error message text in the assignment.  If this doesn't
+## test all errors then let me know.  thanks, rh
+##
+int ant()  begin return 666; end 
+bool bear()  begin return true; end 
+char cat()  begin return 'c'; end 
+
+int antno()  begin  end 
+bool bearno()  begin  end 
+char catno()  begin  end 
+
+dog(int aardvark; bool baboon; char cow)  begin 
+ end 
+
+elk(int asp[]; bool bull[]; char crow[]) begin 
+ end 
+
+main()
+ begin 
+   int a; bool b; char c;
+   int aa[3]; bool bb[5]; char cc[7];
+
+   dog(a, b, c);
+   elk(a, b, c);
+   fox(a, b, c);
+
+   dog(aa, bb, cc);
+   elk(aa, bb, cc);
+   fox(aa, bb, cc);
+
+   dog(ant(), bear(), cat());
+   dog(antno(), bearno(), catno());
+   elk(ant(), bear(), cat());
+   fox(ant(), bear(), cat());
+
+   dog(a+b, b-c, a*c);
+   elk(a+b, b-c, a*c);
+
+   emu(x+b, parrot, b and x);
+   emu(false, true and emu(x+b, parrot, b and x), true, x*b);
+ end 

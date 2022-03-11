@@ -1,0 +1,91 @@
+ERROR(8): Symbol 'c' is already declared at line 8.
+ERROR(9): Symbol 'i' is already declared at line 4.
+WARNING(12): Variable 'i' may be uninitialized when used here.
+WARNING(13): Variable 'b' may be uninitialized when used here.
+ERROR(13): '+' requires operands of type int but rhs is of type bool.
+ERROR(14): '+' requires operands of type int but lhs is of type bool.
+ERROR(15): '+' requires operands of type int but lhs is of type bool.
+ERROR(15): '+' requires operands of type int but rhs is of type bool.
+ERROR(17): 'and' requires operands of type bool but lhs is of type int.
+ERROR(17): 'and' requires operands of type bool but rhs is of type int.
+ERROR(18): 'and' requires operands of type bool but lhs is of type int.
+ERROR(19): 'and' requires operands of type bool but rhs is of type int.
+ERROR(23): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(24): '<-' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(28): '=' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(29): '=' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(33): '!=' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(34): '!=' requires operands of the same type but lhs is type bool and rhs is type int.
+WARNING(37): Variable 'ia' may be uninitialized when used here.
+ERROR(37): The operation '+' does not work with arrays.
+WARNING(38): Variable 'ba' may be uninitialized when used here.
+ERROR(38): '+' requires operands of type int but rhs is of type bool.
+ERROR(38): The operation '+' does not work with arrays.
+ERROR(39): '+' requires operands of type int but lhs is of type bool.
+ERROR(39): The operation '+' does not work with arrays.
+ERROR(40): '+' requires operands of type int but lhs is of type bool.
+ERROR(40): '+' requires operands of type int but rhs is of type bool.
+ERROR(40): The operation '+' does not work with arrays.
+ERROR(42): 'and' requires operands of type bool but lhs is of type int.
+ERROR(42): 'and' requires operands of type bool but rhs is of type int.
+ERROR(42): The operation 'and' does not work with arrays.
+ERROR(43): 'and' requires operands of type bool but lhs is of type int.
+ERROR(43): The operation 'and' does not work with arrays.
+ERROR(44): 'and' requires operands of type bool but rhs is of type int.
+ERROR(44): The operation 'and' does not work with arrays.
+ERROR(45): The operation 'and' does not work with arrays.
+ERROR(48): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(49): '<-' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(53): '=' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(54): '=' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(57): '+' requires operands of type int but lhs is of type bool.
+ERROR(58): '+' requires operands of type int but rhs is of type bool.
+ERROR(59): '+' requires operands of type int but rhs is of type bool.
+ERROR(61): 'or' requires operands of type bool but lhs is of type int.
+ERROR(62): 'or' requires operands of type bool but rhs is of type int.
+ERROR(63): 'or' requires operands of type bool but rhs is of type int.
+ERROR(66): Unary 'not' requires an operand of type bool but was given type int.
+ERROR(67): The operation 'not' does not work with arrays.
+ERROR(68): Unary 'not' requires an operand of type bool but was given type int.
+ERROR(68): The operation 'not' does not work with arrays.
+ERROR(70): Unary 'chsign' requires an operand of type int but was given type bool.
+ERROR(72): Unary 'chsign' requires an operand of type int but was given type bool.
+ERROR(72): The operation 'chsign' does not work with arrays.
+ERROR(73): The operation 'chsign' does not work with arrays.
+ERROR(76): '>' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(77): '>' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(78): '>' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(79): '>' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(79): '>' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(82): Expecting Boolean test condition in if statement but got type int.
+ERROR(85): Cannot use array as test condition in if statement.
+ERROR(88): Expecting Boolean test condition in if statement but got type int.
+ERROR(88): Cannot use array as test condition in if statement.
+ERROR(94): Expecting Boolean test condition in if statement but got type int.
+ERROR(97): Expecting Boolean test condition in while statement but got type int.
+ERROR(98): Cannot use array as test condition in while statement.
+ERROR(99): Expecting Boolean test condition in while statement but got type int.
+ERROR(99): Cannot use array as test condition in while statement.
+ERROR(101): Expecting Boolean test condition in while statement but got type int.
+ERROR(103): 'b' is a simple variable and cannot be called.
+ERROR(104): Cannot index nonarray 'b'.
+ERROR(105): Symbol 'x' is not declared.
+ERROR(105): Cannot index nonarray 'x'.
+ERROR(106): Cannot use function 'main' as a variable.
+ERROR(106): Cannot index nonarray 'main'.
+ERROR(107): Cannot use function 'main' as a variable.
+ERROR(107): Cannot index nonarray 'main'.
+ERROR(108): Array 'ba' should be indexed by type int but got type bool.
+ERROR(108): Array index is the unindexed array 'ba'.
+ERROR(109): Array 'ba' should be indexed by type int but got type char.
+ERROR(110): Cannot use function 'main' as a variable.
+ERROR(111): The operation '+' does not work with arrays.
+ERROR(112): Symbol 'a' is not declared.
+ERROR(113): The operation 'sizeof' only works with arrays.
+ERROR(114): Unary 'chsign' requires an operand of type int but was given type bool.
+ERROR(116): Function 'main' at line 2 is expecting to return type int but returns type bool.
+ERROR(116): Cannot return an array.
+WARNING(8): The variable 'c' seems not to be used.
+WARNING(10): The variable 'pumpkin' seems not to be used.
+Number of warnings: 6
+Number of errors: 83

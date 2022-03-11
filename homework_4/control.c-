@@ -1,0 +1,19 @@
+## C-S22
+main()
+ begin 
+    int x;
+
+    if 6>3 then  begin 
+        x <- 111;
+     end 
+    else  begin 
+        x <- 222;
+     end 
+
+    while 7>3 do  begin 
+        x <- 333;
+        if x<9 then break;
+        x <- 444;
+        break;
+    end 
+ end 

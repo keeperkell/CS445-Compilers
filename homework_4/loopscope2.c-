@@ -1,0 +1,29 @@
+main()
+ begin 
+     int x;
+
+     while true do  begin 
+           int x;          ## OK
+            end 
+
+
+     for y <- 1 to 10 do  begin 
+           int x;         ## OK
+            end 
+
+     for y <- 1 to 10 do  begin   begin 
+           int x;        ## OK
+            end   end 
+
+     for y <- 1 to 10 do  begin 
+           int y;        ## y redeclared
+            end 
+
+     for y <- 1 to 10 do  begin   begin 
+           int y;        ## OK
+            end   end 
+
+     for y <- 1 to 10 do ;
+      begin  int y;  end           ## OK
+ end 
+

@@ -1,0 +1,32 @@
+fred()
+ begin 
+   for i<-1 to 10 do
+       for i<-1 to 10 do
+           7;
+   for i<-1 to 10 do
+       if true then  begin 
+           int i;
+        end 
+ end 
+        
+cat(int i)  begin 
+     if true then  begin 
+        int i;
+      end  end 
+
+
+errorZ(int i)  begin 
+     int i;
+      begin 
+          int i;
+  
+          if true then  begin 
+              int i;
+           end     
+      end 
+
+   for i<-1 to 10 do
+        begin 
+           int i;
+        end 
+ end 

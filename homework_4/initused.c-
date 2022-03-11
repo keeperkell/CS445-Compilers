@@ -1,0 +1,20 @@
+ant()  begin 
+   z+z;
+ end 
+
+bat()  begin 
+   z()+z();
+ end 
+
+cow()  begin 
+   int z;
+   z+z;
+ end 
+
+dog()  begin 
+   int z;
+   z()+z();
+ end 
+
+
+

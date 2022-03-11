@@ -1,0 +1,58 @@
+WARNING(4): The parameter 'x' seems not to be used.
+ERROR(5): Symbol 'bender' is already declared at line 4.
+ERROR(9): Symbol 'x' is already declared at line 7.
+ERROR(10): Symbol 'x' is already declared at line 7.
+ERROR(10): Symbol 'y' is already declared at line 9.
+ERROR(12): Symbol 'z' is not declared.
+ERROR(13): '<-' requires operands of the same type but lhs is type bool and rhs is type int.
+WARNING(15): Variable 'z' may be uninitialized when used here.
+ERROR(17): Symbol 'z' is not declared.
+ERROR(17): Symbol 'z' is not declared.
+ERROR(18): Cannot use function 'main' as a variable.
+ERROR(19): Cannot index nonarray 'x'.
+ERROR(20): Array 'y' should be indexed by type int but got type char.
+ERROR(21): Array index is the unindexed array 'y'.
+ERROR(23): Array 'y' should be indexed by type int but got type bool.
+ERROR(24): Cannot use function 'main' as a variable.
+ERROR(25): Cannot use function 'main' as a variable.
+ERROR(25): Cannot index nonarray 'main'.
+ERROR(25): Array 'main' should be indexed by type int but got type char.
+ERROR(26): 'and' requires operands of type bool but lhs is of type int.
+ERROR(26): 'and' requires operands of type bool but rhs is of type char.
+ERROR(29): The operation 'sizeof' only works with arrays.
+ERROR(30): Too few parameters passed for function 'main' declared on line 7.
+ERROR(30): The operation 'sizeof' only works with arrays.
+ERROR(31): Unary '?' requires an operand of type int but was given type char.
+ERROR(31): Unary '?' requires an operand of type int but was given type bool.
+ERROR(33): Too few parameters passed for function 'main' declared on line 7.
+ERROR(33): Symbol 'fred' is not declared.
+ERROR(33): 'and' requires operands of type bool but lhs is of type int.
+ERROR(34): '+' requires operands of type int but lhs is of type bool.
+ERROR(34): '+' requires operands of type int but rhs is of type bool.
+ERROR(35): Too few parameters passed for function 'bender' declared on line 4.
+ERROR(35): '*' requires operands of type int but rhs is of type void.
+ERROR(36): Too few parameters passed for function 'bender' declared on line 4.
+ERROR(36): '<-' requires operands of the same type but lhs is type int and rhs is type void.
+ERROR(37): Too few parameters passed for function 'main' declared on line 7.
+ERROR(37): '<-' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(38): Too few parameters passed for function 'bender' declared on line 4.
+ERROR(38): Too few parameters passed for function 'bender' declared on line 4.
+ERROR(39): Too few parameters passed for function 'bender' declared on line 4.
+ERROR(39): Too few parameters passed for function 'bender' declared on line 4.
+ERROR(40): Too few parameters passed for function 'bender' declared on line 4.
+ERROR(40): Too few parameters passed for function 'bender' declared on line 4.
+ERROR(40): '-' requires operands of type int but lhs is of type void.
+ERROR(40): '-' requires operands of type int but rhs is of type void.
+ERROR(41): Expecting type int in parameter 1 of call to 'bender' declared on line 4 but got type void.
+ERROR(42): Array 'y' should be indexed by type int but got type void.
+ERROR(44): '<' requires operands of the same type but lhs is type char and rhs is type int.
+ERROR(48): Function 'main' at line 7 is expecting to return type int but return has no value.
+ERROR(49): Function 'main' at line 7 is expecting to return type int but returns type bool.
+ERROR(50): Function 'main' at line 7 is expecting to return type int but returns type char.
+ERROR(51): Too few parameters passed for function 'bender' declared on line 4.
+ERROR(51): Function 'main' at line 7 is expecting to return type int but returns type void.
+WARNING(2): The variable 'x' seems not to be used.
+WARNING(2): The variable 'y' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 4
+Number of errors: 52

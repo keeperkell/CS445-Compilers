@@ -1,0 +1,52 @@
+## C-S22
+bool w, x, y;
+
+bender(int x) begin ; end   ## an empty function that returns nothing and so is 
+int bender()  begin return 666; end 
+
+int main(int x)
+ begin 
+    int x, y[10];
+    char x, y;
+
+    z + x;
+    w <- 72;
+     begin  int z;
+      z <- z/z;
+     end 
+    z + z;
+    main <- 10;
+    x[2] <- 3;
+    y['c'] <- 4;
+    y[y] <- 5;
+    y[y[0]] <- 55;
+    y[true];
+    y[main];
+    main['c'];
+    6 and 'x';
+    y <- y;
+    y[*y-1];
+    *x;
+    *main();
+    ?'u' + ?true;
+    66 + y[77-11*55] * 77 > 12 or false;
+    main() and fred();
+    true + false + 666;
+    919 * bender();
+    x <- bender();
+    w <- main();
+    bender() = bender();
+    bender() != bender();
+    bender() - bender();
+    bender(bender(4));  ## this will be caught in second semantic analysis assignment.
+    y[bender(3)];
+    true<false;
+    'a'<11;
+    'a'>='b';
+    6 + (x <- 3);
+
+    return;
+    return true;
+    return 'x';
+    return bender();
+ end 

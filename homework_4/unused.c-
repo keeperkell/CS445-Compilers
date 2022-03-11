@@ -1,0 +1,10 @@
+int g, ug;
+dog(int x) begin  end 
+udog() begin ; end 
+
+main()  begin 
+   ug <- 3;
+   udog();
+ end 
+
+   

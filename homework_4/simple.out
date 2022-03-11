@@ -1,0 +1,5 @@
+ERROR(3): Symbol 'x' is not declared.
+ERROR(4): Symbol 'y' is not declared.
+ERROR(5): Symbol 'z' is not declared.
+Number of warnings: 0
+Number of errors: 3
