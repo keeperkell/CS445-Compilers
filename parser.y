@@ -526,6 +526,10 @@ int main(int argc, char *argv[])
             case 'P':
 
               semanticAnalysis(AST);
+
+              //load IO funcs into symboltable
+              IOconstructor();
+
               funcMainNode = (TreeNode *)st.lookup("main");
               
               // if main doesnt exist, print error

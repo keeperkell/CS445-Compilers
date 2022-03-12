@@ -4,12 +4,11 @@
 #include "semantics.h"
 #include "symbolTable.h"
 
-//extern SymbolTable st;
+extern SymbolTable st;
 
-void IOconstructor(SymbolTable st){
+void IOconstructor(){
     TokenData *tmp;
     TokenData *tmpChild;
-
 
     // 7 IO nodes
     TreeNode *t[7];

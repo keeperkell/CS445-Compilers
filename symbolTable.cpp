@@ -81,7 +81,6 @@ void SymbolTable::Scope::debug(bool state) {
     debugFlg = state;
 }
 
-
 // print the scope
 void SymbolTable::Scope::print(void (*printData)(void *)) {
     printf("Scope: %-15s -----------------\n", name.c_str());

@@ -27,19 +27,10 @@ bool insideScope = false;
 char *curScope;
 extern void checkIfUsed(std::string, void *symbol);
 
-bool firstRun = true;
-
 TreeNode *funcScope;
 
 void semanticAnalysis(TreeNode *t){
 
-    //load IO funcs into symboltable
-    
-    if(firstRun){
-       IOconstructor(st); 
-       firstRun = false;
-    }
-    
     TreeNode *currentNode;
     
     if(!t){
