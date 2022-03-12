@@ -368,6 +368,7 @@ void semanticAnalysis(TreeNode *t){
                                     }
 
                                     else if(scope){
+                                        
                                         //check matching types and func expects a return
                                         if(currentNode->expType != scope->expType && scope->expType != Void){
                                             numErrors++;
