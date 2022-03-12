@@ -283,7 +283,7 @@ void SymbolTable::applyToAllGlobal(void (*action)(std::string , void *))
 // My Helper Funcions
 
 // check if a symbol was used
-void checkIfUsed(std::string, void *symbol){
+static void checkIfUsed(std::string, void *symbol){
     TreeNode *tmp = (TreeNode *)symbol;
 
     if(!tmp->isUsed){

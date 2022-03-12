@@ -1058,12 +1058,12 @@ void checkCallParams(TreeNode *lookUp, TreeNode *lu_Child, TreeNode *t, TreeNode
     else if(t_Child->sibling && lu_Child->sibling){
         paramNum++;
 
-        checkParams(lookUp, lu_Child, t, t_Child->sibling, paramNum);
+        checkCallParams(lookUp, lu_Child, t, t_Child->sibling, paramNum);
     }
 }
 
 // check errors of params in for statement
-void checkForParams(TreeNode *t, TreeNode *t_Child, int paramNum){
+void checkForKParams(TreeNode *t, TreeNode *t_Child, int paramNum){
 
     // check position for type int
     if(t_Child->child[paramNum-1]){
@@ -1087,6 +1087,6 @@ void checkForParams(TreeNode *t, TreeNode *t_Child, int paramNum){
     if(t_Child->child[paramNum]){
 
         // increnement paramNum in recursion call
-        checkForParams(t, t_Child->child[paramNum], ++paramNum);
+        checkForKParams(t, t_Child->child[paramNum], ++paramNum);
     }
 }
