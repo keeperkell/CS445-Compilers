@@ -971,7 +971,7 @@ void checkOpK(TreeNode *t){
 
     //assign flags for vars of child[0]
     if(t->child[0]){
-        TreeNode *currentNode = (TreeNode *)st.lookup(t->child[0]);
+        TreeNode *currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
 
         if(currentNode){
             if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK || currentNode->subkind.exp == IdK){
@@ -991,7 +991,7 @@ void checkOpK(TreeNode *t){
 
     //assign flags for vars of child[1]
     if(t->child[1]){
-        TreeNode *currentNode = (TreeNode *)st.lookup(t->child[1]);
+        TreeNode *currentNode = (TreeNode *)st.lookup(t->child[1]->attr.name);
 
         if(currentNode){
             if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK || currentNode->subkind.exp == IdK){
