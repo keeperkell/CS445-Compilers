@@ -24,6 +24,7 @@ extern int numWarnings;
 int scopeDepth = 0;
 int loopDepth = 1;
 bool insideScope = false;
+char *curScope;
 extern void checkIfUsed(std::string, void *symbol);
 
 bool firstRun = true;
@@ -340,11 +341,54 @@ void semanticAnalysis(TreeNode *t){
                     }
 
                     case ReturnK:
-                        //printf("StmtK->ReturnK\n");
-
                         // return should only have 1 child to return
+                        TreeNode *scope; 
+
+                        //look up current scope
+                        scope = (TreeNode *)st.lookup(curScope);
                         
                         semanticAnalysis(t->child[0]);
+
+                        // check for ID return
+                        if(t->child[0]){
+                            if(t->child[0]->nodekind == ExpK && t->child[0]->subkind.exp == Idk){
+                                currentNode = st.lookup(t->child[0]->attr.name);
+                                //if node is exists, then it is used
+                                if(currentNode){
+                                    currentNode->isUsed = true;
+
+                                    // check if array
+                                    if(currentNode->isArray){
+                                        numErrors++;
+
+                                        printf("ERROR(%d): Cannot return an array.\n", t->linenum);
+                                    }
+
+                                    else if(scope){
+                                        //check matching types and func expects a return
+                                        if(currentNode->expType != scope->expType && scope->expType != Void){
+                                            numErrors++;
+
+                                            printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but returns type %s.\n",
+                                                             t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType), returnExpType(currentNode->expType));
+                                        }
+                                        // check if func expects no return value
+                                        else if(scope->expType == Void && t->child[0]){
+                                            numErrors++;
+
+                                            printf("ERROR(%d): Function '%s' at line %d is expecting no return value, but return has a value.\n", t->linenum, scope->attr.name, scope->linenum);
+                                        }
+                                        // check if return value is expected but no value returned
+                                        else if(scope->expType != Void && !t->child[0]){
+                                            numErrors++;
+
+                                            printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but return has no value.\n", t->linenum, scope->attr.name, returnExpType(scope->expType));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
    
                         if(t->child[0]){
                             if(!funcScope){
@@ -976,8 +1020,8 @@ void checkIdK(TreeNode *t){
     //node is found
     else{
         t->expType = currentNode->expType;
-        //t->subkind.decl = currentNode->subkind.decl;
         t->isArray = currentNode->isArray;
+        t->isInit = currentNode->isInit;
 
         // id cannot be a function
         if(currentNode->subkind.decl == FuncK){
