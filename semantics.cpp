@@ -1068,24 +1068,26 @@ void checkCallParams(TreeNode *lookUp, TreeNode *lu_Child, TreeNode *t, TreeNode
 
 // check errors of params in for statement
 void checkForKParams(TreeNode *t, TreeNode *t_Child, int paramNum){
-
-    // check position for type int
     if(t_Child->child[paramNum-1]){
-        if(t_Child->child[paramNum-1]->expType != Integer && t_Child->child[paramNum-1]->expType != UndefinedType){
-            numErrors++;
+        // check position for type int
+        if(t_Child->child[paramNum-1]){
+            if(t_Child->child[paramNum-1]->expType != Integer && t_Child->child[paramNum-1]->expType != UndefinedType){
+                numErrors++;
 
-            printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s", t->linenum, paramNum, returnExpType(t_Child->child[paramNum-1]->expType));
+                printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s", t->linenum, paramNum, returnExpType(t_Child->child[paramNum-1]->expType));
+            }
         }
-    }
 
-    // check position for isArray
-    if(t_Child->child[paramNum-1]){
-        if(t_Child->child[paramNum-1]->isArray){
-            numErrors++;
+        // check position for isArray
+        if(t_Child->child[paramNum-1]){
+            if(t_Child->child[paramNum-1]->isArray){
+                numErrors++;
 
-            printf("ERROR(%d): Cannot use array in position %d of for statement.\n", t->linenum, paramNum);
-        }
+                printf("ERROR(%d): Cannot use array in position %d of for statement.\n", t->linenum, paramNum);
+            }
+        } 
     }
+    
 
     // check if another child exists, then recurse
     if(t_Child->child[paramNum]){
