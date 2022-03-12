@@ -24,7 +24,7 @@ extern int numWarnings;
 int scopeDepth = 0;
 int loopDepth = 1;
 bool insideScope = false;
-extern void checkIfUsed(std::string, void *symbol)
+extern void checkIfUsed(std::string, void *symbol);
 
 bool firstRun = true;
 
@@ -262,7 +262,7 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }
 
-                        checkForParams(t, t->child[1], 1);
+                        checkForKParams(t, t->child[1], 1);
 
                         // THIS LOGIC IS REPLICATED IN CHECK FOR PARAMS
                         /*
