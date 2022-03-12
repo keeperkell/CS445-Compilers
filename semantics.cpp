@@ -947,11 +947,11 @@ void checkOpK(TreeNode *t){
 
     //assign flags for vars of child[1]
     if(t->child[1]){
-        if(t->child[0]->subkind.decl == VarK || t->child[0]->subkind.decl == ParamK || t->child[0]->subkind.exp == IdK){
+        if(t->child[1]->subkind.decl == VarK || t->child[1]->subkind.decl == ParamK || t->child[1]->subkind.exp == IdK){
             t->child[1]->isUsed = true;
 
             // check if var is inititalized
-            if(!t->child[0]->isInit){
+            if(!t->child[1]->isInit){
                 numWarnings++;
 
                 printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->child[1]->attr.name);
