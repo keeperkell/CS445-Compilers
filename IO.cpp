@@ -11,7 +11,6 @@
 extern SymbolTable st;
 
 void IOconstructor(){
-    TreeNode *tmp = (TreeNode *) malloc(sizeof(TreeNode));
     TreeNode *tmpChild = (TreeNode *) malloc(sizeof(TreeNode));
 
     // children nodes will all be the same
@@ -29,78 +28,62 @@ void IOconstructor(){
     output->isIO = true;
     st.insert(output->attr.name, output);
 
-    /*
     // void outputb(bool)
-    t[1]->attr.name = strdup("outputb");
-    t[1]->linenum = -1;
-    t[1]->subkind.decl = FuncK;
-    t[1]->expType = Void;
-    t[1]->child[0] = tmpChild;
-    t[1]->child[0]->expType = Boolean;
-    t[1]->isIO = true;
-    st.insert(t[1]->attr.name, t[1]);
+    TreeNode *outputb = (TreeNode *) malloc(sizeof(TreeNode));
+    outputb->attr.name = strdup("outputb");
+    outputb->linenum = -1;
+    outputb->subkind.decl = FuncK;
+    outputb->expType = Void;
+    outputb->child[0] = tmpChild;
+    outputb->child[0]->expType = Boolean;
+    outputb->isIO = true;
+    st.insert(outputb->attr.name, outputb);
 
     // void outputc(char)
-    t[2]->attr.name = strdup("outputc");
-    t[2]->linenum = -1;
-    t[2]->subkind.decl = FuncK;
-    t[2]->expType = Void;
-    t[2]->child[0] = tmpChild;
-    t[2]->child[0]->expType = Char;
-    t[2]->isIO = true;
-    st.insert(t[2]->attr.name, t[2]);
-    /*
-
-    /*
-    // void outputb(bool)
-    tmp->attr.name = strdup("outputb");
-    tmp->linenum = -1;
-    t[1] = newDeclNode(FuncK, tmp);
-    t[1]->child[0] = newDeclNode(ParamK, tmpChild);
-    t[1]->child[0]->expType = Boolean;
-    t[1]->isIO = true;
-    st.insert(t[1]->attr.name, t[1]);
-
-    // void outpuc(char)
-    tmp->attr.name = strdup("outputc");
-    tmp->linenum = -1;
-    t[2] = newDeclNode(FuncK, tmp);
-    t[2]->child[0] = newDeclNode(ParamK, tmpChild);
-    t[2]->child[0]->expType = Char;
-    t[2]->isIO = true;
-    st.insert(t[2]->attr.name, t[2]);
+    TreeNode *outputc = (TreeNode *) malloc(sizeof(TreeNode));
+    outputc->attr.name = strdup("outputc");
+    outputc->linenum = -1;
+    outputc->subkind.decl = FuncK;
+    outputc->expType = Void;
+    outputc->child[0] = tmpChild;
+    outputc->child[0]->expType = Char;
+    outputc->isIO = true;
+    st.insert(outputc->attr.name, outputc);
 
     // int input()
-    tmp->attr.name = strdup("input");
-    tmp->linenum = -1;
-    t[3] = newDeclNode(FuncK, tmp);
-    t[3]->expType = Integer;
-    t[3]->isIO = true;
-    st.insert(t[3]->attr.name, t[3]);
+    TreeNode *input = (TreeNode *) malloc(sizeof(TreeNode));
+    input->attr.name = strdup("input");
+    input->linenum = -1;
+    input->subkind.decl = FuncK;
+    input->expType = Integer;
+    input->isIO = true;
+    st.insert(input->attr.name, input);
 
-    // int inputb()
-    tmp->attr.name = strdup("inputb");
-    tmp->linenum = -1;
-    t[4] = newDeclNode(FuncK, tmp);
-    t[4]->expType = Boolean;
-    t[4]->isIO = true;
-    st.insert(t[4]->attr.name, t[4]);
+    // bool inputb()
+    TreeNode *inputb = (TreeNode *) malloc(sizeof(TreeNode));
+    inputb->attr.name = strdup("inputb");
+    inputb->linenum = -1;
+    inputb->subkind.decl = FuncK;
+    inputb->expType = Boolean;
+    inputb->isIO = true;
+    st.insert(inputb->attr.name, inputb);
 
-    // int inputc()
-    tmp->attr.name = strdup("inputc");
-    tmp->linenum = -1;
-    t[5] = newDeclNode(FuncK, tmp);
-    t[5]->expType = Integer;
-    t[5]->isIO = true;
-    st.insert(t[5]->attr.name, t[5]);
-
+    // char inputc()
+    TreeNode *inputc = (TreeNode *) malloc(sizeof(TreeNode));
+    inputc->attr.name = strdup("inputc");
+    inputc->linenum = -1;
+    inputc->subkind.decl = FuncK;
+    inputc->expType = Char;
+    inputc->isIO = true;
+    st.insert(inputc->attr.name, inputc);
+    
     // void outnl()
-    tmp->attr.name = strdup("outnl");
-    tmp->linenum = -1;
-    t[6] = newDeclNode(FuncK, tmp);
-    t[6]->child[0] = newDeclNode(ParamK, tmpChild);
-    t[6]->child[0]->expType = Void;
-    t[6]->isIO = true;
-    st.insert(t[6]->attr.name, t[6]);
-    */
+    TreeNode *outnl = (TreeNode *) malloc(sizeof(TreeNode));
+    outnl->attr.name = strdup("outnl");
+    outnl->linenum = -1;
+    outnl->subkind.decl = ParamK;
+    outnl->expType = Void;
+    outnl->isIO = true;
+    st.insert(outnl->attr.name, outnl);
+
 }
