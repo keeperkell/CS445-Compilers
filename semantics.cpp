@@ -971,10 +971,11 @@ void checkOpK(TreeNode *t){
 
     //assign flags for vars of child[0]
     if(t->child[0]){
-        TreeNode *currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
+        
+        if(t->child[0]->subkind.decl == VarK || t->child[0]->subkind.decl == ParamK || t->child[0]->subkind.exp == IdK){
+            TreeNode *currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
 
-        if(currentNode){
-            if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK || currentNode->subkind.exp == IdK){
+            if(currentNode){
                 currentNode->isUsed = true;
 
                 // check if var is inititalized
@@ -991,13 +992,14 @@ void checkOpK(TreeNode *t){
 
     //assign flags for vars of child[1]
     if(t->child[1]){
-        TreeNode *currentNode = (TreeNode *)st.lookup(t->child[1]->attr.name);
 
-        if(currentNode){
-            if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK || currentNode->subkind.exp == IdK){
+        if(t->child[1]->subkind.decl == VarK || t->child[1]->subkind.decl == ParamK || t->child[1]->subkind.exp == IdK){
+            TreeNode *currentNode = (TreeNode *)st.lookup(t->child[1]->attr.name);
+
+            if(currentNode){
                 currentNode->isUsed = true;
 
-                // check if var is inititalized, warning was not already reported, and no error in op
+                // check if var is inititalized
                 if(!currentNode->isInit && !currentNode->warningReported){
                     currentNode->warningReported = true;
 
