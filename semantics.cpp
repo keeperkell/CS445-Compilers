@@ -1022,45 +1022,48 @@ char *returnExpType(ExpType t){
 // check for Param Errors
 void checkCallParams(TreeNode *lookUp, TreeNode *lu_Child, TreeNode *t, TreeNode *t_Child, int paramNum){
 
-    // if param is expecting array
-    if(lu_Child->isArray && !t_Child->isArray){
-        numErrors++;
+    if(lu_Child && t_Child){
+        // if param is expecting array
+        if(lu_Child->isArray && !t_Child->isArray){
+            numErrors++;
 
-        printf("ERROR(%d): Expecting array in parameter %i of call to '%s' declared on line %d.\n", t->linenum, paramNum, lookUp->attr.name, lookUp->linenum);
+            printf("ERROR(%d): Expecting array in parameter %i of call to '%s' declared on line %d.\n", t->linenum, paramNum, lookUp->attr.name, lookUp->linenum);
+        }
+        // if param is NOT expecting array
+        if(!lu_Child->isArray &&  t_Child->isArray){
+            numErrors++;
+            
+            printf("ERROR(%d): Not expecting array in parameter %i of call to '%s' declared on line %d.\n", t->linenum, paramNum, lookUp->attr.name, lookUp->linenum);
+        }
+
+        // if param expected does not match type
+        if(lu_Child != t_Child){
+            numErrors++;
+
+            printf("ERROR(%d): Expecting type %s in parameter %i of call to '%s' declared on line %d but got type %s.\n", t->linenum, 
+                            returnExpType(lu_Child->expType), paramNum, lookUp->attr.name, lookUp->linenum, returnExpType(t_Child->expType));
+        }
+
+        // too few params passed for function
+        if(!t_Child->sibling && lu_Child->sibling){
+            numErrors++;
+
+            printf("ERROR(%d): Too few parameters passed for function '%s' declared on line %d.\n", t->linenum, lookUp->attr.name, lookUp->linenum);
+        }
+        // too many params passed for function
+        else if(t_Child->sibling && !lu_Child->sibling){
+            numErrors++;
+
+            printf("ERROR(%d): Too many parameters passed for function '%s' declared on line %d.\n", t->linenum, lookUp->attr.name, lookUp->linenum);
+        }
+        //if param has same siblings, 
+        else if(t_Child->sibling && lu_Child->sibling){
+            paramNum++;
+
+            checkCallParams(lookUp, lu_Child, t, t_Child->sibling, paramNum);
+        }
     }
-    // if param is NOT expecting array
-    if(!lu_Child->isArray &&  t_Child->isArray){
-        numErrors++;
-        
-        printf("ERROR(%d): Not expecting array in parameter %i of call to '%s' declared on line %d.\n", t->linenum, paramNum, lookUp->attr.name, lookUp->linenum);
-    }
-
-    // if param expected does not match type
-    if(lu_Child != t_Child){
-        numErrors++;
-
-        printf("ERROR(%d): Expecting type %s in parameter %i of call to '%s' declared on line %d but got type %s.\n", t->linenum, 
-                        returnExpType(lu_Child->expType), paramNum, lookUp->attr.name, lookUp->linenum, returnExpType(t_Child->expType));
-    }
-
-    // too few params passed for function
-    if(!t_Child->sibling && lu_Child->sibling){
-        numErrors++;
-
-        printf("ERROR(%d): Too few parameters passed for function '%s' declared on line %d.\n", t->linenum, lookUp->attr.name, lookUp->linenum);
-    }
-    // too many params passed for function
-    else if(t_Child->sibling && !lu_Child->sibling){
-        numErrors++;
-
-        printf("ERROR(%d): Too many parameters passed for function '%s' declared on line %d.\n", t->linenum, lookUp->attr.name, lookUp->linenum);
-    }
-    //if param has same siblings, 
-    else if(t_Child->sibling && lu_Child->sibling){
-        paramNum++;
-
-        checkCallParams(lookUp, lu_Child, t, t_Child->sibling, paramNum);
-    }
+    
 }
 
 // check errors of params in for statement
