@@ -497,6 +497,9 @@ int main(int argc, char *argv[])
           case 'D':
 
             st.debug(1);
+            //load IO funcs into symboltable
+            IOconstructor();
+            
             yyparse();
             semanticAnalysis(AST);
             
@@ -526,10 +529,10 @@ int main(int argc, char *argv[])
 
             case 'P':
 
-              semanticAnalysis(AST);
-
               //load IO funcs into symboltable
               IOconstructor();
+              
+              semanticAnalysis(AST);
 
               funcMainNode = (TreeNode *)st.lookup("main");
               
