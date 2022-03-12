@@ -143,7 +143,7 @@ void semanticAnalysis(TreeNode *t){
                         // Only leave scope if you are not in global
                         if(st.depth() > 1){
                             //check if vars were used
-                            st.applyToAll(st.checkIfUsed());
+                            st.applyToAll(st.checkIfUsed);
 
                             st.leave();
                         }
@@ -201,7 +201,7 @@ void semanticAnalysis(TreeNode *t){
                         insideScope = false;
 
                         //check if vars were used
-                        st.applyToAll(st.checkIfUsed());
+                        st.applyToAll(st.checkIfUsed);
 
                         st.leave();
                         break;
@@ -240,7 +240,7 @@ void semanticAnalysis(TreeNode *t){
 
                         if(st.depth() > 1){
                             //check if vars were used
-                            st.applyToAll(st.checkIfUsed());
+                            st.applyToAll(st.checkIfUsed);
 
                             st.leave();
                             loopDepth--;
@@ -297,7 +297,7 @@ void semanticAnalysis(TreeNode *t){
 
                         if(st.depth() > 1){
                             //check if vars were used
-                            st.applyToAll(st.checkIfUsed());
+                            st.applyToAll(st.checkIfUsed);
 
                             st.leave();
                             loopDepth--;
@@ -329,7 +329,7 @@ void semanticAnalysis(TreeNode *t){
                         
                         if(!tempScope && st.depth() > 1){
                             //check if vars were used
-                            st.applyToAll(st.checkIfUsed());
+                            st.applyToAll(st.checkIfUsed);
 
                             st.leave();
                             scopeDepth--;
@@ -932,28 +932,28 @@ void checkOpK(TreeNode *t){
 
     //assign flags for vars of child[0]
     if(t->child[0]){
-        if(t->child[0]->subkind.decl == VarK || t->child[0]->subkind.decl == ParamK || t->child[0]->subkind.decl == IdK){
+        if(t->child[0]->subkind.decl == VarK || t->child[0]->subkind.decl == ParamK || t->child[0]->subkind.exp == IdK){
             t->child[0]->isUsed = true;
 
             // check if var is inititalized
             if(!t->child[0]->isInit){
                 numWarnings++;
 
-                printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->child[0]);
+                printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->child[0]->attr.name);
             }
         }
     }
 
     //assign flags for vars of child[1]
     if(t->child[1]){
-        if(t->child[0]->subkind.decl == VarK || t->child[0]->subkind.decl == ParamK || t->child[0]->subkind.decl == IdK){
+        if(t->child[0]->subkind.decl == VarK || t->child[0]->subkind.decl == ParamK || t->child[0]->subkind.exp == IdK){
             t->child[1]->isUsed = true;
 
             // check if var is inititalized
             if(!t->child[0]->isInit){
                 numWarnings++;
 
-                printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->child[1]);
+                printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->child[1]->attr.name);
             }
         }
     }
