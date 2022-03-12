@@ -36,10 +36,9 @@ void semanticAnalysis(TreeNode *t){
     //load IO funcs into symboltable
     
     if(firstRun){
-       IOconstructor(); 
+       IOconstructor(st); 
        firstRun = false;
     }
-    
     
     TreeNode *currentNode;
     

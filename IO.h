@@ -1,6 +1,6 @@
 #ifndef IO
 #define IO
 
-void IOconstructor();
+void IOconstructor(SymbolTable st);
 
 #endif

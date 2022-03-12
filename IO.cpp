@@ -4,9 +4,9 @@
 #include "semantics.h"
 #include "symbolTable.h"
 
-extern SymbolTable st;
+//extern SymbolTable st;
 
-void IOconstructor(){
+void IOconstructor(SymbolTable st){
     TokenData *tmp;
     TokenData *tmpChild;
 
