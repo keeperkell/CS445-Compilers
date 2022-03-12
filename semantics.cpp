@@ -135,6 +135,7 @@ void semanticAnalysis(TreeNode *t){
                         //enter for scope
                         st.enter(t->attr.name);
                         insideScope = true;
+                        curScope = strdup(t->attr.name);
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i] != NULL){
