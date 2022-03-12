@@ -352,7 +352,7 @@ void semanticAnalysis(TreeNode *t){
                         // check for ID return
                         if(t->child[0]){
                             if(t->child[0]->nodekind == ExpK && t->child[0]->subkind.exp == Idk){
-                                currentNode = st.lookup(t->child[0]->attr.name);
+                                currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
                                 //if node is exists, then it is used
                                 if(currentNode){
                                     currentNode->isUsed = true;
@@ -382,7 +382,7 @@ void semanticAnalysis(TreeNode *t){
                                         else if(scope->expType != Void && !t->child[0]){
                                             numErrors++;
 
-                                            printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but return has no value.\n", t->linenum, scope->attr.name, returnExpType(scope->expType));
+                                            printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but return has no value.\n", t->linenum, scope->attr.name, scope->linenum, (scope->expType));
                                         }
                                     }
                                 }
