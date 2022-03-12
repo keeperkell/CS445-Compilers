@@ -649,9 +649,12 @@ void checkOpK(TreeNode *t){
 
     if(t->child[0] && t->child[1]){
         t->isBinary = true;
+        t->child[0]->isUsed = true;
+        t->child[1]->isUsed = true;
     }
     else{
         t->isBinary = false;
+        t->child[0]->isUsed = true;
     }
 
     //if the op is unary
