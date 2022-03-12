@@ -24,6 +24,7 @@ extern int numWarnings;
 int scopeDepth = 0;
 int loopDepth = 1;
 bool insideScope = false;
+extern void checkIfUsed(std::string, void *symbol)
 
 bool firstRun = true;
 
@@ -143,7 +144,7 @@ void semanticAnalysis(TreeNode *t){
                         // Only leave scope if you are not in global
                         if(st.depth() > 1){
                             //check if vars were used
-                            st.applyToAll(st.checkIfUsed);
+                            st.applyToAll(checkIfUsed);
 
                             st.leave();
                         }
@@ -201,7 +202,7 @@ void semanticAnalysis(TreeNode *t){
                         insideScope = false;
 
                         //check if vars were used
-                        st.applyToAll(st.checkIfUsed);
+                        st.applyToAll(checkIfUsed);
 
                         st.leave();
                         break;
@@ -240,7 +241,7 @@ void semanticAnalysis(TreeNode *t){
 
                         if(st.depth() > 1){
                             //check if vars were used
-                            st.applyToAll(st.checkIfUsed);
+                            st.applyToAll(checkIfUsed);
 
                             st.leave();
                             loopDepth--;
@@ -297,7 +298,7 @@ void semanticAnalysis(TreeNode *t){
 
                         if(st.depth() > 1){
                             //check if vars were used
-                            st.applyToAll(st.checkIfUsed);
+                            st.applyToAll(checkIfUsed);
 
                             st.leave();
                             loopDepth--;
@@ -329,7 +330,7 @@ void semanticAnalysis(TreeNode *t){
                         
                         if(!tempScope && st.depth() > 1){
                             //check if vars were used
-                            st.applyToAll(st.checkIfUsed);
+                            st.applyToAll(checkIfUsed);
 
                             st.leave();
                             scopeDepth--;
