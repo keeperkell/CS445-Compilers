@@ -11,6 +11,7 @@
 #include "treeNode.h"     // Tree Struct
 #include "symbolTable.h"  // Symbol Table
 #include "semantics.h"    // Semantics  
+#include "IO.h"           // IO
 
 #include <stdio.h>
 #include <stdlib.h>
