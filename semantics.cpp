@@ -34,12 +34,12 @@ TreeNode *funcScope;
 void semanticAnalysis(TreeNode *t){
 
     //load IO funcs into symboltable
-    /*
+    
     if(firstRun){
        IOconstructor(); 
        firstRun = false;
     }
-    */
+    
     
     TreeNode *currentNode;
     
