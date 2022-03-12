@@ -14,22 +14,42 @@ void IOconstructor(){
     TreeNode *tmp = (TreeNode *) malloc(sizeof(TreeNode));
     TreeNode *tmpChild = (TreeNode *) malloc(sizeof(TreeNode));
 
-    // 7 IO nodes
-    TreeNode *t[7];
-
     // children nodes will all be the same
     tmpChild->attr.name = strdup("*dummy*");
     tmpChild->linenum = -1;   
     
     // void output(int)
-    t[0]->attr.name = strdup("output");
-    t[0]->linenum = -1;
-    t[0]->subkind.decl = FuncK;
-    t[0]->expType = Void;
-    t[0]->child[0] = tmpChild;
-    t[0]->child[0]->expType = Integer;
-    t[0]->isIO = true;
-    st.insert(t[0]->attr.name, t[0]);
+    TreeNode *output = (TreeNode *) malloc(sizeof(TreeNode));
+    output->attr.name = strdup("output");
+    output->linenum = -1;
+    output->subkind.decl = FuncK;
+    output->expType = Void;
+    output->child[0] = tmpChild;
+    output->child[0]->expType = Integer;
+    output->isIO = true;
+    st.insert(output->attr.name, output);
+
+    /*
+    // void outputb(bool)
+    t[1]->attr.name = strdup("outputb");
+    t[1]->linenum = -1;
+    t[1]->subkind.decl = FuncK;
+    t[1]->expType = Void;
+    t[1]->child[0] = tmpChild;
+    t[1]->child[0]->expType = Boolean;
+    t[1]->isIO = true;
+    st.insert(t[1]->attr.name, t[1]);
+
+    // void outputc(char)
+    t[2]->attr.name = strdup("outputc");
+    t[2]->linenum = -1;
+    t[2]->subkind.decl = FuncK;
+    t[2]->expType = Void;
+    t[2]->child[0] = tmpChild;
+    t[2]->child[0]->expType = Char;
+    t[2]->isIO = true;
+    st.insert(t[2]->attr.name, t[2]);
+    /*
 
     /*
     // void outputb(bool)
