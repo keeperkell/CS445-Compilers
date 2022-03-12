@@ -616,18 +616,18 @@ void checkAssignK(TreeNode *t){
 
     // check if 1st assign child is Var, if yes then isInit True
     if(t->child[0]){
-        if(t->child[0]->subkind.decl == VarK){
             t->child[0]->isInit = true;
-        }
     }
 
     // check if var is used, "<-" does not count as used
     if(t->child[0]){
-        if(t->child[0]->subkind.decl == VarK){
-           if(strcmp(t->attr.name, "<-")){
-                t->child[0]->isUsed = true;
-            } 
-        }
+        if(strcmp(t->attr.name, "<-")){
+            t->child[0]->isUsed = true;
+
+            if(t->child[1]){
+                t->child[1]->isUsed = true;
+            }
+        } 
     }
 }
 
