@@ -4,11 +4,15 @@
 #include "semantics.h"
 #include "symbolTable.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 extern SymbolTable st;
 
 void IOconstructor(){
-    TreeNode *tmp;
-    TreeNode *tmpChild;
+    TreeNode *tmp = (TreeNode *) malloc(sizeof(TreeNode));
+    TreeNode *tmpChild = (TreeNode *) malloc(sizeof(TreeNode));
 
     // 7 IO nodes
     TreeNode *t[7];
