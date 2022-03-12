@@ -355,6 +355,7 @@ void semanticAnalysis(TreeNode *t){
                         if(t->child[0]){
                             if(t->child[0]->nodekind == ExpK && t->child[0]->subkind.exp == IdK){
                                 currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
+
                                 //if node is exists, then it is used
                                 if(currentNode){
                                     currentNode->isUsed = true;
@@ -390,7 +391,6 @@ void semanticAnalysis(TreeNode *t){
                                 }
                             }
                         }
-
    
                         if(t->child[0]){
                             if(!funcScope){
@@ -411,7 +411,7 @@ void semanticAnalysis(TreeNode *t){
                     case BreakK:
                         
                         // if scope depth is less than or equal to 2, then on global or func scope
-                        if(scopeDepth <= 2){
+                        if(st.depth() <= 2){
                             numErrors++;
 
                             printf("ERROR(%d): Cannot have a break statement outside of loop.\n", t->linenum);
@@ -419,15 +419,13 @@ void semanticAnalysis(TreeNode *t){
                         break;
 
                     case RangeK:
-                        //printf("Stmt->RangeK\n");
                         
-                        /*
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
                                 semanticAnalysis(t->child[i]);
                             }
                         }
-                        */
+                        
                         break;
                 }
                 break;
