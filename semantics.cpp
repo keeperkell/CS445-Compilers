@@ -157,6 +157,7 @@ void semanticAnalysis(TreeNode *t){
                     case ParamK:
                         
                         //printf("DeclK->ParamK\n");
+                        t->isInit = true;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             //printf("DeclK->ParamK=> before semantic analysis\n");

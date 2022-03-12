@@ -144,9 +144,11 @@ paramIdList   : paramIdList COMMA paramId                        { $$ = addSibli
 
 paramId       : ID                                               { $$ = newDeclNode(ParamK, $1);
                                                                    $$->attr.name = $1->tokeninput; 
+                                                                   $$->isInit = true;
                                                                  }
               | ID LBRACKET RBRACKET                             { $$ = newDeclNode(ParamK, $1);
                                                                    $$->isArray = true;
+                                                                   $$->isInit = true;
                                                                    $$->attr.name = $1->tokeninput; 
                                                                  }
               ;
