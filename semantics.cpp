@@ -5,7 +5,7 @@
 // Keller Lawson
 // 
 // Last Updated
-// Feb 27, 2022   
+// Mar 12, 2022   
 
 #include "semantics.h"
 #include "scanType.h"
@@ -971,28 +971,40 @@ void checkOpK(TreeNode *t){
 
     //assign flags for vars of child[0]
     if(t->child[0]){
-        if(t->child[0]->subkind.decl == VarK || t->child[0]->subkind.decl == ParamK || t->child[0]->subkind.exp == IdK){
-            t->child[0]->isUsed = true;
+        TreeNode *currentNode = (TreeNode *)st.lookup(t->child[0]);
 
-            // check if var is inititalized
-            if(!t->child[0]->isInit){
-                numWarnings++;
+        if(currentNode){
+            if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK || currentNode->subkind.exp == IdK){
+                currentNode->isUsed = true;
 
-                printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->child[0]->attr.name);
+                // check if var is inititalized
+                if(!currentNode->isInit && !currentNode->warningReported){
+                    currentNode->warningReported = true;
+
+                    numWarnings++;
+
+                    printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, currentNode->attr.name);
+                }
             }
         }
     }
 
     //assign flags for vars of child[1]
     if(t->child[1]){
-        if(t->child[1]->subkind.decl == VarK || t->child[1]->subkind.decl == ParamK || t->child[1]->subkind.exp == IdK){
-            t->child[1]->isUsed = true;
+        TreeNode *currentNode = (TreeNode *)st.lookup(t->child[1]);
 
-            // check if var is inititalized
-            if(!t->child[1]->isInit){
-                numWarnings++;
+        if(currentNode){
+            if(currentNode->subkind.decl == VarK || currentNode->subkind.decl == ParamK || currentNode->subkind.exp == IdK){
+                currentNode->isUsed = true;
 
-                printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->child[1]->attr.name);
+                // check if var is inititalized, warning was not already reported, and no error in op
+                if(!currentNode->isInit && !currentNode->warningReported){
+                    currentNode->warningReported = true;
+
+                    numWarnings++;
+
+                    printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, currentNode->attr.name);
+                }
             }
         }
     }

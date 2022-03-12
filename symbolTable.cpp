@@ -291,4 +291,6 @@ void checkIfUsed(std::string, void *symbol){
         printf("WARNING(%d): The variable '%s' seems not to be used.\n", tmp->linenum, tmp->attr.name);
 
     }
+
+    // write subtype ifs for different warning prints
 }
