@@ -7,7 +7,10 @@
 // Feb 19, 2022   
 
 #include "symbolTable.h"
+#include "parser.tab.h"
+#include "semantics.h"
 
+extern int numWarnings;
 // // // // // // // // // // // // // // // // // // // // 
 //
 // Introduction
@@ -273,4 +276,20 @@ void SymbolTable::applyToAll(void (*action)(std::string , void *))
 void SymbolTable::applyToAllGlobal(void (*action)(std::string , void *))
 {
     stack[0]->applyToAll(action);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// My Helper Funcions
+
+// check if a symbol was used
+void checkIfUsed(std::string, void *symbol){
+    TreeNode *tmp = (TreeNode *)symbol;
+
+    if(!tmp->isUsed){
+        numWarnings++;
+
+        printf("WARNING(%d): The variable '%s' seems not to be used.\n", tmp->linenum, tmp->attr.name);
+
+    }
 }

@@ -86,7 +86,41 @@ void semanticAnalysis(TreeNode *t){
 
                             currentNode = (TreeNode *)st.lookup(t->attr.name);
                             printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
-                         }
+                        }
+
+                        // if varK is initialized, it has a child
+                        if(t->child[0]){
+                            if(t->child[0]->subkind.exp == ConstantK){
+
+                                // if var and init isArray do not match
+                                if(t->isArray && !t->child[0]->isArray){
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Initializer for variable '%s' requires both operands be arrays or not but variable is an array and rhs is not an array.\n", t->linenum, t->attr.name);
+                                }
+                                if(!t->isArray && t->child[0]->isArray){
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Initializer for variable '%s' requires both operands be arrays or not but variable is not an array and rhs is an array.\n", t->linenum, t->attr.name);
+                                }
+
+                                // check if variable type and child type match
+                                if(t->expType != t->child[0]->expType){
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Initializer for variable '%s' of type '%s' is of type '%s'.\n", t->linenum, t->attr.name, returnExpType(t->expType), returnExpType(t->child[0]->expType));
+                                }
+
+                                // check if child is a constant expression
+                                if(t->child[0]->subkind.exp != ConstantK){
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
+                                }
+                            }
+
+                            t->isInit = true;
+                        }
 
                         break;
 
@@ -108,6 +142,9 @@ void semanticAnalysis(TreeNode *t){
 
                         // Only leave scope if you are not in global
                         if(st.depth() > 1){
+                            //check if vars were used
+                            st.applyToAll(st.checkIfUsed());
+
                             st.leave();
                         }
                         insideScope = false;
@@ -162,6 +199,10 @@ void semanticAnalysis(TreeNode *t){
 
                         //exit loop
                         insideScope = false;
+
+                        //check if vars were used
+                        st.applyToAll(st.checkIfUsed());
+
                         st.leave();
                         break;
 
@@ -198,6 +239,9 @@ void semanticAnalysis(TreeNode *t){
                         insideScope = false;
 
                         if(st.depth() > 1){
+                            //check if vars were used
+                            st.applyToAll(st.checkIfUsed());
+
                             st.leave();
                             loopDepth--;
                         }
@@ -217,6 +261,10 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }
 
+                        checkForParams(t, t->child[1], 1);
+
+                        // THIS LOGIC IS REPLICATED IN CHECK FOR PARAMS
+                        /*
                         //For has 3 positions for children of 2 children, check all for array
                         if(t->child[0] && t->child[1]){
                             //t->child[1] contains range
@@ -244,11 +292,13 @@ void semanticAnalysis(TreeNode *t){
                                     }
                                 }
                             }
-
-                            
                         }
+                        */
 
                         if(st.depth() > 1){
+                            //check if vars were used
+                            st.applyToAll(st.checkIfUsed());
+
                             st.leave();
                             loopDepth--;
                         }
@@ -278,6 +328,9 @@ void semanticAnalysis(TreeNode *t){
                         }            
                         
                         if(!tempScope && st.depth() > 1){
+                            //check if vars were used
+                            st.applyToAll(st.checkIfUsed());
+
                             st.leave();
                             scopeDepth--;
                         }
@@ -402,6 +455,11 @@ void semanticAnalysis(TreeNode *t){
                         else{
                             t->expType = currentNode->expType;
                         }
+
+                        if(currentNode){
+                            // check parameters of call
+                            checkCallParams(currentNode, currentNode->child[0], t, t->child[0], 1);
+                        }
                         
                         break;
 
@@ -510,6 +568,22 @@ void checkAssignK(TreeNode *t){
             }
         }
     }
+
+    // check if 1st assign child is Var, if yes then isInit True
+    if(t->child[0]){
+        if(t->child[0]->subkind.decl == VarK){
+            t->child[0]->isInit = true;
+        }
+    }
+
+    // check if var is used, "<-" does not count as used
+    if(t->child[0]){
+        if(t->child[0]->subkind.decl == VarK){
+           if(strcmp(t->attr.name, "<-")){
+                t->child[0]->isUsed = true;
+            } 
+        }
+    }
 }
 
 //function to check for errors in OpK
@@ -539,7 +613,7 @@ void checkOpK(TreeNode *t){
     if(!t->isBinary){
 
         if(!strcmp(t->attr.name, "-")){
-            t->expType = Integer;
+            //t->expType = Integer;
 
             //check typings for op
             if(t->child[0]->expType != UndefinedType){
@@ -575,7 +649,7 @@ void checkOpK(TreeNode *t){
 
         //check ? op
         if(!strcmp(t->attr.name, "?")){
-            t->expType = Integer;
+            //t->expType = Integer;
 
             //check typings for op
             if(t->child[0]->expType != UndefinedType){
@@ -855,6 +929,34 @@ void checkOpK(TreeNode *t){
 
         //END OF BINARY
     }
+
+    //assign flags for vars of child[0]
+    if(t->child[0]){
+        if(t->child[0]->subkind.decl == VarK || t->child[0]->subkind.decl == ParamK || t->child[0]->subkind.decl == IdK){
+            t->child[0]->isUsed = true;
+
+            // check if var is inititalized
+            if(!t->child[0]->isInit){
+                numWarnings++;
+
+                printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->child[0]);
+            }
+        }
+    }
+
+    //assign flags for vars of child[1]
+    if(t->child[1]){
+        if(t->child[0]->subkind.decl == VarK || t->child[0]->subkind.decl == ParamK || t->child[0]->subkind.decl == IdK){
+            t->child[1]->isUsed = true;
+
+            // check if var is inititalized
+            if(!t->child[0]->isInit){
+                numWarnings++;
+
+                printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->child[1]);
+            }
+        }
+    }
 }
 
 //function to check for errors in IdK
@@ -913,5 +1015,78 @@ char *returnExpType(ExpType t){
         default:
             return returnStmt;
 
+    }
+}
+
+// check for Param Errors
+void checkCallParams(TreeNode *lookUp, TreeNode *lu_Child, TreeNode *t, TreeNode *t_Child, int paramNum){
+
+    // if param is expecting array
+    if(lu_Child->isArray && !t_Child->isArray){
+        numErrors++;
+
+        printf("ERROR(%d): Expecting array in parameter %i of call to '%s' declared on line %d.\n", t->linenum, paramNum, lookUp->attr.name, lookUp->linenum);
+    }
+    // if param is NOT expecting array
+    if(!lu_Child->isArray &&  t_Child->isArray){
+        numErrors++;
+        
+        printf("ERROR(%d): Not expecting array in parameter %i of call to '%s' declared on line %d.\n", t->linenum, paramNum, lookUp->attr.name, lookUp->linenum);
+    }
+
+    // if param expected does not match type
+    if(lu_Child != t_Child){
+        numErrors++;
+
+        printf("ERROR(%d): Expecting type %s in parameter %i of call to '%s' declared on line %d but got type %s.\n", t->linenum, 
+                        returnExpType(lu_Child->expType), paramNum, lookUp->attr.name, lookUp->linenum, returnExpType(t_Child->expType));
+    }
+
+    // too few params passed for function
+    if(!t_Child->sibling && lu_Child->sibling){
+        numErrors++;
+
+        printf("ERROR(%d): Too few parameters passed for function '%s' declared on line %d.\n", t->linenum, lookUp->attr.name, lookUp->linenum);
+    }
+    // too many params passed for function
+    else if(t_Child->sibling && !lu_Child->sibling){
+        numErrors++;
+
+        printf("ERROR(%d): Too many parameters passed for function '%s' declared on line %d.\n", t->linenum, lookUp->attr.name, lookUp->linenum);
+    }
+    //if param has same siblings, 
+    else if(t_Child->sibling && lu_Child->sibling){
+        paramNum++;
+
+        checkParams(lookUp, lu_Child, t, t_Child->sibling, paramNum);
+    }
+}
+
+// check errors of params in for statement
+void checkForParams(TreeNode *t, TreeNode *t_Child, int paramNum){
+
+    // check position for type int
+    if(t_Child->child[paramNum-1]){
+        if(t_Child->child[paramNum-1]->expType != Integer && t_Child->child[paramNum-1]->expType != UndefinedType){
+            numErrors++;
+
+            printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s", t->linenum, paramNum, returnExpType(t_Child->child[paramNum-1]->expType));
+        }
+    }
+
+    // check position for isArray
+    if(t_Child->child[paramNum-1]){
+        if(t_Child->child[paramNum-1]->isArray){
+            numErrors++;
+
+            printf("ERROR(%d): Cannot use array in position %d of for statement.\n", t->linenum, paramNum);
+        }
+    }
+
+    // check if another child exists, then recurse
+    if(t_Child->child[paramNum]){
+
+        // increnement paramNum in recursion call
+        checkForParams(t, t_Child->child[paramNum], ++paramNum);
     }
 }

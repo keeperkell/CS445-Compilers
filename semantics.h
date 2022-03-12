@@ -20,4 +20,9 @@ void checkOpK(TreeNode *);
 void checkIdK(TreeNode *);
 char *returnExpType(ExpType);
 
+// check parameters of function call
+void checkCallParams(TreeNode *, TreeNode *, TreeNode *, TreeNode *, int);
+// check parameters of for 
+void checkForParams(TreeNode *, TreeNode *, int );
+
 #endif
