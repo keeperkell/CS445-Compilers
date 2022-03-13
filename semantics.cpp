@@ -550,7 +550,7 @@ void checkAssignK(TreeNode *t){
         if(!strcmp(t->attr.name, "<-")){
 
             //check if assign right child is id
-            if(t->child[1] && t->child[1]->subkind.ex == IdK){
+            if(t->child[1] && t->child[1]->subkind.exp == IdK){
                 rightChild = (TreeNode *)st.lookup(t->child[1]->attr.name);
 
                 if(rightChild){
