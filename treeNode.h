@@ -78,6 +78,7 @@ typedef struct treeNode{
     bool isFunc;
     bool isUsed;
     bool isIO;
+    bool indexFound;
     bool warningReported;                       // set when warning first found, stops cascading warnings
     bool isErr;                                 // set when error found, do not print warnings
 
