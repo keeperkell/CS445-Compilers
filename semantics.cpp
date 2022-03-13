@@ -396,7 +396,7 @@ void semanticAnalysis(TreeNode *t){
                                     }
                                 }
 
-                                if(t->child[0]->subkind == CallK){
+                                if(t->child[0]->subkind.exp == CallK){
                                     currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
 
                                     if(currentNode){
@@ -471,7 +471,7 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }
 
-                        
+
                         
                         break;
                 }
@@ -1250,7 +1250,7 @@ void checkForKParams(TreeNode *t){
 }
 
 // helper function to recursively check ops until no more children exist
-void checkRecursiveOps(TreeNode *t, TreeNode t_Child){
+void checkRecursiveOps(TreeNode *t, TreeNode *t_Child){
     // left child is child[]->child[0]
     TreeNode *leftChild = t_Child->child[0];
     // right child is child[]->child[1]

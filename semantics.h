@@ -24,5 +24,7 @@ char *returnExpType(ExpType);
 void checkCallParams(TreeNode *, TreeNode *, TreeNode *, TreeNode *, int);
 // check parameters of for 
 void checkForKParams(TreeNode *);
+// helper function to recursively check ops until no more children exist
+void checkRecursiveOps(TreeNode *, TreeNode *);
 
 #endif
