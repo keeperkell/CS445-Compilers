@@ -24,6 +24,7 @@ extern int numWarnings;
 int scopeDepth = 0;
 int loopDepth = 1;
 bool insideScope = false;
+bool indexFound = false; 
 char *curScope;
 extern void checkIfUsed(std::string, void *symbol);
 
@@ -467,12 +468,28 @@ void semanticAnalysis(TreeNode *t){
                         
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
+                                
+
+                                // child is ID, lookup and mark as used
+                                if(t->child[0]->subkind.exp == IdK){
+                                    currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
+
+                                    if(currentNode){
+                                        currentNode->isUsed = true;
+                                    }
+                                    else{
+                                        numErrors++;
+
+                                        printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->child[0]->attr.name);
+                                    }
+                                }
+
+                                // check if 
+                                
                                 semanticAnalysis(t->child[i]);
                             }
                         }
 
-
-                        
                         break;
                 }
                 break;
@@ -601,84 +618,112 @@ void checkAssignK(TreeNode *t){
         }
     }
     else{
+        if(t->child[0]){
+            // match assignment op
+            if(!strcmp(t->attr.name, "<-") || !strcmp(t->attr.name, ":")){
 
-        // match assignment op
-        if(!strcmp(t->attr.name, "<-") || !strcmp(t->attr.name, ":")){
+                //check if assign right child is id
+                if(t->child[1] && t->child[1]->subkind.exp == IdK){
+                    t->child[0]->isInit = true;
 
-            //check if assign right child is id
-            if(t->child[1] && t->child[1]->subkind.exp == IdK){
-                rightChild = (TreeNode *)st.lookup(t->child[1]->attr.name);
+                    rightChild = (TreeNode *)st.lookup(t->child[1]->attr.name);
 
-                if(rightChild){
-                    rightChild->isUsed = true;
-                    
-                    if(!rightChild->isInit && !rightChild->warningReported){
-                        rightChild->warningReported = true;
+                    if(rightChild){
+                        rightChild->isUsed = true;
+                        
+                        if(!rightChild->isInit && !rightChild->warningReported){
+                            rightChild->warningReported = true;
 
-                        numWarnings++;
+                            numWarnings++;
 
-                        printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, rightChild->attr.name);
+                            printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, rightChild->attr.name);
+                        }
                     }
                 }
 
-                
-            }
+                // array assign checks
+                if(t->child[0]->child[0]){
+                    if(!strcmp(t->child[0]->attr.name, "[")){
 
-            //assign childs typing to t node
-            t->expType = t->child[0]->expType;
+                        // check if non const inside indeces
+                        if(t->child[0]->child[1]){
+                            t->child[0]->child[1]->isInit = true;
 
-            //check for matching types for both children
-            if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
-                if(t->child[0]->expType != t->child[1]->expType){
-                    numErrors++;
+                            // op can be inside index as well
+                            // ugly but brute force method for now
+                            if(t->child[0]->child[1]->child[0]){
+                                if(t->child[0]->child[1]->subkind.exp == OpK){
+                                    t->child[0]->child[1]->child[0]->isInit = true;
 
-                    printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
-                }
-            }
+                                    // op can be unary or binary, check other child
+                                    if(t->child[0]->child[1]->child[1]){
+                                        t->child[0]->child[1]->child[1]->isInit = true;
+                                    }
+                                }
+                            }
+                        }
 
-            // check if one of children is an arry but not the other
-            if(t->child[0]->isArray && !t->child[1]->isArray){
-                numErrors++;
 
-                printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is an array and rhs is not an array.\n", t->linenum, t->attr.name);
-            }
-            if(!t->child[0]->isArray && t->child[1]->isArray){
-                numErrors++;
-
-                printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
-            }
-        }
-        else{
-            // review this section. possible issues
-            t->expType = Integer;
-
-            // assign ops besides <- must be of type int
-            // Ex: *= += ++
-            if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
-                if(t->child[0]->expType != Integer){
-                    numErrors++;
-
-                    printf("ERROR(%d): '%s' requires operands of type int but lhs is of type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType));
+                        t->child[0]->child[0]->isInit = true;
+                    }
                 }
 
-                if(t->child[1]->expType != Integer){
+                //assign childs typing to t node
+                t->expType = t->child[0]->expType;
+
+                //check for matching types for both children
+                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
+                    if(t->child[0]->expType != t->child[1]->expType){
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
+                    }
+                }
+
+                // check if one of children is an arry but not the other
+                if(t->child[0]->isArray && !t->child[1]->isArray){
                     numErrors++;
 
-                    printf("ERROR(%d): '%s' requires operands of type int but rhs is of type %s.\n", t->child[1]->linenum, t->attr.name, returnExpType(t->child[1]->expType));
+                    printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is an array and rhs is not an array.\n", t->linenum, t->attr.name);
+                }
+                if(!t->child[0]->isArray && t->child[1]->isArray){
+                    numErrors++;
+
+                    printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
                 }
             }
+            else{
+                // review this section. possible issues
+                t->expType = Integer;
 
-            // cannot increment-assign arrays or by arrays
-            if(t->child[0]->isArray){
-                numErrors++;
+                // assign ops besides <- must be of type int
+                // Ex: *= += ++
+                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
+                    if(t->child[0]->expType != Integer){
+                        numErrors++;
 
-                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->child[0]->linenum, t->attr.name);
-            }
+                        printf("ERROR(%d): '%s' requires operands of type int but lhs is of type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType));
+                    }
 
-            if(t->child[1]->isArray){
-                numErrors++;
+                    if(t->child[1]->expType != Integer){
+                        numErrors++;
 
-                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->child[1]->linenum, t->attr.name);
+                        printf("ERROR(%d): '%s' requires operands of type int but rhs is of type %s.\n", t->child[1]->linenum, t->attr.name, returnExpType(t->child[1]->expType));
+                    }
+                }
+
+                // cannot increment-assign arrays or by arrays
+                if(t->child[0]->isArray){
+                    numErrors++;
+
+                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->child[0]->linenum, t->attr.name);
+                }
+
+                if(t->child[1]->isArray){
+                    numErrors++;
+
+                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->child[1]->linenum, t->attr.name);
+                }
             }
         }
     }
