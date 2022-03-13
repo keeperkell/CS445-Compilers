@@ -611,15 +611,17 @@ void checkAssignK(TreeNode *t){
 
                 if(rightChild){
                     rightChild->isUsed = true;
+                    
+                    if(!rightChild->isInit && !rightChild->warningReported){
+                        rightChild->warningReported = true;
+
+                        numWarnings++;
+
+                        printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, rightChild->attr.name);
+                    }
                 }
 
-                if(!rightChild->isInit && !rightChild->warningReported){
-                    rightChild->warningReported = true;
-
-                    numWarnings++;
-
-                    printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, rightChild->attr.name);
-                }
+                
             }
 
             //assign childs typing to t node
