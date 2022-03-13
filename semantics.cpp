@@ -526,6 +526,8 @@ void checkAssignK(TreeNode *t){
         if(leftChild){
             t->child[0]->expType = leftChild->expType;
             t->child[0]->isArray = leftChild->isArray;
+
+            leftChild->isInit = true;
         }
     }
     // Assign is not a unary funcion
@@ -546,6 +548,24 @@ void checkAssignK(TreeNode *t){
 
         // match assignment op
         if(!strcmp(t->attr.name, "<-")){
+
+            //check if assign right child is id
+            if(t->child[1] && t->child[1]->subkind.ex == IdK){
+                rightChild = (TreeNode *)st.lookup(t->child[1]->attr.name);
+
+                if(rightChild){
+                    rightChild->isUsed = true;
+                }
+
+                if(!rightChild->isInit && !rightChild->warningReported){
+                    rightChild->warningReported = true;
+
+                    numWarnings++;
+
+                    printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, rightChild->attr.name);
+                }
+            }
+
             //assign childs typing to t node
             t->expType = t->child[0]->expType;
 
