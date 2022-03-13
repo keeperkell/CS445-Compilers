@@ -49,16 +49,6 @@ void semanticAnalysis(TreeNode *t){
                 else{
                     t->isGlobal = true;
                 }
-
-                // if symbol is already declared, print error and increase count
-                if(t->subkind.decl != VarK){
-                    if( !st.insert(t->attr.name, t)){
-                        numErrors++;
-
-                        currentNode = (TreeNode *)st.lookup(t->attr.name);
-                        printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
-                    }
-                }
                 
                 // check subkind and switch off of it
                 switch(t->subkind.decl){
@@ -82,38 +72,88 @@ void semanticAnalysis(TreeNode *t){
 
                         // if varK is initialized, it has a child
                         if(t->child[0]){
-                            if(t->child[0]->subkind.exp == ConstantK){
 
-                                // if var and init isArray do not match
-                                if(t->isArray && !t->child[0]->isArray){
-                                    numErrors++;
 
-                                    printf("ERROR(%d): Initializer for variable '%s' requires both operands be arrays or not but variable is an array and rhs is not an array.\n", t->linenum, t->attr.name);
+                            // if var and init isArray do not match
+                            if(t->isArray && !t->child[0]->isArray){
+                                numErrors++;
+
+                                printf("ERROR(%d): Initializer for variable '%s' requires both operands be arrays or not but variable is an array and rhs is not an array.\n", t->linenum, t->attr.name);
+                            }
+                            if(!t->isArray && t->child[0]->isArray){
+                                numErrors++;
+
+                                printf("ERROR(%d): Initializer for variable '%s' requires both operands be arrays or not but variable is not an array and rhs is an array.\n", t->linenum, t->attr.name);
+                            }
+
+                            // check if variable type and child type match
+                            if(t->expType != t->child[0]->expType){
+                                numErrors++;
+
+                                printf("ERROR(%d): Initializer for variable '%s' of type '%s' is of type '%s'.\n", t->linenum, t->attr.name, returnExpType(t->expType), returnExpType(t->child[0]->expType));
+                            }
+
+                            /*
+                            // check if child is a constant expression
+                            if(t->child[0]->subkind.exp != ConstantK){
+                                numErrors++;
+
+                                printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
+                            }
+                            */
+
+                            //check for OpK
+                            if(t->child[0]->subkind.exp == OpK){
+                                if(t->child[0] && t->child[0]->child[1]){
+                                    t->isBinary;
                                 }
-                                if(!t->isArray && t->child[0]->isArray){
-                                    numErrors++;
 
-                                    printf("ERROR(%d): Initializer for variable '%s' requires both operands be arrays or not but variable is not an array and rhs is an array.\n", t->linenum, t->attr.name);
+                                if(!t->isBinary){
+                                    if(!strcmp(t->child[0]->attr.name, "-")){
+                                        //cannot be used on array
+                                        if(!t->isArray){
+                                            numErrors++;
+
+                                            printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
+                                        }
+                                    }
                                 }
-
-                                // check if variable type and child type match
-                                if(t->expType != t->child[0]->expType){
-                                    numErrors++;
-
-                                    printf("ERROR(%d): Initializer for variable '%s' of type '%s' is of type '%s'.\n", t->linenum, t->attr.name, returnExpType(t->expType), returnExpType(t->child[0]->expType));
-                                }
-
-                                // check if child is a constant expression
-                                if(t->child[0]->subkind.exp != ConstantK){
-                                    numErrors++;
-
-                                    printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
+                                else{
+                                    // if child[0]->child[0] and child[0]->child[1] exist, then nonconsts on both sides
+                                    checkRecursiveOps(t, t->child[0]);
                                 }
                             }
 
+                            //check for IDs, ID can not be used as init
+                            else if(t->child[0]->subkind.exp == IdK){
+                                numErrors++;
+
+                                printf("ERROR(%d): Initializer for variable '%s' of type '%s' is of type '%s'.\n", t->linenum, t->attr.name, returnExpType(t->expType), returnExpType(t->child[0]->expType));
+                            }
+                            //check for CallK, CallK can not be used as init
+                            else if(t->child[0]->subkind.exp == CallK){
+                                numErrors++;
+
+                                printf("ERROR(%d): Initializer for variable '%s' of type '%s' is of type '%s'.\n", t->linenum, t->attr.name, returnExpType(t->expType), returnExpType(t->child[0]->expType));
+                            }
+
                             t->isInit = true;
+                            t->isDeclared = true;
+                        }
+                        else{
+                            //if no child then the var was not init
+                            t->isInit = false;
+                            t->isDeclared = true;
+                            
                         }
 
+                        // if multiple vars declared static on a line
+                        if(t->sibling){
+                            if(t->isStatic){
+                                // might need to revise this
+                                t->sibling->isStatic = t->isStatic;
+                            }
+                        }
                         break;
 
                     case FuncK:
@@ -150,7 +190,12 @@ void semanticAnalysis(TreeNode *t){
                         t->isInit = true;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
-                            //printf("DeclK->ParamK=> before semantic analysis\n");
+
+                            //init child if it exists for nested params
+                            if(t->child[0]){
+                                t->child[0]->isInit = true;
+                            }
+    
                             semanticAnalysis(t->child[i]);
                         }
 
@@ -186,9 +231,13 @@ void semanticAnalysis(TreeNode *t){
 
                         //if condition should be bool
                         if(t->child[0]->expType != Boolean){
-                            numErrors++;
 
-                            printf("ERROR(%d): Expecting Boolean test condition in %s statement but got type %s.\n", t->linenum, "if", returnExpType(t->child[0]->expType));
+                            // if child subtype is op, do not produce error
+                            if(t->child[0]->subkind.exp != OpK){
+                                numErrors++;
+
+                                printf("ERROR(%d): Expecting Boolean test condition in %s statement but got type %s.\n", t->linenum, "if", returnExpType(t->child[0]->expType));
+                            }
                         }
 
                         //exit loop
@@ -255,39 +304,11 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }
 
-                        checkForKParams(t);
+                        //For requires first 2 param be init
+                        t->child[0]->isInit = true;
+                        t->child[1]->isInit = true;
 
-                        // THIS LOGIC IS REPLICATED IN CHECK FOR PARAMS
-                        /*
-                        //For has 3 positions for children of 2 children, check all for array
-                        if(t->child[0] && t->child[1]){
-                            //t->child[1] contains range
-                            if(t->child[1]->child[0] && t->child[1]->child[1]){
-                                //position 1
-                                if(t->child[1]->child[0]->isArray){
-                                    numErrors++;
-
-                                    printf("ERROR(%d): Cannot use array in position %d in range of for statement.\n", t->linenum, 1);
-                                }
-
-                                //position 2
-                                if(t->child[1]->child[1]->isArray){
-                                    numErrors++;
-
-                                    printf("ERROR(%d): Cannot use array in position %d in range of for statement.\n", t->linenum, 2);
-                                }
-
-                                // position 3 does not always exist, check for it
-                                if(t->child[1]->child[2]){
-                                    if(t->child[1]->child[2]->isArray){
-                                        numErrors++;
-
-                                        printf("ERROR(%d): Cannot use array in position %d in range of for statement.\n", t->linenum, 3);
-                                    }
-                                }
-                            }
-                        }
-                        */
+                        //checkForKParams(t);
 
                         if(st.depth() > 1){
                             //check if vars were used
@@ -341,48 +362,80 @@ void semanticAnalysis(TreeNode *t){
                         
                         semanticAnalysis(t->child[0]);
 
-                        // check for ID return
-                        if(t->child[0]){
-                            if(t->child[0]->nodekind == ExpK && t->child[0]->subkind.exp == IdK){
-                                currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
+                        if(scope){
+                            // check for ID return
+                            if(t->child[0]){
 
-                                //if node is exists, then it is used
-                                if(currentNode){
-                                    currentNode->isUsed = true;
+                                if(t->child[0]->subkind.exp == IdK){
+                                    currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
 
-                                    // check if array
-                                    if(currentNode->isArray){
-                                        numErrors++;
+                                    //if node is exists, then it is used
+                                    if(currentNode){
+                                        currentNode->isUsed = true;
 
-                                        printf("ERROR(%d): Cannot return an array.\n", t->linenum);
-                                    }
+                                        // check if array
+                                        if(t->child[0]->isArray){
+                                            numErrors++;
 
-                                    else if(scope){
-                                        
+                                            printf("ERROR(%d): Cannot return an array.\n", t->linenum);
+                                        }
+
                                         //check matching types and func expects a return
-                                        if(currentNode->expType != scope->expType && scope->expType != Void){
+                                        if(t->child[0]->expType != scope->expType && scope->expType != Void){
                                             numErrors++;
 
                                             printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but returns type %s.\n",
-                                                             t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType), returnExpType(currentNode->expType));
+                                                            t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType), returnExpType(currentNode->expType));
                                         }
                                         // check if func expects no return value
-                                        else if(scope->expType == Void && t->child[0]){
+                                        else if(scope->expType == Void){
                                             numErrors++;
 
                                             printf("ERROR(%d): Function '%s' at line %d is expecting no return value, but return has a value.\n", t->linenum, scope->attr.name, scope->linenum);
                                         }
-                                        // check if return value is expected but no value returned
-                                        else if(scope->expType != Void && !t->child[0]){
+                                    }
+                                }
+
+                                if(t->child[0]->subkind == CallK){
+                                    currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
+
+                                    if(currentNode){
+                                        currentNode->isUsed = true;
+
+                                        // check if array
+                                        if(t->child[0]->isArray){
                                             numErrors++;
 
-                                            printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but return has no value.\n", t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType));
+                                            printf("ERROR(%d): Cannot return an array.\n", t->linenum);
+                                        }
+
+                                        //check matching types and func expects a return
+                                        if(t->child[0]->expType != scope->expType && scope->expType != Void){
+                                            numErrors++;
+
+                                            printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but returns type %s.\n",
+                                                            t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType), returnExpType(currentNode->expType));
+                                        }
+                                        // check if func expects no return value
+                                        else if(scope->expType == Void){
+                                            numErrors++;
+
+                                            printf("ERROR(%d): Function '%s' at line %d is expecting no return value, but return has a value.\n", t->linenum, scope->attr.name, scope->linenum);
                                         }
                                     }
                                 }
                             }
+                            else if(scope->expType != Void && !t->child[0]){
+                                numErrors++;
+
+                                printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but return has no value.\n", t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType));
+                            }
+                        }
+                        else{
+                            break;
                         }
    
+                        /*
                         if(t->child[0]){
                             if(!funcScope){
                                 break;
@@ -396,6 +449,7 @@ void semanticAnalysis(TreeNode *t){
                                 }
                             }
                         }
+                        */
             
                         break;
 
@@ -416,6 +470,8 @@ void semanticAnalysis(TreeNode *t){
                                 semanticAnalysis(t->child[i]);
                             }
                         }
+
+                        
                         
                         break;
                 }
@@ -1189,6 +1245,48 @@ void checkForKParams(TreeNode *t){
             numErrors++;
 
             printf("ERROR(%d): Cannot use array in position %d of for statement.\n", t->linenum, 3);
+        }
+    }
+}
+
+// helper function to recursively check ops until no more children exist
+void checkRecursiveOps(TreeNode *t, TreeNode t_Child){
+    // left child is child[]->child[0]
+    TreeNode *leftChild = t_Child->child[0];
+    // right child is child[]->child[1]
+    TreeNode *rightChild = t_Child->child[1];
+
+    // all unaries fail except for not which just flips bool flag
+    if(leftChild && !rightChild){
+        if(strcmp(t_Child->attr.name)){
+            numErrors++;
+
+            printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
+        }
+    }
+
+    // recursively check children to see if they are IDs or Calls
+    if(leftChild && rightChild){
+        
+        //check left child for op
+        if(leftChild->subkind.exp == OpK){
+            checkRecursiveOps(t, leftChild);
+        }
+        //check right child for op
+        else if(rightChild->subkind.exp == OpK){
+            checkRecursiveOps(t, rightChild);
+        }
+        // if no more recursive ops, print error if IdK
+        else if(leftChild->subkind.exp == IdK || rightChild->subkind.exp == IdK){
+            numErrors++;
+
+            printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
+        }
+        // if no more recursive ops, print error if CallK
+        else if(leftChild->subkind.exp == CallK || rightChild->subkind.exp == CallK){
+            numErrors++;
+
+            printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
         }
     }
 }
