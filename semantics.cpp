@@ -547,7 +547,7 @@ void checkAssignK(TreeNode *t){
     else{
 
         // match assignment op
-        if(!strcmp(t->attr.name, "<-")){
+        if(!strcmp(t->attr.name, "<-") || !strcmp(t->attr.name, ":")){
 
             //check if assign right child is id
             if(t->child[1] && t->child[1]->subkind.exp == IdK){
