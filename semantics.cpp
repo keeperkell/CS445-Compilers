@@ -23,8 +23,9 @@ extern int numWarnings;
 
 int scopeDepth = 0;
 int loopDepth = 1;
+int position = 0;
 bool insideScope = false;
-bool indexFound = false; 
+bool insideRange = false;
 char *curScope;
 extern void checkIfUsed(std::string, void *symbol);
 
@@ -466,29 +467,45 @@ void semanticAnalysis(TreeNode *t){
 
                     case RangeK:
                         
+                        //enter range mini scope
+                        insideRange = true;
+
                         for(int i = 0; i < MAXCHILDREN; i++){
+                            position = i++;
+
                             if(t->child[i]){
-                                
 
-                                // child is ID, lookup and mark as used
-                                if(t->child[0]->subkind.exp == IdK){
-                                    currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
+                                //check range for array
+                                if(t->child[i]->child[0]){
+                                    if(t->child[i]->child[0]->isArray){
 
-                                    if(currentNode){
-                                        currentNode->isUsed = true;
-                                    }
-                                    else{
-                                        numErrors++;
-
-                                        printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->child[0]->attr.name);
+                                        //set index found for array
+                                        t->child[i]->child[0]->indexFound = true;
                                     }
                                 }
+                                else if(position == 1){
+                                    // child is ID, lookup and mark as used
+                                    if(t->child[0]->subkind.exp == IdK){
+                                        currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
 
-                                // check if 
+                                        if(currentNode){
+                                            currentNode->isUsed = true;
+                                        }
+                                        else{
+                                            numErrors++;
+
+                                            printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->child[0]->attr.name);
+                                        }
+                                    }
+                                }
                                 
                                 semanticAnalysis(t->child[i]);
                             }
                         }
+
+                        //leave range mini scope
+                        insideRange = false;
+                        position = 0;
 
                         break;
                 }
@@ -528,11 +545,14 @@ void semanticAnalysis(TreeNode *t){
                         // need to review this section
                         //printf("ExpK->ConstantK\n");
 
-                        /*    
-                        for(int i = 0; i < MAXCHILDREN; i++){
-                            semanticAnalysis(t->child[i]);
+                        // range needs ints
+                        if(insideRange){
+                            if(t->expType != Integer){
+                                numErrors++;
+
+                                printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s", t->linenum, position, returnExpType(t->expType));
+                            }
                         }
-                        */
                         
                         break;
 
