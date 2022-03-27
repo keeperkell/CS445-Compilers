@@ -26,7 +26,12 @@ int loopDepth = 1;
 int position = 0;
 bool insideScope = false;
 bool insideRange = false;
+bool insideFor = false;
+bool hasReturn = false;
 char *curScope;
+
+ExpType expectReturnType = Void;
+
 extern void checkIfUsed(std::string, void *symbol);
 
 TreeNode *funcScope;
@@ -143,8 +148,7 @@ void semanticAnalysis(TreeNode *t){
                             t->isDeclared = true;
                         }
                         else{
-                            //if no child then the var was not init
-                            t->isInit = false;
+                            //if no child then the var was not init but was declared
                             t->isDeclared = true;
                             
                         }
@@ -152,10 +156,12 @@ void semanticAnalysis(TreeNode *t){
                         // if multiple vars declared static on a line
                         if(t->sibling){
                             if(t->isStatic){
-                                // might need to revise this
-                                t->sibling->isStatic = t->isStatic;
+                                if(t->linenum == t->sibling->linenum){
+                                    t->sibling->isStatic = t->isStatic;
+                                }
                             }
                         }
+
                         break;
 
                     case FuncK:
@@ -163,10 +169,13 @@ void semanticAnalysis(TreeNode *t){
 
                         // assign function scope as current TreeNode
                         funcScope = t;
+                        //default return flag to false
+                        hasReturn = false;
 
                         //enter for scope
                         st.enter(t->attr.name);
                         insideScope = true;
+                        expectReturnType = t->expType;
                         curScope = strdup(t->attr.name);
 
                         for(int i = 0; i < MAXCHILDREN; i++){
@@ -175,6 +184,13 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }
 
+                        // if func scope has no return and isn't declared void, print warning
+                        if(!hasReturn && t->expType != Void){
+                            numWarnings++;
+
+                            printf("WARNING(%d): Expecting to return %s but function '%s' has no return statement.\n", t->linenum, returnExpType(t->expType), t->attr.name);
+                        }
+                        
                         // Only leave scope if you are not in global
                         if(st.depth() > 1){
                             //check if vars were used
@@ -253,7 +269,6 @@ void semanticAnalysis(TreeNode *t){
 
                     // multiple cases in a row without a break default to the last cases code
                     case WhileK:
-                        //printf("Stmt->ForK, WhileK\n");
 
                         //enter loop
                         st.enter(t->attr.name);
@@ -298,6 +313,7 @@ void semanticAnalysis(TreeNode *t){
                         //enter loop
                         st.enter(t->attr.name);
                         insideScope = true;
+                        insideFor = true;
                         loopDepth++;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
@@ -320,6 +336,7 @@ void semanticAnalysis(TreeNode *t){
                             loopDepth--;
                         }
                         //exit loop
+                        insideFor = false;
                         insideScope = false;
 
                         break;
@@ -361,7 +378,11 @@ void semanticAnalysis(TreeNode *t){
 
                         //look up current scope
                         scope = (TreeNode *)st.lookup(curScope);
+
+                        // set return flag true since it was found
+                        hasReturn = true;
                         
+                        //return will only have 1 child
                         semanticAnalysis(t->child[0]);
 
                         if(scope){
@@ -381,14 +402,30 @@ void semanticAnalysis(TreeNode *t){
 
                                             printf("ERROR(%d): Cannot return an array.\n", t->linenum);
                                         }
+                                        else if(t->child[0]->child[0]){
+                                            if(t->child[0]->child[0]->isArray){
+                                                if(strcmp(t->child[0]->attr.name, "[")){
+                                                    numErrors++;
+
+                                                    printf("ERROR(%d): Cannot return an array.\n", t->linenum);
+                                                }
+                                            }
+                                        }
 
                                         //check matching types and func expects a return
-                                        if(t->child[0]->expType != scope->expType && scope->expType != Void){
-                                            numErrors++;
+                                        if(t->child[0]->expType != scope->expType){
+                                            if(t->child[0]->expType != Void && scope->expType != Void){
+                                                // char and char int are the same
+                                                if(!(t->child[0]->expType == Char && scope->expType == CharInt) || !(t->child[0]->expType == CharInt && scope->expType == Char)){
+                                                     numErrors++;
 
-                                            printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but returns type %s.\n",
-                                                            t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType), returnExpType(currentNode->expType));
+                                                    printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but returns type %s.\n",
+                                                                t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType), returnExpType(currentNode->expType));
+
+                                                }
+                                            }
                                         }
+                                            
                                         // check if func expects no return value
                                         else if(scope->expType == Void){
                                             numErrors++;
@@ -436,22 +473,6 @@ void semanticAnalysis(TreeNode *t){
                         else{
                             break;
                         }
-   
-                        /*
-                        if(t->child[0]){
-                            if(!funcScope){
-                                break;
-                            }
-                            else{
-                                // check if attempting to return an array, print error and increment count
-                                if(t->child[0]->isArray){
-                                    numErrors++;
-
-                                    printf("ERROR(%d): Cannot return an array.\n", t->linenum);
-                                }
-                            }
-                        }
-                        */
             
                         break;
 
@@ -471,7 +492,7 @@ void semanticAnalysis(TreeNode *t){
                         insideRange = true;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
-                            position = i++;
+                            position = i+1;
 
                             if(t->child[i]){
 
@@ -575,19 +596,54 @@ void semanticAnalysis(TreeNode *t){
 
                             printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
                         }
-                        // if call is not to a func
-                        else if(currentNode->subkind.decl != FuncK){
-                            numErrors++;
-
-                            printf("ERROR(%d): '%s' is a simple variable and cannot be called.\n", t->linenum, currentNode->attr.name);
-                        }
                         else{
                             t->expType = currentNode->expType;
-                        }
+                            t->isArray = currentNode->isArray;
+                            t->isGlobal = currentNode->isGlobal;
+                            t->isStatic = currentNode->isStatic;
 
-                        if(currentNode){
-                            // check parameters of call
-                            checkCallParams(currentNode, currentNode->child[0], t, t->child[0], 1);
+                            // call needs to be to a function
+                            if(currentNode->subkind.decl != FuncK){
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' is a simple variable and cannot be called.\n", t->linenum, currentNode->attr.name);
+                            }
+                            else if(insideRange){
+                                if(insideFor){
+                                
+                                    //specific case for main as a variable is needed
+                                    if(t->expType != Integer){
+                                        if(!strcmp(t->attr.name, "main")){
+                                            numErrors++;
+
+                                            printf("ERROR(%d): Cannot use function '%s' as a variable.\n", t->linenum, t->attr.name);
+                                        }
+                                        else{
+                                            numErrors++;
+
+                                            printf("ERROR(%d): Expecting type %s in position %d in range of for statement but got type %s.\n", t->linenum, "int", position, returnExpType(t->expType));
+                                        }
+                                    }
+                                }
+                            }
+                            else{
+                                // too many parameters
+                                if(!currentNode->child[0] && t->child[0]){
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Too many parameters passed for function '%s' declared on line %d.\n", t->linenum, currentNode->attr.name, currentNode->linenum);
+                                }
+                                // too few parameters
+                                else if(currentNode->child[0] && !t->child[0]){
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Too few parameters passed for function '%s' declared on line %d.\n", t->linenum, currentNode->attr.name, currentNode->linenum);
+                                }
+                                else{
+                                    // check parameters of call
+                                    checkCallParams(currentNode, currentNode->child[0], t, t->child[0], 1);
+                                }
+                            }
                         }
                         
                         break;
