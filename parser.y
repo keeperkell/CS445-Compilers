@@ -536,12 +536,27 @@ int main(int argc, char *argv[])
 
               funcMainNode = (TreeNode *)st.lookup("main");
               
+              //NEED To FIX MAIN LINKER 
+              /*
               // if main doesnt exist, print error
-              if(!funcMainNode){
-                numErrors++;
-                
-                printf("ERROR(LINKER): A function named \'main()\' must be defined.\n");
+              if(funcMainNode){
+                  if(funcMainNode->nodekind == DeclK && funcMainNode->subkind.decl != FuncK){
+                      numErrors++;
+                              
+                      printf("ERROR(LINKER): A function named \'main()\' must be defined.\n");
+                  }
+                  else if(funcMainNode->child[0] && funcMainNode->child[0]->subkind.decl == ParamK){
+                      numErrors++;
+                              
+                      printf("ERROR(LINKER): A function named \'main()\' must be defined.\n");
+                  }
               }
+              else{
+                  numErrors++;
+                              
+                  printf("ERROR(LINKER): A function named \'main()\' must be defined.\n");
+              }
+              */
 
               if(!numErrors){
                 W_TYPING = true;
@@ -574,6 +589,8 @@ int main(int argc, char *argv[])
             exit(1);
       }   
       yyparse();
+      printf("Number of warnings: %d\n", numWarnings);
+      printf("Number of errors: %d\n", numErrors);
     }
 
     return 0;

@@ -188,7 +188,7 @@ void semanticAnalysis(TreeNode *t){
                         if(!hasReturn && t->expType != Void){
                             numWarnings++;
 
-                            printf("WARNING(%d): Expecting to return %s but function '%s' has no return statement.\n", t->linenum, returnExpType(t->expType), t->attr.name);
+                            printf("WARNING(%d): Expecting to return type %s but function '%s' has no return statement.\n", t->linenum, returnExpType(t->expType), t->attr.name);
                         }
                         
                         // Only leave scope if you are not in global
@@ -517,10 +517,13 @@ void semanticAnalysis(TreeNode *t){
                                             currentNode->isUsed = true;
                                         }
                                         else{
-                                            numErrors++;
-                                            t->declErrReport = true;
+                                            if(!t->declErrReport){
+                                                numErrors++;
+                                                t->declErrReport = true;
 
-                                            printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->child[0]->attr.name);
+                                                printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->child[0]->attr.name);
+                                            }
+                                            
                                         }
                                     }
                                 }
@@ -597,10 +600,12 @@ void semanticAnalysis(TreeNode *t){
                         currentNode = (TreeNode *)st.lookup(t->attr.name);
                         
                         if(!currentNode){
-                            numErrors++;
-                            t->declErrReport = true;
+                            if(!t->declErrReport){
+                                numErrors++;
+                                t->declErrReport = true;
 
-                            printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
+                                printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
+                            } 
                         }
                         else{
                             t->expType = currentNode->expType;
@@ -609,7 +614,7 @@ void semanticAnalysis(TreeNode *t){
                             t->isStatic = currentNode->isStatic;
 
                             // call needs to be to a function
-                            if(currentNode->subkind.decl != FuncK){
+                            if(currentNode->subkind.decl != FuncK && !currentNode->isIO){
                                 numErrors++;
 
                                 printf("ERROR(%d): '%s' is a simple variable and cannot be called.\n", t->linenum, currentNode->attr.name);
@@ -1226,10 +1231,12 @@ void checkIdK(TreeNode *t){
 
     // if t is not found in st
     if(!currentNode){
-        numErrors++;
-        t->declErrReport = true;
+        if(!t->declErrReport){
+            numErrors++;
+            t->declErrReport = true;
 
-        printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
+            printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
+        }
     }
     //node is found
     else{
@@ -1295,7 +1302,7 @@ void checkCallParams(TreeNode *lookUp, TreeNode *lu_Child, TreeNode *t, TreeNode
         }
 
         // if param expected does not match type
-        if(lu_Child != t_Child){
+        if(lu_Child != t_Child && !lookUp->isIO){
             numErrors++;
 
             printf("ERROR(%d): Expecting type %s in parameter %i of call to '%s' declared on line %d but got type %s.\n", t->linenum, 
