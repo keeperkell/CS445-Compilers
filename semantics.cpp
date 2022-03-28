@@ -252,9 +252,11 @@ void semanticAnalysis(TreeNode *t){
 
                             // if child subtype is op, do not produce error
                             if(t->child[0]->subkind.exp != OpK){
-                                numErrors++;
+                                if(!t->child[0]->declErrReport){
+                                    numErrors++;
 
-                                printf("ERROR(%d): Expecting Boolean test condition in %s statement but got type %s.\n", t->linenum, "if", returnExpType(t->child[0]->expType));
+                                    printf("ERROR(%d): Expecting Boolean test condition in %s statement but got type %s.\n", t->linenum, "if", returnExpType(t->child[0]->expType));
+                                }
                             }
                         }
 
@@ -290,9 +292,11 @@ void semanticAnalysis(TreeNode *t){
 
                         //if condition should be bool
                         if(t->child[0]->expType != Boolean){
-                            numErrors++;
+                            if(!t->child[0]->declErrReport){
+                                numErrors++;
 
-                            printf("ERROR(%d): Expecting Boolean test condition in %s statement but got type %s.\n", t->linenum, "while", returnExpType(t->child[0]->expType));
+                                printf("ERROR(%d): Expecting Boolean test condition in %s statement but got type %s.\n", t->linenum, "while", returnExpType(t->child[0]->expType));
+                            }
                         }
 
                         //exit loop
@@ -514,6 +518,7 @@ void semanticAnalysis(TreeNode *t){
                                         }
                                         else{
                                             numErrors++;
+                                            t->declErrReport = true;
 
                                             printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->child[0]->attr.name);
                                         }
@@ -593,6 +598,7 @@ void semanticAnalysis(TreeNode *t){
                         
                         if(!currentNode){
                             numErrors++;
+                            t->declErrReport = true;
 
                             printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
                         }
@@ -1221,6 +1227,7 @@ void checkIdK(TreeNode *t){
     // if t is not found in st
     if(!currentNode){
         numErrors++;
+        t->declErrReport = true;
 
         printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
     }

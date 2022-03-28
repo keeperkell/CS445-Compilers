@@ -81,6 +81,7 @@ typedef struct treeNode{
     bool indexFound;
     bool warningReported;                       // set when warning first found, stops cascading warnings
     bool isErr;                                 // set when error found, do not print warnings
+    bool declErrReport;                         // stops printing same decl error more than once
 
 } TreeNode;
 
