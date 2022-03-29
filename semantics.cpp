@@ -69,6 +69,7 @@ void semanticAnalysis(TreeNode *t){
                     printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
                 }
 
+                
                 // check subkind and switch off of it
                 switch(t->subkind.decl){
                     
@@ -81,15 +82,14 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }
 
-                        /*
-                        // if symbol is already declared, print error and increase count
-                        if( !st.insert(t->attr.name, t)){
-                            numErrors++;
-
-                            currentNode = (TreeNode *)st.lookup(t->attr.name);
-                            printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
+                        // if multiple vars declared static on a line
+                        if(t->sibling){
+                            if(t->isStatic){
+                                if(t->linenum == t->sibling->linenum){
+                                    t->sibling->isStatic = t->isStatic;
+                                }
+                            }
                         }
-                        */
 
                         // if varK is initialized, it has a child
                         if(t->child[0]){
@@ -164,16 +164,6 @@ void semanticAnalysis(TreeNode *t){
                         else{
                             //if no child then the var was not init but was declared
                             t->isDeclared = true;
-                            
-                        }
-
-                        // if multiple vars declared static on a line
-                        if(t->sibling){
-                            if(t->isStatic){
-                                if(t->linenum == t->sibling->linenum){
-                                    t->sibling->isStatic = t->isStatic;
-                                }
-                            }
                         }
 
                         break;
@@ -338,11 +328,12 @@ void semanticAnalysis(TreeNode *t){
                             if(t->child[i]){
                                 semanticAnalysis(t->child[i]);
                             }
-                        }
 
-                        //For requires first 2 param be init
-                        t->child[0]->isInit = true;
-                        t->child[1]->isInit = true;
+                            //For requires first 2 param be init
+                            //moved inside for loop to fix issues
+                            t->child[0]->isInit = true;
+                            t->child[1]->isInit = true;
+                        }
 
                         //checkForKParams(t);
 
@@ -593,7 +584,7 @@ void semanticAnalysis(TreeNode *t){
                             if(t->expType != Integer){
                                 numErrors++;
 
-                                printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s", t->linenum, position, returnExpType(t->expType));
+                                printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s.\n", t->linenum, position, returnExpType(t->expType));
                             }
                         }
                         
@@ -746,6 +737,8 @@ void checkAssignK(TreeNode *t){
                 if(t->child[0]->child[0]){
                     if(!strcmp(t->child[0]->attr.name, "[")){
 
+                        t->child[0]->child[0]->isInit = true;
+
                         // check if non const inside indeces
                         if(t->child[0]->child[1]){
                             t->child[0]->child[1]->isInit = true;
@@ -763,10 +756,15 @@ void checkAssignK(TreeNode *t){
                                 }
                             }
                         }
+                        else if(t->child[0]->child[1]->child[0]){
+                            //nested brackets
+                            t->child[0]->child[1]->child[0]->isInit = true;
+                        }
 
 
-                        t->child[0]->child[0]->isInit = true;
+                        //t->child[0]->child[0]->isInit = true;
                     }
+                    // need logic for calls and assigning id to itself??
                 }
 
                 //assign childs typing to t node
@@ -1354,7 +1352,7 @@ void checkForKParams(TreeNode *t){
         if(t->child[1]->child[0]->expType != Integer && t->child[1]->child[0]->expType != UndefinedType){
             numErrors++;
 
-            printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s", t->linenum, 1, returnExpType(t->child[1]->child[0]->expType));
+            printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s.\n", t->linenum, 1, returnExpType(t->child[1]->child[0]->expType));
         }
 
         // check position 1 for isArray
@@ -1371,7 +1369,7 @@ void checkForKParams(TreeNode *t){
         if(t->child[1]->child[1]->expType != Integer && t->child[1]->child[1]->expType != UndefinedType){
             numErrors++;
 
-            printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s", t->linenum, 2, returnExpType(t->child[1]->child[1]->expType));
+            printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s.\n", t->linenum, 2, returnExpType(t->child[1]->child[1]->expType));
         }
 
         // check position 2 for isArray
@@ -1388,7 +1386,7 @@ void checkForKParams(TreeNode *t){
         if(t->child[1]->child[2]->expType != Integer && t->child[1]->child[2]->expType != UndefinedType){
             numErrors++;
 
-            printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s", t->linenum, 3, returnExpType(t->child[1]->child[2]->expType));
+            printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s.\n", t->linenum, 3, returnExpType(t->child[1]->child[2]->expType));
         }
 
         // check position for isArray

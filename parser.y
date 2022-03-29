@@ -543,18 +543,18 @@ int main(int argc, char *argv[])
                   if(funcMainNode->nodekind == DeclK && funcMainNode->subkind.decl != FuncK){
                       numErrors++;
                               
-                      printf("ERROR(LINKER): A function named \'main()\' must be defined.\n");
+                      printf("ERROR(LINKER): A function named \'main()\' with no parameters must be defined.\n");
                   }
                   else if(funcMainNode->child[0] && funcMainNode->child[0]->subkind.decl == ParamK){
                       numErrors++;
                               
-                      printf("ERROR(LINKER): A function named \'main()\' must be defined.\n");
+                      printf("ERROR(LINKER): A function named \'main()\' with no parameters must be defined.\n");
                   }
               }
               else{
                   numErrors++;
                               
-                  printf("ERROR(LINKER): A function named \'main()\' must be defined.\n");
+                  printf("ERROR(LINKER): A function named \'main()\' with no parameters must be defined.\n");
               }
               
 
