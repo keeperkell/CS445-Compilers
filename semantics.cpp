@@ -58,8 +58,8 @@ void semanticAnalysis(TreeNode *t){
                     t->isGlobal = true;
                 }
                 
-                printf("Line: %d, Token: %s, DeclType: %s\n", t->linenum, t->attr.name, getDeclType(t->subkind.decl));
-                printf("IsGlobal: %d\n", t->isGlobal);
+                //printf("Line: %d, Token: %s, DeclType: %s\n", t->linenum, t->attr.name, getDeclType(t->subkind.decl));
+                //printf("IsGlobal: %d\n", t->isGlobal);
 
                 // if symbol is already declared, print error and increase count
                 if( !st.insert(t->attr.name, t)){
@@ -68,7 +68,7 @@ void semanticAnalysis(TreeNode *t){
                     currentNode = (TreeNode *)st.lookup(t->attr.name);
                     printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
                 }
-                
+
                 // check subkind and switch off of it
                 switch(t->subkind.decl){
                     
