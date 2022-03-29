@@ -67,7 +67,7 @@ static std::map<std::string , char *> niceTokenNameMap;    // use an ordered map
 //
 void initErrorProcessing() {
 
-    niceTokenNameMap["ADDASS"] = (char *)"\"+=\"";
+    niceTokenNameMap["ADDASGN"] = (char *)"\"+=\"";                 //changed
 	niceTokenNameMap["EQASS"] = (char *)"\'=\'";
     niceTokenNameMap["AND"] = (char *)"\"and\"";
     niceTokenNameMap["BOOL"] = (char *)"\"bool\"";
@@ -78,10 +78,10 @@ void initErrorProcessing() {
     niceTokenNameMap["CHARCONST"] = (char *)"character constant";
     niceTokenNameMap["CHSIGN"] = (char *)"-";
     niceTokenNameMap["DEC"] = (char *)"\"--\"";
-    niceTokenNameMap["DIVASS"] = (char *)"\"/=\"";
+    niceTokenNameMap["DIVASGN"] = (char *)"\"/=\"";                 //changed
     niceTokenNameMap["DO"] = (char *)"\"do\"";
     niceTokenNameMap["ELSE"] = (char *)"\"else\"";
-    niceTokenNameMap["EQ"] = (char *)"\"==\"";
+    niceTokenNameMap["EQUAL"] = (char *)"\"==\"";                   //changed
     niceTokenNameMap["FOR"] = (char *)"\"for\"";
     niceTokenNameMap["GEQ"] = (char *)"\">=\"";
     niceTokenNameMap["ID"] = (char *)"identifier";
@@ -91,7 +91,7 @@ void initErrorProcessing() {
     niceTokenNameMap["LEQ"] = (char *)"\"<=\"";
     niceTokenNameMap["MAX"] = (char *)":>:";
     niceTokenNameMap["MIN"] = (char *)":<:";
-    niceTokenNameMap["MULTASS"] = (char *)"\"*=\"";
+    niceTokenNameMap["MULASGN"] = (char *)"\"*=\"";                 //changed
     niceTokenNameMap["NEQ"] = (char *)"\"!=\"";
     niceTokenNameMap["NOT"] = (char *)"\"not\"";
     niceTokenNameMap["NUMCONST"] = (char *)"numeric constant";
@@ -107,16 +107,25 @@ void initErrorProcessing() {
     niceTokenNameMap["MOD"] = (char *)"\'%\'";
 	niceTokenNameMap["OPENCURLY"] = (char *)"\'{\'";
 	niceTokenNameMap["CLOSEDCURLY"] = (char *)"\'}\'";
-	niceTokenNameMap["OPENBRACKET"] = (char *)"\'[\'";
-	niceTokenNameMap["CLOSEDBRACKET"] = (char *)"\']\'";
-	niceTokenNameMap["LESS"] = (char *)"\'<\'";
-	niceTokenNameMap["GREATER"] = (char *)"\'>\'";
-	niceTokenNameMap["ADD"] = (char *)"\'+\'";
-	niceTokenNameMap["SUB"] = (char *)"\'-\'";
-	niceTokenNameMap["STAR"] = (char *)"\'*\'";
+
+	niceTokenNameMap["LBRACKET"] = (char *)"\'[\'";                 //changed
+	niceTokenNameMap["RBRACKET"] = (char *)"\']\'";                 //changed
+    niceTokenNameMap["LPAREN"] = (char *)"\'(\'";                   //changed
+	niceTokenNameMap["RPAREN"] = (char *)"\')\'";                   //changed
+    niceTokenNameMap["COMMA"] = (char *)"\',\'";                    //changed
+	niceTokenNameMap["COLON"] = (char *)"\':\'";                    //changed
+    niceTokenNameMap["SEMICOLON"] = (char *)"\';\'";                //changed
+
+	niceTokenNameMap["LESSTHAN"] = (char *)"\'<\'";                 //changed
+	niceTokenNameMap["GREATTHAN"] = (char *)"\'>\'";                //changed
+	niceTokenNameMap["PLUS"] = (char *)"\'+\'";                     //changed 
+	niceTokenNameMap["MINUS"] = (char *)"\'-\'";                    //changed
+	niceTokenNameMap["MULT"] = (char *)"\'*\'";                     //changed
 	niceTokenNameMap["DIV"] = (char *)"\'/\'";
-	niceTokenNameMap["RAND"] = (char *)"\'?\'";
+	niceTokenNameMap["QUESTION"] = (char *)"\'?\'";                 //changed
     niceTokenNameMap["$end"] = (char *)"end of input";
+    niceTokenNameMap["FINISH"] = (char *)"end of input";            //changed
+    niceTokenNameMap["BEGN"] = (char *)"start of input";            //changed
 
 }
 
