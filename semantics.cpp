@@ -48,7 +48,7 @@ void semanticAnalysis(TreeNode *t){
         switch(t->nodekind){
             case DeclK:
                 //printf("DeclK\n");
-                printf("Line: %d, Token: %s\n", t->linenum, t->attr.name);
+                printf("Line: %d, Token: %s, DeclType: %s\n", t->linenum, t->attr.name, getDeclType(t->subkind.decl));
 
                 // check if on a global score or not
                 if(st.depth() != 1){
@@ -1426,5 +1426,24 @@ void checkRecursiveOps(TreeNode *t, TreeNode *t_Child){
 
             printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
         }
+    }
+}
+
+//debug function to print decl types
+char *getDeclType(DeclKind d){
+    char *returnExp;
+
+    switch(d){
+        case DeclK:
+            returnExp = strdup("DeclK");
+            return returnExp;
+        case FuncK:
+            returnExp = strdup("FuncK");
+            return returnExp;
+        case ParamK:
+            returnExp = strdup("ParamK");
+            return returnExp;
+        default:
+            return returnExp;
     }
 }
