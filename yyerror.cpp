@@ -126,7 +126,7 @@ void initErrorProcessing() {
     niceTokenNameMap["$end"] = (char *)"end of input";
     niceTokenNameMap["FINISH"] = (char *)"end of input";            //changed
     niceTokenNameMap["BEGN"] = (char *)"start of input";            //changed
-
+    niceTokenNameMap["ASGN"] = (char *)"\':=\'";                    //changed
 }
 
 
