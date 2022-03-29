@@ -123,9 +123,10 @@ void initErrorProcessing() {
 	niceTokenNameMap["MULT"] = (char *)"\'*\'";                     //changed
 	niceTokenNameMap["DIV"] = (char *)"\'/\'";
 	niceTokenNameMap["QUESTION"] = (char *)"\'?\'";                 //changed
-    niceTokenNameMap["FINISH"] = (char *)"end";                     //changed
-    niceTokenNameMap["BEGN"] = (char *)"begin";                     //changed
-    niceTokenNameMap["ASGN"] = (char *)"\'<-\'";                    //changed
+    niceTokenNameMap["FINISH"] = (char *)"\"end\"";                 //changed
+    niceTokenNameMap["BEGN"] = (char *)"\"begin\"";                 //changed
+    niceTokenNameMap["$end"] = (char *)"end of input";              //changed
+    niceTokenNameMap["ASGN"] = (char *)"\"<-\"";                    //changed
 }
 
 
