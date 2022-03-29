@@ -250,7 +250,7 @@ unmatched     : IF simpleExp THEN matched ELSE unmatched        { $$ = newStmtNo
                                                                   $$->child[0] = $2;
                                                                   $$->child[1] = $4; 
                                                                 }
-              | IF error THEN matched else unmatched            { $$ = NULL;
+              | IF error THEN matched ELSE unmatched            { $$ = NULL;
                                                                   yyerrok;
                                                                 }
               | WHILE error DO unmatched                        { $$ = NULL;
@@ -541,7 +541,7 @@ args          : argList                                         { $$ = $1; }
 
 argList       : argList COMMA exp                               { $$ = addSibling($1, $3); }
               | exp                                             { $$ = $1; }
-              | arglist COMMA error                             { $$ = NULL; }
+              | argList COMMA error                             { $$ = NULL; }
               ;
 
 constant      : NUMCONST                                        { $$ = newExpNode(ConstantK, $1);
