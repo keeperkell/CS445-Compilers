@@ -537,7 +537,7 @@ int main(int argc, char *argv[])
               funcMainNode = (TreeNode *)st.lookup("main");
               
               //NEED To FIX MAIN LINKER 
-              
+              /*
               // if main doesnt exist, print error
               if(funcMainNode){
                   if(funcMainNode->nodekind == DeclK && funcMainNode->subkind.decl != FuncK){
@@ -556,7 +556,7 @@ int main(int argc, char *argv[])
                               
                   printf("ERROR(LINKER): A function named \'main()\' must be defined.\n");
               }
-              
+              */
 
               if(!numErrors){
                 W_TYPING = true;

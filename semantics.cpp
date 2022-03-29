@@ -48,6 +48,7 @@ void semanticAnalysis(TreeNode *t){
         switch(t->nodekind){
             case DeclK:
                 //printf("DeclK\n");
+                printf("Line: %d, Token: %s\n", t->linenum, t->attr.name);
 
                 // check if on a global score or not
                 if(st.depth() != 1){
