@@ -20,6 +20,7 @@
 
 int line = 1;
 int numErrors;    // ERR err count
+int numWarnings; 
 int charLength;
 
 // return length of string accounting for quotations
@@ -132,6 +133,8 @@ static int setToken(int tokenClass, int linenum, char *svalue)
                 }
                 // if char input is longer than 3 chars and does not includes escape char, print warning
                 else if(svalue[1] != 92){
+                    numWarnings++;
+
                     printf("WARNING(%d): character is %d characters long and not a single character: \'%s\'. The first char will be used.\n", line, (charLength-2), svalue);
                      yylval.tokenData->cvalue = svalue[1];
                 }
