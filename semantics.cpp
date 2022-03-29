@@ -48,7 +48,7 @@ void semanticAnalysis(TreeNode *t){
         switch(t->nodekind){
             case DeclK:
                 //printf("DeclK\n");
-                printf("Line: %d, Token: %s, DeclType: %s\n", t->linenum, t->attr.name, getDeclType(t->subkind.decl));
+                
 
                 // check if on a global score or not
                 if(st.depth() != 1){
@@ -57,6 +57,9 @@ void semanticAnalysis(TreeNode *t){
                 else{
                     t->isGlobal = true;
                 }
+                
+                printf("Line: %d, Token: %s, DeclType: %s\n", t->linenum, t->attr.name, getDeclType(t->subkind.decl));
+                printf("IsGlobal: %d\n", t->isGlobal);
                 
                 // check subkind and switch off of it
                 switch(t->subkind.decl){
