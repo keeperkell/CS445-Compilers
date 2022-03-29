@@ -534,7 +534,7 @@ int main(int argc, char *argv[])
               
               semanticAnalysis(AST);
               //
-              st.print();
+              st.print(st);
 
               funcMainNode = (TreeNode *)st.lookup("main");
               
