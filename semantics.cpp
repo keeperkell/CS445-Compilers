@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-SymbolTable st;
+extern SymbolTable st;
 extern int numErrors;
 extern int numWarnings;
 
