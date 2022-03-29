@@ -1,0 +1,15 @@
+====================================
+FILE: syntaxerr-logic.c-
+ERROR(6): Syntax error, unexpected Boolean constant "false", expecting ';'.
+ERROR(8): Syntax error, unexpected "or".
+ERROR(9): Syntax error, unexpected ';'.
+ERROR(11): Syntax error, unexpected "or".
+ERROR(15): Syntax error, unexpected "and".
+ERROR(16): Syntax error, unexpected ';'.
+ERROR(18): Syntax error, unexpected "and".
+ERROR(21): Syntax error, unexpected "and".
+ERROR(22): Syntax error, unexpected "or".
+ERROR(24): Syntax error, unexpected "and".
+ERROR(26): Syntax error, unexpected "or".
+Number of warnings: 0
+Number of errors: 11

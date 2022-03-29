@@ -1,0 +1,16 @@
+main()
+ begin 
+    for i <- 1 to 11 do i <- 3;
+    for <- 1 to 11 do i <- 3;
+    for i 1 to 11 do i <- 3;
+    for i <- 1 11 do i <- 3;
+    for i <- 1 to 11 do i <- 3;
+    for j <- 2 to 22 by 3 do j <- 7;
+    for j <- 2 to by 3 do j <- 7;
+    for j <- 2 to 22 by do j <- 7;
+    for j <- 2 to while by do j <- 7;
+    for j by 2 to while by do j <- 7;
+    x <- 10;
+    x <- ;
+    int ;
+ end 

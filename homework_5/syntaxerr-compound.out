@@ -1,0 +1,9 @@
+====================================
+FILE: syntaxerr-compound.c-
+ERROR(2): Syntax error, unexpected "end", expecting "bool" or "char" or "int" or identifier.
+ERROR(4): Syntax error, unexpected "end".
+ERROR(5): Syntax error, unexpected numeric constant "666".
+ERROR(5): Syntax error, unexpected "end".
+ERROR(6): Syntax error, unexpected "++".
+Number of warnings: 0
+Number of errors: 5

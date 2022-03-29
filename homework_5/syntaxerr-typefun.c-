@@ -1,0 +1,110 @@
+## C-S22
+int z;
+int dog()  begin  end 
+int z;
+int dog(int x) begin  end 
+int z;
+int dog(int x, y) begin  end 
+int z;
+int dog(*) begin  end 
+int z;
+
+int dog() begin  end 
+int z;
+int dog(;
+int z;
+int dog);
+int z;
+int dog;
+int z;
+int ();
+int z;
+int (;
+int z;
+int);
+int z;
+int ;
+int z;
+dog();
+int z;
+dog(;
+int z;
+dog);
+int z;
+dog;
+int z;
+();
+int z;
+(;
+int z;
+);
+int z;
+;
+int z;
+
+int dog(*) begin  end 
+int z;
+int dog(*;
+int z;
+int dog*);
+int z;
+int dog*;
+int z;
+int (*) begin  end 
+int z;
+int (*;
+int z;
+int *);
+int z;
+int *;
+int z;
+dog(*);
+int z;
+dog(*;
+int z;
+dog*);
+int z;
+dog*;
+int z;
+(*);
+int z;
+(*;
+int z;
+*);
+int z;
+*;
+int z;
+
+int dog( bool x) begin  end 
+int z;
+int dog( bool x;
+break;
+int dog bool x);
+int z;
+int dog bool x;
+int z;
+int ( bool x) begin  end 
+int z;
+int ( bool x;
+int z;
+int  bool x);
+int z;
+int  bool x;
+int z;
+dog( bool x);
+int z;
+dog( bool x;
+int z;
+dog bool x);
+int z;
+dog bool x;
+int z;
+( bool x);
+int z;
+( bool x;
+int z;
+ bool x);
+int z;
+ bool x;
+int z;
+

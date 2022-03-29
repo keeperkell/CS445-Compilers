@@ -1,0 +1,85 @@
+====================================
+FILE: syntaxerr-ifminus.c-
+ERROR(10): Syntax error, unexpected "else".
+ERROR(12): Syntax error, unexpected "else".
+ERROR(16): Syntax error, unexpected numeric constant "111", expecting "or" or "then".
+ERROR(18): Syntax error, unexpected numeric constant "111", expecting "or" or "then".
+ERROR(20): Syntax error, unexpected "else", expecting "or" or "then".
+ERROR(22): Syntax error, unexpected "else", expecting "or" or "then".
+ERROR(24): Syntax error, unexpected numeric constant "222", expecting "or" or "then".
+ERROR(26): Syntax error, unexpected "then".
+ERROR(28): Syntax error, unexpected "then".
+ERROR(30): Syntax error, unexpected "then".
+ERROR(32): Syntax error, unexpected "then".
+ERROR(34): Syntax error, unexpected "then".
+ERROR(36): Syntax error, unexpected "then".
+ERROR(38): Syntax error, unexpected ';', expecting "or" or "then".
+ERROR(40): Syntax error, unexpected ';', expecting "or" or "then".
+ERROR(42): Syntax error, unexpected "else".
+ERROR(44): Syntax error, unexpected "else".
+ERROR(46): Syntax error, unexpected ')', expecting "or" or "then".
+ERROR(46): Syntax error, unexpected "else".
+ERROR(48): Syntax error, unexpected ')', expecting "or" or "then".
+ERROR(48): Syntax error, unexpected "else".
+ERROR(50): Syntax error, unexpected ')', expecting "or" or "then".
+ERROR(52): Syntax error, unexpected ')', expecting "or" or "then".
+ERROR(54): Syntax error, unexpected ')', expecting "or" or "then".
+ERROR(56): Syntax error, unexpected ')', expecting "or" or "then".
+ERROR(58): Syntax error, unexpected numeric constant "111", expecting "or" or "then".
+ERROR(60): Syntax error, unexpected numeric constant "111", expecting "or" or "then".
+ERROR(62): Syntax error, unexpected "else", expecting "or" or "then".
+ERROR(64): Syntax error, unexpected "else", expecting "or" or "then".
+ERROR(66): Syntax error, unexpected numeric constant "222", expecting "or" or "then".
+ERROR(68): Syntax error, unexpected ')'.
+ERROR(68): Syntax error, unexpected "else".
+ERROR(70): Syntax error, unexpected ')'.
+ERROR(70): Syntax error, unexpected "else".
+ERROR(72): Syntax error, unexpected ')'.
+ERROR(74): Syntax error, unexpected ')'.
+ERROR(76): Syntax error, unexpected ')'.
+ERROR(78): Syntax error, unexpected ')'.
+ERROR(80): Syntax error, unexpected ';', expecting "or" or "then".
+ERROR(82): Syntax error, unexpected ';', expecting "or" or "then".
+ERROR(84): Syntax error, unexpected ';'.
+ERROR(86): Syntax error, unexpected numeric constant "111", expecting ';'.
+ERROR(86): Syntax error, unexpected "else".
+ERROR(88): Syntax error, unexpected numeric constant "111", expecting ';'.
+ERROR(88): Syntax error, unexpected "else".
+ERROR(90): Syntax error, unexpected "else", expecting ';'.
+ERROR(92): Syntax error, unexpected "else", expecting ';'.
+ERROR(94): Syntax error, unexpected numeric constant "111", expecting ')'.
+ERROR(94): Syntax error, unexpected "else".
+ERROR(96): Syntax error, unexpected numeric constant "111", expecting ')'.
+ERROR(96): Syntax error, unexpected "else".
+ERROR(98): Syntax error, unexpected "else", expecting ')'.
+ERROR(100): Syntax error, unexpected "else", expecting ')'.
+ERROR(102): Syntax error, unexpected ')'.
+ERROR(102): Syntax error, unexpected "else".
+ERROR(104): Syntax error, unexpected ')'.
+ERROR(104): Syntax error, unexpected "else".
+ERROR(106): Syntax error, unexpected ')'.
+ERROR(108): Syntax error, unexpected ')'.
+ERROR(110): Syntax error, unexpected ';', expecting ')'.
+ERROR(112): Syntax error, unexpected ';', expecting ')'.
+ERROR(114): Syntax error, unexpected "else".
+ERROR(116): Syntax error, unexpected "else".
+ERROR(118): Syntax error, unexpected ')', expecting ';'.
+ERROR(118): Syntax error, unexpected "else".
+ERROR(120): Syntax error, unexpected ')', expecting ';'.
+ERROR(120): Syntax error, unexpected "else".
+ERROR(122): Syntax error, unexpected ')', expecting ';'.
+ERROR(124): Syntax error, unexpected ')', expecting ';'.
+ERROR(126): Syntax error, unexpected numeric constant "111", expecting ';'.
+ERROR(126): Syntax error, unexpected "else".
+ERROR(128): Syntax error, unexpected numeric constant "111", expecting ';'.
+ERROR(128): Syntax error, unexpected "else".
+ERROR(130): Syntax error, unexpected "else", expecting ';'.
+ERROR(132): Syntax error, unexpected "else", expecting ';'.
+ERROR(134): Syntax error, unexpected ')'.
+ERROR(134): Syntax error, unexpected "else".
+ERROR(136): Syntax error, unexpected ')'.
+ERROR(136): Syntax error, unexpected "else".
+ERROR(138): Syntax error, unexpected ')'.
+ERROR(140): Syntax error, unexpected ')'.
+Number of warnings: 0
+Number of errors: 81

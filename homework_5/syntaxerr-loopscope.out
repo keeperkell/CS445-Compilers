@@ -1,0 +1,6 @@
+====================================
+FILE: syntaxerr-loopscope.c-
+ERROR(7): Symbol 'y' is already declared at line 6.
+ERROR(12): Symbol 'y' is not declared.
+Number of warnings: 0
+Number of errors: 2

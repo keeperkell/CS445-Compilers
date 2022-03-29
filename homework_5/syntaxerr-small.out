@@ -1,0 +1,18 @@
+====================================
+FILE: syntaxerr-small.c-
+ERROR(5): Invalid or misplaced input character: '^'. Character Ignored.
+ERROR(5): Syntax error, unexpected identifier "k", expecting ']'.
+ERROR(7): Syntax error, unexpected "<-".
+ERROR(8): Syntax error, unexpected identifier "x0", expecting ';'.
+ERROR(9): Syntax error, unexpected '+'.
+ERROR(10): Syntax error, unexpected "else".
+ERROR(11): Syntax error, unexpected "<-", expecting ';'.
+ERROR(12): Syntax error, unexpected "if".
+ERROR(13): Syntax error, unexpected numeric constant "999", expecting ';'.
+ERROR(14): Syntax error, unexpected "while".
+ERROR(14): Invalid or misplaced input character: '@'. Character Ignored.
+ERROR(14): Invalid or misplaced input character: '#'. Character Ignored.
+ERROR(15): Syntax error, unexpected numeric constant "3", expecting ')'.
+ERROR(19): Syntax error, unexpected "begin", expecting ')'.
+Number of warnings: 0
+Number of errors: 14

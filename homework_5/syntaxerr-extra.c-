@@ -1,0 +1,48 @@
+main()
+ begin 
+        * a, b;
+        int x : +;
+ int x : while ;
+ int x : while true for ;
+ int fred(int y) +;
+ x[*];
+ while ] ;
+ if while then 666;
+ if while then 666 else 777;
+ if * x then 666;
+ if * x then 666 else 777;
+ if bool then 666;
+ if * x else 666;
+ if bool else 666;
+ if then 666;
+ if then 666; else if true then 222;
+ for <- do 666;
+ true  and  ;
+ true  or  ;
+ not for  ;
+  begin  *  end  ;
+  end  ;  ## be sure to catch this
+
+ while 3+ do 777;
+ while do 88;
+ while;
+ while then;
+ while and or not for;
+ if while and or not for;
+ return int ;
+ break 5;
+ end 
+
+## error varDeclList ';'                               begin  $$ <- NULL; yyerrok; printf("ERR4\n");  end  
+## varDeclId ':' error                                 begin  $$ <- NULL; printf("ERR8\n");  end           
+## typeSpec ID '(' parms ')' error                     begin  $$ <- NULL; printf("ERR13\n");  end          
+## error ']'                                           begin yyerrok; $$ <- NULL; printf("ERR21\n");  end  
+## ' begin ' error stmtList ' end '                              begin  $$ <- NULL; yyerrok; printf("ERR22\n");  end 
+## ' begin ' localDecls error ' end '                            begin  $$ <- NULL; yyerrok; printf("ERR23\n");  end 
+## IF error THEN matched ELSE matched                  begin  $$ <- NULL; yyerrok; printf("ERR26\n");  end 
+## WHILE error DO matched                              begin  $$ <- NULL; yyerrok; printf("ERR27\n");  end 
+## FOR error DO matched                                begin  $$ <- NULL; yyerrok; printf("ERR29\n");  end 
+## IF error ELSE unmatched                             begin  $$ <- NULL; yyerrok; printf("ERR32\n");  end 
+## WHILE error DO unmatched                            begin  $$ <- NULL; yyerrok; printf("ERR34\n");  end 
+## FOR error DO unmatched                              begin  $$ <- NULL; yyerrok; printf("ERR35\n");  end 
+

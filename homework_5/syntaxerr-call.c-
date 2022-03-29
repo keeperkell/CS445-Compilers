@@ -1,0 +1,20 @@
+## C-S22
+cat(int x)  begin int; end 
+
+main()
+ begin 
+        dog();
+        dog(111);
+        dog(while);
+        dog(while, while);
+        dog(dog(),cat());
+
+        dog(;
+        dog);
+ end 
+
+int x, y;
+
+cat(int x)  begin int;
+ end 
+int x, 77;

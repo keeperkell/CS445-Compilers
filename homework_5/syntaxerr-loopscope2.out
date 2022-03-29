@@ -1,0 +1,5 @@
+====================================
+FILE: syntaxerr-loopscope2.c-
+ERROR(10): Syntax error, unexpected "begin", expecting "<-".
+Number of warnings: 0
+Number of errors: 1

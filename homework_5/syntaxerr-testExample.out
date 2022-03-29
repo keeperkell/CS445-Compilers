@@ -1,0 +1,8 @@
+====================================
+FILE: syntaxerr-testExample.c-
+ERROR(24): Syntax error, unexpected ':', expecting "do".
+ERROR(26): Syntax error, unexpected "then".
+ERROR(27): Syntax error, unexpected "then".
+ERROR(31): Syntax error, unexpected "if", expecting "<-".
+Number of warnings: 0
+Number of errors: 4

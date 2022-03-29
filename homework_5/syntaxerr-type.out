@@ -1,0 +1,11 @@
+====================================
+FILE: syntaxerr-type.c-
+ERROR(2): Syntax error, unexpected ';', expecting identifier.
+ERROR(3): Syntax error, unexpected identifier "b", expecting ',' or ';'.
+ERROR(5): Syntax error, unexpected "int", expecting identifier.
+ERROR(7): Syntax error, unexpected "bool", expecting ',' or ';'.
+ERROR(8): Syntax error, unexpected ',', expecting identifier.
+ERROR(9): Syntax error, unexpected "while", expecting identifier.
+ERROR(11): Syntax error, unexpected identifier "b", expecting ',' or ';'.
+Number of warnings: 0
+Number of errors: 7

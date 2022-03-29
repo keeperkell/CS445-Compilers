@@ -1,0 +1,27 @@
+## C-S22
+main()
+ begin 
+    true  or  false;
+
+    true false;
+
+     or  ;
+    true  or  ;
+     or  false;
+    *  or  *;
+    zz;
+
+    true  and  false;
+     and  ;
+    true  and  ;
+     and  false;
+    *  and  *;
+
+    true  and  false  or  true;
+     and  or;
+     or  and;
+     
+     not and ;
+     and not ;
+     or not and ;
+ end 

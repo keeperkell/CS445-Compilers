@@ -1,0 +1,11 @@
+====================================
+FILE: syntaxerr-unary.c-
+ERROR(5): Syntax error, unexpected "while".
+ERROR(6): Syntax error, unexpected ';'.
+ERROR(8): Syntax error, unexpected "while".
+ERROR(9): Syntax error, unexpected ';'.
+ERROR(12): Syntax error, unexpected "while".
+ERROR(13): Syntax error, unexpected ';'.
+ERROR(16): Syntax error, unexpected ';'.
+Number of warnings: 0
+Number of errors: 7

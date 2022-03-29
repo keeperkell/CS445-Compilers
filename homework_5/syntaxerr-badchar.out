@@ -1,0 +1,33 @@
+====================================
+FILE: syntaxerr-badchar.c-
+ERROR(2): Syntax error, unexpected character constant 'x', expecting "bool" or "char" or "int" or identifier.
+WARNING(3): character is 15 characters long and not a single character: ''dogs  and  cats''.  The first char will be used.
+ERROR(4): Syntax error, unexpected "<-", expecting '('.
+ERROR(4): Invalid or misplaced input character: '''. Character Ignored.
+ERROR(5): Invalid or misplaced input character: '!'. Character Ignored.
+ERROR(5): Invalid or misplaced input character: '@'. Character Ignored.
+ERROR(5): Invalid or misplaced input character: '#'. Character Ignored.
+ERROR(5): Invalid or misplaced input character: '$'. Character Ignored.
+ERROR(5): Syntax error, unexpected '%'.
+ERROR(5): Invalid or misplaced input character: '^'. Character Ignored.
+ERROR(5): Invalid or misplaced input character: '_'. Character Ignored.
+ERROR(5): Invalid or misplaced input character: '~'. Character Ignored.
+ERROR(5): Invalid or misplaced input character: '`'. Character Ignored.
+ERROR(5): Syntax error, unexpected "begin", expecting ',' or ';'.
+ERROR(5): Invalid or misplaced input character: '\'. Character Ignored.
+ERROR(5): Syntax error, unexpected "or", expecting ',' or ';'.
+ERROR(5): Invalid or misplaced input character: '.'. Character Ignored.
+ERROR(6): Invalid or misplaced input character: '@'. Character Ignored.
+ERROR(6): Invalid or misplaced input character: '#'. Character Ignored.
+ERROR(6): Invalid or misplaced input character: '$'. Character Ignored.
+ERROR(6): Syntax error, unexpected '%'.
+ERROR(6): Invalid or misplaced input character: '^'. Character Ignored.
+ERROR(6): Invalid or misplaced input character: '_'. Character Ignored.
+ERROR(6): Invalid or misplaced input character: '~'. Character Ignored.
+ERROR(6): Invalid or misplaced input character: '`'. Character Ignored.
+ERROR(6): Invalid or misplaced input character: '\'. Character Ignored.
+ERROR(6): Invalid or misplaced input character: '.'. Character Ignored.
+WARNING(7): character is 15 characters long and not a single character: ''dogs  and  cats''.  The first char will be used.
+ERROR(7): Syntax error, unexpected character constant 'dogs  and  cats'.
+Number of warnings: 2
+Number of errors: 27

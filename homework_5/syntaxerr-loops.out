@@ -1,0 +1,8 @@
+====================================
+FILE: syntaxerr-loops.c-
+ERROR(9): Syntax error, unexpected identifier "x", expecting "<-".
+ERROR(11): Syntax error, unexpected ':', expecting "do".
+ERROR(12): Syntax error, unexpected ':', expecting "do".
+ERROR(16): Syntax error, unexpected ':', expecting "do".
+Number of warnings: 0
+Number of errors: 4
