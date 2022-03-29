@@ -31,12 +31,6 @@ static TreeNode *AST;
 SymbolTable st;
 
 #define YYERROR_VERBOSE
-void yyerror(const char *msg)
-{
-    printf("ERROR(%d): %s\n", line, msg);
-    numErrors++;
-}
-
 
 %}
 
