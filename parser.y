@@ -42,7 +42,7 @@ SymbolTable st;
     TreeNode *tree;         // For nonterminals. Add these nodes as you build the tree. 
 }
 
-%token <tokenData> ID BOOLCONST NUMCONST CHARCONST STRINGCONST SYMBOL
+%token <tokenData> ID BOOLCONST NUMCONST CHARCONST STRINGCONST
 %token <tokenData> ASGN ADDASGN SUBASGN MULASGN DIVASGN INC DEC GEQ LEQ NEQ
 %token <tokenData> LESSTHAN GREATTHAN LPAREN RPAREN LBRACKET RBRACKET
 %token <tokenData> PLUS EQUAL MINUS MULT DIV MOD

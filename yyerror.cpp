@@ -100,7 +100,7 @@ void initErrorProcessing() {
     niceTokenNameMap["SIZEOF"] = (char *)"\"*\"";
     niceTokenNameMap["STATIC"] = (char *)"\"static\"";
     niceTokenNameMap["STRINGCONST"] = (char *)"string constant";
-    niceTokenNameMap["SUBASS"] = (char *)"\"-=\"";
+    niceTokenNameMap["SUBASGN"] = (char *)"\"-=\"";
     niceTokenNameMap["THEN"] = (char *)"\"then\"";
     niceTokenNameMap["TO"] = (char *)"\"to\"";
     niceTokenNameMap["WHILE"] = (char *)"\"while\"";
