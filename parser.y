@@ -99,8 +99,8 @@ scopedVarDecl : STATIC typeSpec varDeclList SEMICOLON           { $$ = $3;
 varDeclList   : varDeclList COMMA varDeclInit                   { $$ = addSibling($1, $3);
                                                                   yyerrok;
                                                                 }
-              | varDeclList COMMA error                         { $$ = NULL; } 
               | varDeclInit                                     { $$ = $1; }
+              | varDeclList COMMA error                         { $$ = NULL; }
               | error                                           { $$ = NULL; }
               ;
 
