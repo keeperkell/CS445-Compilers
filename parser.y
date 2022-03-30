@@ -518,7 +518,9 @@ immutable     : LPAREN exp RPAREN                               { $$ = $2;
                                                                   yyerrok;
                                                                 }
               | call                                            { $$ = $1; }
-              | constant                                        { $$ = $1; }
+              | constant                                        { $$ = $1;
+                                                                  yyerrok;
+                                                                }
               | LPAREN error                                    { $$ = NULL; }
               ;
 
@@ -545,11 +547,10 @@ constant      : NUMCONST                                        { $$ = newExpNod
                                                                   $$->expType = Integer;
                                                                   yyerrok;
                                                                 }
-              | CHARCONST                                       { yyerrok;
-                                                                  $$ = newExpNode(ConstantK, $1);
+              | CHARCONST                                       { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.cvalue = $1->cvalue; 
                                                                   $$->expType = Char;
-                                                                  //yyerrok;
+                                                                  yyerrok;
                                                                 }
               | STRINGCONST                                     { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.string = $1->svalue; 
