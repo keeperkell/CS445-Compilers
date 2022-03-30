@@ -547,7 +547,6 @@ constant      : NUMCONST                                        { $$ = newExpNod
               | CHARCONST                                       { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.cvalue = $1->cvalue; 
                                                                   $$->expType = Char;
-                                                                  yyerrok;
                                                                 }
               | STRINGCONST                                     { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.string = $1->svalue; 
