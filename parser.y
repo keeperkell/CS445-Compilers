@@ -106,7 +106,8 @@ varDeclList   : varDeclList COMMA varDeclInit                   { $$ = addSiblin
 
 varDeclInit   : varDeclId                                       { $$ = $1; }
               | varDeclId COLON simpleExp                       { $$ = $1; 
-                                                                  $1->child[0] = $3; 
+                                                                  $1->child[0] = $3;
+                                                                  yyerrok; 
                                                                 }
               | error COLON simpleExp                           { $$ = NULL; 
                                                                   yyerrok;
