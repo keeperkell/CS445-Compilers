@@ -223,7 +223,7 @@ DIGIT   [0-9]
 "to"                                {return setToken(TO, line, yytext);}
 "do"                                {return setToken(DO, line, yytext);}
 
-""                                  {printf("ERROR(%d): Empty character ''. Characters ignored.\n", line, yytext[0]); numErrors++;}
+""                                  {printf("ERROR(%d): Empty character ''. Characters ignored.\n", line); numErrors++;}
 
 {LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext);}
 {DIGIT}+                            {return setToken(NUMCONST, line, yytext);}
