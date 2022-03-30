@@ -117,7 +117,7 @@ static int setToken(int tokenClass, int linenum, char *svalue)
                 yylval.tokenData->cvalue = svalue[1];
             }
 
-            // check for 
+            // check for empty char
             if(charLength == 2){
                 numErrors++;
 

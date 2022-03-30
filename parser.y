@@ -543,22 +543,25 @@ argList       : argList COMMA exp                               { $$ = addSiblin
 constant      : NUMCONST                                        { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.value = $1->nvalue; 
                                                                   $$->expType = Integer;
+                                                                  yyerrok;
                                                                 }
               | CHARCONST                                       { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.cvalue = $1->cvalue; 
                                                                   $$->expType = Char;
+                                                                  yyerrok;
                                                                 }
               | STRINGCONST                                     { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.string = $1->svalue; 
                                                                   $$->expType = Char;
                                                                   $$->isArray = true;
+                                                                  yyerrok;
                                                                 }
               | BOOLCONST                                       { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.value = $1->nvalue; 
                                                                   $$->expType = Boolean;
                                                                   $$->attr.name = $1->tokeninput;
+                                                                  yyerrok;
                                                                 }
-              | error                                           { $$ = NULL; }
               ;
 
 %%
