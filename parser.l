@@ -223,11 +223,15 @@ DIGIT   [0-9]
 "to"                                {return setToken(TO, line, yytext);}
 "do"                                {return setToken(DO, line, yytext);}
 
+""                                  {printf("ERROR(%d): Empty character ''. Characters ignored.\n", line, yytext[0]); numErrors++;}
+
 {LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext);}
 {DIGIT}+                            {return setToken(NUMCONST, line, yytext);}
 
 \'(\\.|[^\n\'])*\'                  {return setToken(CHARCONST, line, yytext);}
 \"(\\.|[^\\\n\"])*\"                {return setToken(STRINGCONST, line, yytext);}  
+
+
 
 .                                   {printf("ERROR(%d): Invalid or misplaced input character: \'%c\'. Character Ignored.\n", line, yytext[0]); numErrors++;}
 
