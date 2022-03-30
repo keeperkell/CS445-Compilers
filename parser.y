@@ -518,10 +518,9 @@ immutable     : LPAREN exp RPAREN                               { $$ = $2;
                                                                   yyerrok;
                                                                 }
               | call                                            { $$ = $1; }
-              | constant                                        { $$ = $1;
-                                                                  yyerrok;
-                                                                }
+              | constant                                        { $$ = $1; }
               | LPAREN error                                    { $$ = NULL; }
+              | error                                           { $$ = NULL; }
               ;
 
 call          : ID LPAREN args RPAREN                           { $$ = newExpNode(CallK, $1);
