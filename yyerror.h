@@ -6,7 +6,8 @@
 
 // NOTE: make sure these variables interface with your code!!!
 extern int line;        // line number of last token scanned in your scanner (.l)
-extern char *lastToken;    // last token scanned in your scanner (connect to your .l)
+//extern char *yytext;    // last token scanned in your scanner (connect to your .l)
+extern char *l_Token;    // last token scanned in your scanner (connect to your .l)
 extern int numErrors;   // number of errors
 
 void initErrorProcessing();    // WARNING: MUST be called before any errors occur (near top of main)!
