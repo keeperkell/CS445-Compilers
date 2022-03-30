@@ -253,7 +253,6 @@ unmatched     : IF simpleExp THEN matched ELSE unmatched        { $$ = newStmtNo
               | FOR ID ASGN error DO unmatched                  { $$ = NULL;
                                                                   yyerrok;
                                                                 }
-              | FOR error                                       { $$ = NULL; }
               | IF error THEN matched                           { $$ = NULL;
                                                                   yyerrok;
                                                                 }
