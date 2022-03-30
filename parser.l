@@ -117,6 +117,13 @@ static int setToken(int tokenClass, int linenum, char *svalue)
                 yylval.tokenData->cvalue = svalue[1];
             }
 
+            // check for 
+            if(charLength == 2){
+                numErrors++;
+
+                printf("ERROR(%d): Empty character \'\'. Characters ignored.\n", line);
+            }
+
             // if length is longer than 3 produce warning unless escape character exists
             if(charLength > 3){
                 // check if char includes a backslash but no valid escape operators
@@ -223,15 +230,11 @@ DIGIT   [0-9]
 "to"                                {return setToken(TO, line, yytext);}
 "do"                                {return setToken(DO, line, yytext);}
 
-""                                  {printf("ERROR(%d): Empty character ''. Characters ignored.\n", line); numErrors++;}
-
 {LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext);}
 {DIGIT}+                            {return setToken(NUMCONST, line, yytext);}
 
 \'(\\.|[^\n\'])*\'                  {return setToken(CHARCONST, line, yytext);}
 \"(\\.|[^\\\n\"])*\"                {return setToken(STRINGCONST, line, yytext);}  
-
-
 
 .                                   {printf("ERROR(%d): Invalid or misplaced input character: \'%c\'. Character Ignored.\n", line, yytext[0]); numErrors++;}
 
