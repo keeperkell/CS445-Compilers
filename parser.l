@@ -233,7 +233,7 @@ DIGIT   [0-9]
 {LETTER}({LETTER}|{DIGIT})*         {return setToken(ID, line, yytext);}
 {DIGIT}+                            {return setToken(NUMCONST, line, yytext);}
 
-\'(\\.|[^\n\'])*\'                  {return setToken(CHARCONST, line, yytext);}
+\'(\\.|[^\n\'])+\'                  {return setToken(CHARCONST, line, yytext);}
 \"(\\.|[^\\\n\"])*\"                {return setToken(STRINGCONST, line, yytext);}  
 
 .                                   {printf("ERROR(%d): Invalid or misplaced input character: \'%c\'. Character Ignored.\n", line, yytext[0]); numErrors++;}
