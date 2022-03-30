@@ -185,33 +185,35 @@ void yyerror(const char *msg)
     // make a copy of msg string
     space = strdup(msg);
 
-    // split out components
-    numstrs = split(space, strs, ' ');
-    if (numstrs>4) trim(strs[3]);
+    if(strlen(space) != 2){
+        // split out components
+            numstrs = split(space, strs, ' ');
+            if (numstrs>4) trim(strs[3]);
 
-    // translate components
-    for (int i=3; i<numstrs; i+=2) {
-        strs[i] = niceTokenStr(strs[i]);
+            // translate components
+            for (int i=3; i<numstrs; i+=2) {
+                strs[i] = niceTokenStr(strs[i]);
+            }
+
+            // print components
+            printf("ERROR(%d): Syntax error, unexpected %s", line, strs[3]);
+            if (elaborate(strs[3])) {
+                if (yytext[0]=='\'' || yytext[0]=='"') printf(" %s", yytext); 
+                else printf(" \"%s\"", yytext);
+            }
+
+            if (numstrs>4) printf(",");
+
+            // print sorted list of expected
+            tinySort(strs+5, numstrs-5, 2, true); 
+            for (int i=4; i<numstrs; i++) {
+                printf(" %s", strs[i]);
+            }
+            printf(".\n");
+            fflush(stdout);   // force a dump of the error
+
+            numErrors++;      // count the number of errors
     }
-
-    // print components
-    printf("ERROR(%d): Syntax error, unexpected %s", line, strs[3]);
-    if (elaborate(strs[3])) {
-        if (yytext[0]=='\'' || yytext[0]=='"') printf(" %s", yytext); 
-        else printf(" \"%s\"", yytext);
-    }
-
-    if (numstrs>4) printf(",");
-
-    // print sorted list of expected
-    tinySort(strs+5, numstrs-5, 2, true); 
-    for (int i=4; i<numstrs; i++) {
-        printf(" %s", strs[i]);
-    }
-    printf(".\n");
-    fflush(stdout);   // force a dump of the error
-
-    numErrors++;      // count the number of errors
 
     free(space);
 }
