@@ -559,6 +559,7 @@ constant      : NUMCONST                                        { $$ = newExpNod
                                                                   $$->expType = Boolean;
                                                                   $$->attr.name = $1->tokeninput;
                                                                 }
+              | error                                           { $$ = NULLl; }
               ;
 
 %%
