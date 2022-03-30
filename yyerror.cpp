@@ -197,8 +197,8 @@ void yyerror(const char *msg)
     // print components
     printf("ERROR(%d): Syntax error, unexpected %s", line, strs[3]);
     if (elaborate(strs[3])) {
-        if (l_Token[0]=='\'' || l_Token[0]=='"') printf(" %s", l_Token); 
-        else printf(" \"%s\"", l_Token);
+        if (yytext[0]=='\'' || yytext[0]=='"') printf(" %s", yytext); 
+        else printf(" \"%s\"", yytext);
     }
 
     if (numstrs>4) printf(",");
