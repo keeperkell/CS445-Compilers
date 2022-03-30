@@ -545,10 +545,11 @@ constant      : NUMCONST                                        { $$ = newExpNod
                                                                   $$->expType = Integer;
                                                                   yyerrok;
                                                                 }
-              | CHARCONST                                       { $$ = newExpNode(ConstantK, $1);
+              | CHARCONST                                       { yyerrok;
+                                                                  $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.cvalue = $1->cvalue; 
                                                                   $$->expType = Char;
-                                                                  yyerrok;
+                                                                  //yyerrok;
                                                                 }
               | STRINGCONST                                     { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.string = $1->svalue; 
