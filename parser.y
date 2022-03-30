@@ -111,9 +111,6 @@ varDeclInit   : varDeclId                                       { $$ = $1; }
               | error COLON simpleExp                           { $$ = NULL; 
                                                                   yyerrok;
                                                                 }
-              | varDeclId COLON error                           { $$ = NULL; 
-                                                                  yyerrok;
-                                                                }
               ;
 
 varDeclId     : ID                                              { $$ = newDeclNode(VarK, $1); 
