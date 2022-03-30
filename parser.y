@@ -71,6 +71,7 @@ declList      : declList decl                                   { $$ = addSiblin
 
 decl          : varDecl                                         { $$ = $1; }
               | funDecl                                         { $$ = $1; }
+              | error                                           { $$ = NULL; }
               ;
 
 varDecl       : typeSpec varDeclList SEMICOLON                  { $$ = $2; 

@@ -81,7 +81,7 @@ void initErrorProcessing() {
     niceTokenNameMap["DIVASGN"] = (char *)"\"/=\"";                 //changed
     niceTokenNameMap["DO"] = (char *)"\"do\"";
     niceTokenNameMap["ELSE"] = (char *)"\"else\"";
-    niceTokenNameMap["EQUAL"] = (char *)"\"=\"";                    //changed
+    niceTokenNameMap["EQUAL"] = (char *)"\'=\'";                    //changed
     niceTokenNameMap["FOR"] = (char *)"\"for\"";
     niceTokenNameMap["GEQ"] = (char *)"\">=\"";
     niceTokenNameMap["ID"] = (char *)"identifier";
