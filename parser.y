@@ -114,7 +114,6 @@ varDeclInit   : varDeclId                                       { $$ = $1; }
               | varDeclId COLON error                           { $$ = NULL; 
                                                                   yyerrok;
                                                                 }
-              | error                                           { $$ = NULL; }
               ;
 
 varDeclId     : ID                                              { $$ = newDeclNode(VarK, $1); 

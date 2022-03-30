@@ -192,7 +192,7 @@ DIGIT   [0-9]
 "]"                                 {return setToken(RBRACKET, line, yytext);}
 
 "+"                                 {return setToken(PLUS, line, yytext);}
-"=="                                {return setToken(EQUAL, line, yytext);}
+"="                                {return setToken(EQUAL, line, yytext);}
 "-"                                 {return setToken(MINUS, line, yytext);}
 "*"                                 {return setToken(MULT, line, yytext);}
 "/"                                 {return setToken(DIV, line, yytext);}
