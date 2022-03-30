@@ -236,6 +236,7 @@ DIGIT   [0-9]
 \'(\\.|[^\n\'])+\'                  {return setToken(CHARCONST, line, yytext);}
 \"(\\.|[^\\\n\"])*\"                {return setToken(STRINGCONST, line, yytext);}  
 
+\'\'                                {printf(" THIS IS THE NEW CHECK"); }
 .                                   {printf("ERROR(%d): Invalid or misplaced input character: \'%c\'. Character Ignored.\n", line, yytext[0]); numErrors++;}
 
 %%
