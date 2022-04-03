@@ -259,6 +259,7 @@ unmatched     : IF simpleExp THEN matched ELSE unmatched        { $$ = newStmtNo
               | IF error THEN matched                           { $$ = NULL;
                                                                   yyerrok;
                                                                 }
+              | FOR error                                       { $$ = NULL; }
               ;
 
 stmtEnd       : expStmt                                         { $$ = $1; }
