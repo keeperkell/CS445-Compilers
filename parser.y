@@ -178,11 +178,11 @@ paramIdList   : paramIdList COMMA paramId                       { $$ = addSiblin
 
 paramId       : ID                                              { $$ = newDeclNode(ParamK, $1);
                                                                   $$->attr.name = $1->tokeninput; 
-                                                                  $$->isInit = true;
+                                                                  //$$->isInit = true;
                                                                 }
               | ID LBRACKET RBRACKET                            { $$ = newDeclNode(ParamK, $1);
                                                                   $$->isArray = true;
-                                                                  $$->isInit = true;
+                                                                  //$$->isInit = true;
                                                                   $$->attr.name = $1->tokeninput; 
                                                                 }
               ;
@@ -259,7 +259,6 @@ unmatched     : IF simpleExp THEN matched ELSE unmatched        { $$ = newStmtNo
               | IF error THEN matched                           { $$ = NULL;
                                                                   yyerrok;
                                                                 }
-              | FOR error                                       { $$ = NULL; }
               ;
 
 stmtEnd       : expStmt                                         { $$ = $1; }
@@ -544,24 +543,20 @@ argList       : argList COMMA exp                               { $$ = addSiblin
 constant      : NUMCONST                                        { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.value = $1->nvalue; 
                                                                   $$->expType = Integer;
-                                                                  yyerrok;
                                                                 }
               | CHARCONST                                       { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.cvalue = $1->cvalue; 
                                                                   $$->expType = Char;
-                                                                  yyerrok;
                                                                 }
               | STRINGCONST                                     { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.string = $1->svalue; 
                                                                   $$->expType = Char;
                                                                   $$->isArray = true;
-                                                                  yyerrok;
                                                                 }
               | BOOLCONST                                       { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.value = $1->nvalue; 
                                                                   $$->expType = Boolean;
                                                                   $$->attr.name = $1->tokeninput;
-                                                                  yyerrok;
                                                                 }
               ;
 
