@@ -854,11 +854,11 @@ void checkAssignOpK(TreeNode *t){
             leftType = rightType = Boolean;
             returnType = Boolean;
         }
-        else if(!strcmp(t->attr.name, "*")){
+        if(!strcmp(t->attr.name, "*")){
             leftType = rightType = UndefinedType;
             returnType = Integer;
         }
-        else if(!strcmp(t->attr.name, "?") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "--") || !strcmp(t->attr.name, "++")){
+        if(!strcmp(t->attr.name, "?") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "--") || !strcmp(t->attr.name, "++")){
             leftType = rightType = Integer;
             returnType = Integer;
         }
@@ -872,15 +872,15 @@ void checkAssignOpK(TreeNode *t){
             returnType = Integer;
             checkUnaryError = true;
         }
-        else if(!strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=")){
+        if(!strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=")){
             leftType = rightType = CharInt;
             returnType = Boolean;
         }
-        else if(!strcmp(t->attr.name, "==") || !strcmp(t->attr.name, "!=") || !strcmp(t->attr.name, "=")){
+        if(!strcmp(t->attr.name, "==") || !strcmp(t->attr.name, "!=") || !strcmp(t->attr.name, "=")){
             leftType = rightType = UndefinedType;
             returnType = Boolean;
         }
-        else if(!strcmp(t->attr.name, "and") || !strcmp(t->attr.name, "or")){
+        if(!strcmp(t->attr.name, "and") || !strcmp(t->attr.name, "or")){
             leftType = rightType = Boolean;
             returnType = Boolean;
             checkUnaryError = true;
@@ -1110,15 +1110,13 @@ void checkAssignOpK(TreeNode *t){
                                 }
                             }
                             else{
-                                if(rightChildExp != NULL && rightType != NULL){
-                                    if(strcmp(returnExpType(rightChildExp),returnExpType(rightType))){
-                                        numErrors++;
+                                if(rightChildExp != rightType && rightChildExp != UndefinedType && rightType != UndefinedType){
+                                    numErrors++;
 
-                                        printf("----> VS Code Line 1116 && LineNum: %d\n", t->linenum);
-                                        printf("\t----> rightChildExp: %s, rightType: %s\n", returnExpType(rightChildExp), returnExpType(rightType));
+                                    printf("----> VS Code Line 1116 && LineNum: %d\n", t->linenum);
+                                    printf("\t----> rightChildExp: %s, rightType: %s\n", returnExpType(rightChildExp), returnExpType(rightType));
 
-                                        printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
-                                    }
+                                    printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
                                 }
                             }
                         }
