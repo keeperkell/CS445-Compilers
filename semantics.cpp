@@ -854,11 +854,11 @@ void checkAssignOpK(TreeNode *t){
             leftType = rightType = Boolean;
             returnType = Boolean;
         }
-        if(!strcmp(t->attr.name, "*")){
+        else if(!strcmp(t->attr.name, "*")){
             leftType = rightType = UndefinedType;
             returnType = Integer;
         }
-        if(!strcmp(t->attr.name, "?") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "--") || !strcmp(t->attr.name, "++")){
+        else if(!strcmp(t->attr.name, "?") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "--") || !strcmp(t->attr.name, "++")){
             leftType = rightType = Integer;
             returnType = Integer;
         }
@@ -872,15 +872,15 @@ void checkAssignOpK(TreeNode *t){
             returnType = Integer;
             checkUnaryError = true;
         }
-        if(!strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=")){
+        else if(!strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=")){
             leftType = rightType = CharInt;
             returnType = Boolean;
         }
-        if(!strcmp(t->attr.name, "==") || !strcmp(t->attr.name, "!=") || !strcmp(t->attr.name, "=")){
+        else if(!strcmp(t->attr.name, "==") || !strcmp(t->attr.name, "!=") || !strcmp(t->attr.name, "=")){
             leftType = rightType = UndefinedType;
             returnType = Boolean;
         }
-        if(!strcmp(t->attr.name, "and") || !strcmp(t->attr.name, "or")){
+        else if(!strcmp(t->attr.name, "and") || !strcmp(t->attr.name, "or")){
             leftType = rightType = Boolean;
             returnType = Boolean;
             checkUnaryError = true;
@@ -1110,7 +1110,7 @@ void checkAssignOpK(TreeNode *t){
                                 }
                             }
                             else{
-                                if(rightChildExp && rightType){
+                                if(rightChildExp != NULL && rightType != NULL){
                                     if(strcmp(returnExpType(rightChildExp),returnExpType(rightType))){
                                         numErrors++;
 
