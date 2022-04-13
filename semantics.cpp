@@ -1110,7 +1110,7 @@ void checkAssignOpK(TreeNode *t){
                                 }
                             }
                             else{
-                                if(strcmp(returnExpType(rightChildExp),returnExpType(rightType)){
+                                if(strcmp(returnExpType(rightChildExp),returnExpType(rightType))){
                                     numErrors++;
 
                                     printf("----> VS Code Line 1116 && LineNum: %d\n", t->linenum);
