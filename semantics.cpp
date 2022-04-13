@@ -889,43 +889,46 @@ void checkAssignOpK(TreeNode *t){
 
     // unary errors
     if(!isBinaryOp && !leftChildErr){
-        if(!leftChildErr){
-            if(leftChildExp != leftType && leftType != UndefinedType){
+        if(leftChildExp != leftType && leftType != UndefinedType){
+            if(!strcmp(t->attr.name, "-")){
+                numErrors++;
+
+                printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, "chsign", returnExpType(leftType), returnExpType(leftChildExp));
+            }
+            else{
+                numErrors++;
+            
+                printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
+            }
+        }
+        //size of only works iwth arrays
+        else if(!strcmp(t->attr.name, "*")){
+            if(!leftChildIsArr){
+                if(leftType != UndefinedType){
+                    numErrors++;
+
+                    printf("ERROR(%d): The operation '%s' only works with arrays.\n", t->linenum, "sizeof");
+                }
+            }
+        }
+
+        else if(!strcmp(t->attr.name, "not") && leftChildExp != leftType){
+            numErrors++;
+
+            printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
+        }
+
+        if(leftChildIsArr){
+            if(strcmp(t->attr.name, "*")){
                 if(!strcmp(t->attr.name, "-")){
                     numErrors++;
 
-                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, "chsign", returnExpType(leftType), returnExpType(leftChildExp));
+                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, "chsign");
                 }
                 else{
                     numErrors++;
-                
 
-                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
-                }
-            }
-            //size of only works iwth arrays
-            else if(!strcmp(t->attr.name, "*")){
-                if(!leftChildIsArr){
-                    if(leftType != UndefinedType){
-                        numErrors++;
-
-                        printf("ERROR(%d): The operation '%s' only works with arrays.\n", t->linenum, "sizeof");
-                    }
-                }
-            }
-
-            if(leftChildIsArr){
-                if(strcmp(t->attr.name, "*")){
-                    if(!strcmp(t->attr.name, "-")){
-                        numErrors++;
-
-                        printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, "chsign");
-                    }
-                    else{
-                        numErrors++;
-
-                        printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
-                    }
+                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
                 }
             }
         }
