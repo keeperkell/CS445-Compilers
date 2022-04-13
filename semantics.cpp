@@ -1085,9 +1085,10 @@ void checkAssignOpK(TreeNode *t){
             }
             else{
                 if(!leftChildErr){
+                    // issues with prints here
                     if(leftChildExp != leftType){
                         numErrors++;
-
+            
                         //printf("----> leftChildExp: %s, leftType: %s\n", returnExpType(leftChildExp), returnExpType(leftType));
                         printf("----> VS Code Line 1092 && LineNum: %d\n", t->linenum);
                         printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
@@ -1110,15 +1111,17 @@ void checkAssignOpK(TreeNode *t){
                                 }
                             }
                             else{
-                                if(strcmp(returnExpType(rightChildExp), returnExpType(rightType))){
+                                char *rightTypeStr = strdup(returnExpType(rightType));
+                                char *rightChildTypeStr = strdup(returnExpType(rightChildExp));
+                                if(strcmp(rightTypeStr, rightChildTypeStr)){
                                     numErrors++;
 
                                     printf("----> VS Code Line 1116 && LineNum: %d\n", t->linenum);
                                     printf("\t----> rightChildExp: %d, rightType: %d\n", rightChildExp, rightType);
-                                    printf("\t----> rightChildExp: %s, rightType: %s\n", returnExpType(rightChildExp), returnExpType(rightType));
-                                    printf("\t\t----> strcmp Bool: %d\n", strcmp(returnExpType(rightChildExp), returnExpType(rightType)));
+                                    printf("\t----> rightChildExp: %s, rightType: %s\n", rightChildTypeStr, rightTypeStr);
+                                    printf("\t\t----> strcmp Bool: %d\n", rightChildTypeStr, rightTypeStr);
 
-                                    printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
+                                    printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->child[0]->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
                                 }
                             }
                         }
