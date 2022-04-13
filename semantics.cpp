@@ -537,14 +537,8 @@ void semanticAnalysis(TreeNode *t){
                 switch(t->subkind.exp){
                     case AssignK:
 
-                        for(int i = 0; i < MAXCHILDREN; i++){
-                            if(t->child[i]){
-                                semanticAnalysis(t->child[i]);
-                            }
-                        }
-
                         // new function to perform only 
-                        checkAssignK(t);
+                        checkAssignOpK(t);
 
                         break;
 
@@ -552,16 +546,8 @@ void semanticAnalysis(TreeNode *t){
                         // OpK will 1 or 2 child nodes(unary or binary)
                         // Need to have logic specific for each side, starting with left
                         // to account for unary
-                        
-                        /* 
-                        for(int i = 0; i < MAXCHILDREN; i++){
-                            if(t->child[i]){
-                                semanticAnalysis(t->child[i]);
-                            }
-                        }
-                        */
 
-                        checkOpK(t);
+                        checkAssignOpK(t);
 
                         break;
 
@@ -674,7 +660,7 @@ void semanticAnalysis(TreeNode *t){
 }
 
 //function to check for errors in AssignK
-void checkAssignK(TreeNode *t){
+void checkAssignOpK(TreeNode *t){
     TreeNode *leftChild, *leftLU;       // LU is for lookup
     TreeNode *rightChild, *rightLU;
     
@@ -731,6 +717,10 @@ void checkAssignK(TreeNode *t){
                             t->child[0]->isInit = true;
                         }
                     }
+                }
+
+                if(!strcmp(t->child[1]->attr.name, "<-")){
+                    t->child[0]->isInit = true;
                 }
             }
             else{
