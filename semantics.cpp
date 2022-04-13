@@ -1085,7 +1085,7 @@ void checkAssignOpK(TreeNode *t){
             }
             else{
                 if(!leftChildErr){
-                    // issues with prints here
+                    // issues with prints
                     if(leftChildExp != leftType){
                         numErrors++;
             
@@ -1111,17 +1111,15 @@ void checkAssignOpK(TreeNode *t){
                                 }
                             }
                             else{
-                                char *rightTypeStr = strdup(returnExpType(rightType));
-                                char *rightChildTypeStr = strdup(returnExpType(rightChildExp));
-                                if(strcmp(rightTypeStr, rightChildTypeStr)){
+                                if(strcmp(returnExpType(rightChildExp), returnExpType(rightType))){
                                     numErrors++;
 
                                     printf("----> VS Code Line 1116 && LineNum: %d\n", t->linenum);
                                     printf("\t----> rightChildExp: %d, rightType: %d\n", rightChildExp, rightType);
-                                    printf("\t----> rightChildExp: %s, rightType: %s\n", rightChildTypeStr, rightTypeStr);
-                                    printf("\t\t----> strcmp Bool: %d\n", strcmp(rightChildTypeStr, rightTypeStr));
+                                    printf("\t----> rightChildExp: %s, rightType: %s\n", returnExpType(rightChildExp), returnExpType(rightType));
+                                    printf("\t\t----> strcmp Bool: %d\n", strcmp(returnExpType(rightChildExp), returnExpType(rightType)));
 
-                                    printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->child[0]->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
+                                    printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
                                 }
                             }
                         }
