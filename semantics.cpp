@@ -953,14 +953,19 @@ void checkAssignOpK(TreeNode *t){
                         else if(!leftArrChild){
                             numErrors++;
 
-                            printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, leftArrChild->attr.name);
+                            printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, t->child[0]->attr.name);
                         }
                         else if(!leftArrChild->isArray){
                             numErrors++;
 
-                            printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, leftArrChild->attr.name);
+                            printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, t->child[0]->attr.name);
                         }
                     }
+                }
+                else{
+                    numErrors++;
+
+                    printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, t->child[0]->attr.name);
                 }
                 if(t->child[1]){
                     rightArrChild = t->child[1];
