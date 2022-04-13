@@ -1053,7 +1053,7 @@ void checkAssignOpK(TreeNode *t){
         }
 
         //////
-        if(leftType != UndefinedType || rightType != UndefinedType){
+        else if(leftType != UndefinedType || rightType != UndefinedType){
             if(leftChildExp != rightChildExp && leftChild->subkind.exp == CallK && rightChild->subkind.exp == CallK){
 
                 leftLU = (TreeNode *)st.lookup(leftChild->attr.name);
@@ -1063,21 +1063,24 @@ void checkAssignOpK(TreeNode *t){
                     if(rightLU){
                         if(!leftLU->isIO && !rightLU->isIO){
                             if(leftLU->subkind.decl == FuncK && rightLU->subkind.decl == FuncK){
+                                if(leftChildExp == Void){
+                                    if(rightChildExp == Void){
+                                        numErrors++;
 
-                                numErrors++;
+                                        //printf("----> leftChildExp: %s, leftType: %s\n", returnExpType(leftChildExp), returnExpType(leftType));
+                                        //printf("----> VS Code Line 1070 && LineNum: %d\n", t->linenum);
 
-                                //printf("----> leftChildExp: %s, leftType: %s\n", returnExpType(leftChildExp), returnExpType(leftType));
-                                //printf("----> VS Code Line 1070 && LineNum: %d\n", t->linenum);
-
-                                printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
+                                        printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
 
 
-                                numErrors++;
+                                        numErrors++;
 
-                                //printf("----> rightChildExp: %s, rightType: %s\n", returnExpType(rightChildExp), returnExpType(rightType));
-                                //printf("----> VS Code Line 1078 && LineNum: %d\n", t->linenum);
+                                        //printf("----> rightChildExp: %s, rightType: %s\n", returnExpType(rightChildExp), returnExpType(rightType));
+                                        //printf("----> VS Code Line 1078 && LineNum: %d\n", t->linenum);
 
-                                printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
+                                        printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
+                                    }
+                                }
                             }
                         }
                     }
@@ -1385,7 +1388,7 @@ void checkCallParams(TreeNode *lookUp, TreeNode *lu_Child, TreeNode *t, TreeNode
         }
 
         // if param expected does not match type
-        if(lu_Child != t_Child && !lookUp->isIO){
+        if(lu_Child->expType != t_Child->expType && !lookUp->isIO){
             numErrors++;
 
             printf("ERROR(%d): Expecting type %s in parameter %i of call to '%s' declared on line %d but got type %s.\n", t->linenum, 
