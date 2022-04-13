@@ -660,6 +660,7 @@ void semanticAnalysis(TreeNode *t){
 }
 
 //function to check for errors in AssignK
+//Combined Assign and Ops
 void checkAssignOpK(TreeNode *t){
     TreeNode *leftChild, *leftLU;       // LU is for lookup
     TreeNode *rightChild, *rightLU;
@@ -887,7 +888,7 @@ void checkAssignOpK(TreeNode *t){
     }
 
     // unary errors
-    if(!isBinaryOp){
+    if(!isBinaryOp && !leftChildErr){
         if(!leftChildErr){
             if(leftChildExp != leftType && leftType != UndefinedType){
                 if(!strcmp(t->attr.name, "-")){
