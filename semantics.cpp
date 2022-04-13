@@ -27,6 +27,7 @@ bool insideScope = false;
 bool insideRange = false;
 bool insideFor = false;
 bool hasReturn = false;
+bool sizeArrFlag = false;
 char *curScope;
 
 ExpType expectReturnType = Void;
@@ -61,13 +62,14 @@ void semanticAnalysis(TreeNode *t){
                 //printf("IsGlobal: %d\n", t->isGlobal);
 
                 // if symbol is already declared, print error and increase count
-                if( !st.insert(t->attr.name, t)){
-                    numErrors++;
+                if(t->subkind.decl != VarK){
+                    if( !st.insert(t->attr.name, t)){
+                        numErrors++;
 
-                    currentNode = (TreeNode *)st.lookup(t->attr.name);
-                    printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
+                        currentNode = (TreeNode *)st.lookup(t->attr.name);
+                        printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
+                    }
                 }
-
                 
                 // check subkind and switch off of it
                 switch(t->subkind.decl){
@@ -79,6 +81,13 @@ void semanticAnalysis(TreeNode *t){
                             if(t->child[0] != NULL){
                                 semanticAnalysis(t->child[0]);
                             }
+                        }
+
+                        if( !st.insert(t->attr.name, t)){
+                            numErrors++;
+
+                            currentNode = (TreeNode *)st.lookup(t->attr.name);
+                            printf("ERROR(%d): Symbol '%s' is already declared at line %d.\n", t->linenum, t->attr.name, currentNode->linenum);
                         }
 
                         // if multiple vars declared static on a line
@@ -295,10 +304,12 @@ void semanticAnalysis(TreeNode *t){
 
                         //if condition should be bool
                         if(t->child[0]->expType != Boolean){
-                            if(!t->child[0]->declErrReport){
-                                numErrors++;
+                            if(t->child[0]->subkind.exp != OpK){
+                                if(!t->child[0]->declErrReport){
+                                    numErrors++;
 
-                                printf("ERROR(%d): Expecting Boolean test condition in %s statement but got type %s.\n", t->linenum, "while", returnExpType(t->child[0]->expType));
+                                    printf("ERROR(%d): Expecting Boolean test condition in %s statement but got type %s.\n", t->linenum, "while", returnExpType(t->child[0]->expType));
+                                }
                             }
                         }
 
@@ -419,56 +430,37 @@ void semanticAnalysis(TreeNode *t){
                                                 }
                                             }
                                         }
+                                        // check if func expects no return value
+                                        if(scope->expType == Void){
+                                            numErrors++;
 
+                                            printf("ERROR(%d): Function '%s' at line %d is expecting no return value, but return has a value.\n", t->linenum, scope->attr.name, scope->linenum);
+                                        }
                                         //check matching types and func expects a return
-                                        if(t->child[0]->expType != scope->expType){
+                                        else if(t->child[0]->expType != scope->expType){
+                                    
                                             if(t->child[0]->expType != Void && scope->expType != Void){
                                                 // char and char int are the same
-                                                if(!(t->child[0]->expType == Char && scope->expType == CharInt) || !(t->child[0]->expType == CharInt && scope->expType == Char)){
+                                                if(!(t->child[0]->expType == Char && scope->expType == CharInt)){
                                                      numErrors++;
 
                                                     printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but returns type %s.\n",
-                                                                t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType), returnExpType(currentNode->expType));
+                                                                t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType), returnExpType(t->child[0]->expType));
 
                                                 }
                                             }
-                                        }
-                                            
-                                        // check if func expects no return value
-                                        else if(scope->expType == Void){
-                                            numErrors++;
 
-                                            printf("ERROR(%d): Function '%s' at line %d is expecting no return value, but return has a value.\n", t->linenum, scope->attr.name, scope->linenum);
-                                        }
-                                    }
-                                }
+                                            else if(t->child[0]->subkind.exp == CallK && scope->expType != Void){
+                                                // char and char int are the same
+                                                if(!(t->child[0]->expType == Char && scope->expType == CharInt)){
+                                                     numErrors++;
 
-                                if(t->child[0]->subkind.exp == CallK){
-                                    currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
+                                                    printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but returns type %s.\n",
+                                                                t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType), returnExpType(t->child[0]->expType));
 
-                                    if(currentNode){
-                                        currentNode->isUsed = true;
-
-                                        // check if array
-                                        if(t->child[0]->isArray){
-                                            numErrors++;
-
-                                            printf("ERROR(%d): Cannot return an array.\n", t->linenum);
-                                        }
-
-                                        //check matching types and func expects a return
-                                        if(t->child[0]->expType != scope->expType && scope->expType != Void){
-                                            numErrors++;
-
-                                            printf("ERROR(%d): Function '%s' at line %d is expecting to return type %s but returns type %s.\n",
-                                                            t->linenum, scope->attr.name, scope->linenum, returnExpType(scope->expType), returnExpType(currentNode->expType));
-                                        }
-                                        // check if func expects no return value
-                                        else if(scope->expType == Void){
-                                            numErrors++;
-
-                                            printf("ERROR(%d): Function '%s' at line %d is expecting no return value, but return has a value.\n", t->linenum, scope->attr.name, scope->linenum);
-                                        }
+                                                }
+                                            }
+                                        }                                        
                                     }
                                 }
                             }
@@ -487,7 +479,7 @@ void semanticAnalysis(TreeNode *t){
                     case BreakK:
                         
                         // if scope depth is less than or equal to 2, then on global or func scope
-                        if(st.depth() <= 2){
+                        if(insideScope){
                             numErrors++;
 
                             printf("ERROR(%d): Cannot have a break statement outside of loop.\n", t->linenum);
@@ -521,13 +513,10 @@ void semanticAnalysis(TreeNode *t){
                                             currentNode->isUsed = true;
                                         }
                                         else{
-                                            if(!t->declErrReport){
-                                                numErrors++;
-                                                t->declErrReport = true;
+                                            numErrors++;
+                                            t->declErrReport = true;
 
-                                                printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->child[0]->attr.name);
-                                            }
-                                            
+                                            printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->child[0]->attr.name);                                            
                                         }
                                     }
                                 }
@@ -547,6 +536,7 @@ void semanticAnalysis(TreeNode *t){
             case ExpK:
                 switch(t->subkind.exp){
                     case AssignK:
+
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
                                 semanticAnalysis(t->child[i]);
@@ -580,10 +570,13 @@ void semanticAnalysis(TreeNode *t){
 
                         // range needs ints
                         if(insideRange){
-                            if(t->expType != Integer){
-                                numErrors++;
+                            if(insideFor){
 
-                                printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s.\n", t->linenum, position, returnExpType(t->expType));
+                                if(t->expType != Integer){
+                                    numErrors++;
+
+                                    printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s.\n", t->linenum, position, returnExpType(t->expType));
+                                }
                             }
                         }
                         
@@ -681,585 +674,1100 @@ void semanticAnalysis(TreeNode *t){
 
 //function to check for errors in AssignK
 void checkAssignK(TreeNode *t){
-    TreeNode *leftChild;
-    TreeNode *rightChild;
-
-    if(t->child[0]){
-        leftChild = (TreeNode *)st.lookup(t->child[0]->attr.name);
-
-        if(leftChild){
-            t->child[0]->expType = leftChild->expType;
-            t->child[0]->isArray = leftChild->isArray;
-
-            leftChild->isInit = true;
-        }
-    }
-    // Assign is not a unary funcion
-    if(!t->child[1]){
-        if(t->child[0]->isArray){
-            numErrors++;
-
-            printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
-        }
-
-        if(t->child[0]->expType != Integer){
-            numErrors++;
-
-            printf("ERROR(%d): Unary '%s' requires an operand of type int but was given type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType));
-        }
-    }
-    else{
+    TreeNode *leftChild, *leftLU;       // LU is for lookup
+    TreeNode *rightChild, rightLU;
+    
+    if(!strcmp(t->attr.name, "<-")){
         if(t->child[0]){
-            // match assignment op
-            if(!strcmp(t->attr.name, "<-") || !strcmp(t->attr.name, ":")){
+            if(t->child[0]->child[0] && !strcmp(t->child[0]->attr.name, "[")){
+                t->child[0]->child[0]->isInit = true;
 
-                //check if assign right child is id
-                if(t->child[1] && t->child[1]->subkind.exp == IdK){
-                    t->child[0]->isInit = true;
-
-                    rightChild = (TreeNode *)st.lookup(t->child[1]->attr.name);
-
-                    if(rightChild){
-                        rightChild->isUsed = true;
-                        
-                        if(!rightChild->isInit && !rightChild->warningReported){
-                            rightChild->warningReported = true;
-
-                            numWarnings++;
-
-                            printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, rightChild->attr.name);
+                //This needs works, missing some inits. 
+                // having to check more and more children to match files
+                if(t->child[0]->child[1]){
+                    if(t->child[0]->child[1]->child[0]){
+                        if(t->child[0]->child[1]->child[1]){
+                            // if 2 children exists, check for ops
+                            if(t->child[0]->child[1]->subkind.exp == OpK){
+                                t->child[0]->child[1]->child[0]->isInit = true;
+                                t->child[0]->child[1]->child[1]->isInit = true;
+                            }
                         }
                     }
+                    t->child[0]->child[1]->isInit = true;
                 }
-
-                // array assign checks
-                if(t->child[0]->child[0]){
-                    if(!strcmp(t->child[0]->attr.name, "[")){
-
-                        t->child[0]->child[0]->isInit = true;
-
-                        // check if non const inside indeces
-                        if(t->child[0]->child[1]){
-                            t->child[0]->child[1]->isInit = true;
-
-                            // op can be inside index as well
-                            // ugly but brute force method for now
-                            if(t->child[0]->child[1]->child[0]){
-                                if(t->child[0]->child[1]->subkind.exp == OpK){
-                                    t->child[0]->child[1]->child[0]->isInit = true;
-
-                                    // op can be unary or binary, check other child
-                                    if(t->child[0]->child[1]->child[1]){
-                                        t->child[0]->child[1]->child[1]->isInit = true;
-                                    }
+                // check for multiple brackets in a row [[]]
+                else if(t->child[0]->child[1]->child[0]){
+                    t->child[0]->child[1]->child[0]->isInit = true;
+                }
+            }
+            // more nested checks
+            else if(t->child[1] && t->child[1]->expType == Void){
+                if(t->child[1]->subkind.exp == CallK){
+                    t->child[0]->isInit = true;
+                }
+                else if(t->child[0] && t->child[1]){
+                    if(t->child[0]->subkind.exp == IdK ){
+                        if(!t->child[0]->isInit){
+                            if(t->child[1]->subkind.exp == IdK){
+                                if(strcmp(t->child[0]->attr.name, t->child[1]->attr.name)){
+                                    t->child[0]->isInit = true;
                                 }
                             }
                         }
-                        else if(t->child[0]->child[1]->child[0]){
-                            //nested brackets
-                            t->child[0]->child[1]->child[0]->isInit = true;
-                        }
-
-
-                        //t->child[0]->child[0]->isInit = true;
                     }
-                    // need logic for calls and assigning id to itself??
+                    else if(t->child[1]->subkind.exp == AssignK){
+                        t->child[0]->isInit = true;
+
+                        if(t->child[1]->child[0]){
+                            t->child[1]->child[0]->isInit = true;
+                        }
+                    }
                 }
+                else if(!strcmp(t->child[0]->attr.name, "[")){
+                    if(t->child[1]->child[0]){
+                        if(strcmp(t->child[0]->attr.name, t->child[1]->child[0]->attr.name)){
+                            t->child[0]->isInit = true;
+                        }
+                    }
+                }
+            }
+            else{
+                //specific check for nested self assignment
+                if(t->child[1] && t->child[1]->child[0]){
+                    if(t->child[1]->child[0]->subkind.exp == IdK){
+                        if(strcmp(t->child[0]->attr.name, t->child[1]->child[0]->attr.name)){
+                            t->child[0]->isInit = true;
+                        }
+                    }
+                    else{
+                        t->child[0]->isInit = true;
+                    }
+                }
+                else{
+                    t->child[0]->isInit = true;
+                }
+            }
+        }
+    }
+    ///////////////
 
-                //assign childs typing to t node
-                t->expType = t->child[0]->expType;
+    //check for sizeof array
+    if(!strcmp(t->attr.name, "*")){
+        // set this to check later
+        sizeArrFlag = true;
+    }
 
-                //check for matching types for both children
-                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
-                    if(t->child[0]->expType != t->child[1]->expType){
+    // set used flag on ops. Assignment does not count as used
+    if(strcmp(t->attr.name, "<-")){
+        if(t->child[0]){
+            t->child[0]->isUsed = true;
+        }
+        if(t->child[1]){
+            t->child[1]->isUsed = true;
+        }
+    }
+
+    for(int i = 0; i < MAXCHILDREN; i++){
+        if(t->child[i]){
+            semanticAnalysis(t->child[i]);
+        }
+    }
+
+    //reset flag for size of array
+    sizeArrFlag = false;
+
+    // after used and init checks, need to check left and right childs of op/assign
+    ExpType leftChildExp, rightChildExp;
+    leftChildExp, rightChildExp = UndefinedType;
+
+    // default all bools to false
+    bool leftChildIsArr, rightChildIsArr;
+    bool leftChildIndexed, rightChildIndexed;
+    bool leftChildIsStr, rightChildIsStr;
+    bool leftChildErr, rightChildErr;
+    bool isBinaryOp, checkUnaryError;
+    leftChildIsArr, rightChildIsArr, leftChildIndexed, rightChildIndexed, leftChildIsStr, rightChildIsStr, leftChildErr, rightChildErr, isBinaryOp, unaryError = false;
+
+    // check types of left child
+    if(t->child[0]){
+        leftChild = t->child[0];
+        leftChildExp = t->child[0]->expType;
+        leftChildIsArr = t->child[0]->isArray;
+
+        // check for expression
+        if(leftChild->nodekind == ExpK){
+            if(leftChild->subkind.exp == ConstantK){
+                leftChildIsStr = true;
+            }
+            else if(leftChild->subkind.exp == CallK){
+                leftChildIsArr = false;
+            }
+        }
+
+        // check if child exists for indexing, array
+        if(leftChild->child[0]){
+            leftChildIndexed = true;
+            leftChildIsArr = false;
+        }
+    }
+
+    // check types of right child
+    if(t->child[1]){
+        //if child 1 also exists, it is now a binary op
+        isBinaryOp = true;
+        
+        rightChild = t->child[1];
+        rightChildExp = t->child[1]->expType;
+        rightChildIsArr = t->child[1]->isArray;
+
+        // check for expression
+        if(rightChild->nodekind == ExpK){
+            if(rightChild->subkind.exp == ConstantK){
+                rightChildIsStr = true;
+            }
+            else if(rightChild->subkind.exp == CallK){
+                rightChildIsArr = false;
+            }
+        }
+
+        // check if child exists for indexing, array
+        if(rightChild->child[1]){
+            rightChildIndexed = true;
+            rightChildIsArr = false;
+        }
+    }
+
+    // check for declaration errors on left and right side
+    // left child
+    if(leftChildExp == Void){
+        if(!(leftChild->nodekind == ExpK && leftChild->subkind.exp == CallK)){
+            leftChildErr = true;
+        }
+    }
+    // right child
+    if(rightChildExp == Void){
+        if(!(rightChild->nodekind == ExpK && rightChild->subkind.exp == CallK)){
+            rightChildErr = true;
+        }
+    }
+
+    // check for expected return types
+    ExpType leftType, rightType, returnType;
+    leftType, rightType, returnType = UndefinedType;
+
+    //unary types
+    if(!isBinaryOp){
+        if(!strcmp(t->attr.name, "not")){
+            leftType, rightType = Boolean;
+            returnType = Boolean;
+        }
+        if(!strcmp(t->attr.name, "*")){
+            leftType, rightType = UndefinedType;
+            returnType = Integer;
+        }
+        if(!strcmp(t->attr.name, "?") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "--") || !strcmp(t->attr.name, "++")){
+            leftType, rightType = Integer;
+            returnType = Integer;
+        }
+    }
+    //binary types
+    else{
+        if(!strcmp(t->attr.name, "+") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "*") || !strcmp(t->attr.name, "/") || !strcmp(t->attr.name, "%") ||
+            !strcmp(t->attr.name, "+=") || !strcmp(t->attr.name, "-=") || !strcmp(t->attr.name, "*=") || !strcmp(t->attr.name, "/=")){
+            
+            leftType = rightType = Integer;
+            returnType = Integer;
+            checkUnaryError = true;
+        }
+        if(!strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=")){
+            leftType = rightType = CharInt;
+            returnType = Boolean;
+        }
+        if(!strcmp(t->attr.name, "==") || !strcmp(t->attr.name, "!=") || !strcmp(t->attr.name, "=")){
+            leftType = rightType = UndefinedType;
+            returnType = Boolean;
+        }
+        if(!strcmp(t->attr.name, "and") || !strcmp(t->attr.name, "or")){
+            leftType = rightType = Boolean;
+            returnType = Boolean;
+            checkUnaryError = true;
+        }
+    }
+
+    // unary errors
+    if(!isBinaryOp){
+        if(!leftChildErr){
+            if(leftChildExp != leftType && leftType != UndefinedType){
+                if(!strcmp(t->attr.name, "-")){
+                    numErrors++;
+
+                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, "chsign", returnExpType(leftType), returnExpType(rightType));
+                }
+                else{
+                    numErrors++;
+
+                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(rightType));
+                }
+            }
+            //size of only works iwth arrays
+            else if(!strcmp(t->attr.name, "*")){
+                if(!leftChildIsArr){
+                    if(leftType != UndefinedType){
                         numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
+                        printf("ERROR(%d): The operation '%s' only works with arrays.\n", t->linenum, "sizeof");
+                    }
+                }
+            }
+
+            // 
+            if(leftChildIsArr){
+                if(strcmp(t->attr.name, "*")){
+                    if(!strcmp(t->attr.name, "-")){
+                        numErrors++;
+
+                        printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, "chsign");
+                    }
+                    else{
+                        numErrors++;
+
+                        printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+                    }
+                }
+            }
+        }
+    }
+    else{
+        //
+        if(!checkUnaryError){
+
+            // check for array errors
+            if(!strcmp(t->attr.name, "[")){
+                TreeNode *leftArrChild, *rightArrChild;
+                leftArrChild = rightArrChild = NULL;
+
+                if(t->child[0]){
+                    if(t->child[0]->subkind.exp == IdK){
+                        leftArrChild = (TreeNode *)st.lookup(t->child[0]->attr.name);
+
+                        if(leftArrChild){
+                            t->child[0]->expType = leftArrChild->expType;
+                            t->expType = leftArrChild->expType;
+                        }
+                        else if(!leftArrChild){
+                            numErrors++;
+
+                            printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, leftArrChild->attr.name);
+                        }
+                        else if(!leftArrChild->isArray){
+                            numErrors++;
+
+                            printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, leftArrChild->attr.name);
+                        }
+                    }
+                }
+                if(t->child[1]){
+                    rightArrChild = t->child[1];
+
+                    if(rightArrChild->expType != Integer && rightArrChild->expType != UndefinedType){
+                        if(!(rightArrChild->subkind.decl == ParamK && rightArrChild->subkind.exp != CallK && rightArrChild->expType == Void)){
+                            printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, rightArrChild->attr.name);
+                        }
+                    }
+
+                    if(rightArrChild->subkind.exp == IdK){
+                        if(rightArrChild->isArray == true){
+                            printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, rightArrChild->attr.name);
+                        }
+                    }
+                }
+            }
+            // check for matching types of left and right
+            else if(leftChildExp != rightChildExp){
+                if(!leftChildErr && !rightChildErr){
+
+                    // check nested assignops
+                    if(!strcmp(t->attr.name, "<-") && t->child[1]->subkind.exp == OpK){
+
+                        ExpType childType = UndefinedType;
+
+                        if(!strcmp(t->child[0]->attr.name, "+") || !strcmp(t->child[0]->attr.name, "-") || !strcmp(t->child[0]->attr.name, "*") || !strcmp(t->child[0]->attr.name, "/") || !strcmp(t->child[0]->attr.name, "%") ||
+                            !strcmp(t->child[0]->attr.name, "+=") || !strcmp(t->child[0]->attr.name, "-=") || !strcmp(t->child[0]->attr.name, "*=") || !strcmp(t->child[0]->attr.name, "/=")){
+                            
+                            childType = Integer;
+                        }
+                        if(!strcmp(t->child[0]->attr.name, ">") || !strcmp(t->child[0]->attr.name, "<") || !strcmp(t->child[0]->attr.name, ">=") || !strcmp(t->child[0]->attr.name, "<=")){
+                            childType = Boolean;
+                        }
+                        if(!strcmp(t->child[0]->attr.name, "==") || !strcmp(t->child[0]->attr.name, "!=") || !strcmp(t->child[0]->attr.name, "=")){
+                            childType = Boolean;
+                        }
+                        if(!strcmp(t->child[0]->attr.name, "and") || !strcmp(t->child[0]->attr.name, "or")){
+                            childType = Boolean;
+                        }
+
+                        if(childType != leftChildExp){
+                            numErrors++;
+
+                            printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", 
+                                t->linenum, t->attr.name, returnExpType(leftChildExp), returnExpType(childType));
+                        }
+                        //more nested checks on right side of op
+                        else if(rightChild->child[1]){
+                            if(rightChild->child[1]->subkind.exp == CallK){
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", 
+                                    t->linenum, t->attr.name, returnExpType(leftChildExp), returnExpType(childType));
+                            }
+                        }
+                    }
+                    // need extra check for int on left and charint on right
+                    else if(leftChildExp == Integer && rightChildExp == CharInt){
+                        //charInt prints as char
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", 
+                            t->linenum, t->attr.name, returnExpType(leftChildExp), "char");
+                    }
+                    else if(!((leftChildExp == Char && rightChildExp == CharInt) || leftChildExp == CharInt && rightChildExp == Char)){
+                        
+                        if(leftChild->subkind.exp != CallK){
+                            numErrors++;
+
+                            printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", 
+                                t->linenum, t->attr.name, returnExpType(leftChildExp), returnExpType(rightChildExp));
+                        }
+                    }
+                }
+            }
+        }
+
+        //////
+        if(leftType != UndefinedType || rightType != UndefinedType){
+            if(leftChildExp == rightChildExp && leftChild->subkind.exp == CallK && rightChild->subkind.exp == CallK){
+
+                leftLU = (TreeNode *)st.lookup(leftChild->attr.name);
+                rightLU = (TreeNode *)st.lookup(rightChild->attr.name);
+
+                if(leftLU){
+                    if(rightLU){
+                        if(!leftLU->isIO && !rightLU->isIO){
+                            if(leftLU->subkind.decl == FuncK && rightLU->subkind.decl == FuncK){
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, returnExpType(leftType), returnExpType(leftChildExp));
+
+
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, returnExpType(rightType), returnExpType(rightChildExp));
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                if(!leftChildErr){
+                    if(leftChildExp != leftType){
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, returnExpType(leftType), returnExpType(leftChildExp));
                     }
                 }
 
-                // check if one of children is an arry but not the other
-                if(t->child[0]->isArray && !t->child[1]->isArray){
+                if(!rightChildErr){
+                    if(rightChildExp != rightType){
+                        if(rightChildExp != UndefinedType){
+                            if(rightChildExp == Void){
+                                if(rightChild->subkind.exp == CallK){
+                                    if(returnType != Boolean){
+                                        numErrors++;
+
+                                        printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, returnExpType(rightType), returnExpType(rightChildExp));
+                                    }
+                                }
+                            }
+                            else{
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, returnExpType(rightType), returnExpType(rightChildExp));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(leftChildIsArr || rightChildIsArr){
+            if(!strcmp(t->attr.name, "<-")){
+                if(leftChildIsArr && !rightChildIsArr){
                     numErrors++;
 
                     printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is an array and rhs is not an array.\n", t->linenum, t->attr.name);
                 }
-                if(!t->child[0]->isArray && t->child[1]->isArray){
+                else if(!leftChildIsArr && rightChildIsArr){
                     numErrors++;
 
                     printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
                 }
             }
             else{
-                // review this section. possible issues
-                t->expType = Integer;
+                if(leftType != UndefinedType){
+                    if(!strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "=") || !strcmp(t->attr.name, ">=") 
+                        || !strcmp(t->attr.name, "<=") || !strcmp(t->attr.name, "><"){
+                            if(leftChildIsArr && !rightChildIsArr){
+                                numErrors++;
 
-                // assign ops besides <- must be of type int
-                // Ex: *= += ++
-                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
-                    if(t->child[0]->expType != Integer){
-                        numErrors++;
+                                printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is an array and rhs is not an array.\n", t->linenum, t->attr.name);
+                            }
+                            else if(!leftChildIsArr && rightChildIsArr){
+                                numErrors++;
 
-                        printf("ERROR(%d): '%s' requires operands of type int but lhs is of type %s.\n", t->child[0]->linenum, t->attr.name, returnExpType(t->child[0]->expType));
+                                printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
+                            }
+                            else{
+                                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+                            }
                     }
-
-                    if(t->child[1]->expType != Integer){
-                        numErrors++;
-
-                        printf("ERROR(%d): '%s' requires operands of type int but rhs is of type %s.\n", t->child[1]->linenum, t->attr.name, returnExpType(t->child[1]->expType));
-                    }
-                }
-
-                // cannot increment-assign arrays or by arrays
-                if(t->child[0]->isArray){
-                    numErrors++;
-
-                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->child[0]->linenum, t->attr.name);
-                }
-
-                if(t->child[1]->isArray){
-                    numErrors++;
-
-                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->child[1]->linenum, t->attr.name);
                 }
             }
         }
     }
 
-    // check if 1st assign child is Var, if yes then isInit True
-    if(t->child[0]){
-            t->child[0]->isInit = true;
+    if(returnType == UndefinedType){
+        t->expType = leftChildExp;
     }
-
-    // check if var is used, "<-" does not count as used
-    if(t->child[0]){
-        if(strcmp(t->attr.name, "<-")){
-            t->child[0]->isUsed = true;
-
-            if(t->child[1]){
-                t->child[1]->isUsed = true;
-            }
-        } 
+    else{
+        t->expType = returnType;
     }
 }
 
 //function to check for errors in OpK
 void checkOpK(TreeNode *t){
-    TreeNode *leftChild;
-    TreeNode *rightChild;
+    TreeNode *leftChild, *leftLU;       // LU is for lookup
+    TreeNode *rightChild, rightLU;
+    
+    if(!strcmp(t->attr.name, "<-")){
+        if(t->child[0]){
+            if(t->child[0]->child[0] && !strcmp(t->child[0]->attr.name, "[")){
+                t->child[0]->child[0]->isInit = true;
 
-    if(t->child[0]){
-        if(t->child[0]->subkind.exp == IdK){
-            leftChild = (TreeNode *)st.lookup(t->child[0]->attr.name);
-
-            if(leftChild){
-                t->child[0]->expType = leftChild->expType;
-                t->child[0]->isArray = leftChild->isArray;
-            }
-        }
-    }
-
-    if(t->child[0] && t->child[1]){
-        t->isBinary = true;
-        t->child[0]->isUsed = true;
-        t->child[1]->isUsed = true;
-    }
-    else{
-        t->isBinary = false;
-        t->child[0]->isUsed = true;
-    }
-
-    //if the op is unary
-    if(!t->isBinary){
-
-        if(!strcmp(t->attr.name, "-")){
-            //t->expType = Integer;
-
-            //check typings for op
-            if(t->child[0]->expType != UndefinedType){
-                //t->expType is now Integer, child should be too
-                if(t->expType != t->child[0]->expType){
-                    numErrors++;
-
-                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, "chsign", "int", returnExpType(t->child[0]->expType));
+                //This needs works, missing some inits. 
+                // having to check more and more children to match files
+                if(t->child[0]->child[1]){
+                    if(t->child[0]->child[1]->child[0]){
+                        if(t->child[0]->child[1]->child[1]){
+                            // if 2 children exists, check for ops
+                            if(t->child[0]->child[1]->subkind.exp == OpK){
+                                t->child[0]->child[1]->child[0]->isInit = true;
+                                t->child[0]->child[1]->child[1]->isInit = true;
+                            }
+                        }
+                    }
+                    t->child[0]->child[1]->isInit = true;
+                }
+                // check for multiple brackets in a row [[]]
+                else if(t->child[0]->child[1]->child[0]){
+                    t->child[0]->child[1]->child[0]->isInit = true;
                 }
             }
-
-            //check for array
-            if(t->child[0]->isArray){
-                numErrors++;
-
-                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, "chsign");
-            }
-
-            t->isArray = t->child[0]->isArray;
-        }
-
-        // check sizeof op
-        if(!strcmp(t->attr.name, "*")){
-            //t->expType = Integer;
-
-            //check for array
-            if(!t->child[0]->isArray){
-                numErrors++;
-
-                printf("ERROR(%d): The operation '%s' only works with arrays.\n", t->linenum, "sizeof");
-            }
-        }
-
-        //check ? op
-        if(!strcmp(t->attr.name, "?")){
-            //t->expType = Integer;
-
-            //check typings for op
-            if(t->child[0]->expType != UndefinedType){
-                //t->expType is now Integer, child should be too
-                if(t->expType != t->child[0]->expType){
-                    numErrors++;
-
-                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, "int", returnExpType(t->child[0]->expType));
+            // more nested checks
+            else if(t->child[1] && t->child[1]->expType == Void){
+                if(t->child[1]->subkind.exp == CallK){
+                    t->child[0]->isInit = true;
                 }
-            }
+                else if(t->child[0] && t->child[1]){
+                    if(t->child[0]->subkind.exp == IdK ){
+                        if(!t->child[0]->isInit){
+                            if(t->child[1]->subkind.exp == IdK){
+                                if(strcmp(t->child[0]->attr.name, t->child[1]->attr.name)){
+                                    t->child[0]->isInit = true;
+                                }
+                            }
+                        }
+                    }
+                    else if(t->child[1]->subkind.exp == AssignK){
+                        t->child[0]->isInit = true;
 
-            //check for array
-            if(t->child[0]->isArray){
-                numErrors++;
-
-                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
-            }
-
-            t->isArray = t->child[0]->isArray;
-        }
-
-        // checks for not operation
-        if(!strcmp(t->attr.name, "not")){
-            t->expType = Boolean;
-
-            // check typings
-            if(t->child[0]->expType != UndefinedType){
-                //t->expType is now Boolean, child should be too
-                if(t->expType != t->child[0]->expType){
-                    numErrors++;
-
-                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[0]->expType));
-                }
-            }
-
-            //check for array
-            if(t->child[0]->isArray){
-                numErrors++;
-
-                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, "not");
-            }
-
-            t->isArray = t->child[0]->isArray;
-        }
-
-        // END OF UNARY
-    }
-    else{
-        // START OF BINARY
-
-        if(t->child[1]->subkind.exp == IdK){
-
-            rightChild = (TreeNode *)st.lookup(t->child[1]->attr.name);
-
-            if(rightChild){
-
-                t->child[1]->expType = rightChild->expType;
-                t->child[1]->isArray = rightChild->isArray;
-            }
-
-            // or/and have the same errors and checks
-            if(!strcmp(t->attr.name, "or") || !strcmp(t->attr.name, "and")){
-
-                t->expType = Boolean;
-
-                // check if left and right children are boolean
-                if(t->child[0]->expType != Boolean){
-                    numErrors++;
-
-                    printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[0]->expType));
-                }
-
-                if(t->child[1]->expType != Boolean){
-                    numErrors++;
-
-                    printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[1]->expType));
-                }
-
-                //check if either child is an array
-                if(t->child[0]->isArray || t->child[1]->isArray){
-                    numErrors++;
-
-                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
-                }
-            }
-            // all comparison operators are the same
-            else if(!strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "=") ||
-                    !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=") || !strcmp(t->attr.name, "!=")){
-
-                t->expType = Boolean;
-
-                //check for mathcing types of children
-                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
-                    if(t->child[0]->expType != t->child[1]->expType){
-                        numErrors++;
-
-                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
+                        if(t->child[1]->child[0]){
+                            t->child[1]->child[0]->isInit = true;
+                        }
                     }
                 }
-
-                //check if 1 child is array but other isnt
-                if(t->child[0]->isArray && !t->child[1]->isArray){
-                    numErrors++;
-
-					printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is an array and rhs is not an array.\n", t->linenum, t->attr.name);
-                }
-
-                if(!t->child[0]->isArray && t->child[1]->isArray){
-                    numErrors++;
-
-					printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
-                }
-            }
-            // check for arrays
-            else if(!strcmp(t->attr.name, "[")){
-
-                t->expType = t->child[0]->expType;
-
-                //check if child is an array
-                if(!t->child[0]->isArray){
-                    numErrors++;
-
-                    printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, t->child[0]->attr.name);
-                }
-
-                // check for index of array
-                if(t->child[1]->isArray){
-                    numErrors++;
-
-                    printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, t->child[1]->attr.name);
-                }
-
-                // check if index is Int
-                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
-                    if(t->child[1]->expType != Integer){
-                        numErrors++;
-
-                        printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, t->child[0]->attr.name, returnExpType(t->child[1]->expType));
+                else if(!strcmp(t->child[0]->attr.name, "[")){
+                    if(t->child[1]->child[0]){
+                        if(strcmp(t->child[0]->attr.name, t->child[1]->child[0]->attr.name)){
+                            t->child[0]->isInit = true;
+                        }
                     }
                 }
             }
-            // the rest of the cases are the same
             else{
-
-                //t->expType = Integer;
-
-                //check left and right typings
-                if(t->child[0]->expType != Integer){
-                    numErrors++;
-
-				    printf("ERROR(%d): '%s' requires operands of type int but lhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType));
+                //specific check for nested self assignment
+                if(t->child[1] && t->child[1]->child[0]){
+                    if(t->child[1]->child[0]->subkind.exp == IdK){
+                        if(strcmp(t->child[0]->attr.name, t->child[1]->child[0]->attr.name)){
+                            t->child[0]->isInit = true;
+                        }
+                    }
+                    else{
+                        t->child[0]->isInit = true;
+                    }
                 }
-
-                if(t->child[1]->expType != Integer){
-                    numErrors++;
-                    
-				    printf("ERROR(%d): '%s' requires operands of type int but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[1]->expType));
-                }
-
-                //check for arrays
-                if(t->child[0]->isArray || t->child[1]->isArray){
-                    numErrors++;
-
-                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+                else{
+                    t->child[0]->isInit = true;
                 }
             }
         }
-        else{
-            
-            // or/and have the same errors and checks
-            if(!strcmp(t->attr.name, "or") || !strcmp(t->attr.name, "and")){
+    }
+    ///////////////
 
-                t->expType = Boolean;
-
-                // check if left and right children are boolean
-                if(t->child[0]->expType != Boolean){
-                    numErrors++;
-
-                    printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[0]->expType));
-                }
-
-                if(t->child[1]->expType != Boolean){
-                    numErrors++;
-
-                    printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, "bool", returnExpType(t->child[1]->expType));
-                }
-
-                //check if either child is an array
-                if(t->child[0]->isArray || t->child[1]->isArray){
-                    numErrors++;
-
-                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
-                }
-            }
-            // all comparison operators are the same
-            else if(!strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "=") ||
-                    !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=") || !strcmp(t->attr.name, "!=")){
-
-                t->expType = Boolean;
-
-                //check for mathcing types of children
-                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
-                    if(t->child[0]->expType != t->child[1]->expType){
-                        numErrors++;
-
-                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType), returnExpType(t->child[1]->expType));
-                    }
-                }
-
-                //check if 1 child is array but other isnt
-                if(t->child[0]->isArray && !t->child[1]->isArray){
-                    numErrors++;
-
-					printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is an array and rhs is not an array.\n", t->linenum, t->attr.name);
-                }
-
-                if(!t->child[0]->isArray && t->child[1]->isArray){
-                    numErrors++;
-
-					printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
-                }
-            }
-            // check for arrays
-            else if(!strcmp(t->attr.name, "[")){
-
-                t->expType = t->child[0]->expType;
-
-                //check if child is an array
-                if(!t->child[0]->isArray){
-                    numErrors++;
-
-                    printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, t->child[0]->attr.name);
-                }
-
-                // check for index of array
-                if(t->child[1]->isArray){
-                    numErrors++;
-
-                    printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, t->child[1]->attr.name);
-                }
-
-                // check if index is Int
-                if(t->child[0]->expType != UndefinedType && t->child[1]->expType != UndefinedType){
-                    if(t->child[1]->expType != Integer){
-                        numErrors++;
-
-                        printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, t->child[0]->attr.name, returnExpType(t->child[1]->expType));
-                    }
-                }
-            }
-            // the rest of the cases are the same
-            else{
-
-                t->expType = Integer;
-
-                //check left and right typings
-                if(t->child[0]->expType != Integer){
-                    numErrors++;
-
-				    printf("ERROR(%d): '%s' requires operands of type int but lhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType));
-                }
-
-                if(t->child[1]->expType != Integer){
-                    numErrors++;
-                    
-				    printf("ERROR(%d): '%s' requires operands of type int but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[1]->expType));
-                }
-
-                //check for arrays
-                if(t->child[0]->isArray || t->child[1]->isArray){
-                    numErrors++;
-
-                    printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
-                }
-            }
-        }
-
-        //END OF BINARY
+    //check for sizeof array
+    if(!strcmp(t->attr.name, "*")){
+        // set this to check later
+        sizeArrFlag = true;
     }
 
-    //assign flags for vars of child[0]
+    // set used flag on ops. Assignment does not count as used
+    if(strcmp(t->attr.name, "<-")){
+        if(t->child[0]){
+            t->child[0]->isUsed = true;
+        }
+        if(t->child[1]){
+            t->child[1]->isUsed = true;
+        }
+    }
+
+    for(int i = 0; i < MAXCHILDREN; i++){
+        if(t->child[i]){
+            semanticAnalysis(t->child[i]);
+        }
+    }
+
+    //reset flag for size of array
+    sizeArrFlag = false;
+
+    // after used and init checks, need to check left and right childs of op/assign
+    ExpType leftChildExp, rightChildExp;
+    leftChildExp, rightChildExp = UndefinedType;
+
+    // default all bools to false
+    bool leftChildIsArr, rightChildIsArr;
+    bool leftChildIndexed, rightChildIndexed;
+    bool leftChildIsStr, rightChildIsStr;
+    bool leftChildErr, rightChildErr;
+    bool isBinaryOp, checkUnaryError;
+    leftChildIsArr, rightChildIsArr, leftChildIndexed, rightChildIndexed, leftChildIsStr, rightChildIsStr, leftChildErr, rightChildErr, isBinaryOp, unaryError = false;
+
+    // check types of left child
     if(t->child[0]){
-        
-        if(t->child[0]->subkind.decl == VarK || t->child[0]->subkind.decl == ParamK || t->child[0]->subkind.exp == IdK){
-            TreeNode *currentNode = (TreeNode *)st.lookup(t->child[0]->attr.name);
+        leftChild = t->child[0];
+        leftChildExp = t->child[0]->expType;
+        leftChildIsArr = t->child[0]->isArray;
 
-            if(currentNode){
-                currentNode->isUsed = true;
-
-                // check if var is inititalized
-                if(!currentNode->isInit && !currentNode->warningReported){
-                    currentNode->warningReported = true;
-
-                    numWarnings++;
-
-                    printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, currentNode->attr.name);
-                }
+        // check for expression
+        if(leftChild->nodekind == ExpK){
+            if(leftChild->subkind.exp == ConstantK){
+                leftChildIsStr = true;
             }
+            else if(leftChild->subkind.exp == CallK){
+                leftChildIsArr = false;
+            }
+        }
+
+        // check if child exists for indexing, array
+        if(leftChild->child[0]){
+            leftChildIndexed = true;
+            leftChildIsArr = false;
         }
     }
 
-    //assign flags for vars of child[1]
+    // check types of right child
     if(t->child[1]){
+        //if child 1 also exists, it is now a binary op
+        isBinaryOp = true;
+        
+        rightChild = t->child[1];
+        rightChildExp = t->child[1]->expType;
+        rightChildIsArr = t->child[1]->isArray;
 
-        if(t->child[1]->subkind.decl == VarK || t->child[1]->subkind.decl == ParamK || t->child[1]->subkind.exp == IdK){
-            TreeNode *currentNode = (TreeNode *)st.lookup(t->child[1]->attr.name);
+        // check for expression
+        if(rightChild->nodekind == ExpK){
+            if(rightChild->subkind.exp == ConstantK){
+                rightChildIsStr = true;
+            }
+            else if(rightChild->subkind.exp == CallK){
+                rightChildIsArr = false;
+            }
+        }
 
-            if(currentNode){
-                currentNode->isUsed = true;
+        // check if child exists for indexing, array
+        if(rightChild->child[1]){
+            rightChildIndexed = true;
+            rightChildIsArr = false;
+        }
+    }
 
-                // check if var is inititalized
-                if(!currentNode->isInit && !currentNode->warningReported){
-                    currentNode->warningReported = true;
+    // check for declaration errors on left and right side
+    // left child
+    if(leftChildExp == Void){
+        if(!(leftChild->nodekind == ExpK && leftChild->subkind.exp == CallK)){
+            leftChildErr = true;
+        }
+    }
+    // right child
+    if(rightChildExp == Void){
+        if(!(rightChild->nodekind == ExpK && rightChild->subkind.exp == CallK)){
+            rightChildErr = true;
+        }
+    }
 
-                    numWarnings++;
+    // check for expected return types
+    ExpType leftType, rightType, returnType;
+    leftType, rightType, returnType = UndefinedType;
 
-                    printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, currentNode->attr.name);
+    //unary types
+    if(!isBinaryOp){
+        if(!strcmp(t->attr.name, "not")){
+            leftType, rightType = Boolean;
+            returnType = Boolean;
+        }
+        if(!strcmp(t->attr.name, "*")){
+            leftType, rightType = UndefinedType;
+            returnType = Integer;
+        }
+        if(!strcmp(t->attr.name, "?") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "--") || !strcmp(t->attr.name, "++")){
+            leftType, rightType = Integer;
+            returnType = Integer;
+        }
+    }
+    //binary types
+    else{
+        if(!strcmp(t->attr.name, "+") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "*") || !strcmp(t->attr.name, "/") || !strcmp(t->attr.name, "%") ||
+            !strcmp(t->attr.name, "+=") || !strcmp(t->attr.name, "-=") || !strcmp(t->attr.name, "*=") || !strcmp(t->attr.name, "/=")){
+            
+            leftType = rightType = Integer;
+            returnType = Integer;
+            checkUnaryError = true;
+        }
+        if(!strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">=") || !strcmp(t->attr.name, "<=")){
+            leftType = rightType = CharInt;
+            returnType = Boolean;
+        }
+        if(!strcmp(t->attr.name, "==") || !strcmp(t->attr.name, "!=") || !strcmp(t->attr.name, "=")){
+            leftType = rightType = UndefinedType;
+            returnType = Boolean;
+        }
+        if(!strcmp(t->attr.name, "and") || !strcmp(t->attr.name, "or")){
+            leftType = rightType = Boolean;
+            returnType = Boolean;
+            checkUnaryError = true;
+        }
+    }
+
+    // unary errors
+    if(!isBinaryOp){
+        if(!leftChildErr){
+            if(leftChildExp != leftType && leftType != UndefinedType){
+                if(!strcmp(t->attr.name, "-")){
+                    numErrors++;
+
+                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, "chsign", returnExpType(leftType), returnExpType(rightType));
+                }
+                else{
+                    numErrors++;
+
+                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(rightType));
+                }
+            }
+            //size of only works iwth arrays
+            else if(!strcmp(t->attr.name, "*")){
+                if(!leftChildIsArr){
+                    if(leftType != UndefinedType){
+                        numErrors++;
+
+                        printf("ERROR(%d): The operation '%s' only works with arrays.\n", t->linenum, "sizeof");
+                    }
+                }
+            }
+
+            // 
+            if(leftChildIsArr){
+                if(strcmp(t->attr.name, "*")){
+                    if(!strcmp(t->attr.name, "-")){
+                        numErrors++;
+
+                        printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, "chsign");
+                    }
+                    else{
+                        numErrors++;
+
+                        printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+                    }
                 }
             }
         }
+    }
+    else{
+        //
+        if(!checkUnaryError){
+
+            // check for array errors
+            if(!strcmp(t->attr.name, "[")){
+                TreeNode *leftArrChild, *rightArrChild;
+                leftArrChild = rightArrChild = NULL;
+
+                if(t->child[0]){
+                    if(t->child[0]->subkind.exp == IdK){
+                        leftArrChild = (TreeNode *)st.lookup(t->child[0]->attr.name);
+
+                        if(leftArrChild){
+                            t->child[0]->expType = leftArrChild->expType;
+                            t->expType = leftArrChild->expType;
+                        }
+                        else if(!leftArrChild){
+                            numErrors++;
+
+                            printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, leftArrChild->attr.name);
+                        }
+                        else if(!leftArrChild->isArray){
+                            numErrors++;
+
+                            printf("ERROR(%d): Cannot index nonarray '%s'.\n", t->linenum, leftArrChild->attr.name);
+                        }
+                    }
+                }
+                if(t->child[1]){
+                    rightArrChild = t->child[1];
+
+                    if(rightArrChild->expType != Integer && rightArrChild->expType != UndefinedType){
+                        if(!(rightArrChild->subkind.decl == ParamK && rightArrChild->subkind.exp != CallK && rightArrChild->expType == Void)){
+                            printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, rightArrChild->attr.name);
+                        }
+                    }
+
+                    if(rightArrChild->subkind.exp == IdK){
+                        if(rightArrChild->isArray == true){
+                            printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, rightArrChild->attr.name);
+                        }
+                    }
+                }
+            }
+            // check for matching types of left and right
+            else if(leftChildExp != rightChildExp){
+                if(!leftChildErr && !rightChildErr){
+
+                    // check nested assignops
+                    if(!strcmp(t->attr.name, "<-") && t->child[1]->subkind.exp == OpK){
+
+                        ExpType childType = UndefinedType;
+
+                        if(!strcmp(t->child[0]->attr.name, "+") || !strcmp(t->child[0]->attr.name, "-") || !strcmp(t->child[0]->attr.name, "*") || !strcmp(t->child[0]->attr.name, "/") || !strcmp(t->child[0]->attr.name, "%") ||
+                            !strcmp(t->child[0]->attr.name, "+=") || !strcmp(t->child[0]->attr.name, "-=") || !strcmp(t->child[0]->attr.name, "*=") || !strcmp(t->child[0]->attr.name, "/=")){
+                            
+                            childType = Integer;
+                        }
+                        if(!strcmp(t->child[0]->attr.name, ">") || !strcmp(t->child[0]->attr.name, "<") || !strcmp(t->child[0]->attr.name, ">=") || !strcmp(t->child[0]->attr.name, "<=")){
+                            childType = Boolean;
+                        }
+                        if(!strcmp(t->child[0]->attr.name, "==") || !strcmp(t->child[0]->attr.name, "!=") || !strcmp(t->child[0]->attr.name, "=")){
+                            childType = Boolean;
+                        }
+                        if(!strcmp(t->child[0]->attr.name, "and") || !strcmp(t->child[0]->attr.name, "or")){
+                            childType = Boolean;
+                        }
+
+                        if(childType != leftChildExp){
+                            numErrors++;
+
+                            printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", 
+                                t->linenum, t->attr.name, returnExpType(leftChildExp), returnExpType(childType));
+                        }
+                        //more nested checks on right side of op
+                        else if(rightChild->child[1]){
+                            if(rightChild->child[1]->subkind.exp == CallK){
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", 
+                                    t->linenum, t->attr.name, returnExpType(leftChildExp), returnExpType(childType));
+                            }
+                        }
+                    }
+                    // need extra check for int on left and charint on right
+                    else if(leftChildExp == Integer && rightChildExp == CharInt){
+                        //charInt prints as char
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", 
+                            t->linenum, t->attr.name, returnExpType(leftChildExp), "char");
+                    }
+                    else if(!((leftChildExp == Char && rightChildExp == CharInt) || leftChildExp == CharInt && rightChildExp == Char)){
+                        
+                        if(leftChild->subkind.exp != CallK){
+                            numErrors++;
+
+                            printf("ERROR(%d): '%s' requires operands of the same type but lhs is type %s and rhs is type %s.\n", 
+                                t->linenum, t->attr.name, returnExpType(leftChildExp), returnExpType(rightChildExp));
+                        }
+                    }
+                }
+            }
+        }
+
+        //////
+        if(leftType != UndefinedType || rightType != UndefinedType){
+            if(leftChildExp == rightChildExp && leftChild->subkind.exp == CallK && rightChild->subkind.exp == CallK){
+
+                leftLU = (TreeNode *)st.lookup(leftChild->attr.name);
+                rightLU = (TreeNode *)st.lookup(rightChild->attr.name);
+
+                if(leftLU){
+                    if(rightLU){
+                        if(!leftLU->isIO && !rightLU->isIO){
+                            if(leftLU->subkind.decl == FuncK && rightLU->subkind.decl == FuncK){
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, returnExpType(leftType), returnExpType(leftChildExp));
+
+
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, returnExpType(rightType), returnExpType(rightChildExp));
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                if(!leftChildErr){
+                    if(leftChildExp != leftType){
+                        numErrors++;
+
+                        printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, returnExpType(leftType), returnExpType(leftChildExp));
+                    }
+                }
+
+                if(!rightChildErr){
+                    if(rightChildExp != rightType){
+                        if(rightChildExp != UndefinedType){
+                            if(rightChildExp == Void){
+                                if(rightChild->subkind.exp == CallK){
+                                    if(returnType != Boolean){
+                                        numErrors++;
+
+                                        printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, returnExpType(rightType), returnExpType(rightChildExp));
+                                    }
+                                }
+                            }
+                            else{
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, returnExpType(rightType), returnExpType(rightChildExp));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(leftChildIsArr || rightChildIsArr){
+            if(!strcmp(t->attr.name, "<-")){
+                if(leftChildIsArr && !rightChildIsArr){
+                    numErrors++;
+
+                    printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is an array and rhs is not an array.\n", t->linenum, t->attr.name);
+                }
+                else if(!leftChildIsArr && rightChildIsArr){
+                    numErrors++;
+
+                    printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
+                }
+            }
+            else{
+                if(leftType != UndefinedType){
+                    if(!strcmp(t->attr.name, "<") || !strcmp(t->attr.name, ">") || !strcmp(t->attr.name, "=") || !strcmp(t->attr.name, ">=") 
+                        || !strcmp(t->attr.name, "<=") || !strcmp(t->attr.name, "><"){
+                            if(leftChildIsArr && !rightChildIsArr){
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is an array and rhs is not an array.\n", t->linenum, t->attr.name);
+                            }
+                            else if(!leftChildIsArr && rightChildIsArr){
+                                numErrors++;
+
+                                printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
+                            }
+                            else{
+                                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+                            }
+                    }
+                }
+            }
+        }
+    }
+
+    if(returnType == UndefinedType){
+        t->expType = leftChildExp;
+    }
+    else{
+        t->expType = returnType;
     }
 }
 
 //function to check for errors in IdK
 void checkIdK(TreeNode *t){
-    TreeNode *currentNode;
+    TreeNode *currentNode = (TreeNode *)st.lookup(t->attr.name);
 
-    t->expType = UndefinedType;
-    currentNode = (TreeNode *)st.lookup(t->attr.name);
-
-    // if t is not found in st
     if(!currentNode){
-        if(!t->declErrReport){
-            numErrors++;
+
+        if(insideRange && position == 1){
+            t->isDeclared = true;
+        }
+        else{
             t->declErrReport = true;
+            numErrors++;
 
             printf("ERROR(%d): Symbol '%s' is not declared.\n", t->linenum, t->attr.name);
         }
     }
-    //node is found
-    else{
-        t->expType = currentNode->expType;
-        t->isArray = currentNode->isArray;
-        t->isInit = currentNode->isInit;
+    else if(insideRange){
+        if(!insideFor){
+            if(currentNode->isDeclared){
+                if(!currentNode->warningReported){
+                    if(!currentNode->isInit && !currentNode->isStatic && !currentNode->isGlobal){
+                        if(t->isInit){
+                            currentNode->isInit = true;
+                        }
+                        else{
+                            numErrors++;
 
-        // id cannot be a function
-        if(currentNode->subkind.decl == FuncK){
+                            printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->attr.name);
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            t->expType = currentNode->expType;
+            t->isArray = currentNode->isArray;
+
+            if(position >= 1){
+                if(t->expType != Integer){
+                    if(!sizeArrFlag){
+                        if(strcmp(t->attr.name, "main")){
+                            numErrors++;
+
+                            printf("ERROR(%d): Expecting type %s in position %d in range of for statement but got type %s.\n", t->linenum, "int", position, returnExpType(t->expType));
+                        }
+                        else{
+                            numErrors++;
+
+                            printf("ERROR(%d): Cannot use function '%s' as a variable.\n", t->linenum, t->attr.name);
+                        }
+                    }
+                }
+            }
+
+            if(!currentNode->isInit){
+                if(position >= 1){
+                    if(currentNode->isDeclared){
+                        if(!currentNode->warningReported){
+                            if(!currentNode->isStatic && !currentNode->isGlobal){
+                                if(!t->isInit){
+                                    numWarnings++;
+
+                                    printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->attr.name);
+
+                                    currentNode->warningReported = true;
+                                    currentNode->isUsed = true;
+                                }
+                                else{
+                                    currentNode->isInit = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if(currentNode->isInit){
+                if(position > 1){
+                    currentNode->isUsed = true;
+                }
+            }
+
+            if(currentNode->isArray){
+                if(!t->indexFound){
+                    if(!sizeArrFlag){
+                        numErrors++;
+
+                        printf("ERROR(%d): Cannot use array in position %d in range of for statement.\n", t->linenum, position);
+                    }
+                }
+            }
+
+            t->indexFound = false;
+        }
+
+        t->isInit = true;
+    }
+    else{
+        if(currentNode->subkind.decl != FuncK){
+            t->expType = currentNode->expType;
+            t->isArray = currentNode->isArray;
+            t->isGlobal = currentNode->isGlobal;
+            t->isStatic = currentNode->isStatic;
+
+            if(!insideRange){
+                if(currentNode->subkind.decl != FuncK){
+                    currentNode->isUsed = true;
+                }
+            }
+        }
+        else{
             numErrors++;
 
             printf("ERROR(%d): Cannot use function '%s' as a variable.\n", t->linenum, t->attr.name);
+            
+            currentNode->isUsed = true;
+        }
+
+        if(currentNode->isDeclared){
+            if(!currentNode->warningReported){
+                if(!currentNode->isStatic && !currentNode->isGlobal){
+                    if(!t->isInit){
+                        numWarnings++;
+
+                        printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->attr.name);
+
+                        currentNode->warningReported = true;
+                    }
+                    else{
+                        currentNode->isInit = true;
+                    }
+                }
+            }
+        }
+
+        if(t->child[0]){
+            semanticAnalysis(t->child[0]);
+
+            if(t->isArray){
+                if(t->child[0]->isArray){
+                    if(!t->child[0]->child[0]){
+                        numErrors++;
+
+                        printf("ERROR(%d): Array index is the unindexed array '%s'.\n", t->linenum, t->attr.name);
+                    }
+                }
+
+                if(t->child[0]->expType != Integer){
+                    numErrors++;
+
+                    printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType));
+                }                
+            }
         }
     }
 }
