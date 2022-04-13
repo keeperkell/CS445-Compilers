@@ -1118,8 +1118,7 @@ void checkAssignOpK(TreeNode *t){
                             }
                             
                             else{
-                                //printf("\t----> Line 115, Before rightChildExp != rightType\n");
-                                if(strcmp(returnExpType(rightType), returnExpType(rightChildExp))){
+                                if(strcmp(returnExpType(rightChildExp), returnExpType(rightType))){
                                     numErrors++;
 
                                     /*
