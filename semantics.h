@@ -15,7 +15,7 @@
 
 void semanticAnalysis(TreeNode *);
 
-void checkAssignK(TreeNode *);
+void checkAssignOpK(TreeNode *);
 void checkOpK(TreeNode *);
 void checkIdK(TreeNode *);
 char *returnExpType(ExpType);
