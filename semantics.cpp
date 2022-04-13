@@ -675,7 +675,7 @@ void semanticAnalysis(TreeNode *t){
 //function to check for errors in AssignK
 void checkAssignK(TreeNode *t){
     TreeNode *leftChild, *leftLU;       // LU is for lookup
-    TreeNode *rightChild, rightLU;
+    TreeNode *rightChild, *rightLU;
     
     if(!strcmp(t->attr.name, "<-")){
         if(t->child[0]){
@@ -787,7 +787,7 @@ void checkAssignK(TreeNode *t){
     bool leftChildIsStr, rightChildIsStr;
     bool leftChildErr, rightChildErr;
     bool isBinaryOp, checkUnaryError;
-    leftChildIsArr, rightChildIsArr, leftChildIndexed, rightChildIndexed, leftChildIsStr, rightChildIsStr, leftChildErr, rightChildErr, isBinaryOp, unaryError = false;
+    leftChildIsArr, rightChildIsArr, leftChildIndexed, rightChildIndexed, leftChildIsStr, rightChildIsStr, leftChildErr, rightChildErr, isBinaryOp, checkUnaryError = false;
 
     // check types of left child
     if(t->child[0]){
@@ -972,7 +972,7 @@ void checkAssignK(TreeNode *t){
 
                     if(rightArrChild->expType != Integer && rightArrChild->expType != UndefinedType){
                         if(!(rightArrChild->subkind.decl == ParamK && rightArrChild->subkind.exp != CallK && rightArrChild->expType == Void)){
-                            printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, rightArrChild->attr.name);
+                            printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, rightArrChild->attr.name, returnExpType(rightArrChild->expType));
                         }
                     }
 
