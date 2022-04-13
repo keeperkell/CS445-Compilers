@@ -1119,7 +1119,7 @@ void checkAssignOpK(TreeNode *t){
                                     printf("----> VS Code Line 1116 && LineNum: %d\n", t->linenum);
                                     printf("\t----> rightChildExp: %d, rightType: %d\n", rightChildExp, rightType);
                                     printf("\t----> rightChildExp: %s, rightType: %s\n", rightChildTypeStr, rightTypeStr);
-                                    printf("\t\t----> strcmp Bool: %d\n", rightChildTypeStr, rightTypeStr);
+                                    printf("\t\t----> strcmp Bool: %d\n", strcmp(rightChildTypeStr, rightTypeStr));
 
                                     printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->child[0]->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
                                 }
