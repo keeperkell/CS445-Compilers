@@ -285,12 +285,31 @@ void SymbolTable::applyToAllGlobal(void (*action)(std::string , void *))
 void checkIfUsed(std::string, void *symbol){
     TreeNode *tmp = (TreeNode *)symbol;
 
-    if(!tmp->isUsed){
-        numWarnings++;
+    if(tmp->subkind.decl == ParamK){
+        if(!tmp->isUsed){
+            numWarnings++;
 
-        printf("WARNING(%d): The variable '%s' seems not to be used.\n", tmp->linenum, tmp->attr.name);
+            printf("WARNING(%d): The parameter '%s' seems not to be used.\n", tmp->linenum, tmp->attr.name);
 
+        }
     }
+    else if( tmp->subkind.decl == VarK){
+        if(!tmp->isUsed){
+            numWarnings++;
+
+            printf("WARNING(%d): The variable '%s' seems not to be used.\n", tmp->linenum, tmp->attr.name);
+
+        }
+    }
+    else if(tmp->subkind.decl == FuncK){
+        if(!tmp->isUsed){
+            numWarnings++;
+
+            printf("WARNING(%d): The function '%s' seems not to be used.\n", tmp->linenum, tmp->attr.name);
+
+        }
+    }
+    
 
     // write subtype ifs for different warning prints
 }
