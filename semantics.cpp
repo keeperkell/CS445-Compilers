@@ -553,12 +553,13 @@ void semanticAnalysis(TreeNode *t){
                         // Need to have logic specific for each side, starting with left
                         // to account for unary
                         
-                        
+                        /* 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
                                 semanticAnalysis(t->child[i]);
                             }
                         }
+                        */
 
                         checkOpK(t);
 
@@ -859,15 +860,15 @@ void checkAssignK(TreeNode *t){
     //unary types
     if(!isBinaryOp){
         if(!strcmp(t->attr.name, "not")){
-            leftType, rightType = Boolean;
+            leftType = rightType = Boolean;
             returnType = Boolean;
         }
         if(!strcmp(t->attr.name, "*")){
-            leftType, rightType = UndefinedType;
+            leftType = rightType = UndefinedType;
             returnType = Integer;
         }
         if(!strcmp(t->attr.name, "?") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "--") || !strcmp(t->attr.name, "++")){
-            leftType, rightType = Integer;
+            leftType = rightType = Integer;
             returnType = Integer;
         }
     }
@@ -902,12 +903,13 @@ void checkAssignK(TreeNode *t){
                 if(!strcmp(t->attr.name, "-")){
                     numErrors++;
 
-                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, "chsign", returnExpType(leftType), returnExpType(rightType));
+                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, "chsign", returnExpType(leftType), returnExpType(leftChildExp));
                 }
                 else{
                     numErrors++;
+                
 
-                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(rightType));
+                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
                 }
             }
             //size of only works iwth arrays
@@ -921,7 +923,6 @@ void checkAssignK(TreeNode *t){
                 }
             }
 
-            // 
             if(leftChildIsArr){
                 if(strcmp(t->attr.name, "*")){
                     if(!strcmp(t->attr.name, "-")){
@@ -1046,7 +1047,7 @@ void checkAssignK(TreeNode *t){
 
         //////
         if(leftType != UndefinedType || rightType != UndefinedType){
-            if(leftChildExp == rightChildExp && leftChild->subkind.exp == CallK && rightChild->subkind.exp == CallK){
+            if(leftChildExp != rightChildExp && leftChild->subkind.exp == CallK && rightChild->subkind.exp == CallK){
 
                 leftLU = (TreeNode *)st.lookup(leftChild->attr.name);
                 rightLU = (TreeNode *)st.lookup(rightChild->attr.name);
@@ -1055,12 +1056,17 @@ void checkAssignK(TreeNode *t){
                     if(rightLU){
                         if(!leftLU->isIO && !rightLU->isIO){
                             if(leftLU->subkind.decl == FuncK && rightLU->subkind.decl == FuncK){
+
                                 numErrors++;
+
+                                //printf("----> leftChildExp: %s, leftType: %s\n", returnExpType(leftChildExp), returnExpType(leftType));
 
                                 printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
 
 
                                 numErrors++;
+
+                                //printf("----> rightChildExp: %s, rightType: %s\n", returnExpType(rightChildExp), returnExpType(rightType));
 
                                 printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
                             }
@@ -1072,6 +1078,8 @@ void checkAssignK(TreeNode *t){
                 if(!leftChildErr){
                     if(leftChildExp != leftType){
                         numErrors++;
+
+                        //printf("----> leftChildExp: %s, leftType: %s\n", returnExpType(leftChildExp), returnExpType(leftType));
 
                         printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
                     }
@@ -1085,12 +1093,16 @@ void checkAssignK(TreeNode *t){
                                     if(returnType != Boolean){
                                         numErrors++;
 
+                                        //printf("----> leftChildExp: %s, leftType: %s\n", returnExpType(leftChildExp), returnExpType(leftType));
+
                                         printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
                                     }
                                 }
                             }
                             else{
                                 numErrors++;
+
+                                //printf("----> leftChildExp: %s, leftType: %s\n", returnExpType(leftChildExp), returnExpType(leftType));
 
                                 printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
                             }
@@ -1331,15 +1343,15 @@ void checkOpK(TreeNode *t){
     //unary types
     if(!isBinaryOp){
         if(!strcmp(t->attr.name, "not")){
-            leftType, rightType = Boolean;
+            leftType = rightType = Boolean;
             returnType = Boolean;
         }
         if(!strcmp(t->attr.name, "*")){
-            leftType, rightType = UndefinedType;
+            leftType = rightType = UndefinedType;
             returnType = Integer;
         }
         if(!strcmp(t->attr.name, "?") || !strcmp(t->attr.name, "-") || !strcmp(t->attr.name, "--") || !strcmp(t->attr.name, "++")){
-            leftType, rightType = Integer;
+            leftType = rightType = Integer;
             returnType = Integer;
         }
     }
@@ -1374,12 +1386,12 @@ void checkOpK(TreeNode *t){
                 if(!strcmp(t->attr.name, "-")){
                     numErrors++;
 
-                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, "chsign", returnExpType(leftType), returnExpType(rightType));
+                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, "chsign", returnExpType(leftType), returnExpType(leftChildExp));
                 }
                 else{
-                    numErrors++;
+                    numErrors++;            
 
-                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(rightType));
+                    printf("ERROR(%d): Unary '%s' requires an operand of type %s but was given type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
                 }
             }
             //size of only works iwth arrays
@@ -1393,7 +1405,6 @@ void checkOpK(TreeNode *t){
                 }
             }
 
-            // 
             if(leftChildIsArr){
                 if(strcmp(t->attr.name, "*")){
                     if(!strcmp(t->attr.name, "-")){
@@ -1517,8 +1528,8 @@ void checkOpK(TreeNode *t){
         }
 
         //////
-        if(leftType != UndefinedType || rightType != UndefinedType){
-            if(leftChildExp == rightChildExp && leftChild->subkind.exp == CallK && rightChild->subkind.exp == CallK){
+        else if(leftType != UndefinedType || rightType != UndefinedType){
+            if(leftChildExp != rightChildExp && leftChild->subkind.exp == CallK && rightChild->subkind.exp == CallK){
 
                 leftLU = (TreeNode *)st.lookup(leftChild->attr.name);
                 rightLU = (TreeNode *)st.lookup(rightChild->attr.name);
@@ -1529,10 +1540,14 @@ void checkOpK(TreeNode *t){
                             if(leftLU->subkind.decl == FuncK && rightLU->subkind.decl == FuncK){
                                 numErrors++;
 
+                                //printf("----> leftChildExp: %s, leftType: %s\n", returnExpType(leftChildExp), returnExpType(leftType));
+
                                 printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
 
 
                                 numErrors++;
+
+                                //printf("----> rightChildExp: %s, rightType: %s\n", returnExpType(rightChildExp), returnExpType(rightType));
 
                                 printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
                             }
@@ -1544,6 +1559,8 @@ void checkOpK(TreeNode *t){
                 if(!leftChildErr){
                     if(leftChildExp != leftType){
                         numErrors++;
+
+                        //printf("----> leftChildExp: %s, leftType: %s\n", returnExpType(leftChildExp), returnExpType(leftType));
 
                         printf("ERROR(%d): '%s' requires operands of type %s but lhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(leftType), returnExpType(leftChildExp));
                     }
@@ -1557,12 +1574,16 @@ void checkOpK(TreeNode *t){
                                     if(returnType != Boolean){
                                         numErrors++;
 
+                                        //printf("----> leftChildExp: %s, leftType: %s\n", returnExpType(leftChildExp), returnExpType(leftType));
+
                                         printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
                                     }
                                 }
                             }
                             else{
                                 numErrors++;
+
+                                //printf("----> leftChildExp: %s, leftType: %s\n", returnExpType(leftChildExp), returnExpType(leftType));
 
                                 printf("ERROR(%d): '%s' requires operands of type %s but rhs is of type %s.\n", t->linenum, t->attr.name, returnExpType(rightType), returnExpType(rightChildExp));
                             }
