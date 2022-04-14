@@ -44,6 +44,7 @@ void semanticAnalysis(TreeNode *t){
         return;
     }
     else{
+        //printf("----->insideScope: %d\n",insideScope);
         
         switch(t->nodekind){
             case DeclK:
@@ -243,7 +244,7 @@ void semanticAnalysis(TreeNode *t){
                         //printf("StmtK->IfK\n");
 
                         //enter loop
-                        insideScope = true;
+                        //insideScope = true;
                         st.enter(t->attr.name);
 
                         for(int i = 0; i < MAXCHILDREN; i++){
@@ -273,7 +274,7 @@ void semanticAnalysis(TreeNode *t){
                         }
 
                         //exit loop
-                        insideScope = false;
+                        //insideScope = false;
 
                         //check if vars were used
                         st.applyToAll(checkIfUsed);
@@ -330,7 +331,6 @@ void semanticAnalysis(TreeNode *t){
                     
                         //enter loop
                         st.enter(t->attr.name);
-                        insideScope = true;
                         insideFor = true;
                         loopDepth++;
 
@@ -356,7 +356,6 @@ void semanticAnalysis(TreeNode *t){
                         }
                         //exit loop
                         insideFor = false;
-                        insideScope = false;
 
                         break;
 
@@ -479,7 +478,7 @@ void semanticAnalysis(TreeNode *t){
                     case BreakK:
                         
                         // if scope depth is less than or equal to 2, then on global or func scope
-                        if(insideScope){
+                        if(st.depth() <= 1){
                             numErrors++;
 
                             printf("ERROR(%d): Cannot have a break statement outside of loop.\n", t->linenum);
@@ -904,11 +903,9 @@ void checkAssignOpK(TreeNode *t){
         //size of only works iwth arrays
         else if(!strcmp(t->attr.name, "*")){
             if(!leftChildIsArr){
-                if(leftType != UndefinedType){
-                    numErrors++;
+                numErrors++;
 
-                    printf("ERROR(%d): The operation '%s' only works with arrays.\n", t->linenum, "sizeof");
-                }
+                printf("ERROR(%d): The operation '%s' only works with arrays.\n", t->linenum, "sizeof");
             }
         }
 
@@ -972,7 +969,7 @@ void checkAssignOpK(TreeNode *t){
 
                     if(rightArrChild->expType != Integer && rightArrChild->expType != UndefinedType){
                         if(!(rightArrChild->subkind.decl == ParamK && rightArrChild->subkind.exp != CallK && rightArrChild->expType == Void)){
-                            printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, rightArrChild->attr.name, returnExpType(rightArrChild->expType));
+                            printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, leftArrChild->attr.name, returnExpType(rightArrChild->expType));
                         }
                     }
 
@@ -1167,8 +1164,11 @@ void checkAssignOpK(TreeNode *t){
                                 printf("ERROR(%d): '%s' requires both operands be arrays or not but lhs is not an array and rhs is an array.\n", t->linenum, t->attr.name);
                             }
                             else{
-                                printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+                                //printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
                             }
+                    }
+                    else{
+                        printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
                     }
                 }
             }
@@ -1332,7 +1332,7 @@ void checkIdK(TreeNode *t){
                 if(t->child[0]->expType != Integer){
                     numErrors++;
 
-                    printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, t->attr.name, returnExpType(t->child[0]->expType));
+                    printf("ERROR(%d): Array '%s' should be indexed by type int but got type %s.\n", t->linenum, t->child[0]->attr.name, returnExpType(t->child[0]->expType));
                 }                
             }
         }
@@ -1411,7 +1411,7 @@ void checkCallParams(TreeNode *lookUp, TreeNode *lu_Child, TreeNode *t, TreeNode
         else if(t_Child->sibling && lu_Child->sibling){
             paramNum++;
 
-            checkCallParams(lookUp, lu_Child, t, t_Child->sibling, paramNum);
+            checkCallParams(lookUp, lu_Child->sibling, t, t_Child->sibling, paramNum);
         }
     }
     
