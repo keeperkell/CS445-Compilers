@@ -30,6 +30,13 @@ bool hasReturn = false;
 bool sizeArrFlag = false;
 char *curScope;
 
+// mem vars
+int goffset = 0;
+int foffset = -2;
+int localoffset = 0;
+int globalMem;
+#define MEMSIZE -2
+
 ExpType expectReturnType = Void;
 
 extern void checkIfUsed(std::string, void *symbol);
@@ -175,6 +182,41 @@ void semanticAnalysis(TreeNode *t){
                             t->isDeclared = true;
                         }
 
+                        // mem assign checks
+                        if(st.depth() == 1){
+                            t->memKind = Global;
+
+                            if(t->isArray){
+                                t->offset = goffset - 1;
+                            }
+                            else{
+                                t->offset = goffset;
+                            }
+                            goffset = goffset - t->memSize;
+                        }
+                        else if(t->isStatic){
+                            t->memKind = LocalStatic;
+
+                            if(t->isArray){
+                                t->offset = goffset - 1;
+                            }
+                            else{
+                                t->offset = goffset;
+                            }
+                            goffset = goffset - t->memSize;
+                        }
+                        else{
+                            t->memKind = Local;
+
+                            if(t->isArray){
+                                t->offset = goffset - 1;
+                            }
+                            else{
+                                t->offset = goffset;
+                            }
+                            goffset = goffset - t->memSize;
+                        }
+
                         break;
 
                     case FuncK:
@@ -213,6 +255,11 @@ void semanticAnalysis(TreeNode *t){
                         }
                         insideScope = false;
 
+                        // mem assign checks
+                        t->memKind = Global;
+                        t->memSize = globalMem;
+                        globalMem = MEMSIZE;
+
                         break;
 
                     case ParamK:
@@ -230,6 +277,11 @@ void semanticAnalysis(TreeNode *t){
                             semanticAnalysis(t->child[i]);
                         }
 
+                        globalMem--;
+                        t->memKind = Parameter;
+                        t->offset = foffset;
+                        foffset = foffset - t->memSize;
+
                         break;
                 }
                 break;
@@ -246,6 +298,7 @@ void semanticAnalysis(TreeNode *t){
                         //enter loop
                         //insideScope = true;
                         st.enter(t->attr.name);
+                        localoffset = foffset;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[0]){
@@ -278,8 +331,12 @@ void semanticAnalysis(TreeNode *t){
 
                         //check if vars were used
                         st.applyToAll(checkIfUsed);
-
                         st.leave();
+
+                        // do memory assigns
+                        foffset = localoffset;
+                        //t->memSize = foffset;
+
                         break;
 
                     // multiple cases in a row without a break default to the last cases code
@@ -289,6 +346,7 @@ void semanticAnalysis(TreeNode *t){
                         st.enter(t->attr.name);
                         insideScope = true;
                         loopDepth++;
+                        localoffset = foffset;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
@@ -325,6 +383,10 @@ void semanticAnalysis(TreeNode *t){
                             loopDepth--;
                         }
 
+                        // do memory assigns
+                        foffset = localoffset;
+                        //t->memSize = foffset;
+
                         break;
 
                     case ForK:
@@ -333,6 +395,7 @@ void semanticAnalysis(TreeNode *t){
                         st.enter(t->attr.name);
                         insideFor = true;
                         loopDepth++;
+                        localoffset = foffset;
 
                         for(int i = 0; i < MAXCHILDREN; i++){
                             if(t->child[i]){
@@ -357,6 +420,10 @@ void semanticAnalysis(TreeNode *t){
                         //exit loop
                         insideFor = false;
 
+                        // do memory assigns
+                        foffset = localoffset;
+                        //t->memSize = foffset;
+                        
                         break;
 
                     case CompoundK:
@@ -368,6 +435,7 @@ void semanticAnalysis(TreeNode *t){
                         if(!tempScope){
                             st.enter("compound");
                             scopeDepth++;
+                            localoffset = foffset;
                         }
                         else{
                             insideScope = false;
@@ -385,8 +453,13 @@ void semanticAnalysis(TreeNode *t){
 
                             st.leave();
                             scopeDepth--;
+                            foffset = localoffset;
                         }
                         
+                        // do memory assigns
+                        //t->memSize = foffset;
+                        t->memKind = None;
+
                         break;
                     }
 
@@ -564,6 +637,13 @@ void semanticAnalysis(TreeNode *t){
                                     printf("ERROR(%d): Expecting type int in position %d in range of for statement but got type %s.\n", t->linenum, position, returnExpType(t->expType));
                                 }
                             }
+                        }
+
+                        // do memory assigns
+                        if(t->isArray){
+                            t->memKind = Global;
+                            t->offset = goffset - 1;
+                            goffset = goffset - t->memSize;
                         }
                         
                         break;
@@ -1278,6 +1358,10 @@ void checkIdK(TreeNode *t){
         }
 
         t->isInit = true;
+
+        t->memKind = currentNode->memKind;
+        t->offset = currentNode->offset;
+        t->memSize = currentNode->memSize;
     }
     else{
         if(currentNode->subkind.decl != FuncK){
@@ -1336,6 +1420,10 @@ void checkIdK(TreeNode *t){
                 }                
             }
         }
+
+        t->memKind = currentNode->memKind;
+        t->offset = currentNode->offset;
+        t->memSize = currentNode->memSize;
     }
 }
 

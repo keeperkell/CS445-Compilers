@@ -32,6 +32,7 @@ TreeNode *newDeclNode(DeclKind kind, TokenData* token){
             t->linenum = token->linenum;
             t->expType = Void;
             t->attr.name = strdup(token->tokeninput);
+            t->memSize = 1;
         }
     }
 
@@ -54,6 +55,7 @@ TreeNode *newStmtNode(StmtKind kind, TokenData *token){
             t->linenum = token->linenum;
             t->expType = Void;
             t->attr.name = strdup(token->tokeninput);
+            t->memSize = 1;
         }
     }
 
@@ -75,6 +77,7 @@ TreeNode *newExpNode(ExpKind kind, TokenData *token){
             t->subkind.exp = kind;
             t->linenum = token->linenum;
             t->expType = Void;
+            t->memSize = 1;
         }
     }
 
@@ -105,7 +108,7 @@ TreeNode *addSibling(TreeNode *t, TreeNode *s){
 }
 
 // Print Tree
-void printTree(TreeNode *t, bool typing_option, int numSiblings){
+void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping){
     int i;
     bool W_TYPING = typing_option;
     int countSibs = 0;
@@ -123,16 +126,26 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings){
                             
                             printf("Var: %s is array of type ",t->attr.name);
                             getExpType(t->expType);
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                             printf(" [line: %d]\n", t->linenum);
+                            
                         }
                         else if(t->isStatic){
                             printf("Var: %s of static type ",t->attr.name);
                             getExpType(t->expType);
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                             printf(" [line: %d]\n", t->linenum);
                         }
                         else{
                             printf("Var: %s of type ", t->attr.name);
                             getExpType(t->expType);
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                             printf(" [line: %d]\n", t->linenum);
                         }
                         break;
@@ -140,6 +153,9 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings){
                     case FuncK:
                         printf("Func: %s returns type ", t->attr.name);
                         getExpType(t->expType);
+                        if(memTyping){
+                            printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                        }
                         printf(" [line: %d]\n", t->linenum);
                         break;
 
@@ -147,11 +163,17 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings){
                         if(t->isArray){
                             printf("Parm: %s is array of type ", t->attr.name);
                             getExpType(t->expType);
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                             printf(" [line: %d]\n", t->linenum);
                         }
                         else{
                             printf("Parm: %s of type ", t->attr.name);
                             getExpType(t->expType);
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                             printf(" [line: %d]\n", t->linenum);
                         }
 
@@ -178,11 +200,19 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings){
                         break;
 
                     case ForK:
-                        printf("For [line: %d]\n", t->linenum);
+                        printf("For ");
+                        if(memTyping){
+                            printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                        }
+                        printf(" [line: %d]\n", t->linenum);
                         break;
 
                     case CompoundK:
-                        printf("Compound [line: %d]\n", t->linenum);
+                        printf("Compound ");
+                        if(memTyping){
+                            printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                        }
+                        printf(" [line: %d]\n", t->linenum);
                         break;
 
                     case ReturnK:
@@ -299,6 +329,9 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings){
                                 getExpType(t->expType);
                             }
                         }
+                        if(memTyping){
+                            printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                        }
                         printf(" [line: %d]\n", t->linenum);
                         break;
 
@@ -405,4 +438,30 @@ void assignTyping(TreeNode *t, ExpType type){
             tmp = tmp->sibling;
         }
     }
+}
+
+char *returnMemKind(VarKind kind){
+    char *str;
+
+    switch(kind){
+        case None:
+            str = strdup("None");
+            break;
+        case Local:
+            str = strdup("Local");
+            break;
+        case Global:
+            str = strdup("Local");
+            break;
+        case Parameter:
+            str = strdup("Local");
+            break;
+        case LocalStatic:
+            str = strdup("Local");
+            break;
+        default:
+            break;
+    }
+
+    return str;
 }

@@ -123,6 +123,7 @@ varDeclId     : ID                                              { $$ = newDeclNo
                                                                   $$->attr.name = $1->tokeninput;
                                                                   $$->isArray = true;
                                                                   $$->expType = UndefinedType;
+                                                                  $$->memSize = $3->nvalue +1;  // ID[NUMCONST] NUMCONST+1 is num of items in array + 1 to hold size
                                                                 }
               | ID LBRACKET error                               { $$ = NULL; }
               | error RBRACKET                                  { $$ = NULL; 
@@ -543,20 +544,24 @@ argList       : argList COMMA exp                               { $$ = addSiblin
 constant      : NUMCONST                                        { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.value = $1->nvalue; 
                                                                   $$->expType = Integer;
+                                                                  $$->memSize = 1;
                                                                 }
               | CHARCONST                                       { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.cvalue = $1->cvalue; 
                                                                   $$->expType = Char;
+                                                                  $$->memSize = 1;
                                                                 }
               | STRINGCONST                                     { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.string = $1->svalue; 
                                                                   $$->expType = Char;
                                                                   $$->isArray = true;
+                                                                  $$->memSize = $1->strlength + 1;
                                                                 }
               | BOOLCONST                                       { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.value = $1->nvalue; 
                                                                   $$->expType = Boolean;
                                                                   $$->attr.name = $1->tokeninput;
+                                                                  $$->memSize = 1;
                                                                 }
               ;
 
@@ -609,8 +614,9 @@ int main(int argc, char *argv[])
             printf("-d          - turn on parser debugging\n");
             printf("-D          - turn on symbol table debugging\n");
             printf("-h          - print this usage message\n");
-            printf("-p          - print the abstract syntax tree");
-            printf("-P          - print the abstract syntax tree plus type information");     
+            printf("-M          - print the abstract syntax tree with memory locations\n");
+            printf("-p          - print the abstract syntax tree\n");
+            printf("-P          - print the abstract syntax tree plus type information\n");     
             break; 
         }
       }
@@ -622,7 +628,7 @@ int main(int argc, char *argv[])
           switch(option){
             case 'p':
               W_TYPING = false;
-              printTree(AST, W_TYPING, 0);
+              printTree(AST, W_TYPING, 0, false);
               break;
 
             case 'P':
@@ -635,7 +641,6 @@ int main(int argc, char *argv[])
               funcMainNode = (TreeNode *)st.lookup("main");
               
               //NEED To FIX MAIN LINKER 
-              
               // if main doesnt exist, print error
               if(funcMainNode){
                   if(funcMainNode->nodekind == DeclK && funcMainNode->subkind.decl != FuncK){
@@ -655,14 +660,45 @@ int main(int argc, char *argv[])
                   printf("ERROR(LINKER): A function named \'main\' with no parameters must be defined.\n");
               }
               
-
+              // if no errors, print tree with memory flag set to false
               if(!numErrors){
                 W_TYPING = true;
-                printTree(AST, W_TYPING, 0);
+                printTree(AST, W_TYPING, 0, false);
               }
               
               break;
+            case 'M':
+              IOconstructor();
+              
+              semanticAnalysis(AST);
 
+              funcMainNode = (TreeNode *)st.lookup("main");
+              
+              //NEED To FIX MAIN LINKER 
+              // if main doesnt exist, print error
+              if(funcMainNode){
+                  if(funcMainNode->nodekind == DeclK && funcMainNode->subkind.decl != FuncK){
+                      numErrors++;
+                              
+                      printf("ERROR(LINKER): A function named \'main\' with no parameters must be defined.\n");
+                  }
+                  else if(funcMainNode->child[0] && funcMainNode->child[0]->subkind.decl == ParamK){
+                      numErrors++;
+                              
+                      printf("ERROR(LINKER): A function named \'main\' with no parameters must be defined.\n");
+                  }
+              }
+              else{
+                  numErrors++;
+                              
+                  printf("ERROR(LINKER): A function named \'main\' with no parameters must be defined.\n");
+              }
+              
+              // if no errors, print tree with memory flag set to true
+              if(!numErrors){
+                W_TYPING = true;
+                printTree(AST, W_TYPING, 0, true);
+              }
             default:
               break;
           }

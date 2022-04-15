@@ -83,6 +83,10 @@ typedef struct treeNode{
     bool isErr;                                 // set when error found, do not print warnings
     bool declErrReport;                         // stops printing same decl error more than once
 
+    int memSize;                                // record size of memory
+    int offset;                                 // mem offset
+    VarKind memKind;                            // type of memory
+
 } TreeNode;
 
 // Functions
@@ -91,9 +95,10 @@ TreeNode *newStmtNode(StmtKind kind, TokenData* token);
 TreeNode *newExpNode(ExpKind kind, TokenData* token); 
 TreeNode *addSibling(TreeNode *t, TreeNode *s);
 
-void printTree(TreeNode *t, bool typing_option, int numSiblings);
+void printTree(TreeNode *t, bool typing_option, int numSiblings, bool wTyping);
 void getExpType(ExpType t);
 void printWhiteSpace(int WS);
 void assignTyping(TreeNode *t, ExpType type);
+char *returnMemKind(VarKind kind);
 
 #endif
