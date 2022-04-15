@@ -373,7 +373,13 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                 WS++;
                 printWhiteSpace(WS);
                 printf("Child: %d ", i);
-                printTree(t->child[i], W_TYPING, 0);
+                if(memTyping){
+                    printTree(t->child[i], W_TYPING, 0, true);
+                }
+                else{
+                    printTree(t->child[i], W_TYPING, 0, false);
+                }
+                
                 WS--;
             }
         }
