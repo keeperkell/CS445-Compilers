@@ -1,0 +1,44 @@
+====================================
+FILE: memory2.c-
+WARNING(8): The parameter 'b' seems not to be used.
+WARNING(23): Variable 'i' may be uninitialized when used here.
+WARNING(23): Variable 'b' may be uninitialized when used here.
+WARNING(20): The variable 'ab' seems not to be used.
+WARNING(19): The variable 'ai' seems not to be used.
+Var: u of type int [mem: Global loc: 0 size: 1] [line: 5]
+Sibling: 1  Var: v of array of type bool [mem: Global loc: -2 size: 5] [line: 6]
+Sibling: 2  Func: polgara returns type int [mem: Global loc: 0 size: -4] [line: 8]
+.   Child: 0  Parm: a of type int [mem: Parameter loc: -2 size: 1] [line: 8]
+.   Sibling: 1  Parm: b of type bool [mem: Parameter loc: -3 size: 1] [line: 8]
+.   Child: 1  Compound [mem: None loc: 0 size: -5] [line: 9]
+.   .   Child: 0  Var: x of type int [mem: Local loc: -4 size: 1] [line: 10]
+.   .   Child: 1  Assign: <- of type int [line: 11]
+.   .   .   Child: 0  Id: x of type int [mem: Local loc: -4 size: 1] [line: 11]
+.   .   .   Child: 1  Id: a of type int [mem: Parameter loc: -2 size: 1] [line: 11]
+.   .   Sibling: 1  Return [line: 12]
+.   .   .   Child: 0  Id: x of type int [mem: Local loc: -4 size: 1] [line: 12]
+Sibling: 3  Func: main returns type void [mem: Global loc: 0 size: -2] [line: 15]
+.   Child: 1  Compound [mem: None loc: 0 size: -12] [line: 16]
+.   .   Child: 0  Var: i of type int [mem: Local loc: -2 size: 1] [line: 17]
+.   .   Sibling: 1  Var: b of type bool [mem: Local loc: -3 size: 1] [line: 18]
+.   .   Sibling: 2  Var: ai of array of type int [mem: Local loc: -5 size: 4] [line: 19]
+.   .   Sibling: 3  Var: ab of array of type bool [mem: Local loc: -9 size: 3] [line: 20]
+.   .   Sibling: 4  Var: z of type int [mem: Local loc: -11 size: 1] [line: 21]
+.   .   Child: 1  Assign: <- of type int [line: 23]
+.   .   .   Child: 0  Id: z of type int [mem: Local loc: -11 size: 1] [line: 23]
+.   .   .   Child: 1  Call: polgara of type int [line: 23]
+.   .   .   .   Child: 0  Op: + of type int [line: 23]
+.   .   .   .   .   Child: 0  Id: i of type int [mem: Local loc: -2 size: 1] [line: 23]
+.   .   .   .   .   Child: 1  Const 43 of type int [line: 23]
+.   .   .   .   Sibling: 1  Id: b of type bool [mem: Local loc: -3 size: 1] [line: 23]
+.   .   Sibling: 1  Assign: <- of type int [line: 25]
+.   .   .   Child: 0  Id: u of type int [mem: Global loc: 0 size: 1] [line: 25]
+.   .   .   Child: 1  Const 666 of type int [line: 25]
+.   .   Sibling: 2  Assign: <- of type bool [line: 26]
+.   .   .   Child: 0  Op: [ of type bool [line: 26]
+.   .   .   .   Child: 0  Id: v of array of type bool [mem: Global loc: -2 size: 5] [line: 26]
+.   .   .   .   Child: 1  Const 3 of type int [line: 26]
+.   .   .   Child: 1  Const true of type bool [line: 26]
+Offset for end of global space: -6
+Number of warnings: 5
+Number of errors: 0

@@ -1,0 +1,16 @@
+int ant[10];
+int bat;
+
+int dog(bool corgi)  begin 
+    char cat;
+
+    aspergillus <- tiger;
+    cat <- 666;
+    cat <- dog;
+    dog <- cat;
+    ant['x'] <- ant[cat];
+    ant[dog] <- ant[cow];
+
+    return cat;
+ end 
+

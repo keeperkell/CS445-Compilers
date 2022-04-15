@@ -1,0 +1,7 @@
+====================================
+FILE: nano.c-
+ERROR(3): Too many parameters passed for function 'main' declared on line 1.
+WARNING(1): The parameter 'x' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 1
+Number of errors: 2

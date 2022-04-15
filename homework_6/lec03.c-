@@ -1,0 +1,7 @@
+int cat(int x)  begin return x; end 
+
+main()
+ begin 
+   cat(666);
+ end 
+    

@@ -1,0 +1,9 @@
+====================================
+FILE: init4.c-
+ERROR(4): Initializer for variable 'y' is not a constant expression.
+ERROR(5): Initializer for variable 'roll' is not a constant expression.
+WARNING(1): Expecting to return type int but function 'main' has no return statement.
+WARNING(5): The variable 'roll' seems not to be used.
+WARNING(4): The variable 'y' seems not to be used.
+Number of warnings: 3
+Number of errors: 2

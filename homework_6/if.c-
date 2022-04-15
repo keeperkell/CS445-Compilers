@@ -1,0 +1,12 @@
+## C-S22
+main()
+ begin 
+   int x;
+
+   x <- 0;
+
+   if false then  x++;
+
+   if x<10 then  x++;
+   else x--;
+ end 

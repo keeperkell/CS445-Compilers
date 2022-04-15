@@ -1,0 +1,11 @@
+====================================
+FILE: assignb.c-
+ERROR(7): Symbol 'x' is not declared.
+ERROR(7): Symbol 'x' is not declared.
+ERROR(8): Symbol 'x' is not declared.
+WARNING(9): Variable 'aa' may be uninitialized when used here.
+WARNING(10): Variable 'b' may be uninitialized when used here.
+WARNING(12): Variable 'cc' may be uninitialized when used here.
+WARNING(5): The variable 'c' seems not to be used.
+Number of warnings: 4
+Number of errors: 3

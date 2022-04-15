@@ -1,0 +1,5 @@
+main()
+ begin 
+      begin  int x; x<-666;  end 
+      begin  int y; output(y); end 
+ end 

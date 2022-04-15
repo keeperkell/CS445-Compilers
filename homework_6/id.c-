@@ -1,0 +1,25 @@
+bool george(int a, b[], c)  begin 
+       char d, e, f;
+       return b[4]>3;
+ end 
+
+main()
+ begin 
+   int xa[10];
+   int x:665;
+   char ca[10]:"dogs";
+   char c:'x';
+   bool ba[10];
+   bool b:true;
+   for f<-1 to 3 do f;
+
+   xa;
+   x;
+   ca;
+   c;
+   ba;
+   b;
+   george(x, xa, 720+937);
+
+   return;
+ end 

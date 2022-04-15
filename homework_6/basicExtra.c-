@@ -1,0 +1,35 @@
+## C-S22
+char toads()  begin  end 
+
+main()
+ begin 
+        int ii[5], jj[5];
+        bool aa[5], bb[5];
+        int i, j;
+        bool a, b;
+
+        aa <- bb;
+        ii <- jj;
+        aa < bb;
+        ii < jj;
+        aa = bb;
+        ii = jj;
+        a<b;
+        a/i;
+        i/a;
+        a%i;
+        i%a;
+        a-i;
+        i-a;
+        frogs()<frogs();
+        toads()<toads();
+        frogs()<toads();
+        toads()<frogs();
+
+        i<-i+k;
+        i<-k+i;
+        i<-k+k;
+        i<-k()+7;
+        i<-i()+8;
+ end 
+

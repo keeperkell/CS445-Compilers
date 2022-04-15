@@ -1,0 +1,12 @@
+## C-F20
+main()
+ begin 
+     begin 
+        int x[11];
+     end 
+     begin 
+        int y[22];
+
+        output(*y); outnl();
+     end 
+ end 

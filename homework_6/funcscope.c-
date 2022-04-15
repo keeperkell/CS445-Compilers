@@ -1,0 +1,50 @@
+## intentionally 4 comments so linenumber match forscope.c-
+##
+##
+##
+ant(int x, x)  begin 
+    int x;
+    x <- 1;
+ end 
+
+bat(int x)  begin   begin 
+        int x;
+        x <- 2;
+     end   end 
+
+cat(int x)  begin 
+    int x;
+     begin 
+        int x;
+        x <- 3;
+     end   end 
+
+dog(int x)  begin 
+if  x>3 then   begin 
+    int x;
+    x<-4;
+ end  end 
+
+elk(int x)  begin 
+    int x;
+    if  x>3 then   begin 
+        int x; x<-5;
+     end 
+ end 
+
+fox(int x)   begin 
+    while true do
+        if  x>3 then   begin 
+            int x; x <- 6;
+         end 
+        else  begin 
+            int x; x <- 7;
+         end 
+ end 
+
+gnu(int x) begin  
+    while true do
+        if  x>3 then  666;
+        else  begin 
+            int x; x <- 7;
+         end  end 

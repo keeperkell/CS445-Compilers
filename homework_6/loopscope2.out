@@ -1,0 +1,16 @@
+====================================
+FILE: loopscope2.c-
+WARNING(6): The variable 'x' seems not to be used.
+WARNING(11): The variable 'x' seems not to be used.
+WARNING(10): The variable 'y' seems not to be used.
+WARNING(15): The variable 'x' seems not to be used.
+WARNING(14): The variable 'y' seems not to be used.
+ERROR(19): Symbol 'y' is already declared at line 18.
+WARNING(18): The variable 'y' seems not to be used.
+WARNING(23): The variable 'y' seems not to be used.
+WARNING(22): The variable 'y' seems not to be used.
+WARNING(26): The variable 'y' seems not to be used.
+WARNING(3): The variable 'x' seems not to be used.
+WARNING(27): The variable 'y' seems not to be used.
+Number of warnings: 11
+Number of errors: 1

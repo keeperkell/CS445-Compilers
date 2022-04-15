@@ -1,0 +1,7 @@
+char c[100];
+int d;
+
+main()
+ begin 
+    bool w, x[10], y;
+ end 

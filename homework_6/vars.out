@@ -1,0 +1,36 @@
+====================================
+FILE: vars.c-
+WARNING(4): The variable 'i' seems not to be used.
+WARNING(4): The parameter 'pb' seems not to be used.
+WARNING(4): The parameter 'pc' seems not to be used.
+WARNING(8): The variable 'a' seems not to be used.
+WARNING(9): The variable 'ca' seems not to be used.
+WARNING(10): The variable 'sa' seems not to be used.
+WARNING(11): The variable 'sca' seems not to be used.
+WARNING(4): The function 'dog' seems not to be used.
+WARNING(1): The variable 'ga' seems not to be used.
+WARNING(2): The variable 'gca' seems not to be used.
+Var: ga of type int [mem: Global loc: 0 size: 1] [line: 1]
+Sibling: 1  Var: gca of array of type char [mem: Global loc: -42 size: 11] [line: 2]
+.   Child: 0  Const "cry havoc and let slip the dogs of war." of array of type char [mem: Global loc: -2 size: 40] [line: 2]
+Sibling: 2  Func: dog returns type void [mem: Global loc: 0 size: -5] [line: 4]
+.   Child: 0  Parm: pa of type int [mem: Parameter loc: -2 size: 1] [line: 4]
+.   Sibling: 1  Parm: pb of type bool [mem: Parameter loc: -3 size: 1] [line: 4]
+.   Sibling: 2  Parm: pc of array of type char [mem: Parameter loc: -4 size: 1] [line: 4]
+.   Child: 1  Compound [mem: None loc: 0 size: -5] [line: 4]
+.   .   Child: 1  For [mem: None loc: 0 size: -6] [line: 4]
+.   .   .   Child: 0  Var: i of type int [mem: Local loc: -5 size: 1] [line: 4]
+.   .   .   Child: 1  Range [line: 4]
+.   .   .   .   Child: 0  Const 1 of type int [line: 4]
+.   .   .   .   Child: 1  Id: pa of type int [mem: Parameter loc: -2 size: 1] [line: 4]
+Sibling: 3  Func: main returns type void [mem: Global loc: 0 size: -2] [line: 6]
+.   Child: 1  Compound [mem: None loc: 0 size: -14] [line: 7]
+.   .   Child: 0  Var: a of type int [mem: Local loc: -2 size: 1] [line: 8]
+.   .   Sibling: 1  Var: ca of array of type char [mem: Local loc: -4 size: 11] [line: 9]
+.   .   .   Child: 0  Const "retrogressive" of array of type char [mem: Global loc: -53 size: 14] [line: 9]
+.   .   Sibling: 2  Var: sa of static type int [mem: LocalStatic loc: -66 size: 1] [line: 10]
+.   .   Sibling: 3  Var: sca of static array of type char [mem: LocalStatic loc: -81 size: 21] [line: 11]
+.   .   .   Child: 0  Const "epistolatory" of array of type char [mem: Global loc: -68 size: 13] [line: 11]
+Offset for end of global space: -101
+Number of warnings: 10
+Number of errors: 0

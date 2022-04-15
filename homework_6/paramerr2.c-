@@ -1,0 +1,15 @@
+## C-S22
+##
+cow() begin  cow(cow()); end 
+dog(int aardvark, boar)  begin aardvark; end 
+
+main()
+ begin 
+   int a:1; bool b:true;
+
+   cow(b+b and a);
+   dog(a+b);
+   dog(a+b, a*b);
+   dog(a+b, a*b, a-b);
+   elk(a+b);
+ end 

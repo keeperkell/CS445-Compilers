@@ -1,0 +1,21 @@
+## get frames in the right place
+## C-S20
+yvonne(int x)
+ begin 
+   int y;
+   y <- 11111;
+ end 
+
+int louise(int x)  begin return 101 * x; end 
+
+main()
+ begin 
+   int z; 
+   z <- 22222;
+    begin  int x[5];
+     yvonne(11);
+    end 
+   yvonne(101);
+
+   z <- 451 * 8 + louise(33);      ## 6941
+ end 

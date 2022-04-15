@@ -1,0 +1,30 @@
+## C-S22
+main()
+ begin 
+    int z;
+    z <- 111;
+     begin 
+        int x[100];
+
+        z<-0;
+        while z<100 do  begin 
+        x[z]<-1;
+        z++;
+         end 
+
+     end 
+     begin 
+        int y[100];
+
+        z<-0;
+        while z<100 do  begin 
+            y[z]<-1;
+        z++;
+         end 
+
+        output(y[1]); outnl();
+        y[1] <- 333;
+        output(y[1]); outnl();
+     end 
+    output(z); outnl();
+ end 

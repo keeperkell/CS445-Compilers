@@ -1,0 +1,19 @@
+int g, gg[10];
+
+julia(int x, y, z)
+ begin 
+    int a, aa[10];
+    bool b, bb[20];
+    char c, cc[30];
+    static int s, t;
+    
+    a <- x;
+    cc <- "reconnaissance";
+    
+     begin  int p;  end 
+     begin  int q;  end 
+ end     
+
+int h;
+
+main() begin  end 

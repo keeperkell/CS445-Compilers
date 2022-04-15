@@ -1,0 +1,40 @@
+====================================
+FILE: tinyMixed2.c-
+WARNING(10): The variable 'a' seems not to be used.
+WARNING(11): The variable 'b' seems not to be used.
+WARNING(12): The variable 'c' seems not to be used.
+WARNING(13): The variable 'd' seems not to be used.
+WARNING(13): The variable 'xx' seems not to be used.
+WARNING(14): The variable 'e' seems not to be used.
+WARNING(7): The function 'dogs' seems not to be used.
+WARNING(16): The variable 'h' seems not to be used.
+WARNING(5): The variable 'x' seems not to be used.
+Func: main returns type void [mem: Global loc: 0 size: -2] [line: 2]
+.   Child: 1  Compound [mem: None loc: 0 size: -2] [line: 2]
+Sibling: 1  Var: g of type int [mem: Global loc: 0 size: 1] [line: 4]
+Sibling: 2  Var: x of array of type int [mem: Global loc: -2 size: 21] [line: 5]
+Sibling: 3  Func: dogs returns type void [mem: Global loc: 0 size: -2] [line: 7]
+.   Child: 1  Compound [mem: None loc: 0 size: -2] [line: 8]
+.   .   Child: 1  If [line: 10]
+.   .   .   Child: 0  Const true of type bool [line: 10]
+.   .   .   Child: 1  Compound [mem: None loc: 0 size: -3] [line: 10]
+.   .   .   .   Child: 0  Var: a of type int [mem: Local loc: -2 size: 1] [line: 10]
+.   .   .   Child: 2  Compound [mem: None loc: 0 size: -3] [line: 11]
+.   .   .   .   Child: 0  Var: b of type int [mem: Local loc: -2 size: 1] [line: 11]
+.   .   Sibling: 1  While [line: 12]
+.   .   .   Child: 0  Const true of type bool [line: 12]
+.   .   .   Child: 1  Compound [mem: None loc: 0 size: -3] [line: 12]
+.   .   .   .   Child: 0  Var: c of type int [mem: Local loc: -2 size: 1] [line: 12]
+.   .   Sibling: 2  For [mem: None loc: 0 size: -3] [line: 13]
+.   .   .   Child: 0  Var: xx of type int [mem: Local loc: -2 size: 1] [line: 13]
+.   .   .   Child: 1  Range [line: 13]
+.   .   .   .   Child: 0  Id: g of type int [mem: Global loc: 0 size: 1] [line: 13]
+.   .   .   .   Child: 1  Const 10 of type int [line: 13]
+.   .   .   Child: 2  Compound [mem: None loc: 0 size: -4] [line: 13]
+.   .   .   .   Child: 0  Var: d of type int [mem: Local loc: -3 size: 1] [line: 13]
+.   .   Sibling: 3  Compound [mem: None loc: 0 size: -3] [line: 14]
+.   .   .   Child: 0  Var: e of type int [mem: Local loc: -2 size: 1] [line: 14]
+Sibling: 4  Var: h of type int [mem: Global loc: -22 size: 1] [line: 16]
+Offset for end of global space: -23
+Number of warnings: 9
+Number of errors: 0

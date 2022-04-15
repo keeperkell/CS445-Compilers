@@ -1,0 +1,16 @@
+====================================
+FILE: op.c-
+WARNING(8): Variable 'a' may be uninitialized when used here.
+WARNING(9): Variable 'b' may be uninitialized when used here.
+ERROR(9): '<' requires operands of the same type but lhs is type int and rhs is type bool.
+WARNING(10): Variable 'c' may be uninitialized when used here.
+ERROR(10): '<' requires operands of the same type but lhs is type int and rhs is type char.
+ERROR(11): '<' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(13): '<' requires operands of the same type but lhs is type bool and rhs is type char.
+ERROR(14): '<' requires operands of the same type but lhs is type char and rhs is type int.
+ERROR(15): '<' requires operands of the same type but lhs is type char and rhs is type bool.
+ERROR(18): Symbol 'x' is not declared.
+ERROR(19): Symbol 'x' is not declared.
+ERROR(20): Symbol 'x' is not declared.
+Number of warnings: 3
+Number of errors: 9

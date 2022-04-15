@@ -1,0 +1,25 @@
+## C-F20
+int g;
+
+ibex(int p)       ## size: 3
+ begin                  ## size: 4
+    int a;
+     begin              ## size: 5
+        int b;
+     end 
+     begin              ## size: 5
+        int c;
+     end 
+     begin              ## size: 4
+         begin          ## size: 5
+            int b;
+         end 
+         begin          ## size: 5
+            int c;
+         end 
+     end 
+ end 
+
+int h;
+main()  begin  ibex(h);  end 
+int i;

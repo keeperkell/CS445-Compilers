@@ -1,0 +1,35 @@
+## C-F20
+scalar(int a; bool b; char c)
+ begin 
+    output(a);
+    outputb(b);
+    outputc(c);
+    outnl();
+ end 
+
+
+array(int a[]; bool b[]; char c[])
+ begin 
+    output(a[1]);
+    outputb(b[2]);
+    outputc(c[3]);
+    outnl();
+ end 
+
+
+int x; bool y; char z;
+int XX[3]; bool YY[5]; char ZZ[7];
+
+main()
+ begin 
+    x <- 333;
+    y <- true;
+    z <- 'z';
+
+    XX[1] <- 444;
+    YY[2] <- false;
+    ZZ[3] <- 'a';
+
+    scalar(x, y, z);
+    array(XX, YY, ZZ);
+ end 

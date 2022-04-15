@@ -1,0 +1,45 @@
+====================================
+FILE: arrays.c-
+WARNING(12): Variable 'xa' may be uninitialized when used here.
+WARNING(13): Variable 'ca' may be uninitialized when used here.
+WARNING(14): Variable 'ba' may be uninitialized when used here.
+ERROR(15): '<-' requires operands of the same type but lhs is type int and rhs is type char.
+ERROR(16): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(17): '<-' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+WARNING(19): Variable 'x' may be uninitialized when used here.
+ERROR(19): '<-' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+WARNING(20): Variable 'c' may be uninitialized when used here.
+ERROR(20): '<-' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+WARNING(21): Variable 'b' may be uninitialized when used here.
+ERROR(21): '<-' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+ERROR(22): '<-' requires operands of the same type but lhs is type int and rhs is type char.
+ERROR(22): '<-' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+ERROR(23): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(23): '<-' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+ERROR(25): '<-' requires both operands be arrays or not but lhs is not an array and rhs is an array.
+ERROR(26): '<-' requires both operands be arrays or not but lhs is not an array and rhs is an array.
+ERROR(27): '<-' requires both operands be arrays or not but lhs is not an array and rhs is an array.
+ERROR(28): '<-' requires operands of the same type but lhs is type int and rhs is type char.
+ERROR(28): '<-' requires both operands be arrays or not but lhs is not an array and rhs is an array.
+ERROR(29): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(29): '<-' requires both operands be arrays or not but lhs is not an array and rhs is an array.
+ERROR(31): '=' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(31): '=' requires both operands be arrays or not but lhs is not an array and rhs is an array.
+ERROR(32): '=' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(32): '=' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+ERROR(34): '!=' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(34): '!=' requires both operands be arrays or not but lhs is not an array and rhs is an array.
+ERROR(35): '!=' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(35): '!=' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+ERROR(44): '>' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+ERROR(45): '>' requires both operands be arrays or not but lhs is not an array and rhs is an array.
+ERROR(47): The operation '?' does not work with arrays.
+ERROR(50): The operation 'sizeof' only works with arrays.
+ERROR(51): Cannot index nonarray 'x'.
+ERROR(52): Cannot index nonarray 'x'.
+ERROR(52): The operation 'sizeof' only works with arrays.
+ERROR(54): The operation 'sizeof' only works with arrays.
+WARNING(10): The variable 'y' seems not to be used.
+WARNING(10): The variable 'ya' seems not to be used.
+Number of warnings: 8
+Number of errors: 33

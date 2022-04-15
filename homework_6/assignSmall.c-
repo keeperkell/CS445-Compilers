@@ -1,0 +1,19 @@
+## C-F20
+main()
+ begin 
+    int v, w, x, y, z;
+
+    v<-v+1;
+    v<-v+1;
+    w;
+    w;
+    v<-w;
+    x++;
+    x++;
+    y--;
+    y--;
+    z+=35;
+    z+=35;
+
+ end 
+

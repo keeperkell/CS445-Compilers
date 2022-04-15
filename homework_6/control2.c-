@@ -1,0 +1,38 @@
+main()  begin 
+    bool x, y;
+
+    x <- true;
+    y <- false;
+
+    if x then 111;
+
+    if y then 222;
+    else 333;
+
+    if x then if y then 444;
+        else 555;
+
+    while x do 666;
+
+    while y do  begin 
+        777;
+        break;
+        888;
+        break;
+        999;
+     end 
+
+    while x do  begin 
+        111;
+        break;
+        while y do  begin 
+            222;
+            break;
+            333;
+         end 
+        break;
+        444;
+     end 
+
+ end 
+

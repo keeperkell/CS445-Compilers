@@ -1,0 +1,14 @@
+main()
+ begin 
+    int a[10];
+    bool b[10];
+
+    if b then 111;
+    if 1 then 222;
+
+    while b do 333;
+    while 'c' do 444;
+
+    for x<-a to a by a do 555;
+    for y<-true to 'c' by main do x*y;
+ end 

@@ -1,0 +1,11 @@
+## C-S22
+int dog() begin return 777;   end 
+
+main()
+ begin 
+    int x:10;
+    for i <- x to x by x do ;
+    "dog" = "cat";
+    666+dog();
+ end 
+

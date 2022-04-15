@@ -1,0 +1,30 @@
+## C-S22
+int a:1, b[4], c:3;
+main()  begin 
+    while true do  begin 
+        if false then 
+                  begin  begin  begin  b[2*a];  end  end  end 
+        else break;
+     end 
+    if true then ; else;
+ end 
+
+
+int gromit[10];
+int thelma(int a, b[]; bool c)
+ begin 
+    int zz:666;
+
+    a <- thelma(a, b, true) * 2;
+    if a > 3 then   begin 
+        a <- gromit[7];
+     end 
+    else return zz;
+ end 
+
+int thelma(int a, b; bool c)
+ begin 
+    int zz:666;
+
+    a <- thelma(a, b, true) * 2;
+ end 

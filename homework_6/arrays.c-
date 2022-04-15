@@ -1,0 +1,55 @@
+## C-F20
+main()
+ begin 
+    int x;
+    char c;
+    bool b;
+    int xa[5];
+    char ca[6];
+    bool ba[7];
+    int y, ya[10];
+
+    xa <- xa;   ## array assignment
+    ca <- ca;   ## array assignment
+    ba <- ba;   ## array assignment
+    xa <- ca;   ## ERROR type
+    xa <- ba;   ## ERROR type
+    ca <- 'z';  ## ERROR array & nonarray
+
+    xa <- x;    ## ERROR array & nonarray
+    ca <- c;    ## ERROR array & nonarray
+    ba <- b;    ## ERROR array & nonarray
+    xa <- c;    ## ERROR array & nonarray + type
+    xa <- b;    ## ERROR array & nonarray + type
+
+    x <- xa;    ## ERROR array & nonarray
+    c <- ca;    ## ERROR array & nonarray
+    b <- ba;    ## ERROR array & nonarray
+    x <- ca;    ## ERROR array & nonarray + type
+    x <- ba;    ## ERROR array & nonarray + type
+
+    x = ba;    ## ERROR array & nonarray + type
+    ba = x;    ## ERROR array & nonarray + type
+
+    x != ba;    ## ERROR array & nonarray + type
+    ba != x;    ## ERROR array & nonarray + type
+
+    xa > xa;   ## ERROR can't compare arrays F16
+    xa < xa;   ## ERROR can't compare arrays F16
+    xa >= xa;  ## ERROR can't compare arrays F16
+    xa <= xa;  ## ERROR can't compare arrays F16
+    xa = xa;  ## OK
+    xa != xa;  ## OK
+
+    xa > x;    ## ERROR array & nonarray
+    x > xa;    ## ERROR array & nonarray
+
+    ?xa;       ## ERROR in F16
+    *xa;       ## OK
+    *ba;       ## OK
+    **ba;      ## ERROR size of nonarray
+    x[2];      ## ERROR index of nonarray
+    *x[2];     ## ERROR size of nonarray
+    xa[2];     ## OK
+    *(xa[2]);  ## ERROR size of nonarray
+ end 

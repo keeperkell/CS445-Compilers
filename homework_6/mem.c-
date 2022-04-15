@@ -1,0 +1,34 @@
+int g;               ## g: 0
+
+overlap(int p)       ## p: -2   (size is 16 with shared compound mem and 17 without)
+ begin 
+    int v, w[10];    ## v: -3, w: -5
+     begin 
+        int x, z;       ## x: -15  z: -16
+        x <- p;
+     end 
+
+     begin 
+        int y;      ## y: -15 (overlay) or -17 (not overlay)
+        y <- 999;
+        w <- y;      ## works if you allow array assignment scaler to array
+        v <- w;      ## should not work (prob generate an error)
+        w <- w;      ## should work with array assignment on
+     end 
+
+     begin                ## empty
+     end 
+ end 
+
+bool bb[7];
+char c;
+
+main()
+ begin 
+    int l;          ## l: -2
+    static int s;   ## s: -1
+    int q;          ## q: -3
+
+    q <- g <- l <- s <- 777;
+    overlap(g);
+ end 

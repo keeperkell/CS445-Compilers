@@ -1,0 +1,9 @@
+int dog()  begin 
+int x[5];
+return x<-x;
+ end 
+
+main()
+ begin 
+dog();
+ end 

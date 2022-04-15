@@ -1,0 +1,12 @@
+## C-F20
+int g;
+int g;   ## scope should be global for this?
+
+main()
+ begin 
+    static int x;
+    int x;   ## scope should be static local for this?
+
+    g;
+    x;
+ end 

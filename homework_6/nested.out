@@ -1,0 +1,20 @@
+====================================
+FILE: nested.c-
+WARNING(4): The variable 'i' seems not to be used.
+WARNING(3): The variable 'i' seems not to be used.
+WARNING(8): The variable 'i' seems not to be used.
+WARNING(6): The variable 'i' seems not to be used.
+WARNING(14): The variable 'i' seems not to be used.
+WARNING(12): The parameter 'i' seems not to be used.
+ERROR(19): Symbol 'i' is already declared at line 18.
+WARNING(24): The variable 'i' seems not to be used.
+WARNING(21): The variable 'i' seems not to be used.
+ERROR(30): Symbol 'i' is already declared at line 28.
+WARNING(28): The variable 'i' seems not to be used.
+WARNING(18): The parameter 'i' seems not to be used.
+WARNING(12): The function 'cat' seems not to be used.
+WARNING(18): The function 'errorZ' seems not to be used.
+WARNING(1): The function 'fred' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 13
+Number of errors: 3

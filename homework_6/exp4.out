@@ -1,0 +1,26 @@
+====================================
+FILE: exp4.c-
+ERROR(24): 'and' requires operands of type bool but rhs is of type int.
+ERROR(24): 'or' requires operands of type bool but rhs is of type int.
+WARNING(30): Variable 'z' may be uninitialized when used here.
+ERROR(33): '+' requires operands of type int but lhs is of type bool.
+ERROR(33): '+' requires operands of type int but rhs is of type bool.
+ERROR(33): '<-' requires operands of the same type but lhs is type bool and rhs is type int.
+ERROR(38): Symbol 'x' is not declared.
+WARNING(38): Variable 'z' may be uninitialized when used here.
+ERROR(39): Symbol 'x' is not declared.
+ERROR(40): Symbol 'x' is not declared.
+ERROR(43): Symbol 'x' is not declared.
+ERROR(43): Symbol 'x' is not declared.
+WARNING(48): Variable 'c' may be uninitialized when used here.
+WARNING(49): Variable 'd' may be uninitialized when used here.
+WARNING(57): Variable 'x' may be uninitialized when used here.
+WARNING(57): Variable 'y' may be uninitialized when used here.
+WARNING(57): Variable 'b' may be uninitialized when used here.
+WARNING(57): Variable 'a' may be uninitialized when used here.
+ERROR(66): Symbol 'x' is not declared.
+ERROR(66): Symbol 'array' is not declared.
+ERROR(66): Symbol 'x' is not declared.
+ERROR(66): Cannot index nonarray 'array'.
+Number of warnings: 8
+Number of errors: 14

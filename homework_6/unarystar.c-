@@ -1,0 +1,25 @@
+## C-F13
+## C-F09
+##
+## Test unary *
+##
+int main()
+ begin 
+   int k, n[7];
+   bool b, a[34];
+
+   output(*n);
+   output(*a);
+   outnl();
+
+   output(*n+10);
+   output(*a+10);
+   outnl();
+
+   output(n[*n]);   ## probably 0
+   output(n[1984]); ## probably 0
+   output(*a**n);
+   outnl();
+
+   return *n;
+ end 

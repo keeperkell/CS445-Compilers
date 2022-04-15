@@ -1,0 +1,21 @@
+====================================
+FILE: for.c-
+ERROR(12): Symbol 'bb' is not declared.
+ERROR(12): Cannot index nonarray 'bb'.
+ERROR(13): Symbol 'bb' is not declared.
+ERROR(13): Cannot index nonarray 'bb'.
+ERROR(14): Symbol 'bb' is not declared.
+ERROR(14): Cannot index nonarray 'bb'.
+ERROR(16): Symbol 'cc' is not declared.
+ERROR(16): Cannot index nonarray 'cc'.
+ERROR(17): Symbol 'cc' is not declared.
+ERROR(17): Cannot index nonarray 'cc'.
+ERROR(20): Symbol 'a' is not declared.
+ERROR(20): Cannot index nonarray 'a'.
+ERROR(23): Symbol 'b' is not declared.
+ERROR(23): Cannot index nonarray 'b'.
+ERROR(26): Symbol 'c' is not declared.
+ERROR(26): Cannot index nonarray 'c'.
+WARNING(5): The variable 'ba' seems not to be used.
+Number of warnings: 1
+Number of errors: 16

@@ -1,0 +1,10 @@
+main()
+ begin 
+  int a[10], b[15];
+
+  a <- b;
+  b <- a; 
+  b = a; 
+  b >= a; 
+
+ end 

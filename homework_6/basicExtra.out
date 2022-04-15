@@ -1,0 +1,27 @@
+====================================
+FILE: basicExtra.c-
+WARNING(2): Expecting to return type char but function 'toads' has no return statement.
+WARNING(11): Variable 'bb' may be uninitialized when used here.
+WARNING(12): Variable 'jj' may be uninitialized when used here.
+WARNING(17): Variable 'a' may be uninitialized when used here.
+WARNING(17): Variable 'b' may be uninitialized when used here.
+WARNING(18): Variable 'i' may be uninitialized when used here.
+ERROR(18): '/' requires operands of type int but lhs is of type bool.
+ERROR(19): '/' requires operands of type int but rhs is of type bool.
+ERROR(20): '%' requires operands of type int but lhs is of type bool.
+ERROR(21): '%' requires operands of type int but rhs is of type bool.
+ERROR(22): '-' requires operands of type int but lhs is of type bool.
+ERROR(23): '-' requires operands of type int but rhs is of type bool.
+ERROR(24): Symbol 'frogs' is not declared.
+ERROR(24): Symbol 'frogs' is not declared.
+ERROR(26): Symbol 'frogs' is not declared.
+ERROR(27): Symbol 'frogs' is not declared.
+ERROR(29): Symbol 'k' is not declared.
+ERROR(30): Symbol 'k' is not declared.
+ERROR(31): Symbol 'k' is not declared.
+ERROR(31): Symbol 'k' is not declared.
+ERROR(32): Symbol 'k' is not declared.
+ERROR(33): 'i' is a simple variable and cannot be called.
+WARNING(8): The variable 'j' seems not to be used.
+Number of warnings: 7
+Number of errors: 16

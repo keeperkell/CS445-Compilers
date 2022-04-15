@@ -1,0 +1,41 @@
+## C-F20
+int x:111;
+
+int inc()
+ begin 
+   static int x:222;
+   return x++;
+ end 
+
+int fred()
+ begin 
+   static int x:333;
+
+   x++;
+   output(x);
+    begin 
+      static int x:444;
+
+      x++;
+      output(x);
+    end 
+   output(x);
+   outnl();
+
+   return x;
+ end 
+
+main()
+ begin 
+   output(fred());
+   outnl();
+   output(fred());
+   outnl();
+
+   output(inc());
+   output(inc());
+   output(inc());
+   output(inc());
+   outnl();
+ end 
+

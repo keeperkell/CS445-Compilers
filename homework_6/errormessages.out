@@ -1,0 +1,16 @@
+====================================
+FILE: errormessages.c-
+ERROR(5): Function 'cat' at line 5 is expecting to return type char but returns type int.
+ERROR(7): Function 'dog' at line 7 is expecting to return type int but return has no value.
+ERROR(10): Initializer for variable 'c' of type char is of type int
+ERROR(13): Expecting Boolean test condition in while statement but got type char.
+ERROR(14): Unary 'chsign' requires an operand of type int but was given type char.
+ERROR(15): Unary '--' requires an operand of type int but was given type char.
+ERROR(17): Symbol 'emu' is not declared.
+ERROR(17): Symbol 'fox' is not declared.
+WARNING(9): Expecting to return type int but function 'main' has no return statement.
+WARNING(11): The variable 'i' seems not to be used.
+WARNING(5): The function 'cat' seems not to be used.
+WARNING(7): The function 'dog' seems not to be used.
+Number of warnings: 4
+Number of errors: 8

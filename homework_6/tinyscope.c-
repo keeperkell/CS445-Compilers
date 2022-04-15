@@ -1,0 +1,19 @@
+int a;
+
+dog(char a)  begin 
+   a; ## 
+    begin 
+      int a;
+   a; ## 
+    end 
+   a; ## 
+    begin 
+      static char a;
+   a; ## 
+    end 
+   a; ## 
+ end 
+
+main()  begin 
+   a; ## 
+ end 

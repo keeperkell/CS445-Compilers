@@ -1,0 +1,32 @@
+====================================
+FILE: decllists.c-
+WARNING(3): Expecting to return type int but function 'fred' has no return statement.
+WARNING(3): The parameter 'a' seems not to be used.
+WARNING(5): The variable 'aa' seems not to be used.
+WARNING(3): The parameter 'b' seems not to be used.
+WARNING(5): The variable 'bb' seems not to be used.
+WARNING(3): The parameter 'c' seems not to be used.
+WARNING(5): The variable 'cc' seems not to be used.
+WARNING(3): The parameter 'd' seems not to be used.
+WARNING(5): The variable 'dd' seems not to be used.
+WARNING(3): The parameter 'e' seems not to be used.
+WARNING(5): The variable 'ee' seems not to be used.
+WARNING(3): The parameter 'f' seems not to be used.
+WARNING(5): The variable 'ff' seems not to be used.
+WARNING(3): The parameter 'g' seems not to be used.
+WARNING(5): The variable 'gg' seems not to be used.
+WARNING(3): The parameter 'h' seems not to be used.
+WARNING(5): The variable 'hh' seems not to be used.
+WARNING(3): The parameter 'i' seems not to be used.
+WARNING(5): The variable 'ii' seems not to be used.
+WARNING(3): The parameter 'j' seems not to be used.
+WARNING(3): The parameter 'k' seems not to be used.
+WARNING(3): The parameter 'l' seems not to be used.
+WARNING(3): The parameter 'm' seems not to be used.
+WARNING(3): The function 'fred' seems not to be used.
+WARNING(1): The variable 'x' seems not to be used.
+WARNING(1): The variable 'y' seems not to be used.
+WARNING(1): The variable 'z' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 27
+Number of errors: 1

@@ -1,0 +1,11 @@
+====================================
+FILE: uninitialized.c-
+WARNING(11): Variable 'y' may be uninitialized when used here.
+WARNING(13): Variable 'a' may be uninitialized when used here.
+WARNING(13): Variable 'v' may be uninitialized when used here.
+WARNING(16): Variable 'r' may be uninitialized when used here.
+WARNING(3): Expecting to return type int but function 'main' has no return statement.
+WARNING(5): The variable 'x' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 6
+Number of errors: 1

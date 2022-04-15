@@ -1,0 +1,57 @@
+====================================
+FILE: id.c-
+WARNING(1): The parameter 'a' seems not to be used.
+WARNING(1): The parameter 'c' seems not to be used.
+WARNING(2): The variable 'd' seems not to be used.
+WARNING(2): The variable 'e' seems not to be used.
+WARNING(2): The variable 'f' seems not to be used.
+WARNING(16): Variable 'xa' may be uninitialized when used here.
+WARNING(20): Variable 'ba' may be uninitialized when used here.
+Func: george returns type bool [mem: Global loc: 0 size: -5] [line: 1]
+.   Child: 0  Parm: a of type int [mem: Parameter loc: -2 size: 1] [line: 1]
+.   Sibling: 1  Parm: b of array of type int [mem: Parameter loc: -3 size: 1] [line: 1]
+.   Sibling: 2  Parm: c of type int [mem: Parameter loc: -4 size: 1] [line: 1]
+.   Child: 1  Compound [mem: None loc: 0 size: -8] [line: 1]
+.   .   Child: 0  Var: d of type char [mem: Local loc: -5 size: 1] [line: 2]
+.   .   Sibling: 1  Var: e of type char [mem: Local loc: -6 size: 1] [line: 2]
+.   .   Sibling: 2  Var: f of type char [mem: Local loc: -7 size: 1] [line: 2]
+.   .   Child: 1  Return [line: 3]
+.   .   .   Child: 0  Op: > of type bool [line: 3]
+.   .   .   .   Child: 0  Op: [ of type int [line: 3]
+.   .   .   .   .   Child: 0  Id: b of array of type int [mem: Parameter loc: -3 size: 1] [line: 3]
+.   .   .   .   .   Child: 1  Const 4 of type int [line: 3]
+.   .   .   .   Child: 1  Const 3 of type int [line: 3]
+Sibling: 1  Func: main returns type void [mem: Global loc: 0 size: -2] [line: 6]
+.   Child: 1  Compound [mem: None loc: 0 size: -38] [line: 7]
+.   .   Child: 0  Var: xa of array of type int [mem: Local loc: -3 size: 11] [line: 8]
+.   .   Sibling: 1  Var: x of type int [mem: Local loc: -13 size: 1] [line: 9]
+.   .   .   Child: 0  Const 665 of type int [line: 9]
+.   .   Sibling: 2  Var: ca of array of type char [mem: Local loc: -15 size: 11] [line: 10]
+.   .   .   Child: 0  Const "dogs" of array of type char [mem: Global loc: -1 size: 5] [line: 10]
+.   .   Sibling: 3  Var: c of type char [mem: Local loc: -25 size: 1] [line: 11]
+.   .   .   Child: 0  Const 'x' of type char [line: 11]
+.   .   Sibling: 4  Var: ba of array of type bool [mem: Local loc: -27 size: 11] [line: 12]
+.   .   Sibling: 5  Var: b of type bool [mem: Local loc: -37 size: 1] [line: 13]
+.   .   .   Child: 0  Const true of type bool [line: 13]
+.   .   Child: 1  For [mem: None loc: 0 size: -39] [line: 14]
+.   .   .   Child: 0  Var: f of type int [mem: Local loc: -38 size: 1] [line: 14]
+.   .   .   Child: 1  Range [line: 14]
+.   .   .   .   Child: 0  Const 1 of type int [line: 14]
+.   .   .   .   Child: 1  Const 3 of type int [line: 14]
+.   .   .   Child: 2  Id: f of type int [mem: Local loc: -38 size: 1] [line: 14]
+.   .   Sibling: 1  Id: xa of array of type int [mem: Local loc: -3 size: 11] [line: 16]
+.   .   Sibling: 2  Id: x of type int [mem: Local loc: -13 size: 1] [line: 17]
+.   .   Sibling: 3  Id: ca of array of type char [mem: Local loc: -15 size: 11] [line: 18]
+.   .   Sibling: 4  Id: c of type char [mem: Local loc: -25 size: 1] [line: 19]
+.   .   Sibling: 5  Id: ba of array of type bool [mem: Local loc: -27 size: 11] [line: 20]
+.   .   Sibling: 6  Id: b of type bool [mem: Local loc: -37 size: 1] [line: 21]
+.   .   Sibling: 7  Call: george of type bool [line: 22]
+.   .   .   Child: 0  Id: x of type int [mem: Local loc: -13 size: 1] [line: 22]
+.   .   .   Sibling: 1  Id: xa of array of type int [mem: Local loc: -3 size: 11] [line: 22]
+.   .   .   Sibling: 2  Op: + of type int [line: 22]
+.   .   .   .   Child: 0  Const 720 of type int [line: 22]
+.   .   .   .   Child: 1  Const 937 of type int [line: 22]
+.   .   Sibling: 8  Return [line: 24]
+Offset for end of global space: -5
+Number of warnings: 7
+Number of errors: 0

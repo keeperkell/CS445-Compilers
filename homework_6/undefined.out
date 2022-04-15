@@ -1,0 +1,37 @@
+====================================
+FILE: undefined.c-
+ERROR(4): Symbol 'y' is not declared.
+ERROR(5): Symbol 'x' is not declared.
+ERROR(6): Symbol 'x' is not declared.
+ERROR(6): Symbol 'y' is not declared.
+ERROR(7): Symbol 'y' is not declared.
+ERROR(7): Symbol 'x' is not declared.
+ERROR(8): Symbol 'x' is not declared.
+ERROR(8): Symbol 'y' is not declared.
+ERROR(9): Symbol 'x' is not declared.
+ERROR(9): Symbol 'array' is not declared.
+ERROR(14): Symbol 'dog' is not declared.
+ERROR(15): Symbol 'dog' is not declared.
+ERROR(16): Symbol 'dog' is not declared.
+ERROR(16): Symbol 'dog' is not declared.
+ERROR(16): Symbol 'dog' is not declared.
+ERROR(18): Symbol 'mouse' is not declared.
+ERROR(25): Symbol 'mouse' is not declared.
+ERROR(27): Symbol 'mouse' is not declared.
+ERROR(29): Symbol 'mouse' is not declared.
+ERROR(31): Symbol 'mouse' is not declared.
+ERROR(36): Symbol 'mouse' is not declared.
+ERROR(36): Symbol 'mouse' is not declared.
+ERROR(37): Symbol 'mouse' is not declared.
+ERROR(37): Symbol 'mouse' is not declared.
+ERROR(38): Symbol 'mouse' is not declared.
+ERROR(38): Symbol 'mouse' is not declared.
+ERROR(39): Symbol 'mouse' is not declared.
+ERROR(39): Symbol 'mouse' is not declared.
+ERROR(41): Symbol 'mouse' is not declared.
+ERROR(42): Symbol 'mouse' is not declared.
+WARNING(34): Expecting to return type int but function 'dog' has no return statement.
+WARNING(12): The function 'cat' seems not to be used.
+WARNING(34): The function 'dog' seems not to be used.
+Number of warnings: 3
+Number of errors: 30

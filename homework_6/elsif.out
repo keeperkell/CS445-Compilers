@@ -1,0 +1,14 @@
+====================================
+FILE: elsif.c-
+ERROR(4): Expecting Boolean test condition in if statement but got type int.
+ERROR(5): Expecting Boolean test condition in if statement but got type int.
+ERROR(6): Expecting Boolean test condition in if statement but got type int.
+ERROR(9): Expecting Boolean test condition in if statement but got type int.
+ERROR(10): Expecting Boolean test condition in if statement but got type int.
+ERROR(11): Expecting Boolean test condition in if statement but got type int.
+ERROR(14): Expecting Boolean test condition in if statement but got type int.
+ERROR(15): Expecting Boolean test condition in if statement but got type int.
+ERROR(16): Expecting Boolean test condition in if statement but got type int.
+WARNING(2): Expecting to return type int but function 'main' has no return statement.
+Number of warnings: 1
+Number of errors: 9

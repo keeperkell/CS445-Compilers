@@ -1,0 +1,17 @@
+====================================
+FILE: simpleDefine.c-
+ERROR(9): Symbol 'gx' is not declared.
+ERROR(11): Symbol 'xx' is not declared.
+ERROR(14): Symbol 'main' is already declared at line 4.
+WARNING(21): The variable 'g' seems not to be used.
+WARNING(20): The variable 'main' seems not to be used.
+WARNING(19): The variable 'x' seems not to be used.
+WARNING(16): The variable 'g' seems not to be used.
+WARNING(17): The variable 'x' seems not to be used.
+ERROR(25): Symbol 'x' is already declared at line 25.
+ERROR(25): Symbol 'dog' is not declared.
+WARNING(25): The parameter 'x' seems not to be used.
+ERROR(27): Symbol 'g' is already declared at line 2.
+WARNING(25): The function 'cat' seems not to be used.
+Number of warnings: 7
+Number of errors: 6

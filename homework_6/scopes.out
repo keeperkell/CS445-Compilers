@@ -1,0 +1,21 @@
+====================================
+FILE: scopes.c-
+WARNING(6): The variable 'c' seems not to be used.
+WARNING(6): The variable 'd' seems not to be used.
+WARNING(10): The variable 'e' seems not to be used.
+WARNING(10): The variable 'f' seems not to be used.
+WARNING(3): The variable 'a' seems not to be used.
+WARNING(3): The variable 'b' seems not to be used.
+Func: main returns type void [mem: Global loc: 0 size: -2] [line: 1]
+.   Child: 1  Compound [mem: None loc: 0 size: -4] [line: 2]
+.   .   Child: 0  Var: a of type int [mem: Local loc: -2 size: 1] [line: 3]
+.   .   Sibling: 1  Var: b of type int [mem: Local loc: -3 size: 1] [line: 3]
+.   .   Child: 1  Compound [mem: None loc: 0 size: -6] [line: 5]
+.   .   .   Child: 0  Var: c of type char [mem: Local loc: -4 size: 1] [line: 6]
+.   .   .   Sibling: 1  Var: d of type char [mem: Local loc: -5 size: 1] [line: 6]
+.   .   Sibling: 1  Compound [mem: None loc: 0 size: -6] [line: 9]
+.   .   .   Child: 0  Var: e of type bool [mem: Local loc: -4 size: 1] [line: 10]
+.   .   .   Sibling: 1  Var: f of type bool [mem: Local loc: -5 size: 1] [line: 10]
+Offset for end of global space: 0
+Number of warnings: 6
+Number of errors: 0

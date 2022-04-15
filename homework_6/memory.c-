@@ -1,0 +1,35 @@
+## C-F20
+bool g, h[20];
+int ee;
+
+int ant(int x, y, z)  begin return 666; end 
+
+char bat;
+
+char main(int x, y, z[])  begin 
+    char c, d, ee;
+
+    c <- 'x';
+    g <- true;
+    ant(111, 222, 333);
+     begin 
+       static char ee;
+       bool b[10];
+
+       ant(444, 555, 666);
+       ee <- 'E';
+       b[7] <- false;
+     end 
+    ee <- 73;
+
+     begin 
+       int tmp[100];
+
+       ee <- 107;
+     end 
+
+    return 'B';
+ end 
+
+bool cow;
+

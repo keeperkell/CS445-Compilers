@@ -1,0 +1,22 @@
+====================================
+FILE: init5.c-
+ERROR(2): Symbol 's' is not declared.
+ERROR(2): Initializer for variable 's' is not a constant expression.
+ERROR(2): Initializer for variable 't' of type int is of type char
+ERROR(2): Initializer for variable 'u' of type int is of type char
+ERROR(7): Initializer for variable 'b' requires both operands be arrays or not but variable is an array and rhs is not an array.
+WARNING(9): Variable 'x' may be uninitialized when used here.
+ERROR(9): Initializer for variable 'lenx' is not a constant expression.
+WARNING(18): Variable 't' may be uninitialized when used here.
+WARNING(10): The variable 'ba' seems not to be used.
+WARNING(10): The variable 'bb' seems not to be used.
+WARNING(10): The variable 'bc' seems not to be used.
+WARNING(11): The variable 'ca' seems not to be used.
+WARNING(9): The variable 'k' seems not to be used.
+WARNING(9): The variable 'lenx' seems not to be used.
+WARNING(7): The variable 'y' seems not to be used.
+WARNING(2): The variable 's' seems not to be used.
+WARNING(2): The variable 't' seems not to be used.
+WARNING(2): The variable 'u' seems not to be used.
+Number of warnings: 12
+Number of errors: 6

@@ -1,0 +1,24 @@
+## C-S22
+int g;                       ## gloc: 0
+
+main(int p)                  ## size: 3
+ begin                             ## size: 3
+    static int a;            ## gloc: 1
+     begin                         ## size: 3
+        static int b;        ## gloc: 2
+     end 
+     begin                         ## size: 3
+        static int c;        ## gloc: 3
+     end 
+     begin                         ## size: 3
+         begin                     ## size: 3
+            static int b;    ## gloc: 4
+         end 
+         begin                     ## size: 3
+            static int c;    ## gloc: 5
+         end 
+     end 
+ end 
+
+int h;                       ## gloc: 6
+

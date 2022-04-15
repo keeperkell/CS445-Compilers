@@ -1,0 +1,183 @@
+## C-S22
+##
+## IMPORTANT:
+##
+## This file has many if not all semantic errors.
+## The errors in the comments are not necessarily the
+## the exact text generated for each error not  not  not   Use the
+## error message text in the assignment.  If this doesn't
+## test all errors then let me know.  thanks, rh
+##
+char dog(char x)
+ begin 
+    char x;   ## SPECIAL CASE: params are in function compound statement
+              ## Symbol %s is already defined at line %d
+    int b;
+
+    cat(10);  ## Symbol 'cat' is not defined
+
+    return b; ## Expecting return type of %s but got type %s
+ end 
+
+int dog(int x)  ## Symbol %s is already defined at line %d
+ begin 
+     begin 
+        int x;
+     end 
+ end                ## missing return warning
+
+char cat(char x)
+ begin 
+    int b:'a';   ## initialized with something of the wrong type
+    int c:3+4*9;
+    int d:b;     ## nonconstant initialization
+    int e:?3;    ## nonconstant initialization
+
+    return; ## Expecting a return type of %s but got none
+ end 
+
+char cat;        ## Symbol %s is already defined at line %d
+char unusedGlobal;  ## we currently don't issue a warning for this
+
+int ibex(char x[])
+ begin 
+    char unusedLocal;  ## we currently don't issue a warning for this
+    return true;
+ end 
+
+ox(char y)       ## no return value therefore type is 
+ begin 
+    return 666;  ## Expecting no return value, but got one.
+ end 
+
+char emu(char x, y, z)
+ begin                     ## Warning: There is no return
+ end 
+
+char mane()      ## main not declared
+ begin 
+    char x, yuri;
+    char x;      ## Symbol %s is already defined at line %d
+    int x;       ## Symbol already defined but type of first declaration sticks
+
+    bool ba[8];
+    char aa[6];
+    char zz[6];
+    int bb[6], cc[6];
+
+    int b, c;
+
+    v;     ## Variable %s cannot be declared of type  
+
+    if x then x;        ## Expecting Boolean test condition
+    else if x then x;     ## Expecting Boolean test condition
+    while x do x;       ## Expecting Boolean test condition
+    while ox(10) do x;  ## Expecting Boolean test condition
+
+    for z <- 1 to 11 do break;
+    for i<-1 to true do break;   ## Expecting integer in range for for
+    for i<-'1' to 10 do break;   ## Expecting integer in range for for
+    for i<-1 to 10 by 'c' do break; ## Expecting integer in range for for
+
+    x <- cat;   ## cannot use function cat as simple variable
+    x <- b;     ## %s requires things of the same type but lhs is %s and rhs is %s
+    x += b;    ## %s requires rhs to be of type char
+    b -= x;    ## %s requires lhs to be of type char
+    b > x;     ## %s requires lhs to be of type char
+    b++;       ## Unary %s requires things of type %s but was given type %s
+
+    if bb then x;  ## Cannot use array as test condition
+    else if bb then x; ## Cannot use array as test condition
+    while bb do x;  ## Cannot use array as test condition
+
+    break;      ## break statement must be inside a while for.
+
+    while b do  begin  break;  end 
+    while b do  begin  while b do 666; break;  end 
+
+    aa + 6;     ## The operation %s does not work with arrays
+    aa < zz;    ## The operation %s does not work with arrays
+    bb < cc;    ## The operation %s does not work with arrays
+
+    x = true;  ## %s requires things of the same type but lhs is %s and rhs is %s
+    x = 1;
+    b = true;
+
+    false + x;  ## %s requires things of type %s but lhs is of type %s
+
+    x * false;  ## %s requires things of type %s but rhs is of type %s
+
+    not x;      ## Unary %s requires things of type %s but was given type %s
+    not x+b;    ## two errors
+    -b;         ## Unary %s requires things of type %s but was given type %s
+
+    x[496];     ## Cannot index nonarray %s
+
+    b <- x=x+x*(x and x);   ## lots of errors
+    b <- x=x+x*(x and y);   ## lots of errors
+    b <- x=x or x*(x and x);   ## lots of errors
+
+    *x;               ## requires an array
+    *aa  and  b;      ## %s requires things of type %s but lhs is of type %s
+    aa[*aa];    ## OK but should not be :-)
+    aa[666];    ## for some constant array sizes we might be able to check index but we don't
+
+    aa[b];      ## Expecting array index to be of type char but got type %s
+
+    aa[cat];    ## Cannot use function 'cat' as a simple variable.
+
+    aa[aa];     ## Array index is the unindexed array 'aa'.
+    AA[1];      ## variables are case sensitive
+
+    aa[meerkat]; ## Symbol %s is not defined
+
+    xyzzy;      ## Symbol %s is not defined
+    meerkat();  ## Symbol %s is not defined
+    true and xyzzy/666;  ## Symbol %s is not defined
+
+    flight( not 5, -true, uu, y, x+x*b);  ## even though flight is undefined the errors in the arg list should be triggered
+
+    x();        ## %s is a simple variable and cannot be called
+
+    dog(3, 5);  ## Wrong number of parameters for function %s defined on line %d
+    ibex();     ## Wrong number of parameters for function %s defined on line %d
+
+    dog(true);  ## Expecting %s in parameter %i of call %s defined on line %d
+
+    cat(aa);    ## Not expecting array in parameter %i of call %s defined on line %d
+    cat(ba);
+
+    ibex(x);    ## Expecting array in parameter %i of call %s defined on line %d
+    ibex(bb);   ## Give priority to type error
+    ibex[3];    ## Cannot index nonarray %s
+
+    ibex + 4;   ##  Cannot use function %s as a simple variable
+    ibex;       ##  Cannot use function %s as a simple variable
+
+    aa[zz[1]]; 
+    aa[zz];       ## Array index is the unindexed array %s
+    aa[ox(true)]; ## two errors
+    aa['x']; 
+    aa[false]; 
+    aa[ox];
+    aa[ibex];
+
+    x <- ox(28);  ## '<-' requires things of the same type but lhs is char and rhs is  
+    x <- x + ox(6);  ## '+' requires things of type char but rhs is of type  .
+    cat(ox(492));   ## Expecting type char in parameter 1 of call to 'cat' defined on line 20 but got type  .
+    cat(true);      ## Expecting type char in parameter 1 of call to 'cat' defined on line 20 but got type int.
+    cat(cat(492));
+
+    x <- x <- true;   ## '<-' requires things of the same type but lhs is char and rhs is int.
+    b <- b <- 666;    ## '<-' requires things of the same type but lhs is int and rhs is char.
+    x <- b <- x <- b;
+        
+    x*b and b*x;
+
+    emu(x+b, parrot, b and x);
+    emu(false, true and emu(x+b, parrot, b and x), true, x*b);
+
+    bb;
+
+    return aa;  ## Cannot return an array
+ end 

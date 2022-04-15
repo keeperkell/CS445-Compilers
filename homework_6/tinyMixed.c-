@@ -1,0 +1,11 @@
+## C-S22
+main()  begin  end 
+
+dogs()
+ begin 
+;
+if true then ;else;
+while true do;
+for x <- -6 to -7 by -1 do;
+   begin  end 
+ end 

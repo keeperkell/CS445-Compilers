@@ -1,0 +1,36 @@
+====================================
+FILE: badcontrol.c-
+ERROR(6): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(7): '<-' requires operands of the same type but lhs is type int and rhs is type bool.
+ERROR(9): Expecting Boolean test condition in if statement but got type int.
+ERROR(11): Expecting Boolean test condition in if statement but got type int.
+ERROR(14): Expecting Boolean test condition in if statement but got type int.
+ERROR(14): Expecting Boolean test condition in if statement but got type int.
+ERROR(17): Expecting Boolean test condition in if statement but got type int.
+ERROR(18): Expecting Boolean test condition in if statement but got type int.
+ERROR(19): Expecting Boolean test condition in if statement but got type int.
+ERROR(20): Expecting Boolean test condition in if statement but got type int.
+ERROR(21): Expecting Boolean test condition in if statement but got type int.
+ERROR(23): Expecting Boolean test condition in while statement but got type int.
+ERROR(25): Expecting Boolean test condition in while statement but got type void.
+ERROR(33): Expecting Boolean test condition in while statement but got type int.
+ERROR(36): Expecting Boolean test condition in while statement but got type int.
+ERROR(44): Cannot have a break statement outside of loop.
+WARNING(46): The variable 'z' seems not to be used.
+WARNING(48): The variable 'i' seems not to be used.
+ERROR(50): Expecting type int in position 1 in range of for statement but got type bool.
+WARNING(50): The variable 'i' seems not to be used.
+ERROR(52): Expecting type int in position 1 in range of for statement but got type void.
+ERROR(52): Symbol 'zog' is not declared.
+WARNING(52): The variable 'i' seems not to be used.
+ERROR(54): '<-' requires operands of the same type but lhs is type char and rhs is type int.
+ERROR(56): Expecting type int in position 3 in range of for statement but got type bool.
+WARNING(56): The variable 'i' seems not to be used.
+ERROR(58): Expecting type int in position 3 in range of for statement but got type void.
+WARNING(58): The variable 'i' seems not to be used.
+ERROR(60): Symbol 'zog' is not declared.
+WARNING(60): The variable 'i' seems not to be used.
+ERROR(62): Symbol 'zog' is not declared.
+WARNING(62): The variable 'i' seems not to be used.
+Number of warnings: 8
+Number of errors: 24

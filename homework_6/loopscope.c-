@@ -1,0 +1,14 @@
+main()
+ begin 
+    int x;
+
+    for y<-1 to 10 do  begin 
+        int y;
+        int x;
+
+        x <- y;
+     end 
+    x <- y;
+    for y<-1 to 10 do x <- y;
+ end 
+

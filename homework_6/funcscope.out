@@ -1,0 +1,18 @@
+====================================
+FILE: funcscope.c-
+ERROR(5): Symbol 'x' is already declared at line 5.
+ERROR(6): Symbol 'x' is already declared at line 5.
+WARNING(10): The parameter 'x' seems not to be used.
+ERROR(16): Symbol 'x' is already declared at line 15.
+WARNING(15): The parameter 'x' seems not to be used.
+ERROR(29): Symbol 'x' is already declared at line 28.
+WARNING(5): The function 'ant' seems not to be used.
+WARNING(10): The function 'bat' seems not to be used.
+WARNING(15): The function 'cat' seems not to be used.
+WARNING(22): The function 'dog' seems not to be used.
+WARNING(28): The function 'elk' seems not to be used.
+WARNING(35): The function 'fox' seems not to be used.
+WARNING(45): The function 'gnu' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 9
+Number of errors: 5

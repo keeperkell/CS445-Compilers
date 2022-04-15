@@ -1,0 +1,27 @@
+====================================
+FILE: init3.c-
+Var: x of type int [mem: Global loc: 0 size: 1] [line: 2]
+.   Child: 0  Const 111 of type int [line: 2]
+Sibling: 1  Func: main returns type void [mem: Global loc: 0 size: -2] [line: 4]
+.   Child: 1  Compound [mem: None loc: 0 size: -3] [line: 4]
+.   .   Child: 0  Var: y of type int [mem: Local loc: -2 size: 1] [line: 5]
+.   .   .   Child: 0  Const 222 of type int [line: 5]
+.   .   Sibling: 1  Var: z of static type int [mem: LocalStatic loc: -1 size: 1] [line: 6]
+.   .   .   Child: 0  Const 333 of type int [line: 6]
+.   .   Sibling: 2  Var: b of static type bool [mem: LocalStatic loc: -2 size: 1] [line: 7]
+.   .   .   Child: 0  Const true of type bool [line: 7]
+.   .   Sibling: 3  Var: c of static type char [mem: LocalStatic loc: -3 size: 1] [line: 8]
+.   .   .   Child: 0  Const 'Z' of type char [line: 8]
+.   .   Child: 1  Call: output of type void [line: 10]
+.   .   .   Child: 0  Id: x of type int [mem: Global loc: 0 size: 1] [line: 10]
+.   .   Sibling: 1  Call: output of type void [line: 11]
+.   .   .   Child: 0  Id: y of type int [mem: Local loc: -2 size: 1] [line: 11]
+.   .   Sibling: 2  Call: output of type void [line: 12]
+.   .   .   Child: 0  Id: z of static type int [mem: LocalStatic loc: -1 size: 1] [line: 12]
+.   .   Sibling: 3  Call: outputb of type void [line: 13]
+.   .   .   Child: 0  Id: b of static type bool [mem: LocalStatic loc: -2 size: 1] [line: 13]
+.   .   Sibling: 4  Call: outputc of type void [line: 14]
+.   .   .   Child: 0  Id: c of static type char [mem: LocalStatic loc: -3 size: 1] [line: 14]
+Offset for end of global space: -4
+Number of warnings: 0
+Number of errors: 0

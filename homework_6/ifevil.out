@@ -1,0 +1,18 @@
+====================================
+FILE: ifevil.c-
+WARNING(5): Variable 'hog' may be uninitialized when used here.
+ERROR(5): Expecting Boolean test condition in if statement but got type int.
+WARNING(5): Variable 'bat' may be uninitialized when used here.
+WARNING(6): Variable 'fox' may be uninitialized when used here.
+ERROR(8): Expecting Boolean test condition in if statement but got type int.
+ERROR(9): Expecting Boolean test condition in if statement but got type int.
+ERROR(12): Expecting Boolean test condition in if statement but got type int.
+ERROR(14): Expecting Boolean test condition in if statement but got type int.
+ERROR(16): Expecting Boolean test condition in if statement but got type int.
+ERROR(18): Expecting Boolean test condition in if statement but got type int.
+ERROR(19): Expecting Boolean test condition in if statement but got type int.
+WARNING(1): Expecting to return type int but function 'ant' has no return statement.
+WARNING(1): The function 'ant' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 5
+Number of errors: 9

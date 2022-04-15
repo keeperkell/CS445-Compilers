@@ -1,0 +1,26 @@
+## C-S22
+## fact function
+int fact(int n)
+ begin 
+    int i, f;
+
+    f <- i <- 1;
+    while i<=n do  begin 
+        output(i); outnl();
+        f <- f*i;
+        i++;
+     end 
+
+    return f;
+ end 
+
+main()
+ begin 
+    int n;
+
+    n <- fact(10);
+    output(n);
+    outnl();
+ end 
+
+

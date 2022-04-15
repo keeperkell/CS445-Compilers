@@ -1,0 +1,57 @@
+## all locations are shown with shared memory for parallel
+## compound statements.
+fred()
+ begin 
+   for i<-1 to 10 do       ## i: -2
+       for i<-1 to 10 do   ## i: -3
+           i<-0;
+   for i<-1 to 10 do       ## i: -2
+       if true then  begin 
+           int i;        ## i: -3
+           i<-0;
+        end 
+   for i<-1 to 10 do       ## i: -2
+       while false do  begin 
+           int i;        ## i: -3
+           i<-0;
+        end 
+   for i<-1 to 10 do       ## i: -2
+       for z <- 1 to 11 do  begin 
+           int i;        ## i: -3
+           i<-0;
+        end 
+   for i<-1 to 10 do       ## i: -2
+       for z <- 1 to 11 do  begin 
+           i<-0;          ## i: -3
+        end 
+ end 
+        
+cat(int i) begin               ## i: -2
+     if true then  begin 
+        int i;           ## i: -3
+        i<-0;
+      end  end 
+
+
+errorZ(int i)  begin           ## i: -2
+     int ii;             ## ii: -3
+      begin 
+          int i;         ## i: -4
+  
+          if true then  begin 
+              int i;     ## i: -5
+              i<-0;
+           end     
+          i<-0;
+      end 
+
+   for i<-1 to 10 do       ## i: -4
+        begin 
+           int ii;       ## ii: -5
+           ii<-0;
+           cat(ii);
+        end 
+   errorZ(i);
+ end 
+
+main()  begin fred(); end 

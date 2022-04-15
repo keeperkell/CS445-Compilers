@@ -1,0 +1,18 @@
+## C-S22
+## These error messages have updated text
+## Five messages had the word "type" twice in a row in them
+
+char cat() begin return 42; end     ## this error message was made a bit more clear
+
+int dog() begin return; end 
+
+int main()  begin 
+    char c:666;
+    int i;
+
+    while 'x' do;
+    -c;
+    c--;
+
+    emu() + fox;        ## message says whether function  or  id is undefined
+ end 

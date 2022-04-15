@@ -1,0 +1,45 @@
+====================================
+FILE: assignSmall.c-
+WARNING(6): Variable 'v' may be uninitialized when used here.
+WARNING(8): Variable 'w' may be uninitialized when used here.
+WARNING(11): Variable 'x' may be uninitialized when used here.
+WARNING(13): Variable 'y' may be uninitialized when used here.
+Func: main returns type void [mem: Global loc: 0 size: -2] [line: 2]
+.   Child: 1  Compound [mem: None loc: 0 size: -7] [line: 3]
+.   .   Child: 0  Var: v of type int [mem: Local loc: -2 size: 1] [line: 4]
+.   .   Sibling: 1  Var: w of type int [mem: Local loc: -3 size: 1] [line: 4]
+.   .   Sibling: 2  Var: x of type int [mem: Local loc: -4 size: 1] [line: 4]
+.   .   Sibling: 3  Var: y of type int [mem: Local loc: -5 size: 1] [line: 4]
+.   .   Sibling: 4  Var: z of type int [mem: Local loc: -6 size: 1] [line: 4]
+.   .   Child: 1  Assign: <- of type int [line: 6]
+.   .   .   Child: 0  Id: v of type int [mem: Local loc: -2 size: 1] [line: 6]
+.   .   .   Child: 1  Op: + of type int [line: 6]
+.   .   .   .   Child: 0  Id: v of type int [mem: Local loc: -2 size: 1] [line: 6]
+.   .   .   .   Child: 1  Const 1 of type int [line: 6]
+.   .   Sibling: 1  Assign: <- of type int [line: 7]
+.   .   .   Child: 0  Id: v of type int [mem: Local loc: -2 size: 1] [line: 7]
+.   .   .   Child: 1  Op: + of type int [line: 7]
+.   .   .   .   Child: 0  Id: v of type int [mem: Local loc: -2 size: 1] [line: 7]
+.   .   .   .   Child: 1  Const 1 of type int [line: 7]
+.   .   Sibling: 2  Id: w of type int [mem: Local loc: -3 size: 1] [line: 8]
+.   .   Sibling: 3  Id: w of type int [mem: Local loc: -3 size: 1] [line: 9]
+.   .   Sibling: 4  Assign: <- of type int [line: 10]
+.   .   .   Child: 0  Id: v of type int [mem: Local loc: -2 size: 1] [line: 10]
+.   .   .   Child: 1  Id: w of type int [mem: Local loc: -3 size: 1] [line: 10]
+.   .   Sibling: 5  Assign: ++ of type int [line: 11]
+.   .   .   Child: 0  Id: x of type int [mem: Local loc: -4 size: 1] [line: 11]
+.   .   Sibling: 6  Assign: ++ of type int [line: 12]
+.   .   .   Child: 0  Id: x of type int [mem: Local loc: -4 size: 1] [line: 12]
+.   .   Sibling: 7  Assign: -- of type int [line: 13]
+.   .   .   Child: 0  Id: y of type int [mem: Local loc: -5 size: 1] [line: 13]
+.   .   Sibling: 8  Assign: -- of type int [line: 14]
+.   .   .   Child: 0  Id: y of type int [mem: Local loc: -5 size: 1] [line: 14]
+.   .   Sibling: 9  Assign: += of type int [line: 15]
+.   .   .   Child: 0  Id: z of type int [mem: Local loc: -6 size: 1] [line: 15]
+.   .   .   Child: 1  Const 35 of type int [line: 15]
+.   .   Sibling: 10  Assign: += of type int [line: 16]
+.   .   .   Child: 0  Id: z of type int [mem: Local loc: -6 size: 1] [line: 16]
+.   .   .   Child: 1  Const 35 of type int [line: 16]
+Offset for end of global space: 0
+Number of warnings: 4
+Number of errors: 0

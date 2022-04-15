@@ -1,0 +1,14 @@
+====================================
+FILE: callerr.c-
+ERROR(8): Function 'ella' at line 6 is expecting no return value, but return has a value.
+ERROR(16): Symbol 'lyra' is not declared.
+ERROR(18): Expecting type int in parameter 1 of call to 'ella' declared on line 6 but got type void.
+ERROR(20): Too many parameters passed for function 'dory' declared on line 1.
+ERROR(21): Too many parameters passed for function 'dory' declared on line 1.
+ERROR(22): Symbol 'lyra' is not declared.
+ERROR(23): Too many parameters passed for function 'dory' declared on line 1.
+ERROR(23): Symbol 'lyra' is not declared.
+ERROR(27): '<-' requires operands of the same type but lhs is type int and rhs is type void.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 0
+Number of errors: 10

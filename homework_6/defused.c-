@@ -1,0 +1,42 @@
+bool alice, bob, carol:true;
+int x, q;
+
+main()
+ begin 
+   int v, x, y, z;
+   int v;
+   char x;
+
+   q <- 7;
+   x <- 3;
+   x <- y;
+   w <- u;
+ end 
+
+bob(int bob, bob)  begin 
+    int bob:bob;
+
+    for bob<-1 to 10 do  begin 
+       int bob;
+     end 
+
+    bob <- 1;
+     begin 
+        int bob;
+        bob <- 2;
+     end 
+    bob <- bob;
+ end 
+
+bob()  begin      end 
+
+bob(int a[], a[])  begin 
+      bool dave, ella:false or true, z;
+
+      z<-alice;
+      z<-bob;
+      z<-carol;
+      z<-dave;
+      z<-ella;
+       end 
+    

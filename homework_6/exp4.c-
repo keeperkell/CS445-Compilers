@@ -1,0 +1,67 @@
+## C-S22
+int g;
+
+main()
+ begin 
+     begin 
+        int x;
+        int y;
+
+        x<-11;
+        y<-12;
+        g<-13;
+
+        x<-3+4*x+y*7+x*(y+g);
+        x<-(3-4/x-y/7-x/(y-g));
+        x<-((3%((4))/(x)%(y/(7)%x)/(y%g)));
+     end 
+     begin 
+        bool x, y, z[32];
+
+        x<-true;
+        y<-false;
+
+        x<-true or false and x or y and 7 or x and (y or g);
+        x<- not (true) or  not  not x;
+
+        x <- x  and  y  and  x;
+        x <- x  or  y  or  x;
+
+        x<-z[1];
+        z[1]<-x;
+        z[1]<-z[2];
+        z[1]<-z[2]+z[3]+*z;
+     end 
+     begin 
+        int z[3];
+
+        x<-z[1];
+        x<-?z[1];
+        z[1]<-x;
+        z[1]<-z[2];
+        z[1]<-z[2]+z[3];
+        x<-z[1]+z[2]*z[0]+z[3]*7+x*(z[4]+g);
+     end 
+
+     begin 
+         int a, b, c, d;
+         a<-b<-c;
+         a<-b+c+d;
+         a<-b*c*d;
+         g<-a+=b-=c+d;
+         a<-(b<-3)+(c<-4);
+     end     
+     begin  
+         int a, b;
+         bool x, y;
+         x <- x  or  y  and  b*a>a+b;
+     end 
+
+     begin 
+        false or true and 111 < 222 + 333*444;
+        444*333 + 222 > 111 and true or false;
+        (444*(333 + 222) > 111) and (true or false);
+     end 
+
+    x <- true or not - ? * array[x] * - - 42 / 13 % 5 + 31 - 331 = 12 and 7 < 9;
+ end 

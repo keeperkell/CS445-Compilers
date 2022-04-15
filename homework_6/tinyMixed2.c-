@@ -1,0 +1,16 @@
+## C-S22
+main() begin  end 
+
+int g;
+int x[20];
+
+dogs()
+ begin 
+  ;
+if true then   begin  int a;  end 
+else  begin  int b;  end 
+while true do  begin int c;  end 
+for xx <- g to 10 do  begin int d;  end 
+   begin  int e;  end 
+ end 
+int h;

@@ -1,0 +1,12 @@
+main()
+ begin 
+    int a, b;
+
+     begin 
+         char c, d;
+     end 
+
+     begin 
+         bool e, f;
+     end 
+ end 

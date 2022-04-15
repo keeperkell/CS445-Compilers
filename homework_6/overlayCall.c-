@@ -1,0 +1,11 @@
+## C-S22
+  dog() begin  end 
+
+main()
+ begin 
+     begin 
+        int x[10];
+        dog();
+     end 
+    dog();
+ end 

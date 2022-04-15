@@ -1,0 +1,19 @@
+====================================
+FILE: memory.c-
+WARNING(5): The parameter 'x' seems not to be used.
+WARNING(5): The parameter 'y' seems not to be used.
+WARNING(5): The parameter 'z' seems not to be used.
+ERROR(23): '<-' requires operands of the same type but lhs is type char and rhs is type int.
+ERROR(28): '<-' requires operands of the same type but lhs is type char and rhs is type int.
+WARNING(26): The variable 'tmp' seems not to be used.
+WARNING(10): The variable 'd' seems not to be used.
+WARNING(9): The parameter 'x' seems not to be used.
+WARNING(9): The parameter 'y' seems not to be used.
+WARNING(9): The parameter 'z' seems not to be used.
+WARNING(7): The variable 'bat' seems not to be used.
+WARNING(34): The variable 'cow' seems not to be used.
+WARNING(3): The variable 'ee' seems not to be used.
+WARNING(2): The variable 'h' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 12
+Number of errors: 3

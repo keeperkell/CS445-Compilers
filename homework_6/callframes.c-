@@ -1,0 +1,11 @@
+## C-S22
+int min(int x, y) begin if x>y then  return y; else return x;      end 
+int f(int n)        begin if n<=2 then  return 1; else return f(n-1)+f(n-2); end 
+int g(int n) begin return f(min(10, 666*f(n)-777*f(n+1))); end 
+
+main()
+ begin 
+   output(f(2)+f(3)); outnl();
+   output(g(2)); outnl();
+   if false then  main();
+ end 

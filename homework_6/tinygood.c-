@@ -1,0 +1,13 @@
+int ant[10];
+int bat;
+
+int dog(bool corgi)  begin 
+    char cat;
+
+    cat <- 'x';
+    bat <- 666 * (777 - 888);
+    ant[7] <- ant[8];    
+
+    return bat;
+ end 
+

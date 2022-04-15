@@ -1,0 +1,12 @@
+## C-S22
+int comp(int x, y)  begin  if 777+x*x > 666+y*y then  return x; else return y; end 
+
+main()
+ begin 
+    output(comp(2, 2));
+    output(comp(2, 10));
+    output(comp(2, 20));
+    output(comp(10, 2));
+    output(comp(20, 2));
+    outnl();
+ end 

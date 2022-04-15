@@ -1,0 +1,13 @@
+char g[10]:"pipsissewa";
+main()
+ begin 
+   char a[10], b[10];
+
+   a <- "manifested";
+   b <- g;
+   b <- a;
+   b = a;
+   "unquestionable" > "transformation";
+ end 
+int endOfGlobals;
+

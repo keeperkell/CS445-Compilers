@@ -1,0 +1,18 @@
+## C-S22
+## recursive factorial function
+int factorial(int n)
+ begin 
+        if n<2 then  return 1;
+        else return n*factorial(n-1);
+ end 
+
+main()
+ begin 
+        int n;
+        n <- input();
+        n <- factorial(n);
+        output(n);
+        outnl();
+ end 
+
+

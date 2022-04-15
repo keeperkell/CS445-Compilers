@@ -1,0 +1,18 @@
+====================================
+FILE: rangeifwhile.c-
+WARNING(6): Variable 'b' may be uninitialized when used here.
+ERROR(6): Cannot use array as test condition in if statement.
+ERROR(7): Expecting Boolean test condition in if statement but got type int.
+ERROR(9): Cannot use array as test condition in while statement.
+ERROR(10): Expecting Boolean test condition in while statement but got type char.
+WARNING(12): Variable 'a' may be uninitialized when used here.
+ERROR(12): Cannot use array in position 1 in range of for statement.
+ERROR(12): Cannot use array in position 2 in range of for statement.
+ERROR(12): Cannot use array in position 3 in range of for statement.
+WARNING(12): The variable 'x' seems not to be used.
+ERROR(13): Expecting type int in position 1 in range of for statement but got type bool.
+ERROR(13): Expecting type int in position 2 in range of for statement but got type char.
+ERROR(13): Cannot use function 'main' as a variable.
+ERROR(13): Symbol 'x' is not declared.
+Number of warnings: 3
+Number of errors: 11

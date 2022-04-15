@@ -1,0 +1,16 @@
+====================================
+FILE: initused.c-
+ERROR(2): Symbol 'z' is not declared.
+ERROR(2): Symbol 'z' is not declared.
+ERROR(6): Symbol 'z' is not declared.
+ERROR(6): Symbol 'z' is not declared.
+WARNING(11): Variable 'z' may be uninitialized when used here.
+ERROR(16): 'z' is a simple variable and cannot be called.
+ERROR(16): 'z' is a simple variable and cannot be called.
+WARNING(1): The function 'ant' seems not to be used.
+WARNING(5): The function 'bat' seems not to be used.
+WARNING(9): The function 'cow' seems not to be used.
+WARNING(14): The function 'dog' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 5
+Number of errors: 7

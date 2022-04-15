@@ -1,0 +1,19 @@
+====================================
+FILE: loops.c-
+WARNING(10): The variable 'y' seems not to be used.
+ERROR(12): Symbol 'lyra' is already declared at line 11.
+ERROR(16): Symbol 'asha' is not declared.
+ERROR(16): Symbol 'bree' is not declared.
+ERROR(16): Symbol 'cloe' is not declared.
+WARNING(16): The variable 'lyra' seems not to be used.
+ERROR(19): Symbol 'y' is not declared.
+ERROR(20): Symbol 'y' is not declared.
+WARNING(21): The variable 'y' seems not to be used.
+WARNING(21): The variable 'z' seems not to be used.
+WARNING(4): Expecting to return type int but function 'dog' has no return statement.
+WARNING(4): The parameter 'c' seems not to be used.
+WARNING(4): The parameter 'd' seems not to be used.
+WARNING(4): The function 'dog' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 8
+Number of errors: 7

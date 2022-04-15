@@ -1,0 +1,8 @@
+int g;
+dog(int p)
+ begin 
+   static int s;
+   int i;
+ end 
+
+main() begin  end 

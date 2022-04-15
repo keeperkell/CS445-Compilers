@@ -1,0 +1,15 @@
+int walace, gromit;
+char preston;
+
+int dog(bool corgi)  begin 
+    char cat;
+
+    aspergillus <- fungus;
+    cat <- 666;
+    cat <- dog;
+    dog <- cat;
+    
+
+    return cat;
+ end 
+

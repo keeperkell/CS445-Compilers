@@ -1,0 +1,15 @@
+main()
+ begin 
+    int a, b, c, d, e, f;
+    int aa[10], bb[10], cc[10], dd[10], ee[10], ff[10];
+
+    ## the current reference version of C-S22 does NOT give errors for unassigned index values.
+    ## this is really a bug but since it was not demanded in A3 I did not including it in A4.
+    ## it was a one line fix for me (that I did not include)
+    aa[a] <- b;
+    bb[c]++;
+    cc[aa[d]] <- 666;
+    ee[ff[3]] <- 777;
+    e <- f;
+     end 
+    

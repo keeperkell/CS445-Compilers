@@ -1,0 +1,25 @@
+====================================
+FILE: forerr.c-
+WARNING(7): Variable 'a' may be uninitialized when used here.
+WARNING(7): Variable 'aa' may be uninitialized when used here.
+ERROR(7): Cannot use array in position 2 in range of for statement.
+WARNING(8): Variable 'b' may be uninitialized when used here.
+ERROR(8): Expecting type int in position 1 in range of for statement but got type bool.
+WARNING(8): Variable 'bb' may be uninitialized when used here.
+ERROR(8): Expecting type int in position 2 in range of for statement but got type bool.
+ERROR(8): Cannot use array in position 2 in range of for statement.
+ERROR(9): Expecting type int in position 1 in range of for statement but got type bool.
+ERROR(9): Cannot use array in position 1 in range of for statement.
+ERROR(9): Expecting type int in position 2 in range of for statement but got type bool.
+ERROR(9): Cannot use array in position 2 in range of for statement.
+ERROR(9): Expecting type int in position 3 in range of for statement but got type bool.
+ERROR(9): Cannot use array in position 3 in range of for statement.
+WARNING(10): Variable 'cc' may be uninitialized when used here.
+ERROR(10): Expecting type int in position 1 in range of for statement but got type char.
+ERROR(10): Cannot use array in position 1 in range of for statement.
+WARNING(10): Variable 'c' may be uninitialized when used here.
+ERROR(10): Expecting type int in position 2 in range of for statement but got type char.
+ERROR(11): 'or' requires operands of type bool but lhs is of type int.
+ERROR(11): 'or' requires operands of type bool but rhs is of type int.
+Number of warnings: 6
+Number of errors: 15

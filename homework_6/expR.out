@@ -1,0 +1,16 @@
+====================================
+FILE: expR.c-
+WARNING(6): Variable 'x' may be uninitialized when used here.
+Func: main returns type void [mem: Global loc: 0 size: -2] [line: 2]
+.   Child: 1  Compound [mem: None loc: 0 size: -3] [line: 3]
+.   .   Child: 0  Var: x of type int [mem: Local loc: -2 size: 1] [line: 4]
+.   .   Child: 1  Op: > of type bool [line: 6]
+.   .   .   Child: 0  Const 555 of type int [line: 6]
+.   .   .   Child: 1  Op: + of type int [line: 6]
+.   .   .   .   Child: 0  Const 666 of type int [line: 6]
+.   .   .   .   Child: 1  Op: * of type int [line: 6]
+.   .   .   .   .   Child: 0  Id: x of type int [mem: Local loc: -2 size: 1] [line: 6]
+.   .   .   .   .   Child: 1  Const 777 of type int [line: 6]
+Offset for end of global space: 0
+Number of warnings: 1
+Number of errors: 0

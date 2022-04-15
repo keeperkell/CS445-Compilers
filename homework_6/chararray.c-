@@ -1,0 +1,14 @@
+## C-F20
+main()
+ begin 
+    char a[3], b[3];
+    char c[2], d[4];
+
+    a[666];
+    a[666]<-'Q';
+    a[666]<-b[777];    
+    a <- "dog";
+    b <- a;
+    c <- a;
+    d <- a;
+ end 

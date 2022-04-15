@@ -1,0 +1,38 @@
+====================================
+FILE: parmtiny.c-
+WARNING(2): Expecting to return type char but function 'emu' has no return statement.
+WARNING(2): The parameter 'x' seems not to be used.
+WARNING(2): The parameter 'y' seems not to be used.
+WARNING(2): The parameter 'z' seems not to be used.
+ERROR(9): Expecting type char in parameter 2 of call to 'emu' declared on line 2 but got type int.
+ERROR(9): Expecting type char in parameter 3 of call to 'emu' declared on line 2 but got type bool.
+WARNING(10): Variable 'c' may be uninitialized when used here.
+WARNING(10): Variable 'i' may be uninitialized when used here.
+ERROR(10): Expecting type char in parameter 2 of call to 'emu' declared on line 2 but got type int.
+WARNING(10): Variable 'b' may be uninitialized when used here.
+ERROR(10): Expecting type char in parameter 3 of call to 'emu' declared on line 2 but got type bool.
+ERROR(11): '+' requires operands of type int but lhs is of type char.
+ERROR(11): Expecting type char in parameter 1 of call to 'emu' declared on line 2 but got type int.
+ERROR(11): Symbol 'parrot' is not declared.
+ERROR(11): 'and' requires operands of type bool but rhs is of type int.
+ERROR(11): Expecting type char in parameter 3 of call to 'emu' declared on line 2 but got type bool.
+ERROR(12): '+' requires operands of type int but lhs is of type char.
+ERROR(12): Expecting type char in parameter 1 of call to 'emu' declared on line 2 but got type int.
+ERROR(12): Expecting type char in parameter 2 of call to 'emu' declared on line 2 but got type int.
+ERROR(12): Expecting type char in parameter 3 of call to 'emu' declared on line 2 but got type bool.
+ERROR(12): 'and' requires operands of type bool but rhs is of type int.
+ERROR(12): Expecting type char in parameter 3 of call to 'emu' declared on line 2 but got type bool.
+ERROR(13): Too few parameters passed for function 'emu' declared on line 2.
+ERROR(14): Expecting type char in parameter 2 of call to 'emu' declared on line 2 but got type int.
+ERROR(14): Too few parameters passed for function 'emu' declared on line 2.
+ERROR(15): Expecting type char in parameter 2 of call to 'emu' declared on line 2 but got type int.
+ERROR(15): Expecting type char in parameter 3 of call to 'emu' declared on line 2 but got type bool.
+ERROR(16): Expecting type char in parameter 2 of call to 'emu' declared on line 2 but got type int.
+ERROR(16): Expecting type char in parameter 3 of call to 'emu' declared on line 2 but got type bool.
+ERROR(16): Too many parameters passed for function 'emu' declared on line 2.
+ERROR(16): '+' requires operands of type int but lhs is of type char.
+ERROR(17): Symbol 'zot' is not declared.
+ERROR(17): '+' requires operands of type int but lhs is of type char.
+ERROR(17): 'and' requires operands of type bool but rhs is of type int.
+Number of warnings: 7
+Number of errors: 27

@@ -1,0 +1,8 @@
+## C-S22
+main()
+ begin 
+   int x;
+   x <- 0;
+
+   while x>10  do x++;
+ end 

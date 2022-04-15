@@ -1,0 +1,18 @@
+## C-S22
+char emu(char x, y, z) begin  end 
+
+main()  begin 
+    bool b;
+    char c;
+    int i;
+
+    emu('z', 666, true);
+    emu(c, i, b);
+    emu(c+i, parrot, b  and  i);
+    emu(c+i, emu(c, i, b), b  and  i);
+    emu(c);
+    emu(c, i);
+    emu(c, i, b);
+    emu(c, i, b, c+i);
+    zot(c+i, b  and  i);
+ end 

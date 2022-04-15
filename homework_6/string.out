@@ -1,0 +1,13 @@
+====================================
+FILE: string.c-
+WARNING(3): The variable 's' seems not to be used.
+WARNING(1): The variable 'g' seems not to be used.
+Var: g of array of type char [mem: Global loc: -7 size: 9] [line: 1]
+.   Child: 0  Const "corgi" of array of type char [mem: Global loc: -1 size: 6] [line: 1]
+Sibling: 1  Func: main returns type void [mem: Global loc: 0 size: -2] [line: 2]
+.   Child: 1  Compound [mem: None loc: 0 size: -13] [line: 2]
+.   .   Child: 0  Var: s of array of type char [mem: Local loc: -3 size: 11] [line: 3]
+.   .   .   Child: 0  Const "beach day" of array of type char [mem: Global loc: -16 size: 10] [line: 3]
+Offset for end of global space: -25
+Number of warnings: 2
+Number of errors: 0

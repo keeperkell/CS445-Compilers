@@ -1,0 +1,19 @@
+## C-S22
+main()
+ begin 
+    int i, sum;
+
+    i<-sum<-0;
+    while i<1000  do  begin 
+        sum += ?6;
+        i++;
+     end 
+    outputb(true);
+
+    outputb(2300<sum  and  sum<2700);  ## about 2500 therefore this should be true most of the time
+    outnl();
+
+    outputb(?3 < 3);               ## T
+    outnl();
+ end 
+

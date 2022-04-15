@@ -1,0 +1,6 @@
+====================================
+FILE: invalidChar.c-
+ERROR(2): Invalid or misplaced input character: '"'. Character Ignored.
+ERROR(3): Invalid or misplaced input character: '@'. Character Ignored.
+Number of warnings: 0
+Number of errors: 2

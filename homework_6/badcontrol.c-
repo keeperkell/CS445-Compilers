@@ -1,0 +1,64 @@
+nothin()  begin  end 
+
+main()  begin 
+    int x, y;
+
+    x <- true;
+    y <- false;
+
+    if x then 111;
+
+    if y then 222;
+    else 333;
+
+    if x then if y then 444;
+        else 555;
+
+    if x then
+        if y then 444;
+        else if 555 then 556;
+            else if x then 557;
+                 else if 559 then x;
+
+    while x do 666;
+
+    while nothin() do  begin 
+        777;
+        break;
+        888;
+        break;
+        999;
+     end 
+
+    while x do  begin 
+        111;
+        break;
+        while y do  begin 
+            222;
+            break;
+            333;
+         end 
+        break;
+        444;
+     end 
+    break;
+
+    for z <- 1 to 11 do break;
+
+    for i<-1 to 10 do break;
+
+    for i<-true to 10 do ;
+
+    for i<-nothin() to zog do ;
+    
+    for i<-1 to 10 by 99 do  begin  char c; c <- i;  end 
+
+    for i<-1 to 10 by true do break;
+
+    for i<-1 to 10 by nothin() do break;
+
+    for i<-1 to 10 by zog do break;
+
+    for i<-1 to 10 by zog() do break;
+ end 
+

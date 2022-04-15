@@ -1,0 +1,13 @@
+main()  begin 
+    int a[10]:78;
+    int b:173;
+    int c:?173;
+    int d:-173;
+    int x:'c';
+    int y:"dogs";
+    int z:main();
+
+    x <- 'c';
+    y <- "dogs";
+    z <- main();
+ end 

@@ -1,0 +1,23 @@
+int g;             ## assume assigned
+
+int main(int h)  begin   ## assigned in parm list
+    static int s;
+    int v, w, x, y, z;
+    int p, q, r;
+    int a[10];
+    int t:1000;
+
+    z <- 4;
+    z <- y*y;
+    y;
+    a[v];
+    v <- v + 1;   ## needs to catch this
+    w <- z <- y;
+    p <- q <- r;  
+    y;
+    v;
+    h;
+    g;
+    s;
+    t;
+ end 

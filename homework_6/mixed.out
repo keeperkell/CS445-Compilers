@@ -1,0 +1,11 @@
+====================================
+FILE: mixed.c-
+WARNING(14): The parameter 'c' seems not to be used.
+ERROR(25): Symbol 'thelma' is already declared at line 14.
+ERROR(29): Expecting array in parameter 2 of call to 'thelma' declared on line 14.
+WARNING(25): Expecting to return type int but function 'thelma' has no return statement.
+WARNING(25): The parameter 'c' seems not to be used.
+WARNING(27): The variable 'zz' seems not to be used.
+WARNING(2): The variable 'c' seems not to be used.
+Number of warnings: 5
+Number of errors: 2

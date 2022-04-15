@@ -1,0 +1,27 @@
+## C-F20
+int g;
+
+main()
+ begin 
+    int x;
+
+    g <- 0;
+    gx <- 0;
+    x <- 0;
+    xx <- 0;
+ end 
+
+main()
+ begin 
+    int g;
+    int x;
+     begin 
+        int x;
+        int main;
+        int g;
+     end 
+ end 
+
+cat(int x; char x) begin dog(); end 
+
+int g;

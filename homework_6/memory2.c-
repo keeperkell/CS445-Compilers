@@ -1,0 +1,27 @@
+## C-F20
+## C-F20
+## different memory layouts
+
+int u;
+bool v[4];
+
+int polgara(int a; bool b)
+ begin 
+        int x;
+        x <- a;
+        return x;
+ end 
+
+main()
+ begin 
+        int i;
+        bool b;
+        int ai[3];
+        bool ab[2];
+        int z;
+
+        z <- polgara(i+43, b);
+
+        u <- 666;
+        v[3] <- true;
+ end 

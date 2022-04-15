@@ -1,0 +1,7 @@
+main()
+ begin 
+     int x:666;
+     int y:111+222*333;
+
+     x*y;
+ end 

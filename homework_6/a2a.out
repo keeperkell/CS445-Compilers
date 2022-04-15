@@ -1,0 +1,28 @@
+====================================
+FILE: a2a.c-
+WARNING(12): The variable 'endOfGlobals' seems not to be used.
+Var: g of array of type char [mem: Global loc: -12 size: 11] [line: 1]
+.   Child: 0  Const "pipsissewa" of array of type char [mem: Global loc: -1 size: 11] [line: 1]
+Sibling: 1  Func: main returns type void [mem: Global loc: 0 size: -2] [line: 2]
+.   Child: 1  Compound [mem: None loc: 0 size: -24] [line: 3]
+.   .   Child: 0  Var: a of array of type char [mem: Local loc: -3 size: 11] [line: 4]
+.   .   Sibling: 1  Var: b of array of type char [mem: Local loc: -14 size: 11] [line: 4]
+.   .   Child: 1  Assign: <- of array of type char [line: 6]
+.   .   .   Child: 0  Id: a of array of type char [mem: Local loc: -3 size: 11] [line: 6]
+.   .   .   Child: 1  Const "manifested" of array of type char [mem: Global loc: -23 size: 11] [line: 6]
+.   .   Sibling: 1  Assign: <- of array of type char [line: 7]
+.   .   .   Child: 0  Id: b of array of type char [mem: Local loc: -14 size: 11] [line: 7]
+.   .   .   Child: 1  Id: g of array of type char [mem: Global loc: -12 size: 11] [line: 7]
+.   .   Sibling: 2  Assign: <- of array of type char [line: 8]
+.   .   .   Child: 0  Id: b of array of type char [mem: Local loc: -14 size: 11] [line: 8]
+.   .   .   Child: 1  Id: a of array of type char [mem: Local loc: -3 size: 11] [line: 8]
+.   .   Sibling: 3  Op: = of type bool [line: 9]
+.   .   .   Child: 0  Id: b of array of type char [mem: Local loc: -14 size: 11] [line: 9]
+.   .   .   Child: 1  Id: a of array of type char [mem: Local loc: -3 size: 11] [line: 9]
+.   .   Sibling: 4  Op: > of type bool [line: 10]
+.   .   .   Child: 0  Const "unquestionable" of array of type char [mem: Global loc: -34 size: 15] [line: 10]
+.   .   .   Child: 1  Const "transformation" of array of type char [mem: Global loc: -49 size: 15] [line: 10]
+Sibling: 2  Var: endOfGlobals of type int [mem: Global loc: -63 size: 1] [line: 12]
+Offset for end of global space: -64
+Number of warnings: 1
+Number of errors: 0

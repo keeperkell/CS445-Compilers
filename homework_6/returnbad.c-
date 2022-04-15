@@ -1,0 +1,6 @@
+int ruby()  begin return true; end 
+int weiss()  begin return; end 
+int blake() begin ; end 
+yang()  begin return 'x'; end 
+char rwby()  begin return "dogs"; end 
+

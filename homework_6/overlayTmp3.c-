@@ -1,0 +1,33 @@
+## C-S22
+int dog(int pig)  begin return pig;                          end 
+
+thor(int a)  begin 
+if true then   begin 
+    int z;
+    z <- 111;
+     begin 
+        int x;
+
+        x <- 222;
+        x <- 666+dog(x);
+        output(x); outnl();
+     end 
+     begin 
+        int y;
+
+        y <- 333;
+        y <- 666+dog(y);
+        output(y); outnl();
+     end 
+
+    z <- 666+dog(z);
+    output(z); outnl();
+ end    end 
+
+int g;
+main()  begin 
+  int z;
+
+  thor(z);
+  thor(g);
+ end 

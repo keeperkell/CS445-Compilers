@@ -1,0 +1,11 @@
+====================================
+FILE: io.c-
+ERROR(13): Symbol 'outputs' is not declared.
+WARNING(49): Variable 'xx' may be uninitialized when used here.
+ERROR(49): Not expecting array in parameter 1 of call to 'output' declared on line -1.
+WARNING(50): Variable 'bb' may be uninitialized when used here.
+ERROR(50): Not expecting array in parameter 1 of call to 'outputb' declared on line -1.
+WARNING(51): Variable 'cc' may be uninitialized when used here.
+ERROR(51): Not expecting array in parameter 1 of call to 'outputc' declared on line -1.
+Number of warnings: 3
+Number of errors: 4

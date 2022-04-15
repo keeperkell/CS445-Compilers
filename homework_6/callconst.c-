@@ -1,0 +1,23 @@
+## C-F20
+scalar(int a; bool b; char c)
+ begin 
+    output(a);
+    outputb(b);
+    outputc(c);
+    outnl();
+ end 
+
+
+array(int a[]; bool b[]; char c[])
+ begin 
+    output(a[1]);
+    outputb(b[2]);
+    outputc(c[3]);
+    outnl();
+ end 
+
+
+main()
+ begin 
+    scalar(111, true, 'x');
+ end 

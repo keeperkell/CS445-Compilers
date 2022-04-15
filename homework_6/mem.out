@@ -1,0 +1,9 @@
+====================================
+FILE: mem.c-
+WARNING(7): The variable 'z' seems not to be used.
+ERROR(14): '<-' requires both operands be arrays or not but lhs is an array and rhs is not an array.
+ERROR(15): '<-' requires both operands be arrays or not but lhs is not an array and rhs is an array.
+WARNING(23): The variable 'bb' seems not to be used.
+WARNING(24): The variable 'c' seems not to be used.
+Number of warnings: 3
+Number of errors: 2

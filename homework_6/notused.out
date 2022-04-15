@@ -1,0 +1,17 @@
+====================================
+FILE: notused.c-
+WARNING(12): The variable 'y' seems not to be used.
+WARNING(8): Expecting to return type int but function 'main' has no return statement.
+WARNING(8): The parameter 'u' seems not to be used.
+WARNING(10): The variable 'w' seems not to be used.
+WARNING(8): The parameter 'z' seems not to be used.
+ERROR(21): Cannot use function 'dog' as a variable.
+ERROR(22): Symbol 'klingon' is not declared.
+ERROR(23): Symbol 'klingon' is not declared.
+ERROR(23): Symbol 'romulon' is not declared.
+WARNING(20): Expecting to return type int but function 'elk' has no return statement.
+WARNING(20): The function 'elk' seems not to be used.
+WARNING(1): The variable 'g' seems not to be used.
+ERROR(LINKER): A function named 'main' with no parameters must be defined.
+Number of warnings: 8
+Number of errors: 5

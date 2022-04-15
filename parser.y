@@ -575,7 +575,7 @@ int main(int argc, char *argv[])
     initErrorProcessing();
 
     // get CLI option when program is run
-    if((option = getopt(argc, argv, "dDhpP")) != -1){
+    if((option = getopt(argc, argv, "dDhMpP")) != -1){
 
       if ((yyin = fopen(argv[2], "r"))) {
             // file open successful

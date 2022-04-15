@@ -1,0 +1,7 @@
+main()
+ begin 
+    int u:111*222 + ?333*444;
+    int x:111 + 222;
+    int y:x + x;
+    int z:111*222 + 333*444;
+ end 
