@@ -33,6 +33,7 @@ TreeNode *newDeclNode(DeclKind kind, TokenData* token){
             t->expType = Void;
             t->attr.name = strdup(token->tokeninput);
             t->memSize = 1;
+            t->memKind = None;
         }
     }
 
@@ -56,6 +57,7 @@ TreeNode *newStmtNode(StmtKind kind, TokenData *token){
             t->expType = Void;
             t->attr.name = strdup(token->tokeninput);
             t->memSize = 1;
+            t->memKind = None;
         }
     }
 
@@ -78,6 +80,7 @@ TreeNode *newExpNode(ExpKind kind, TokenData *token){
             t->linenum = token->linenum;
             t->expType = Void;
             t->memSize = 1;
+            t->memKind = None;
         }
     }
 
@@ -189,14 +192,23 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                     
                     case NullK:
                         printf("NULL [line: %d]\n", t->linenum);
+                        if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                         break;
                     
                     case IfK:
                         printf("If [line: %d]\n", t->linenum);
+                        if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                         break;
 
                     case WhileK:
                         printf("While [line: %d]\n", t->linenum);
+                        if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                         break;
 
                     case ForK:
@@ -217,14 +229,23 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
 
                     case ReturnK:
                         printf("Return [line: %d]\n", t->linenum);
+                        if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                         break;
 
                     case BreakK:
                         printf("Break [line: %d]\n", t->linenum);
+                        if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                         break;
 
                     case RangeK:
                         printf("Range [line: %d]\n", t->linenum);
+                        if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                         break;
 
                     default:
@@ -247,6 +268,9 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                                     getExpType(t->expType);
                                 }
                             }
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                             printf(" [line: %d]\n", t->linenum);
                         }
                         else if(t->child[1] == NULL && !strcmp(t->attr.name, "*")){
@@ -261,6 +285,9 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                                     getExpType(t->expType);
                                 }
                             }
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                             printf(" [line: %d]\n", t->linenum);
                         }
                         else{
@@ -274,6 +301,9 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                                     getExpType(t->expType);
                                 }
                             }
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                             printf(" [line: %d]\n", t->linenum);
                         }
                         break;
@@ -285,6 +315,9 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                             if(W_TYPING){
                                 printf(" of type int");
                             }
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                             printf(" [line: %d]\n", t->linenum);
                             break;
                         
@@ -292,6 +325,9 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                             printf("Const %s",t->attr.name);
                             if(W_TYPING){
                                 printf(" of type bool");
+                            }
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
                             }
                             printf(" [line: %d]\n", t->linenum);
                             break;
@@ -301,6 +337,9 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                             if(W_TYPING){
                                 printf(" of type char");
                             }
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
+                            }
                             printf(" [line: %d]\n", t->linenum);
                             break;
 
@@ -308,6 +347,9 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                             printf("Const \'%c\'",t->attr.cvalue);
                             if(W_TYPING){
                                 printf(" of type char");
+                            }
+                            if(memTyping){
+                                printf(" [mem: %s loc: %d size: %d", returnMemKind(t->memKind), t->offset, t->memSize);
                             }
                             printf(" [line: %d]\n", t->linenum);
                             break;
@@ -354,6 +396,7 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                             printf(" of type ");
                             getExpType(t->expType);
                         }
+
                         printf(" [line: %d]\n", t->linenum);
                         break;
 
@@ -373,12 +416,7 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                 WS++;
                 printWhiteSpace(WS);
                 printf("Child: %d ", i);
-                if(memTyping){
-                    printTree(t->child[i], W_TYPING, 0, true);
-                }
-                else{
-                    printTree(t->child[i], W_TYPING, 0, false);
-                }
+                printTree(t->child[i], W_TYPING, 0, memTyping);
                 
                 WS--;
             }
