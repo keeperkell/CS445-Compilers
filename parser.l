@@ -26,7 +26,7 @@ int charLength;
 // return length of string accounting for quotations
 static size_t getStrLength(char *svalue){
     // remove 2 from length to account for quotations
-    return strlen(svalue)-2;
+    return strlen(svalue);
 }
 
 // increment through string, changing all chars to uppercase

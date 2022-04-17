@@ -25,6 +25,7 @@ extern FILE *yyin;
 extern int line;         // ERR line number from the scanner!!
 extern int numErrors;    // ERR err count
 extern int numWarnings;  // ERR warning count
+extern int goffset;      // global offset
 bool W_TYPING; 
 
 static TreeNode *AST;
@@ -556,6 +557,7 @@ constant      : NUMCONST                                        { $$ = newExpNod
                                                                   $$->expType = Char;
                                                                   $$->isArray = true;
                                                                   $$->memSize = $1->strlength + 1;
+
                                                                 }
               | BOOLCONST                                       { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.value = $1->nvalue; 
@@ -698,6 +700,7 @@ int main(int argc, char *argv[])
               if(!numErrors){
                 W_TYPING = true;
                 printTree(AST, W_TYPING, 0, true);
+                printf("Offset for end of global space: %d\n", goffset);
               }
             default:
               break;

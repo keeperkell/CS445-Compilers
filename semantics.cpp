@@ -34,7 +34,7 @@ char *curScope;
 int goffset = 0;
 int foffset = -2;
 int localoffset = 0;
-int globalMem;
+int globalMem = 0;
 #define MEMSIZE -2
 
 ExpType expectReturnType = Void;
@@ -65,9 +65,6 @@ void semanticAnalysis(TreeNode *t){
                 else{
                     t->isGlobal = true;
                 }
-                
-                //printf("Line: %d, Token: %s, DeclType: %s\n", t->linenum, t->attr.name, getDeclType(t->subkind.decl));
-                //printf("IsGlobal: %d\n", t->isGlobal);
 
                 // if symbol is already declared, print error and increase count
                 if(t->subkind.decl != VarK){
@@ -183,7 +180,7 @@ void semanticAnalysis(TreeNode *t){
                         }
 
                         // mem assign checks
-                        if(st.depth() == 1){
+                        if(t->isGlobal){
                             t->memKind = Global;
 
                             if(t->isArray){
@@ -209,12 +206,13 @@ void semanticAnalysis(TreeNode *t){
                             t->memKind = Local;
 
                             if(t->isArray){
-                                t->offset = goffset - 1;
+                                t->offset = foffset - 1;
+                                foffset = foffset - t->memSize;
                             }
                             else{
-                                t->offset = goffset;
+                                t->offset = foffset;
+                                foffset = foffset - t->memSize;
                             }
-                            goffset = goffset - t->memSize;
                         }
 
                         break;
@@ -226,6 +224,8 @@ void semanticAnalysis(TreeNode *t){
                         funcScope = t;
                         //default return flag to false
                         hasReturn = false;
+
+                        foffset = -2;
 
                         //enter for scope
                         st.enter(t->attr.name);
@@ -334,8 +334,8 @@ void semanticAnalysis(TreeNode *t){
                         st.leave();
 
                         // do memory assigns
+                        t->memSize = foffset;
                         foffset = localoffset;
-                        //t->memSize = foffset;
 
                         break;
 
@@ -384,8 +384,8 @@ void semanticAnalysis(TreeNode *t){
                         }
 
                         // do memory assigns
+                        t->memSize = foffset;
                         foffset = localoffset;
-                        //t->memSize = foffset;
 
                         break;
 
@@ -421,6 +421,7 @@ void semanticAnalysis(TreeNode *t){
                         insideFor = false;
 
                         // do memory assigns
+                        t->memSize = foffset;
                         foffset = localoffset;
                         //t->memSize = foffset;
                         
@@ -639,6 +640,7 @@ void semanticAnalysis(TreeNode *t){
                             }
                         }
 
+                        //printf("memSize of Const: %d\n", t->memSize);
                         // do memory assigns
                         if(t->isArray){
                             t->memKind = Global;
