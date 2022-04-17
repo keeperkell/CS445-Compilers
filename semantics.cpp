@@ -52,6 +52,8 @@ void semanticAnalysis(TreeNode *t){
     }
     else{
         //printf("----->insideScope: %d\n",insideScope);
+
+        //printf("Token: %s   goffset: %d\n", t->attr.name, goffset);
         
         switch(t->nodekind){
             case DeclK:
@@ -65,6 +67,7 @@ void semanticAnalysis(TreeNode *t){
                 else{
                     t->isGlobal = true;
                 }
+                //printf("Line: %d, Token: %s, DeclType: %s\n", t->linenum, t->attr.name, getDeclType(t->subkind.decl));
 
                 // if symbol is already declared, print error and increase count
                 if(t->subkind.decl != VarK){
@@ -179,41 +182,46 @@ void semanticAnalysis(TreeNode *t){
                             t->isDeclared = true;
                         }
 
-                        // mem assign checks
-                        if(t->isGlobal){
-                            t->memKind = Global;
+                        printf("Token: %s, isOffest: %d\n", t->attr.name, t->isOffset);
+                        if(!t->isOffset){
+                            // mem assign checks
+                            if(t->isGlobal){
+                                t->memKind = Global;
 
-                            if(t->isArray){
-                                t->offset = goffset - 1;
+                                if(t->isArray){
+                                    t->offset = goffset - 1;
+                                }
+                                else{
+                                    t->offset = goffset;
+                                }
+                                goffset = goffset - t->memSize;
+                            }
+                            else if(t->isStatic){
+                                t->memKind = LocalStatic;
+
+                                if(t->isArray){
+                                    t->offset = goffset - 1;
+                                }
+                                else{
+                                    t->offset = goffset;
+                                }
+                                goffset = goffset - t->memSize;
                             }
                             else{
-                                t->offset = goffset;
-                            }
-                            goffset = goffset - t->memSize;
-                        }
-                        else if(t->isStatic){
-                            t->memKind = LocalStatic;
+                                t->memKind = Local;
 
-                            if(t->isArray){
-                                t->offset = goffset - 1;
+                                if(t->isArray){
+                                    t->offset = foffset - 1;
+                                    foffset = foffset - t->memSize;
+                                }
+                                else{
+                                    t->offset = foffset;
+                                    foffset = foffset - t->memSize;
+                                }
                             }
-                            else{
-                                t->offset = goffset;
-                            }
-                            goffset = goffset - t->memSize;
+                            t->isOffset = true;
                         }
-                        else{
-                            t->memKind = Local;
-
-                            if(t->isArray){
-                                t->offset = foffset - 1;
-                                foffset = foffset - t->memSize;
-                            }
-                            else{
-                                t->offset = foffset;
-                                foffset = foffset - t->memSize;
-                            }
-                        }
+                        
 
                         break;
 
@@ -421,10 +429,10 @@ void semanticAnalysis(TreeNode *t){
                         insideFor = false;
 
                         // do memory assigns
-                        t->memKind = None;
                         t->memSize = foffset;
                         foffset = localoffset;
-                                                
+                        //t->memSize = foffset;
+                        
                         break;
 
                     case CompoundK:
@@ -433,10 +441,10 @@ void semanticAnalysis(TreeNode *t){
                         //printf("StmtK->CompoundK\n");
                         bool tempScope = insideScope;
 
-                        localoffset = foffset;
                         if(!tempScope){
                             st.enter("compound");
                             scopeDepth++;
+                            localoffset = foffset;
                         }
                         else{
                             insideScope = false;
@@ -454,9 +462,11 @@ void semanticAnalysis(TreeNode *t){
 
                             st.leave();
                             scopeDepth--;
+                            foffset = localoffset;
                         }
                         
                         // do memory assigns
+                        //t->memSize = foffset;
                         t->memKind = None;
                         t->memSize = foffset;
                         foffset = localoffset;
@@ -642,11 +652,15 @@ void semanticAnalysis(TreeNode *t){
 
                         //printf("memSize of Const: %d\n", t->memSize);
                         // do memory assigns
-                        if(t->isArray){
-                            t->memKind = Global;
-                            t->offset = goffset - 1;
-                            goffset = goffset - t->memSize;
+                        if(!t->isOffset){
+                           if(t->isArray){
+                                t->memKind = Global;
+                                t->offset = goffset - 1;
+                                goffset = goffset - t->memSize;
+                            }
+                            t->isOffset = true;
                         }
+                        
                         
                         break;
 

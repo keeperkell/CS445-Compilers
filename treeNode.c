@@ -34,6 +34,7 @@ TreeNode *newDeclNode(DeclKind kind, TokenData* token){
             t->attr.name = strdup(token->tokeninput);
             t->memSize = 1;
             t->memKind = None;
+            t->isOffset = false;
         }
     }
 
@@ -58,6 +59,7 @@ TreeNode *newStmtNode(StmtKind kind, TokenData *token){
             t->attr.name = strdup(token->tokeninput);
             t->memSize = 1;
             t->memKind = None;
+            t->isOffset = false;
         }
     }
 
@@ -81,6 +83,7 @@ TreeNode *newExpNode(ExpKind kind, TokenData *token){
             t->expType = Void;
             t->memSize = 1;
             t->memKind = None;
+            t->isOffset = false;
         }
     }
 

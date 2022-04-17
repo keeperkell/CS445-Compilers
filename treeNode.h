@@ -86,6 +86,7 @@ typedef struct treeNode{
     int memSize;                                // record size of memory
     int offset;                                 // mem offset
     VarKind memKind;                            // type of memory
+    bool isOffset;
 
 } TreeNode;
 
