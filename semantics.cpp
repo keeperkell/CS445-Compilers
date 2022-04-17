@@ -421,10 +421,10 @@ void semanticAnalysis(TreeNode *t){
                         insideFor = false;
 
                         // do memory assigns
+                        t->memKind = None;
                         t->memSize = foffset;
                         foffset = localoffset;
-                        //t->memSize = foffset;
-                        
+                                                
                         break;
 
                     case CompoundK:
@@ -433,10 +433,10 @@ void semanticAnalysis(TreeNode *t){
                         //printf("StmtK->CompoundK\n");
                         bool tempScope = insideScope;
 
+                        localoffset = foffset;
                         if(!tempScope){
                             st.enter("compound");
                             scopeDepth++;
-                            localoffset = foffset;
                         }
                         else{
                             insideScope = false;
@@ -454,12 +454,12 @@ void semanticAnalysis(TreeNode *t){
 
                             st.leave();
                             scopeDepth--;
-                            foffset = localoffset;
                         }
                         
                         // do memory assigns
-                        //t->memSize = foffset;
                         t->memKind = None;
+                        t->memSize = foffset;
+                        foffset = localoffset;
 
                         break;
                     }
