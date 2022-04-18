@@ -1,0 +1,20 @@
+int dog(int x, y)  begin 
+   int p:7;
+   return x%p + y%p;
+ end 
+
+int g:4000;
+main()  begin 
+     int a:1000, b:2000, c:3000;
+     
+     output(dog(a, 2*b));
+      begin 
+        int x, y, z;
+
+        y <- a + g;
+        output(dog(g, y));
+        output(g);
+        
+      end 
+     output(999 + dog(333+33*g, b%17 + c));
+ end 

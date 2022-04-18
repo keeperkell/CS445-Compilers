@@ -1,0 +1,27 @@
+## C-S22
+## a truly awful recursive factorial function
+int k[20];
+
+int factorial(int n)
+ begin 
+        if n<2 then   begin 
+             k[n] <- 1;
+         end 
+        else  begin 
+             k[n] <- n * factorial(n-1);
+         end 
+
+        return  k[n];
+ end 
+
+main()
+ begin 
+        int n;
+
+        n <- 10;
+        n <- factorial(n);
+        output(n);
+        outnl();
+ end 
+
+

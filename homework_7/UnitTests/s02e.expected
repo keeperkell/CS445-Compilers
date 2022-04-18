@@ -1,0 +1,7 @@
+WARNING(4): The variable 'runningSum' seems not to be used.
+Number of warnings: 1
+Number of errors: 0
+------------------------------------
+Loading file: UnitTests/s02e.tm
+777 1665
+Bye.

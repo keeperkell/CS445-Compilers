@@ -1,0 +1,20 @@
+16c16
+< .   .   Child: 1  Assign: := of type int [line: 5]
+---
+> .   .   Child: 1  Assign: <- of type int [line: 5]
+18c18
+< .   .   .   Child: 1  Assign: := of type int [line: 5]
+---
+> .   .   .   Child: 1  Assign: <- of type int [line: 5]
+28c28
+< .   .   .   .   Sibling: 1  Assign: := of type int [line: 8]
+---
+> .   .   .   .   Sibling: 1  Assign: <- of type int [line: 8]
+40c40
+< .   .   Child: 1  Assign: := of type int [line: 17]
+---
+> .   .   Child: 1  Assign: <- of type int [line: 17]
+43c43
+< .   .   Sibling: 1  Assign: := of type int [line: 18]
+---
+> .   .   Sibling: 1  Assign: <- of type int [line: 18]

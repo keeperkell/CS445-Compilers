@@ -1,0 +1,7 @@
+WARNING(2): The variable 'z' seems not to be used.
+Number of warnings: 1
+Number of errors: 0
+------------------------------------
+Loading file: UnitTests/g02.tm
+637 122 637
+Bye.

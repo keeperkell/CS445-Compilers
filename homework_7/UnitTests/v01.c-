@@ -1,0 +1,30 @@
+main()
+ begin 
+   char a[4]:"acid";
+   char b[4]:"zulu";
+   char c[4];
+
+   outputc(a[0]);
+   outputc(a[1]);
+   outputc(a[2]);
+   outputc(a[3]);
+   outputc(' ');
+   outputc(b[0]);
+   outputc(b[1]);
+   outputc(b[2]);
+   outputc(b[3]);
+   outnl();
+   c <- a;
+   a <- b;
+   b <- c;
+   outputc(a[0]);
+   outputc(a[1]);
+   outputc(a[2]);
+   outputc(a[3]);
+   outputc(' ');
+   outputc(b[0]);
+   outputc(b[1]);
+   outputc(b[2]);
+   outputc(b[3]);
+   outnl();
+ end    

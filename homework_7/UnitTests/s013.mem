@@ -1,0 +1,27 @@
+WARNING(7): The variable 'load' seems not to be used.
+Func: input returns type int [mem: Global loc: 0 size: -2] [line: -1]
+Sibling: 1  Func: output returns type void [mem: Global loc: 0 size: -3] [line: -1]
+.   Child: 0  Parm: *dummy* of type int [mem: Parameter loc: -2 size: 1] [line: -1]
+Sibling: 2  Func: inputb returns type bool [mem: Global loc: 0 size: -2] [line: -1]
+Sibling: 3  Func: outputb returns type void [mem: Global loc: 0 size: -3] [line: -1]
+.   Child: 0  Parm: *dummy* of type bool [mem: Parameter loc: -2 size: 1] [line: -1]
+Sibling: 4  Func: inputc returns type char [mem: Global loc: 0 size: -2] [line: -1]
+Sibling: 5  Func: outputc returns type void [mem: Global loc: 0 size: -3] [line: -1]
+.   Child: 0  Parm: *dummy* of type char [mem: Parameter loc: -2 size: 1] [line: -1]
+Sibling: 6  Func: outnl returns type void [mem: Global loc: 0 size: -2] [line: -1]
+Sibling: 7  Var: goad of type int [mem: Global loc: 0 size: 1] [line: 4]
+.   Child: 0  Const 666 of type int [line: 4]
+Sibling: 8  Func: main returns type void [mem: Global loc: 0 size: -2] [line: 5]
+.   Child: 1  Compound [mem: None loc: 0 size: -2] [line: 6]
+.   .   Child: 0  Var: load of static type int [mem: LocalStatic loc: -1 size: 1] [line: 7]
+.   .   Child: 1  Compound [mem: None loc: 0 size: -2] [line: 8]
+.   .   .   Child: 0  Var: goad of static type int [mem: LocalStatic loc: -2 size: 1] [line: 9]
+.   .   .   .   Child: 0  Const 777 of type int [line: 9]
+.   .   .   Child: 1  Call: output of type void [line: 10]
+.   .   .   .   Child: 0  Id: goad of static type int [mem: LocalStatic loc: -2 size: 1] [line: 10]
+.   .   Sibling: 1  Call: output of type void [line: 12]
+.   .   .   Child: 0  Id: goad of type int [mem: Global loc: 0 size: 1] [line: 12]
+.   .   Sibling: 2  Call: outnl of type void [line: 13]
+Offset for end of global space: -3
+Number of warnings: 1
+Number of errors: 0

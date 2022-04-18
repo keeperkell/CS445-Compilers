@@ -1,0 +1,11 @@
+## C-S22
+main()
+ begin 
+    bool x;
+    bool y;
+
+    x <- true;
+    y <- false;
+    outputb(x  and  y);
+    outnl();
+ end 

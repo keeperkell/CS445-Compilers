@@ -1,0 +1,8 @@
+26c26
+< .   .   Sibling: 2  Assign: := of type bool [line: 9]
+---
+> .   .   Sibling: 2  Assign: <- of type bool [line: 9]
+74c74
+< .   .   Sibling: 9  Assign: := of type bool [line: 19]
+---
+> .   .   Sibling: 9  Assign: <- of type bool [line: 19]

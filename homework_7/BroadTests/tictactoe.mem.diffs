@@ -1,0 +1,240 @@
+16c16
+< .   .   Child: 1  Assign: := of type int [line: 33]
+---
+> .   .   Child: 1  Assign: <- of type int [line: 33]
+40c40
+< .   .   .   .   Child: 1  Assign: := of type int [line: 43]
+---
+> .   .   .   .   Child: 1  Assign: <- of type int [line: 43]
+45c45
+< .   .   .   .   Sibling: 1  Assign: := of type bool [line: 44]
+---
+> .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 44]
+49c49
+< .   .   .   .   Child: 1  Assign: := of type bool [line: 47]
+---
+> .   .   .   .   Child: 1  Assign: <- of type bool [line: 47]
+98c98
+< .   .   .   .   Child: 1  Assign: := of type int [line: 59]
+---
+> .   .   .   .   Child: 1  Assign: <- of type int [line: 59]
+103c103
+< .   .   .   .   Sibling: 1  Assign: := of type bool [line: 60]
+---
+> .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 60]
+139c139
+< .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 66]
+---
+> .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 66]
+144c144
+< .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 67]
+---
+> .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 67]
+192c192
+< .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 74]
+---
+> .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 74]
+197c197
+< .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 75]
+---
+> .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 75]
+233c233
+< .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 81]
+---
+> .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 81]
+238c238
+< .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 82]
+---
+> .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 82]
+298c298
+< .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 90]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 90]
+303c303
+< .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 91]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 91]
+339c339
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 97]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 97]
+344c344
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 98]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 98]
+392c392
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 105]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 105]
+397c397
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 106]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 106]
+433c433
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 112]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 112]
+438c438
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 113]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 113]
+486c486
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 122]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 122]
+491c491
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 123]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 123]
+495c495
+< .   .   .   Child: 0  Op: >< of type bool [line: 134]
+---
+> .   .   .   Child: 0  Op: != of type bool [line: 134]
+506c506
+< .   .   Child: 1  Assign: := of type bool [line: 144]
+---
+> .   .   Child: 1  Assign: <- of type bool [line: 144]
+553c553
+< .   .   .   .   Child: 1  Assign: := of type int [line: 150]
+---
+> .   .   .   .   Child: 1  Assign: <- of type int [line: 150]
+558c558
+< .   .   .   .   Sibling: 1  Assign: := of type bool [line: 151]
+---
+> .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 151]
+594c594
+< .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 157]
+---
+> .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 157]
+599c599
+< .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 158]
+---
+> .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 158]
+647c647
+< .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 165]
+---
+> .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 165]
+652c652
+< .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 166]
+---
+> .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 166]
+688c688
+< .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 172]
+---
+> .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 172]
+693c693
+< .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 173]
+---
+> .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 173]
+753c753
+< .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 181]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 181]
+758c758
+< .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 182]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 182]
+794c794
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 188]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 188]
+799c799
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 189]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 189]
+847c847
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 196]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 196]
+852c852
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 197]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 197]
+888c888
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 203]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 203]
+893c893
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 204]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 204]
+941c941
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 213]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 213]
+946c946
+< .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 214]
+---
+> .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 214]
+966c966
+< .   .   Child: 1  Assign: := of type bool [line: 242]
+---
+> .   .   Child: 1  Assign: <- of type bool [line: 242]
+980c980
+< .   .   .   .   .   .   Child: 0  Op: >< of type bool [line: 245]
+---
+> .   .   .   .   .   .   Child: 0  Op: != of type bool [line: 245]
+985c985
+< .   .   .   .   .   .   Child: 1  Op: >< of type bool [line: 245]
+---
+> .   .   .   .   .   .   Child: 1  Op: != of type bool [line: 245]
+991c991
+< .   .   .   .   .   .   Child: 1  Assign: := of type int [line: 246]
+---
+> .   .   .   .   .   .   Child: 1  Assign: <- of type int [line: 246]
+996c996
+< .   .   .   .   .   .   Sibling: 1  Assign: := of type bool [line: 247]
+---
+> .   .   .   .   .   .   Sibling: 1  Assign: <- of type bool [line: 247]
+1004c1004
+< .   .   Child: 1  Assign: := of type int [line: 257]
+---
+> .   .   Child: 1  Assign: <- of type int [line: 257]
+1052c1052
+< .   .   Child: 1  Assign: := of type int [line: 281]
+---
+> .   .   Child: 1  Assign: <- of type int [line: 281]
+1057c1057
+< .   .   .   .   Child: 0  Op: >< of type bool [line: 283]
+---
+> .   .   .   .   Child: 0  Op: != of type bool [line: 283]
+1115c1115
+< .   .   .   .   Child: 0  Op: >< of type bool [line: 292]
+---
+> .   .   .   .   Child: 0  Op: != of type bool [line: 292]
+1141c1141
+< .   .   .   .   Child: 0  Op: >< of type bool [line: 297]
+---
+> .   .   .   .   Child: 0  Op: != of type bool [line: 297]
+1183c1183
+< .   .   .   .   Child: 0  Op: >< of type bool [line: 304]
+---
+> .   .   .   .   Child: 0  Op: != of type bool [line: 304]
+1209c1209
+< .   .   .   .   Child: 0  Op: >< of type bool [line: 309]
+---
+> .   .   .   .   Child: 0  Op: != of type bool [line: 309]
+1235c1235
+< .   .   .   .   Child: 0  Op: >< of type bool [line: 314]
+---
+> .   .   .   .   Child: 0  Op: != of type bool [line: 314]
+1260c1260
+< .   .   Child: 1  Assign: := of type int [line: 329]
+---
+> .   .   Child: 1  Assign: <- of type int [line: 329]
+1273c1273
+< .   .   .   .   Child: 1  Assign: := of type int [line: 335]
+---
+> .   .   .   .   Child: 1  Assign: <- of type int [line: 335]
+1290c1290
+< .   .   Child: 1  Assign: := of type int [line: 349]
+---
+> .   .   Child: 1  Assign: <- of type int [line: 349]
+1298c1298
+< .   .   .   .   Child: 1  Assign: := of type int [line: 352]
+---
+> .   .   .   .   Child: 1  Assign: <- of type int [line: 352]
+1306c1306
+< .   .   Sibling: 2  Assign: := of type bool [line: 356]
+---
+> .   .   Sibling: 2  Assign: <- of type bool [line: 356]

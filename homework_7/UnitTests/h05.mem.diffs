@@ -1,0 +1,4 @@
+37c37
+< .   .   Child: 1  Assign: := of type int [line: 16]
+---
+> .   .   Child: 1  Assign: <- of type int [line: 16]

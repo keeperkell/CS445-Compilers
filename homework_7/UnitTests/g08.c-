@@ -1,0 +1,13 @@
+## C-S22
+int cat(int z[], x)
+ begin 
+    return 77+z[x]*z[x];
+ end 
+
+main()
+ begin 
+    int z[10];
+
+    z[3] <- 445;
+    output(cat(z, 3));
+ end 

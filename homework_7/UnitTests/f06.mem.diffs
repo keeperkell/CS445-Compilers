@@ -1,0 +1,12 @@
+18c18
+< .   .   Child: 1  Assign: := of type bool [line: 11]
+---
+> .   .   Child: 1  Assign: <- of type bool [line: 11]
+25c25
+< .   .   Sibling: 2  Assign: := of type bool [line: 13]
+---
+> .   .   Sibling: 2  Assign: <- of type bool [line: 13]
+32c32
+< .   .   Sibling: 4  Assign: := of type bool [line: 15]
+---
+> .   .   Sibling: 4  Assign: <- of type bool [line: 15]

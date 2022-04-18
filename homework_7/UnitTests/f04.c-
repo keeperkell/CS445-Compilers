@@ -1,0 +1,13 @@
+## C-S22
+int cat()
+ begin 
+    return 42;
+ end 
+
+main()
+ begin 
+    int x;
+
+    x <- cat();
+    output(x);
+ end 

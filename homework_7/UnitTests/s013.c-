@@ -1,0 +1,14 @@
+## C-S22
+## testing static variables
+
+int goad:666;
+main()
+ begin 
+    static int load;
+     begin 
+        static int goad:777;
+        output(goad);
+     end 
+    output(goad);
+    outnl();
+ end 

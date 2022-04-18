@@ -1,0 +1,7 @@
+main()
+ begin 
+     for i <- 100 to 90 by -2 do  begin 
+         output(i);
+         outnl();
+      end 
+ end 

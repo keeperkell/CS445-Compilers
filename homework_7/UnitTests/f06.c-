@@ -1,0 +1,18 @@
+## C-S22
+bool cat()
+ begin 
+    return true;
+ end 
+
+main()
+ begin 
+    bool x;
+
+    x <- cat()  and  false;
+    outputb(x);
+    x <- cat()  or  false;
+    outputb(x);
+    x <- not  cat();
+    outputb(x);
+    outnl();
+ end 

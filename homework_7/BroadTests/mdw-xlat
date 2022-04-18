@@ -1,0 +1,14 @@
+#!/bin/bash
+ 
+#
+# Uses xmog to translate all xxx.c-.f21 files to xxx.c-.s22
+#
+
+for file in *.c-.f21
+do
+    stem=`echo $file | sed 's/.f21*$//'`
+    echo '=' $file ' >> ' $stem.s22 '='
+    #../../testCode/000/c- $file > $stem.comp.out 2>&1
+    xmog $file > $stem.s22
+done
+

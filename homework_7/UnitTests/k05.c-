@@ -1,0 +1,18 @@
+## c-S21
+main()
+ begin 
+     int a, b, c;
+     a <- 100;
+     b <- 110;
+     c <- 3;
+     for i <- a to b by c do  begin 
+         int x, y;
+         x <- 11;
+         y <- 22;
+         a <- 300;
+         b <- 200;
+         c <- 100;
+         output(i);
+         outnl();
+      end 
+ end 

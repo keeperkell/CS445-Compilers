@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for file in *.c-
+do
+    stem=`echo $file | sed 's/\..*$//'`
+    echo '=' $file '==='
+    #../../testCode/000/Code/c- -M $file > $stem.comp.out 2>&1
+    ../../../testCode/000/Code/c- -M $file > $stem.mem 2>&1
+done

@@ -1,0 +1,13 @@
+## C-S22
+main()
+ begin 
+    int x;
+
+    x <- 0;
+    while x<10 do  begin 
+        output(x);
+        if x!=5 then  x <- x+1;
+        else break;
+     end 
+    output(666);
+ end 

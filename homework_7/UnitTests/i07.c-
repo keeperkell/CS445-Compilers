@@ -1,0 +1,11 @@
+## C-S22
+main()
+ begin 
+    bool ba:true, bb: true  and  not  false, bc: 5>4;
+
+    outputb(ba);
+    outputb(bb);
+     begin 
+        outputb(bc);
+     end 
+ end 

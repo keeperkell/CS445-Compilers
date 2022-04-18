@@ -1,0 +1,7 @@
+main()
+ begin 
+     for i <- 300 to 313 do  begin 
+         output(i);
+         outnl();
+      end 
+ end 

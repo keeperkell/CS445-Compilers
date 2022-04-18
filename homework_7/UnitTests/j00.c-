@@ -1,0 +1,37 @@
+## C-S22
+int cat(int x[], i)  begin return x[i]; end 
+
+int dog(int x[], i)  begin return cat(x, i); end 
+
+int fox(int x[], i)  begin return dog(x, i); end 
+
+int g[10];
+main()
+ begin 
+    int i;
+    int h[10];
+    static int s[10];
+
+    i<-1;
+    while i<10 do h[i] <- g[i] <- s[i] <- i++;
+
+    output(g[6]);
+    output(h[6]);
+    output(s[6]);
+    outnl();
+
+    output(cat(g, 6));
+    output(cat(h, 6));
+    output(cat(s, 6));
+    outnl();
+
+    output(dog(g, 6));
+    output(dog(h, 6));
+    output(dog(s, 6));
+    outnl();
+
+    output(fox(g, 6));
+    output(fox(h, 6));
+    output(fox(s, 6));
+    outnl();
+ end 

@@ -1,0 +1,22 @@
+int g, h[10];
+
+int dog(int a, b[])  begin 
+    output(a);
+    output(b[3]);
+    outnl();
+    return a + b[3] + h[0];
+     end 
+
+main()
+ begin 
+    int p, q[8];
+    p <- 100;
+    q[3] <- 1000;
+    g <- 200;
+    h[3] <- 2000;
+    h[0] <- 8;
+    output(dog(p, q));
+    outnl();
+    output(dog(g, h));
+    outnl();
+ end 

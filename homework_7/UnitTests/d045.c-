@@ -1,0 +1,5 @@
+## C-S22
+main()
+ begin 
+    outputb(111>222  and  333<444);
+ end 

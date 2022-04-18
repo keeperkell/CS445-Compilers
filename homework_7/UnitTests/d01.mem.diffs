@@ -1,0 +1,20 @@
+26c26
+< .   .   .   Child: 0  Op: >< of type bool [line: 7]
+---
+> .   .   .   Child: 0  Op: != of type bool [line: 7]
+42c42
+< .   .   .   Child: 0  Op: >< of type bool [line: 11]
+---
+> .   .   .   Child: 0  Op: != of type bool [line: 11]
+58c58
+< .   .   .   Child: 0  Op: >< of type bool [line: 16]
+---
+> .   .   .   Child: 0  Op: != of type bool [line: 16]
+66c66
+< .   .   .   Child: 0  Op: >< of type bool [line: 18]
+---
+> .   .   .   Child: 0  Op: != of type bool [line: 18]
+74c74
+< .   .   .   Child: 0  Op: >< of type bool [line: 20]
+---
+> .   .   .   Child: 0  Op: != of type bool [line: 20]

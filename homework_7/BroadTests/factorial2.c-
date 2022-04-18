@@ -1,0 +1,25 @@
+## factorial function
+int factorial(int n)
+ begin 
+        int i, f;
+
+        f <- i <- 1;
+        while i<=n do  begin 
+        output(i);
+              f <- f*i;
+              i+=1;
+         end 
+
+        return f;
+ end 
+
+main()
+ begin 
+        int n;
+        n <- input();
+        n <- factorial(n);
+        output(n);
+        outnl();
+ end 
+
+        

@@ -1,0 +1,14 @@
+## C-S22
+int fib(int x)
+ begin 
+    output(x);
+    outnl();
+    if x<2 then  return 1;
+    return fib(x-1) + fib(x-2);
+ end 
+
+main()
+ begin 
+      output(fib(6));
+      outnl();
+ end 

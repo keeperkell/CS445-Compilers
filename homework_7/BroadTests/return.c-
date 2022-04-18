@@ -1,0 +1,18 @@
+int null()
+ begin 
+    return 107;
+ end 
+
+int cat()
+ begin 
+    return null();
+ end 
+
+main()
+ begin 
+    int x;
+    899;
+    x <- cat();
+    output(x);
+ end 
+

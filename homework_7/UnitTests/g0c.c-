@@ -1,0 +1,7 @@
+## C-S22
+int cat(int x) begin return x+x; end 
+
+main()
+ begin 
+    output(cat(88));
+ end 

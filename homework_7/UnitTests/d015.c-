@@ -1,0 +1,14 @@
+## C-S22
+main()
+ begin 
+    outputb('X'<'Y');
+    outputb('X'>'Y');
+    outputb('X'='Y');
+    outputb('X'!='Y');
+    outputb('X'>='Y');
+    outputb('X'<='Y');
+    outputb('Y'='Y');
+    outputb('Y'!='Y');
+    outputb('Y'>='Y');
+    outputb('Y'<='Y');
+ end 

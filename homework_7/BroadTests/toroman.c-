@@ -1,0 +1,50 @@
+roman(int n)  begin 
+    int b, j, i;
+    int value[13];
+    char letters[26]:"M CMD CDC XCL XLX IXV IVI ";
+    char s[100];
+    int sloc;
+   
+    ## 1000
+    ## 900, 500, 400, 100,
+    ##  90, 50, 40, 10,
+    ## 9, 5, 4, 1
+    ## simpler to just load the array but this tests stuff
+    b<-100;
+    value[j<-0]<-1000;
+    for i<-0 to 3 do  begin 
+            value[j++]<-9*b;  ## note this is more like a ++j in C++
+            value[j++]<-5*b;
+            value[j++]<-4*b;
+            value[j++]<-b;
+            b /= 10;
+         end 
+
+    i <- 0;
+    sloc <- 0;
+    while value[i]>0 do  begin 
+            while n>=value[i] do  begin 
+                    n -= value[i];
+                    s[sloc] <- letters[2*i];
+                    sloc++;
+                    if letters[2*i+1] != ' ' then  begin 
+                            s[sloc] <- letters[2*i+1];  
+                            sloc++;
+                         end 
+                 end 
+            i++;
+         end 
+
+    for i<-0 to sloc do outputc(s[i]);
+ end 
+
+main()  begin 
+    int n;
+    while true do  begin 
+            n <- input();
+            if n=0 then break;
+            roman(n);
+            outnl();
+         end 
+ end 
+     

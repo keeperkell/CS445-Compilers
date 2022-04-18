@@ -1,0 +1,11 @@
+## C-S22
+int cat()
+ begin 
+    return 93;
+ end 
+
+main()
+ begin 
+    output(cat()+cat());
+    outnl();
+ end 

@@ -1,0 +1,26 @@
+## C-S22
+main()
+ begin 
+   bool x, y, z;
+   x <- true;
+   y <- false;
+   z <- true;
+
+   outputb(x  or  y  and  z);
+   outputb(x  and  y  or  z);
+   outputb(x  and  y  or  z  and  z);
+   outputb(not x  or  y  and  z);
+   outputb(not x  and  y  or  z);
+   outnl();
+
+   x <- true;
+   y <- true;
+   z <- false;
+
+   outputb(x  or  y  and  z);
+   outputb(x  and  y  or  z);
+   outputb(x  and  y  or  z  and  z);
+   outputb(not x  or  y  and  z);
+   outputb(not x  and  y  or  z);
+   outnl();
+ end 

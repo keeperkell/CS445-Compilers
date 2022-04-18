@@ -1,0 +1,14 @@
+outputs(char s[])
+ begin 
+    for i <- 0 to *s do outputc(s[i]);
+ end 
+    
+
+main()
+ begin 
+    outputs("dogs are super cool!");
+    outnl();
+    outputs("The answer is:");
+    output(42);
+    outnl();
+ end 

@@ -1,0 +1,37 @@
+## C-S22
+main()
+ begin 
+   int a, b, c;
+   a <- 213;
+   b <- 11;
+   c <- 4133;
+
+   outputb(a>b  or  b<=c  and  c>=a);
+   outputb(a>b  and  b<=c  or  c>=a);
+   outputb(a>b  and  b<=c  or  c>=a  and  c>=a);
+   outputb(not a>b  or  b<=c  and  c>=a);
+   outputb(not a>b  and  b<=c  or  c>=a);
+   outnl();
+
+   b <- 213;
+   c <- 11;
+   a <- 4133;
+
+   outputb(a>b  or  b<=c  and  c>=a);
+   outputb(a>b  and  b<=c  or  c>=a);
+   outputb(a>b  and  b<=c  or  c>=a  and  c>=a);
+   outputb(not a>b  or  b<=c  and  c>=a);
+   outputb(not a>b  and  b<=c  or  c>=a);
+   outnl();
+
+   b <- 11;
+   c <- 213;
+   a <- 4133;
+
+   outputb(a>b  or  b<=c  and  c>=a);
+   outputb(a>b  and  b<=c  or  c>=a);
+   outputb(a>b  and  b<=c  or  c>=a  and  c>=a);
+   outputb(not a>b  or  b<=c  and  c>=a);
+   outputb(not a>b  and  b<=c  or  c>=a);
+   outnl();
+ end 

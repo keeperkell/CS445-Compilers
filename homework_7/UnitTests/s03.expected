@@ -1,0 +1,7 @@
+WARNING(8): Variable 'cat' may be uninitialized when used here.
+Number of warnings: 1
+Number of errors: 0
+------------------------------------
+Loading file: UnitTests/s03.tm
+10 10
+Bye.

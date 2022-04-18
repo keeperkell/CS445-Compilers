@@ -1,0 +1,15 @@
+## c-S21
+main()
+ begin 
+     int a, b, c;
+     a <- 100;
+     b <- 110;
+     c <- 3;
+     for i <- 2*a+100 to 3*(b+10) by 2*c do  begin 
+         a <- 300;
+         b <- 200;
+         c <- 100;
+         output(i);
+         outnl();
+      end 
+ end 

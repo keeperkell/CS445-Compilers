@@ -1,0 +1,7 @@
+WARNING(4): The variable 'bc' seems not to be used.
+Number of warnings: 1
+Number of errors: 0
+------------------------------------
+Loading file: UnitTests/i06.tm
+T T T
+Bye.

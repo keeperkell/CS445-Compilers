@@ -1,0 +1,5 @@
+WARNING(12): The variable 'x' seems not to be used.
+WARNING(12): The variable 'z' seems not to be used.
+Loading file: BroadTests/pushpopcall3.tm
+9 5 4000 1005
+Bye.

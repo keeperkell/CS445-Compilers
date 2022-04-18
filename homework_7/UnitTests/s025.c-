@@ -1,0 +1,21 @@
+## C-S22
+
+int runningSum;
+int sum(int x)  begin 
+    static int runningSum:0;
+
+    runningSum += x;
+    return runningSum;
+ end 
+
+main()
+ begin 
+    runningSum <- 7000;
+    output(runningSum);
+
+    sum(666);
+    sum(3);
+    output(sum(0));
+
+    output(runningSum);
+ end 

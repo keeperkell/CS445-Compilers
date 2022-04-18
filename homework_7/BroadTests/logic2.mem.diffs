@@ -1,0 +1,12 @@
+16c16
+< .   .   .   Child: 0  Assign: := of type bool [line: 5]
+---
+> .   .   .   Child: 0  Assign: <- of type bool [line: 5]
+20c20
+< .   .   .   Child: 0  Assign: := of type bool [line: 6]
+---
+> .   .   .   Child: 0  Assign: <- of type bool [line: 6]
+57c57
+< .   .   .   Child: 0  Op: >< of type bool [line: 19]
+---
+> .   .   .   Child: 0  Op: != of type bool [line: 19]

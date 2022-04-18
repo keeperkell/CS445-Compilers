@@ -1,0 +1,8 @@
+## C-S22
+main()
+ begin 
+     outputb(not true);
+     outnl();
+     outputb(not false);
+     outnl();
+ end 

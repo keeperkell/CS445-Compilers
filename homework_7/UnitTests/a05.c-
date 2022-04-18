@@ -1,0 +1,9 @@
+## C-S22
+main()
+ begin 
+     int x;
+
+     x <- 273;
+     output(x);
+ end 
+

@@ -1,0 +1,19 @@
+## C-S22
+main()
+ begin 
+    int x;
+    int y;
+
+    x <- 0;
+    while x<6 do  begin 
+        y <- 0;
+        while y<6 do  begin 
+              output(y);
+              if y=4 then  break;
+              y <- y+1;
+         end 
+        output(x);
+        if x=4 then  break;
+        x <- x+1;
+     end 
+ end 

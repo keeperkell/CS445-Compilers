@@ -1,0 +1,16 @@
+16c16
+< .   .   Child: 1  Assign: := of type char [line: 8]
+---
+> .   .   Child: 1  Assign: <- of type char [line: 8]
+19c19
+< .   .   Sibling: 1  Assign: := of type char [line: 9]
+---
+> .   .   Sibling: 1  Assign: <- of type char [line: 9]
+27c27
+< .   .   .   Child: 0  Assign: := of type char [line: 12]
+---
+> .   .   .   Child: 0  Assign: <- of type char [line: 12]
+29c29
+< .   .   .   .   Child: 1  Assign: := of type char [line: 12]
+---
+> .   .   .   .   Child: 1  Assign: <- of type char [line: 12]

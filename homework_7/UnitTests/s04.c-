@@ -1,0 +1,26 @@
+## C-S22
+int s;
+
+dog(int d)  begin 
+    static int s;
+
+    if d=0 then  output(s);
+    else s <- d;
+ end 
+
+cat(int c)  begin 
+    static int s;
+
+    if c=0 then  output(s);
+    else s <- c;
+ end 
+
+main()
+ begin 
+    s<-333;
+    dog(111);
+    cat(222);
+    dog(0);
+    cat(0);
+    output(s);
+ end 

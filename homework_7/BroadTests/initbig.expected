@@ -1,0 +1,19 @@
+WARNING(31): Variable 'x' may be uninitialized when used here.
+WARNING(46): Variable 'y' may be uninitialized when used here.
+Loading file: BroadTests/initbig.tm
+111
+T
+13
+666
+a
+T
+T
+T
+10
+26
+-46
+666
+15
+20
+F
+Bye.

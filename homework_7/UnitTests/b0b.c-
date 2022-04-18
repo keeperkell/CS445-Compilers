@@ -1,0 +1,19 @@
+## C-S22
+main()
+ begin 
+     outputb(false  or  false);
+     outputb(false  or  true);
+     outputb(true  or  false);
+     outputb(true  or  true);
+     outnl();
+
+     outputb(false  and  false);
+     outputb(false  and  true);
+     outputb(true  and  false);
+     outputb(true  and  true);
+     outnl();
+
+     outputb(not false);
+     outputb(not true);
+     outnl();
+ end 

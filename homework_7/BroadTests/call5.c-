@@ -1,0 +1,36 @@
+int g;
+int dog(int x)  begin 
+    g <- 2*x;
+    return x;
+ end 
+
+cat(int x)  begin 
+    g <- 3*x;
+    return;
+ end 
+
+elk(int x)  begin 
+    g <- 4*x;
+ end 
+     
+int fox(int x)  begin 
+    g <- 5*x;
+    return g+1;
+ end 
+     
+main()
+ begin 
+    g <- 1279;
+    output(g);
+    output(dog(111));
+    output(g);
+    cat(222);
+    output(g);
+    elk(333);
+    output(g);
+    output(fox(444));
+    output(g);
+    outnl();
+ end 
+
+

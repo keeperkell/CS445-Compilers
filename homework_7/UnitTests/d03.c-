@@ -1,0 +1,17 @@
+## C-S22
+main()
+ begin 
+   int x, y, z;
+   x <- 755;
+   y <- 88;
+   z <- 3;
+
+   output(x+y*z);
+   output(x*y+z);
+   output(x-y-z);
+   output(x/y/z);
+   output(x*y+z*z);
+   output(x%y%z);
+   output(-x+y*z);
+   outnl();
+ end 

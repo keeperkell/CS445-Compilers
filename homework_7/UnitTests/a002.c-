@@ -1,0 +1,5 @@
+## C-S22
+main()
+ begin 
+     return;
+ end 

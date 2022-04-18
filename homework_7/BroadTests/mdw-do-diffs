@@ -1,0 +1,19 @@
+#!/bin/bash
+ 
+#
+# Compare all xxx.out files with f21/xxx.out
+#
+for full in *.mem
+do
+    #file=`basename $full '.mem'`
+    echo '=' /../f21/$full ' ? ' $full  '>>' $full.diffs '='
+    diff ../../f21/BroadTests/$full $full >> $full.diffs
+done
+
+for full in *.tm
+do
+    #file=`basename $full '.tm'`
+    echo '=' /../f21/$full ' ? ' $full  '>>' $full.diffs '='
+    diff ../../f21/BroadTests/$full $full >> $full.diffs
+done
+

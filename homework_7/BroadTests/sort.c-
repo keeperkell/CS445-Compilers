@@ -1,0 +1,56 @@
+##   A program to perform selection sort of a 10
+##   element array
+int x[10];
+
+int minloc (int a[], low, high )
+ begin 
+    int i, x, k;
+
+    k<-low;
+    x<-a[low];
+    i<-low+1;
+
+    while i<high do  begin 
+        if a[i] < x then  begin  
+            x<-a[i];
+            k<-i; 
+         end 
+        i++;
+     end 
+
+    return k;
+ end 
+
+sort(int a[]; int low, high)
+ begin 
+    int i, k;
+
+    i<-low;
+    while i<high-1 do  begin 
+        int t;
+
+        k <- minloc(a, i, high);
+        t <- a[k];
+        a[k] <- a[i];
+        a[i] <- t;
+        i++;
+     end 
+ end 
+
+main ()
+ begin 
+    int i;
+
+    i<-0;
+    while i<10 do  begin 
+        x[i] <- input();
+        i++;
+     end 
+
+    sort(x, 0, 10);
+    i<-0;
+    while i<10 do  begin 
+        output(x[i]);
+        i++;
+     end 
+ end 

@@ -1,0 +1,29 @@
+Loading file: BroadTests/factor.tm
+entered: 2
+2
+entered: 3
+3
+entered: 5
+5
+entered: 30
+2 3 5
+entered: 210
+2 3 5 7
+entered: 2310
+2 3 5 7 11
+entered: 666
+2 3 3 37
+entered: 4096
+2 2 2 2 2 2 2 2 2 2 2 2
+entered: 3331
+3331
+entered: 3333331
+3333331
+entered: 552390973
+23497 23509
+entered: 343
+7 7 7
+entered: 2401
+7 7 7 7
+entered: 0
+Bye.

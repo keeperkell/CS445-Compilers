@@ -1,0 +1,49 @@
+int a, aa[100];
+
+int dog(int pa[])
+ begin 
+    pa[66];
+    a <- pa[22];
+    pa[88]++;
+    output(a);
+    output(pa[88]);
+    return pa[22]+pa[44];
+ end 
+
+
+main()
+ begin 
+   int b, bb[100];
+
+   aa[11] <- 11;
+   bb[22] <- 22;
+   aa[33] <- 33;
+   bb[44] <- 44;
+   aa[55] <- 55;
+   bb[66] <- 66;
+   aa[77] <- 77;
+   bb[88] <- 88;
+   aa[99] <- 99;
+   
+   output(aa[11]);
+   output(bb[22]);
+   output(aa[99]++);
+   output(aa[99]);
+   outnl();
+
+   output(a <- aa[33]);
+   output(a);
+   outnl();
+
+   output(bb[66-44]);
+   output(aa[77] * bb[88]);
+   outnl();
+
+   output(dog(bb));
+   output(bb[88]);
+   output(bb[dog(bb)]);
+   outnl();
+ end 
+
+
+

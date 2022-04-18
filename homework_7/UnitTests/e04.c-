@@ -1,0 +1,25 @@
+## C-S22
+main()
+ begin 
+    bool x;
+
+    if false then  if true then  output(13);
+    if false then  if false then  output(23);
+
+    x <- false;
+    if false then  if x then  output(44);
+    if false then  if  not  x then  output(55);
+
+    if false then  if 3>1 then  output(987);
+    if false then  if 3<1 then  output(211);
+
+    if false then  if true then  output(13); else output(51);
+    if false then  if false then  output(23); else output(451);
+
+    x <- false;
+    if false then  if x then  output(44); else output(514);
+    if false then  if  not  x then  output(55); else output(1514);
+
+    if false then  if 3>1 then  output(987); else output(114);
+    if false then  if 3<1 then  output(211); else output(1614);
+ end 

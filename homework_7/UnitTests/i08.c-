@@ -1,0 +1,8 @@
+## C-S22
+main() begin 
+    int xx[10];
+     begin 
+        output(xx[-1]);
+        outnl();
+     end 
+ end 

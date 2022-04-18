@@ -1,0 +1,19 @@
+## C-S22
+main()
+ begin 
+    int x;
+    int y;
+
+    x <- 0;
+    while x<6 do  begin 
+        y <- 0;
+        while y<6 do  begin 
+              output(y);
+              y <- y+1;
+         end 
+        outnl();
+        output(x);
+        outnl();
+        x <- x+1;
+     end 
+ end 

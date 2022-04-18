@@ -1,0 +1,18 @@
+## C-S22
+
+main()
+ begin 
+    char x;
+    char y;
+    char z;
+
+    x <- 'A';
+    y <- 'B';
+    outputc(x);
+    outputc(y);
+    outputc(z <- x <- y);
+    outputc(x);
+    outputc(y);
+    outputc(z);
+    outnl();
+ end 

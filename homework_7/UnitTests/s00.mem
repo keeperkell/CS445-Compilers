@@ -1,0 +1,52 @@
+WARNING(23): Variable 'aaa' may be uninitialized when used here.
+WARNING(12): The variable 'bbb' seems not to be used.
+WARNING(13): The variable 'ccc' seems not to be used.
+WARNING(14): The variable 'ddd' seems not to be used.
+WARNING(9): The parameter 'eee' seems not to be used.
+WARNING(9): The parameter 'fff' seems not to be used.
+WARNING(9): The parameter 'ggg' seems not to be used.
+WARNING(9): The parameter 'hhh' seems not to be used.
+WARNING(16): The variable 'saaa' seems not to be used.
+WARNING(17): The variable 'sbbb' seems not to be used.
+WARNING(18): The variable 'sccc' seems not to be used.
+WARNING(19): The variable 'sddd' seems not to be used.
+WARNING(2): The variable 'aaa' seems not to be used.
+WARNING(3): The variable 'bbb' seems not to be used.
+WARNING(4): The variable 'ccc' seems not to be used.
+WARNING(5): The variable 'ddd' seems not to be used.
+WARNING(9): The function 'dogs' seems not to be used.
+Func: input returns type int [mem: Global loc: 0 size: -2] [line: -1]
+Sibling: 1  Func: output returns type void [mem: Global loc: 0 size: -3] [line: -1]
+.   Child: 0  Parm: *dummy* of type int [mem: Parameter loc: -2 size: 1] [line: -1]
+Sibling: 2  Func: inputb returns type bool [mem: Global loc: 0 size: -2] [line: -1]
+Sibling: 3  Func: outputb returns type void [mem: Global loc: 0 size: -3] [line: -1]
+.   Child: 0  Parm: *dummy* of type bool [mem: Parameter loc: -2 size: 1] [line: -1]
+Sibling: 4  Func: inputc returns type char [mem: Global loc: 0 size: -2] [line: -1]
+Sibling: 5  Func: outputc returns type void [mem: Global loc: 0 size: -3] [line: -1]
+.   Child: 0  Parm: *dummy* of type char [mem: Parameter loc: -2 size: 1] [line: -1]
+Sibling: 6  Func: outnl returns type void [mem: Global loc: 0 size: -2] [line: -1]
+Sibling: 7  Var: aaa of type int [mem: Global loc: 0 size: 1] [line: 2]
+Sibling: 8  Var: bbb of type bool [mem: Global loc: -1 size: 1] [line: 3]
+Sibling: 9  Var: ccc of array of type int [mem: Global loc: -3 size: 11] [line: 4]
+Sibling: 10  Var: ddd of array of type bool [mem: Global loc: -14 size: 11] [line: 5]
+Sibling: 11  Func: main returns type void [mem: Global loc: 0 size: -2] [line: 7]
+.   Child: 1  Compound [mem: None loc: 0 size: -2] [line: 7]
+Sibling: 12  Func: dogs returns type int [mem: Global loc: 0 size: -6] [line: 9]
+.   Child: 0  Parm: eee of type int [mem: Parameter loc: -2 size: 1] [line: 9]
+.   Sibling: 1  Parm: fff of type bool [mem: Parameter loc: -3 size: 1] [line: 9]
+.   Sibling: 2  Parm: ggg of array of type int [mem: Parameter loc: -4 size: 1] [line: 9]
+.   Sibling: 3  Parm: hhh of array of type bool [mem: Parameter loc: -5 size: 1] [line: 9]
+.   Child: 1  Compound [mem: None loc: 0 size: -30] [line: 10]
+.   .   Child: 0  Var: aaa of type int [mem: Local loc: -6 size: 1] [line: 11]
+.   .   Sibling: 1  Var: bbb of type bool [mem: Local loc: -7 size: 1] [line: 12]
+.   .   Sibling: 2  Var: ccc of array of type int [mem: Local loc: -9 size: 11] [line: 13]
+.   .   Sibling: 3  Var: ddd of array of type bool [mem: Local loc: -20 size: 11] [line: 14]
+.   .   Sibling: 4  Var: saaa of static type int [mem: LocalStatic loc: -24 size: 1] [line: 16]
+.   .   Sibling: 5  Var: sbbb of static type bool [mem: LocalStatic loc: -25 size: 1] [line: 17]
+.   .   Sibling: 6  Var: sccc of static array of type int [mem: LocalStatic loc: -27 size: 11] [line: 18]
+.   .   Sibling: 7  Var: sddd of static array of type bool [mem: LocalStatic loc: -38 size: 11] [line: 19]
+.   .   Child: 1  Return [line: 23]
+.   .   .   Child: 0  Id: aaa of type int [mem: Local loc: -6 size: 1] [line: 23]
+Offset for end of global space: -48
+Number of warnings: 17
+Number of errors: 0

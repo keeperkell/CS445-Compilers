@@ -1,0 +1,35 @@
+## C-06
+## compute pascal's triangle in a very inefficient way
+## to test recursion by 
+## input size of triangle by   0 will stop program by 
+
+int comb(int a, b)
+ begin 
+    if a = b then 
+        return 1;
+    if b = 0 then 
+        return 1;
+    if b = 1 then 
+        return a;
+
+    return comb(a - 1, b - 1) + comb(a - 1, b);
+ end 
+
+main()
+ begin 
+    int a, b, n;
+
+    while true do  begin 
+        if (n <- input())=0 then  break;
+        a <- 0;
+        while a<=n do  begin 
+            b <- 0;
+            while b<=a do  begin 
+                output(comb(a, b));
+                b++;
+             end 
+            outnl();
+            a++;
+         end 
+     end 
+ end 

@@ -1,0 +1,7 @@
+## C-S22
+char gc[13];
+main() begin 
+    output(*gc);
+     begin 
+     end 
+ end 

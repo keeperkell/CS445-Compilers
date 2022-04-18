@@ -1,0 +1,16 @@
+## C-S22
+int z;
+
+cat()
+ begin 
+    output(z);
+    z <- 99;
+ end 
+
+main()
+ begin 
+    z <- 1001;
+    cat();
+    output(z);
+    outnl();
+ end 

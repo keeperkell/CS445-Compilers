@@ -1,0 +1,43 @@
+outputarray(int s[])
+ begin 
+    int i;
+
+    i <- 0;
+    while i<*s do  begin 
+          output(s[i]);
+          i++;
+     end 
+    outnl();
+ end 
+
+main()
+ begin 
+   int a[9];
+   int b[4];
+   int h[6];
+   int small[2];
+   int big[10];
+
+   for i<-0 to 9 do a[i]<-i+10;
+   for i<-0 to 4 do b[i]<-i+200;
+   for i<-0 to 6 do h[i]<-i+3000;
+   big[9] <- 2048;
+
+   small <- a;
+   outputarray(small);
+   big <- a;
+   outputarray(big);
+   outnl();
+
+   small <- b;
+   outputarray(small);
+   big <- b;
+   outputarray(big);
+   outnl();
+
+   small <- h;
+   outputarray(small);
+   big <- h;
+   outputarray(big);
+   outnl();
+ end    

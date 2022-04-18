@@ -1,0 +1,17 @@
+cat(int x[])  begin 
+    int q:9999;       
+    output(x[1]);
+ end 
+
+dog(int y[])  begin 
+    int q:9999;       
+    cat(y);
+ end 
+
+main()  begin 
+    int q:9999;
+    int z[10];
+    z[1] <- 777;
+    dog(z);
+ end 
+

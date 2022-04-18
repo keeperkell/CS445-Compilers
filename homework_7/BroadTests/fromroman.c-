@@ -1,0 +1,79 @@
+## translates from legal Roman numerals to arabic
+## it also translates ILLEGAL Roman numerals to a number
+## kind of a generalization of Roman numerals
+
+int getstring(char s[])
+ begin 
+    int i;
+
+    i <- -1;
+    while true do  begin 
+        char c;
+
+        c <- inputc();
+        if i<*s then   begin 
+           i++;           
+           s[i] <- c;
+         end 
+        if c='\n' then break;
+     end 
+
+    return i;
+ end 
+
+putstring(int len; char s[])
+ begin 
+    int i;
+
+    i <- 0;
+    while i<len do  begin 
+        outputc(s[i]);
+        i++;
+     end 
+ end 
+
+int charvalue(char c)
+ begin 
+    if c='I' then  return 1;
+    else if c='V' then  return 5;
+    else if c='X' then  return 10;
+    else if c='L' then  return 50;
+    else if c='C' then  return 100;
+    else if c='D' then  return 500;
+    else if c='M' then  return 1000;
+    else return 0;   
+ end 
+
+int roman2arabic(int len; char roman[])
+ begin 
+    int i, sum;
+
+    sum <- 0;
+    i <- 0;
+    while i<len-1 do  begin 
+        if charvalue(roman[i]) < charvalue(roman[i+1]) then sum -= charvalue(roman[i]);
+        else sum += charvalue(roman[i]);
+        i++;
+     end 
+    sum += charvalue(roman[len-1]);
+
+    return sum;
+ end 
+
+
+main()
+ begin 
+    char s[50];
+    int len;
+
+    while true do  begin 
+        len <- getstring(s);   
+        if s[0]='q' then  break;
+        putstring(len, s);
+        outnl();
+        output(roman2arabic(len, s));
+        outnl();
+     end 
+ end 
+
+

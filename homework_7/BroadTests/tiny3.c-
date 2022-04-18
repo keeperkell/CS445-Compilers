@@ -1,0 +1,21 @@
+int g;
+int wolf(int garion)
+ begin 
+        int w;
+        return garion+g;
+ end 
+
+int polgara(int silk)
+ begin 
+        int p;
+        return silk+1;
+ end 
+
+main()
+ begin 
+        int x;
+        g <- 33;
+        x <- 666;
+        x <- wolf(polgara(x));
+        output(x);
+ end 

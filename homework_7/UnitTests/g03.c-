@@ -1,0 +1,15 @@
+## C-S22
+int z;
+
+int cat(int z)
+ begin 
+    return z;
+ end 
+
+main()
+ begin 
+    int z;
+
+    z <- 637;
+    output(cat(z));
+ end 

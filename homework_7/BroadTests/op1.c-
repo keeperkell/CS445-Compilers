@@ -1,0 +1,62 @@
+main()
+ begin 
+    outputb(111<=222);
+    outputb(222<=111);
+    outputb(111<=111);
+    outnl();
+
+    outputb(111<222);
+    outputb(222<111);
+    outputb(111<111);
+    outnl();
+
+    outputb(111>222);
+    outputb(222>111);
+    outputb(111>111);
+    outnl();
+
+    outputb(111>=222);
+    outputb(222>=111);
+    outputb(111>=111);
+    outnl();
+
+    outputb(111=222);
+    outputb(222=111);
+    outputb(111=111);
+    outnl();
+
+    outputb(111!=222);
+    outputb(222!=111);
+    outputb(111!=111);
+    outnl();
+
+    outputb(111!=222);
+    outputb(222!=111);
+    outputb(111!=111);
+    outnl();
+
+    outputb(false  and  false);
+    outputb(false  and  true);
+    outputb(true  and  false);
+    outputb(true  and  true);
+    outnl();
+
+    outputb(false  or  false);
+    outputb(false  or  true);
+    outputb(true  or  false);
+    outputb(true  or  true);
+    outnl();
+
+    outputb( not false);
+    outputb( not true);
+    outnl();
+
+    output(333+444);
+    output(333-444);
+    output(333*444);
+    output(333/444);
+    output(3333%444);
+    output(-444);
+
+    return;
+ end 
