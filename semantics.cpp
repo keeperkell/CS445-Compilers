@@ -182,7 +182,7 @@ void semanticAnalysis(TreeNode *t){
                             t->isDeclared = true;
                         }
 
-                        printf("Token: %s, isOffest: %d\n", t->attr.name, t->isOffset);
+                        //printf("Token: %s, isOffest: %d\n", t->attr.name, t->isOffset);
                         if(!t->isOffset){
                             // mem assign checks
                             if(t->isGlobal){
@@ -265,8 +265,8 @@ void semanticAnalysis(TreeNode *t){
 
                         // mem assign checks
                         t->memKind = Global;
-                        t->memSize = globalMem;
-                        globalMem = MEMSIZE;
+                        t->memSize = MEMSIZE;
+                        //globalMem = MEMSIZE;
 
                         break;
 
