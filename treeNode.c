@@ -35,6 +35,7 @@ TreeNode *newDeclNode(DeclKind kind, TokenData* token){
             t->memSize = 1;
             t->memKind = None;
             t->isOffset = false;
+            t->codeGenLineNum = 0;
         }
     }
 
@@ -60,6 +61,7 @@ TreeNode *newStmtNode(StmtKind kind, TokenData *token){
             t->memSize = 1;
             t->memKind = None;
             t->isOffset = false;
+            t->codeGenLineNum = 0;
         }
     }
 
@@ -84,6 +86,7 @@ TreeNode *newExpNode(ExpKind kind, TokenData *token){
             t->memSize = 1;
             t->memKind = None;
             t->isOffset = false;
+            t->codeGenLineNum = 0;
         }
     }
 
