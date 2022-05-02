@@ -57,7 +57,6 @@ void codeGenDecl(TreeNode *t){
                 if(t->memKind == Local){
                     if(!t->isArray){
                         loffset -= t->memSize;
-                        emitComment((char *)("LOFF dec: "), loffset);
                     }
                     else{
                         emitRM((char *)"LDC", 3, t->memSize - 1, 6, (char *)("load array size"), (char *)t->attr.name);
@@ -73,7 +72,6 @@ void codeGenDecl(TreeNode *t){
 
                 TreeNode *LUChild = t->child[0];
                 loffset = -2;
-                emitComment((char *)("LOFF set: "), loffset);
                 
                 int numParams = 0;
                 while(LUChild){
