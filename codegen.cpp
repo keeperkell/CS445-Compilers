@@ -12,12 +12,12 @@ int loffset = -2;
 bool storeInMem = false;
 int breakLoc = 0;
 
-FILE *genFile;
+FILE *codeFile;
 
 void codeGen(char *outputFile, TreeNode *t){
     char *temp = t->attr.name;
     //open file to write
-    genFile = fopen(outputFile, "w");
+    codeFile = fopen(outputFile, "w");
 
     t->attr.name = temp;
     genParse(t);
