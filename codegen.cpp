@@ -12,12 +12,15 @@ int loffset = -2;
 bool storeInMem = false;
 int breakLoc = 0;
 
-FILE *codeFile;
+FILE *code;
 
 void codeGen(char *outputFile, TreeNode *t){
     char *temp = t->attr.name;
     //open file to write
-    codeFile = fopen(outputFile, "w");
+    code = fopen(outputFile, "w");
+
+    // init IO
+    initIO();
 
     t->attr.name = temp;
     genParse(t);
@@ -619,7 +622,90 @@ void codeGenExp(TreeNode *t){
         case CallK:
         {
             emitComment((char *)("START CALL"));
+
+            int numParams = 1;
+            int tempOff = 0;
+
+            TreeNode *lookup = (TreeNode *)st.lookup(t->attr.name);
+            tempOff = loffset;
+
+            while(lookup->sibling){
+                lookup = lookup->sibling;
+                numParams++;
+            }
+
+            // there are no params
+            if(!t->child[0]){
+                emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp"), (char *)t->attr.name);
+                emitRM((char *)"LDA", 1, loffset, 1, (char *)("Load fp"));
+            }
+            // params exists
+            else{
+                if(numParams == 1){
+                    emitComment((char *)("START Param 1"));
+                    emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp"), (char *)t->attr.name);
+                    loffset -= 2;
+                    genParse(t->child[0]);
+                    if(!t->child[0]->isArray){
+                        loffset  -= numParams;
+                    }
+
+                    pushLeft();
+                    emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Load fp"));
+                    emitComment((char *)("END Param 1"));
+                }
+                // more than 1 param in call
+                else{
+                    emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp"), (char *)t->attr.name);
+                    TreeNode *LUChild = t->child[0];
+                    loffset--;
+
+                    while(LUChild){
+                        emitComment((char *)("START Param"));
+                        loffset--;
+
+                        if(LUChild->isArray){
+                            if(LUChild->memKind == Global){
+                                emitRM((char *)"LDA", 3, LUChild->offset, 0, (char *)("Load base of array addr"), (char *)LUChild->attr.name);
+                            }
+                            else{
+                                emitRM((char *)"LDA", 3, LUChild->offset, 1, (char *)("Load base of array addr"), (char *)LUChild->attr.name);
+                            }
+
+                            pushLeft();
+                        }
+                        else{
+                            if(LUChild->expType == Boolean){
+                                emitRM((char *)"LDC", 3, t->attr.value, 6,(char *)("Load bool const"));
+                            }
+                            else if(LUChild->expType == Char){
+                                emitRM((char *)"LDC", 3, t->attr.value, 6,(char *)("Load char const"));
+                            }
+                            else if(LUChild->expType == Integer){
+                                emitRM((char *)"LDC", 3, t->attr.value, 6,(char *)("Load int const"));
+                            }
+
+                            pushLeft();
+                        }
+
+                        LUChild = LUChild->sibling;
+                        emitComment((char *)("END Param"));
+                    }
+
+                    emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Load fp"));
+                }
+            }
+
+            //back patch
+            int bp = emitSkip(0);
+
+            lookup = (TreeNode *)st.lookup(t->attr.name);
+            emitRM((char *)"LDA", 3, 1, 7, (char *)("Load return addr"));
+            emitRM((char *)"JMP", 7, lookup->codeGenLineNum - bp - 1, 7, (char *)("CALL"), t->attr.name);
+            emitRM((char *)"LDA", 3, 0, 2, (char *)("Store"));
+
             emitComment((char *)("END CALL"));
+            loffset = tempOff;
 
             break;
         }
@@ -638,15 +724,15 @@ void genMainFunc(TreeNode *t){
     emitNewLoc(0);
     lookup = (TreeNode *)st.lookup("main");
 
-    emitRM((char *)"JMP", 7, bp, 7, (char *)("Jump to init [backpatch]"));
+    emitRM((char *)"JMP", 7, bp, 7, (char *)("Jump to init"));
     emitComment((char *)("START INIT"));
     emitSkip(bp);
 
-    emitRM((char *)"LDA", 1, goffset, 0, (char *)("Set first frame at end of globals"));
-    emitRM((char *)"ST", 1, 0, 1, (char *)("store old fp (point to self)"));    
+    emitRM((char *)"LDA", 1, goffset, 0, (char *)("Set first frame after globals"));
+    emitRM((char *)"ST", 1, 0, 1, (char *)("Store old fp"));    
     genGlobAndStatics(t);
 
-    emitRM((char *)"LDA", 3, 1, 7, (char *)("Return address in ac"));
+    emitRM((char *)"LDA", 3, 1, 7, (char *)("Load return address"));
     bp = emitSkip(0);
     emitRM((char*)"JMP", 7, lookup->codeGenLineNum - bp - 1, 7, (char *)("Jump to main"));
     emitRO((char *)"HALT", 0, 0, 0, (char *)("DONE"));
@@ -656,5 +742,114 @@ void genMainFunc(TreeNode *t){
 void genGlobAndStatics(TreeNode *t){
     emitComment((char *)("START INIT GLOBALS AND STATICS"));
 
+    if(!t){
+        return;
+    }
+    else{
+        if(t->subkind.decl == VarK){
+            if(t->memKind == Global){
+                if(t->isArray){
+                    emitRM((char *)"LDC", 3, t->memSize - 1, 6, (char *)("Load array size"), (char *)t->attr.name);
+                    emitRM((char *)"ST", 3, t->offset + 1, 0, (char *)("Store array size"), (char *)t->attr.name);
+                }
+            }
+        }
+    }
+
+    if(t->sibling){
+        genGlobAndStatics(t->sibling);
+    }
     emitComment((char *)("END INIT GLOBALS AND STATICS"));
+}
+
+void initIO(){
+    TreeNode *tempLU;
+
+    //INPUT Int
+    tempLU = (TreeNode *)st.lookup("input");
+    tempLU->offset = emitSkip(0) - 1;
+
+    emitComment((char *)("START FUNC INPUT"));
+    emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
+    emitRO((char *)"IN", 2, 2, 2, (char *)"Get int input");
+    emitRM((char *)"LD", 3, -1, 1, (char *)"Load return addr");
+    emitRM((char *)"LD", 1, 0, 1, (char *)"Adjust fp");
+    emitRM((char *)"JMP", 7, 0, 3, (char *)"Return");
+    emitComment((char *)"END FUNC INPUT");
+    emitComment((char *)"");
+    emitComment((char *)"** ** ** ** ** ** ** ** ** ** ** **");
+
+    //INPUT Bool
+    tempLU = (TreeNode *)st.lookup("inputb");
+    tempLU->offset = emitSkip(0) - 1;
+
+    emitComment((char *)("START FUNC INPUTB"));
+    emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
+    emitRO((char *)"IN", 2, 2, 2, (char *)"Get bool input");
+    emitRM((char *)"LD", 3, -1, 1, (char *)"Load return addr");
+    emitRM((char *)"LD", 1, 0, 1, (char *)"Adjust fp");
+    emitRM((char *)"JMP", 7, 0, 3, (char *)"Return");
+    emitComment((char *)"END FUNC INPUTB");
+    emitComment((char *)"");
+    emitComment((char *)"** ** ** ** ** ** ** ** ** ** ** **");
+
+    //INPUT Char
+    tempLU = (TreeNode *)st.lookup("inputc");
+    tempLU->offset = emitSkip(0) - 1;
+
+    emitComment((char *)("START FUNC INPUTC"));
+    emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
+    emitRO((char *)"IN", 2, 2, 2, (char *)"Get char input");
+    emitRM((char *)"LD", 3, -1, 1, (char *)"Load return addr");
+    emitRM((char *)"LD", 1, 0, 1, (char *)"Adjust fp");
+    emitRM((char *)"JMP", 7, 0, 3, (char *)"Return");
+    emitComment((char *)"END FUNC INPUTC");
+    emitComment((char *)"");
+    emitComment((char *)"** ** ** ** ** ** ** ** ** ** ** **");
+
+
+    //OUTPUT Int
+    tempLU = (TreeNode *)st.lookup("output");
+    tempLU->offset = emitSkip(0) - 1;
+
+    emitComment((char *)("START FUNC OUTPUT"));
+    emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
+    emitRM((char *)"LD", 3, -2, 1, (char *)"Load return addr");
+    emitRO((char *)"OUT", 3, 3, 3, (char *)"Output int");
+    emitRM((char *)"LD", 3, -1, 1, (char *)"Load return addr");
+    emitRM((char *)"LD", 1, 0, 1, (char *)"Adjust fp");
+    emitRM((char *)"JMP", 7, 0, 3, (char *)"Return");
+    emitComment((char *)"END FUNC OUTPUT");
+    emitComment((char *)"");
+    emitComment((char *)"** ** ** ** ** ** ** ** ** ** ** **");
+
+    //OUTPUT Bool
+    tempLU = (TreeNode *)st.lookup("outputb");
+    tempLU->offset = emitSkip(0) - 1;
+
+    emitComment((char *)("START FUNC OUTPUTB"));
+    emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
+    emitRM((char *)"LD", 3, -2, 1, (char *)"Load return addr");
+    emitRO((char *)"OUT", 3, 3, 3, (char *)"Output int");
+    emitRM((char *)"LD", 3, -1, 1, (char *)"Load return addr");
+    emitRM((char *)"LD", 1, 0, 1, (char *)"Adjust fp");
+    emitRM((char *)"JMP", 7, 0, 3, (char *)"Return");
+    emitComment((char *)"END FUNC OUTPUTB");
+    emitComment((char *)"");
+    emitComment((char *)"** ** ** ** ** ** ** ** ** ** ** **");
+
+    //OUTPUT Char
+    tempLU = (TreeNode *)st.lookup("outputc");
+    tempLU->offset = emitSkip(0) - 1;
+
+    emitComment((char *)("START FUNC OUTPUTC"));
+    emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
+    emitRM((char *)"LD", 3, -2, 1, (char *)"Load return addr");
+    emitRO((char *)"OUT", 3, 3, 3, (char *)"Output int");
+    emitRM((char *)"LD", 3, -1, 1, (char *)"Load return addr");
+    emitRM((char *)"LD", 1, 0, 1, (char *)"Adjust fp");
+    emitRM((char *)"JMP", 7, 0, 3, (char *)"Return");
+    emitComment((char *)"END FUNC OUTPUTC");
+    emitComment((char *)"");
+    emitComment((char *)"** ** ** ** ** ** ** ** ** ** ** **");
 }

@@ -14,7 +14,7 @@
 #include <string.h>
 #include "emitcode.h"
 
-extern FILE *codeFile;
+extern FILE *code;
 
 
 //  TM location number for current instruction emission
@@ -27,22 +27,22 @@ static int litLoc = 1;    // next empty slot in Dmem growing to higher memory
 // 
 void emitComment(char *c, char *cc)
 {
-    fprintf(codeFile, "* %s %s\n", c, cc);
+    fprintf(code, "* %s %s\n", c, cc);
 }
 
 
 void emitComment(char *c, int n)
 {
-    fprintf(codeFile, "* %s %d\n", c, n);
+    fprintf(code, "* %s %d\n", c, n);
 }
 
 
 //  Procedure emitComment prints a comment line 
-// with comment c in the codeFile file
+// with comment c in the code file
 // 
 void emitComment(char *c)
 {
-    fprintf(codeFile, "* %s\n", c);
+    fprintf(code, "* %s\n", c);
 }
 
 
@@ -56,8 +56,8 @@ void emitComment(char *c)
 // 
 void emitRO(char *op, long long int r, long long int s, long long int t, char *c, char *cc)
 {
-    fprintf(codeFile, "%3d:  %5s  %lld,%lld,%lld\t%s %s\n", emitLoc, op, r, s, t, c, cc);
-    fflush(codeFile);
+    fprintf(code, "%3d:  %5s  %lld,%lld,%lld\t%s %s\n", emitLoc, op, r, s, t, c, cc);
+    fflush(code);
     emitLoc++;
 }
 
@@ -77,8 +77,8 @@ void emitRO(char *op,long long int r,long long int s,long long int t, char *c)
 // 
 void emitRM(char *op, long long int r, long long int d, long long int s, char *c, char *cc)
 {
-    fprintf(codeFile, "%3d:  %5s  %lld,%lld(%lld)\t%s %s\n", emitLoc, op, r, d, s, c, cc);
-    fflush(codeFile);
+    fprintf(code, "%3d:  %5s  %lld,%lld(%lld)\t%s %s\n", emitLoc, op, r, d, s, c, cc);
+    fflush(code);
     emitLoc++;
 }
 
@@ -111,9 +111,9 @@ void emitGoto(int d,long long int s, char *c)
 // 
 void emitRMAbs(char *op, long long int r, long long int a, char *c, char *cc)
 {
-    fprintf(codeFile, "%3d:  %5s  %lld,%lld(%lld)\t%s %s\n", emitLoc, op, r, a - (long long int)(emitLoc + 1),
+    fprintf(code, "%3d:  %5s  %lld,%lld(%lld)\t%s %s\n", emitLoc, op, r, a - (long long int)(emitLoc + 1),
 	    (long long int)PC, c, cc);
-    fflush(codeFile);
+    fflush(code);
     emitLoc++;
 }
 
@@ -162,7 +162,7 @@ void emitGotoAbs(int a, char *c)
 
 int emitStrLit(int goffset, char *s)
 {
-    fprintf(codeFile, "%3d:  %5s  \"%s\"\n", -goffset, (char *)"LIT", s);
+    fprintf(code, "%3d:  %5s  \"%s\"\n", -goffset, (char *)"LIT", s);
     return goffset;
 }
 
@@ -179,9 +179,9 @@ int emitWhereAmI()
 }
 
 
-// emitSkip skips "howMany" codeFile
+// emitSkip skips "howMany" code
 // locations for later backpatch.
-// It also returns the current codeFile position.
+// It also returns the current code position.
 // emitSkip(0) tells you where you are and reserves no space.
 // 
 
