@@ -155,7 +155,6 @@ void codeGenStmt(TreeNode *t){
         case CompoundK:
             int tempOffset = loffset;
             emitComment((char *)("COMPOUND"));
-            emitComment((char *)("Compound Body"));
 
             for(int i = 0; i < MAXCHILDREN; i++){
                 genParse(t->child[i]);
@@ -209,11 +208,401 @@ void codeGenStmt(TreeNode *t){
 void codeGenExp(TreeNode *t){
     switch(t->subkind.exp){
         case OpK:
-        case ConstantK:
-        case IdK:
+            emitComment((char *)("START OP"));
+            
+            //unary check
+            if(!t->child[1]){
+                genParse(t->child[0]);
+
+                if(!strcmp(t->attr.name, "*")){
+                    if(t->memKind == Global){
+                        emitRM((char *)"LDA", 3, t->child[0]->offset, 0, (char *)("Load base of array addr"), (char *)t->child[0]->attr.name);
+                    }
+                    else if(t->memKind == Parameter){
+                        emitRM((char *)"LD", 3, t->child[0]->offset, 1, (char *)("Load base of array addr"), (char *)t->child[0]->attr.name);
+                    }
+                    else{
+                        emitRM((char *)"LDA", 3, t->child[0]->offset, 1, (char *)("Load base of array addr"), (char *)t->child[0]->attr.name);
+                    }
+
+                    emitRM((char *)"LD", 3, 1, 3, (char *)("Load array size"));
+                }
+                else if(!strcmp(t->attr.name, "-")){
+                    emitRO((char *)"NEG", 3, 3, 3, (char *)("Unary Op"), (char *)t->attr.name);
+                }
+                else if(!strcmp(t->attr.name, "?")){
+                    emitRO((char *)"RND", 3, 3, 3, (char *)("Unary Op"), (char *)t->attr.name);
+                }
+                else if(!strcmp(t->attr.name, "NOT")){
+                    emitRM((char *)"LDC",4,1,6,(char *)("Load 1"));
+					emitRO((char *)"XOR",3,3,4,(char *)("Op XOR for logical not"));
+                }
+            }
+            // else if for binary
+            else{
+                if(t->child[0]){
+                    if(t->child[0]->child[0]){
+                        // 2 sections needed. One for arrays, one for not an array
+                        if(t->child[0]->child[0]->isArray){
+                            // child 1
+                            if(t->child[0]->child[0]->memKind == Global){
+                                emitRM((char *)"LDA", 3, t->child[0]->child[0]->offset, 0, (char *)("Load base of array addr"), (char *)t->child[0]->child[0]->attr.name);
+                            }
+                            else if(t->child[0]->child[0]->memKind == Parameter){
+                                emitRM((char *)"LD", 3, t->child[0]->child[0]->offset, 1, (char *)("Load base of array addr"), (char *)t->child[0]->child[0]->attr.name);
+                            }
+                            else{
+                                emitRM((char *)"LDA", 3, t->child[0]->child[0]->offset, 1, (char *)("Load base of array addr"), (char *)t->child[0]->child[0]->attr.name);
+                            }
+
+                            pushLeft();
+                            loffset--;
+                            genParse(t->child[0]->child[1]);
+                            loffset++;
+                            emitRM((char *)"LD", 4, loffset, 1, (char *)("Pop Left #1"));
+                            emitRO((char *)"SUB", 3, 4, 4, (char *)("Get location from index"));
+                            emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
+                            pushLeft();
+                            loffset--;
+
+                            // child 2
+                            if(t->child[1]->child[0]->memKind == Global){
+                                emitRM((char *)"LDA", 3, t->child[1]->child[0]->offset, 0, (char *)("Load base of array addr"), (char *)t->child[1]->child[0]->attr.name);
+                            }
+                            else if(t->child[1]->child[0]->memKind == Parameter){
+                                emitRM((char *)"LD", 3, t->child[1]->child[0]->offset, 1, (char *)("Load base of array addr"), (char *)t->child[1]->child[0]->attr.name);
+                            }
+                            else{
+                                emitRM((char *)"LDA", 3, t->child[1]->child[0]->offset, 1, (char *)("Load base of array addr"), (char *)t->child[1]->child[0]->attr.name);
+                            }
+
+                            pushLeft();
+                            loffset--;
+                            genParse(t->child[1]->child[1]);
+                            loffset++;
+                            emitRM((char *)"LD", 4, loffset, 1, (char *)("Pop Left #2"));
+                            emitRO((char *)"SUB", 3, 4, 4, (char *)("Get location from index"));
+                            emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
+                            pushLeft();
+                            loffset++;
+                            emitRM((char *)"LD", 4, loffset, 1, (char *)("Pop Left #3"));
+
+                            // check the ops
+                            if(!strcmp(t->attr.name, "+")){
+								emitRO((char *)"ADD", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+							else if(!strcmp(t->attr.name, "-")){
+								emitRO((char *)"SUB", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+                            else if(!strcmp(t->attr.name, "*")){
+								emitRO((char *)"MUL", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+							else if(!strcmp(t->attr.name, "/")){
+								emitRO((char *)"DIV", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+							else if(!strcmp(t->attr.name, "%")){
+								emitRO((char *)"MOD", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+                            else if(!strcmp(t->attr.name, "+=")){
+								emitRO((char *)"PEQ", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+                            else if(!strcmp(t->attr.name, "-=")){
+								emitRO((char *)"SEQ", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+                            else if(!strcmp(t->attr.name, "*=")){
+								emitRO((char *)"MEQ", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+                            else if(!strcmp(t->attr.name, "/=")){
+								emitRO((char *)"DEQ", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+                            else if(!strcmp(t->attr.name, ">")){
+								emitRO((char *)"TGT", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+							else if(!strcmp(t->attr.name, "<")){
+								emitRO((char *)"TLT", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+							else if(!strcmp(t->attr.name, ">=")){
+								emitRO((char *)"TGE", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+							else if(!strcmp(t->attr.name, "<=")){
+								emitRO((char *)"TLE", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+							else if(!strcmp(t->attr.name, "==")){
+								emitRO((char *)"TEQ", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+                            else if(!strcmp(t->attr.name, "!=")){
+								emitRO((char *)"TNE", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+							else if(!strcmp(t->attr.name, "and")){
+								emitRO((char *)"AND", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+							else if(!strcmp(t->attr.name, "or")){
+								emitRO((char *)"OR", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+							}
+                        }
+
+                        if(!strcmp(t->attr.name, "[")){
+                            emitRM((char *)"SUB", 3, 4, 3, (char *)("Get location from index"));
+                            emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
+                            loffset++;
+                        }
+                    }
+                    // not an array
+                    else{
+                        storeInMem = false;
+                        genParse(t->child[0]);
+                        pushLeft();
+                        loffset--;
+                        genParse(t->child[1]);
+                        loffset--;
+                        emitRM((char *)"LD", 4, loffset, 1, (char *)("Pop left #4"));
+
+                        // check the ops
+                        if(!strcmp(t->attr.name, "+")){
+                            emitRO((char *)"ADD", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "-")){
+                            emitRO((char *)"SUB", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "*")){
+                            emitRO((char *)"MUL", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "/")){
+                            emitRO((char *)"DIV", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "%")){
+                            emitRO((char *)"MOD", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "+=")){
+                            emitRO((char *)"PEQ", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "-=")){
+                            emitRO((char *)"SEQ", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "*=")){
+                            emitRO((char *)"MEQ", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "/=")){
+                            emitRO((char *)"DEQ", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, ">")){
+                            emitRO((char *)"TGT", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "<")){
+                            emitRO((char *)"TLT", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, ">=")){
+                            emitRO((char *)"TGE", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "<=")){
+                            emitRO((char *)"TLE", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "==")){
+                            emitRO((char *)"TEQ", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "!=")){
+                            emitRO((char *)"TNE", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "and")){
+                            emitRO((char *)"AND", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "or")){
+                            emitRO((char *)"OR", 3, 4, 4, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "[")){
+                            emitRM((char *)"SUB", 3, 4, 3, (char *)("Get location from index"));
+                            emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
+                            loffset++;
+                        }
+                    }
+                }
+            }
+            emitComment((char *)("ENBD OP"));
+            break;
+
         case AssignK:
+            emitComment((char *)("START ASSIGN"));
+            TreeNode *lookup = (TreeNode *)st.lookup(t->attr.name);
+
+            if(!strcmp(t->attr.name, "=")){
+                if(strcmp(t->child[0]->attr.name, "[")){
+                    genParse(t->child[1]);
+                    storeInMem = true;
+                    genParse(t->child[0]);
+                    t->isBinary = false;
+                }
+                else{
+                    genParse(t->child[0]->child[1]);
+                    emitRM((char *)"ST", 3, loffset, 1, (char *)("Push index on"));
+                    loffset--;
+                    genParse(t->child[1]);
+                    loffset++;
+                    emitRM((char *)"LD", 4, loffset, 1, (char *)("Pop index off"));
+
+                    if(t->child[0]->child[0]->memKind == Global){
+                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 0, (char *)("Load base of array addr"), (char *)t->child[0]->child[0]->attr.name);
+                    }
+                    else{
+                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 1, (char *)("Load base of array addr"), (char *)t->child[0]->child[0]->attr.name);
+                    }
+
+                    emitRO((char *)"SUB", 5, 5, 4, (char *)("Get value offset"));
+                    emitRM((char *)"ST", 3, 0, 5, (char *)("Store var"), (char *)t->child[0]->child[0]->attr.name);
+                }
+            }
+            else if(!t->child[1]){
+                storeInMem = false;
+                t->isBinary = false;
+                
+                genParse(t->child[0]);
+                if(!strcmp(t->attr.name, "++")){
+                    emitRM((char *)"LDA", 3, 1, 3, (char *)("Increment ++"), (char *)t->child[0]->attr.name);
+                }
+                else if(!strcmp(t->attr.name, "--")){
+                    emitRM((char *)"LDA", 3, -1, 3, (char *)("Decrement --"), (char *)t->child[0]->attr.name);
+                }
+
+                emitRM((char *)"ST", 3 ,t->child[0]->offset, 1, (char *)("Store var"), (char *)t->child[0]->attr.name);
+            }
+            else{
+                storeInMem = false;
+
+                genParse(t->child[1]);
+                t->isBinary = true;
+                genParse(t->child[0]);
+
+                if(!strcmp(t->attr.name, "+=")){
+                    emitRO((char *)"ADD", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                }
+                else if(!strcmp(t->attr.name, "-=")){
+                    emitRO((char *)"SUB", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                }
+                else if(!strcmp(t->attr.name, "*=")){
+                    emitRO((char *)"MUL", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                }
+                else if(!strcmp(t->attr.name, "/=")){
+                    emitRO((char *)"DIV", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                }
+
+                if(t->child[0]->memKind = Global){
+                    emitRM((char *)"ST", 3, t->child[0]->offset, 0, (char *)("Store var"), (char *)t->child[0]->attr.name);
+                }
+                else{
+                    emitRM((char *)"ST", 3, t->child[0]->offset, 1, (char *)("Store var"), (char *)t->child[0]->attr.name);
+                }
+
+                t->isBinary = false;
+            }
+
+            emitComment((char *)("END ASSIGN"));
+            
+        case ConstantK:
+            emitComment((char *)("START CONSTANT"));
+            if(t->expType == Boolean){
+                emitRM((char *)"LDC", 3, t->attr.value, 6,(char *)"Load bool const");
+            }
+            else if(t->expType == Char){
+                emitRM((char *)"LDC", 3, t->attr.value, 6,(char *)"Load char const");
+            }
+            else if(t->expType == Integer){
+                emitRM((char *)"LDC", 3, t->attr.value, 6,(char *)"Load int const");
+            }
+            emitComment((char *)("END CONSTANT"));
+            break;
+
+        case IdK:
+            emitComment((char *)("START ID"));
+            // check if anything set to store in memory
+            if(storeInMem){
+                if(t->memKind == Global){
+                    if(!t->isArray){
+                        storeInMem = false;
+                        emitRM((char *)"ST", 3, t->offset, 0, (char *)("Store var"), (char *)t->attr.name);
+                    }
+                }
+                else if(t->memKind == Local){
+                    if(t->isArray){
+                        storeInMem = false;
+                        emitRM((char *)"ST", 3, t->offset, 1, (char *)("Store var"), (char *)t->attr.name);
+                    }
+                }
+                else if(t->memKind == LocalStatic){
+                    if(t->isArray){
+                        storeInMem = false;
+                        emitRM((char *)"ST", 3, t->offset, 0, (char *)("Store var"), (char *)t->attr.name);
+                    }
+                }
+            }
+            // not store in memory
+            else{
+                if(t->memKind == Global){
+                    if(!t->isBinary){
+                        if(t->isArray){
+                            emitRM((char *)"LD", 3, t->offset, 0, (char *)("Load base of array addr"), (char *)t->attr.name);
+                            loffset--;
+                        }
+                        else{
+                            emitRM((char *)"LD", 3, t->offset, 0, (char *)("Load var"), (char *)t->attr.name);
+                        }
+                    }
+                    else{
+                        emitRM((char *)"LD", 4, t->offset, 0, (char *)("Load LHS var"), (char *)t->attr.name);
+                    }
+                }
+                else if(t->memKind == Local){
+                    if(!t->isBinary){
+                        if(t->isArray){
+                            emitRM((char *)"LD", 3, t->offset, 1, (char *)("Load base of array addr"), (char *)t->attr.name);
+                            loffset--;
+                        }
+                        else{
+                            emitRM((char *)"LD", 3, t->offset, 1, (char *)("Load var"), (char *)t->attr.name);
+                        }
+                    }
+                    else{
+                        emitRM((char *)"LD", 4, t->offset, 1, (char *)("Load LHS var"), (char *)t->attr.name);
+                    }
+                }
+                else if(t->memKind == Parameter){
+                    if(!t->isBinary){
+                        if(t->isArray){
+                            emitRM((char *)"LD", 3, t->offset, 1, (char *)("Load base of array addr"), (char *)t->attr.name);
+                            loffset--;
+                        }
+                        else{
+                            emitRM((char *)"LD", 3, t->offset, 1, (char *)("Load var"), (char *)t->attr.name);
+                        }
+                    }
+                    else{
+                        emitRM((char *)"LD", 4, t->offset, 1, (char *)("Load LHS var"), (char *)t->attr.name);
+                    }
+                }
+                else if(t->memKind == LocalStatic){
+                    if(!t->isBinary){
+                        if(t->isArray){
+                            emitRM((char *)"LD", 3, t->offset, 0, (char *)("Load base of array addr"), (char *)t->attr.name);
+                            loffset--;
+                        }
+                        else{
+                            emitRM((char *)"LD", 3, t->offset, 0, (char *)("Load var"), (char *)t->attr.name);
+                        }
+                    }
+                    else{
+                        emitRM((char *)"LD", 4, t->offset, 0, (char *)("Load LHS var"), (char *)t->attr.name);
+                    }
+                }
+            }
+            emitComment((char *)("END ID"));
+            break;
+
         case CallK:
+            emitComment((char *)("START CALL"));
+            emitComment((char *)("END CALL"));
     }
+}
+
+void pushLeft(){
+    emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side"));
 }
 
 void genMainFunc(TreeNode *t){
@@ -225,14 +614,12 @@ void genMainFunc(TreeNode *t){
     lookup = (TreeNode *)st.lookup("main");
 
     emitRM((char *)"JMP", 7, bp, 7, (char *)("Jump to init [backpatch]"));
-    emitComment((char *)("INIT"));
+    emitComment((char *)("START INIT"));
     emitSkip(bp);
 
     emitRM((char *)"LDA", 1, goffset, 0, (char *)("Set first frame at end of globals"));
-    emitRM((char *)"ST", 1, 0, 1, (char *)("store old fp (point to self)"));
-    emitComment((char *)("START INIT GLOBALS AND STATICS"));
+    emitRM((char *)"ST", 1, 0, 1, (char *)("store old fp (point to self)"));    
     genGlobAndStatics(t);
-    emitComment((char *)("END INIT GLOBALS AND STATICS"));
 
     emitRM((char *)"LDA", 3, 1, 7, (char *)("Return address in ac"));
     bp = emitSkip(0);
@@ -242,5 +629,7 @@ void genMainFunc(TreeNode *t){
 }
 
 void genGlobAndStatics(TreeNode *t){
+    emitComment((char *)("START INIT GLOBALS AND STATICS"));
 
+    emitComment((char *)("END INIT GLOBALS AND STATICS"));
 }

@@ -10,6 +10,8 @@ void codeGenDecl(TreeNode *t);
 void codeGenStmt(TreeNode *t);
 void codeGenExp(TreeNode *t);
 
+// helper function to push left
+void pushLeft();
 // create main function
 void genMainFunc(TreeNode *t);
 // gen global and statics

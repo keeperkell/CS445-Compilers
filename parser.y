@@ -13,6 +13,7 @@
 #include "semantics.h"    // Semantics  
 #include "IO.h"           // IO
 #include "yyerror.h"      // yy error
+#include "codegen.h"      // codegen
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -726,8 +727,25 @@ int main(int argc, char *argv[])
             exit(1);
       }   
       yyparse();
-      printf("Number of warnings: %d\n", numWarnings);
-      printf("Number of errors: %d\n", numErrors);
+
+      //do codegen here???
+
+      if(numErrors == 0){
+        char *fileName;
+        int numArgs = argc;
+        
+        char *out = argv[numArgs-1];
+        int fileLen = strlen(out);
+        fileName = (char *)malloc(fileLen + 1);
+        strcpy(fileName, out);
+        fileName[fileLen - 2] = 't';
+        fileName[fileLen - 1] = m;
+
+        IOconstructor();
+        codegen(fileName, AST);
+        printf("Number of warnings: %d\n", numWarnings);
+        printf("Number of errors: %d\n", numErrors);
+      }
     }
 
     return 0;
