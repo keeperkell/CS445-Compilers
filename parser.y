@@ -729,8 +729,12 @@ int main(int argc, char *argv[])
       yyparse();
 
       //do codegen here???
-
+      
+      semanticAnalysis(AST);
       if(numErrors == 0){
+        
+        
+
         char *fileName;
         int numArgs = argc;
         

@@ -1,98 +1,76 @@
-* C- compiler version C-S21
-* Built: Apr 18, 2021 (toffset telemetry)
-* Author: Robert B. Heckendorn
-* File compiled:  a001.c-
+* START FUNC INPUT
+  0:     ST  3,-1(1)	Store return addr 
+  1:     IN  2,2,2	Get int input 
+  2:     LD  3,-1(1)	Load return addr 
+  3:     LD  1,0(1)	Adjust fp 
+  4:    JMP  7,0(3)	Return 
+* END FUNC INPUT
 * 
 * ** ** ** ** ** ** ** ** ** ** ** **
-* FUNCTION input
-  1:     ST  3,-1(1)	Store return address 
-  2:     IN  2,2,2	Grab int input 
-  3:     LD  3,-1(1)	Load return address 
-  4:     LD  1,0(1)	Adjust fp 
-  5:    JMP  7,0(3)	Return 
-* END FUNCTION input
+* START FUNC INPUTB
+  5:     ST  3,-1(1)	Store return addr 
+  6:     IN  2,2,2	Get bool input 
+  7:     LD  3,-1(1)	Load return addr 
+  8:     LD  1,0(1)	Adjust fp 
+  9:    JMP  7,0(3)	Return 
+* END FUNC INPUTB
 * 
 * ** ** ** ** ** ** ** ** ** ** ** **
-* FUNCTION output
-  6:     ST  3,-1(1)	Store return address 
-  7:     LD  3,-2(1)	Load parameter 
-  8:    OUT  3,3,3	Output integer 
-  9:     LD  3,-1(1)	Load return address 
- 10:     LD  1,0(1)	Adjust fp 
- 11:    JMP  7,0(3)	Return 
-* END FUNCTION output
+* START FUNC INPUTC
+ 10:     ST  3,-1(1)	Store return addr 
+ 11:     IN  2,2,2	Get char input 
+ 12:     LD  3,-1(1)	Load return addr 
+ 13:     LD  1,0(1)	Adjust fp 
+ 14:    JMP  7,0(3)	Return 
+* END FUNC INPUTC
 * 
 * ** ** ** ** ** ** ** ** ** ** ** **
-* FUNCTION inputb
- 12:     ST  3,-1(1)	Store return address 
- 13:    INB  2,2,2	Grab bool input 
- 14:     LD  3,-1(1)	Load return address 
- 15:     LD  1,0(1)	Adjust fp 
- 16:    JMP  7,0(3)	Return 
-* END FUNCTION inputb
+* START FUNC OUTPUT
+ 15:     ST  3,-1(1)	Store return addr 
+ 16:     LD  3,-2(1)	Load return addr 
+ 17:    OUT  3,3,3	Output int 
+ 18:     LD  3,-1(1)	Load return addr 
+ 19:     LD  1,0(1)	Adjust fp 
+ 20:    JMP  7,0(3)	Return 
+* END FUNC OUTPUT
 * 
 * ** ** ** ** ** ** ** ** ** ** ** **
-* FUNCTION outputb
- 17:     ST  3,-1(1)	Store return address 
- 18:     LD  3,-2(1)	Load parameter 
- 19:   OUTB  3,3,3	Output bool 
- 20:     LD  3,-1(1)	Load return address 
- 21:     LD  1,0(1)	Adjust fp 
- 22:    JMP  7,0(3)	Return 
-* END FUNCTION outputb
+* START FUNC OUTPUTB
+ 21:     ST  3,-1(1)	Store return addr 
+ 22:     LD  3,-2(1)	Load return addr 
+ 23:    OUT  3,3,3	Output int 
+ 24:     LD  3,-1(1)	Load return addr 
+ 25:     LD  1,0(1)	Adjust fp 
+ 26:    JMP  7,0(3)	Return 
+* END FUNC OUTPUTB
 * 
 * ** ** ** ** ** ** ** ** ** ** ** **
-* FUNCTION inputc
- 23:     ST  3,-1(1)	Store return address 
- 24:    INC  2,2,2	Grab char input 
- 25:     LD  3,-1(1)	Load return address 
- 26:     LD  1,0(1)	Adjust fp 
- 27:    JMP  7,0(3)	Return 
-* END FUNCTION inputc
+* START FUNC OUTPUTC
+ 27:     ST  3,-1(1)	Store return addr 
+ 28:     LD  3,-2(1)	Load return addr 
+ 29:    OUT  3,3,3	Output int 
+ 30:     LD  3,-1(1)	Load return addr 
+ 31:     LD  1,0(1)	Adjust fp 
+ 32:    JMP  7,0(3)	Return 
+* END FUNC OUTPUTC
 * 
 * ** ** ** ** ** ** ** ** ** ** ** **
-* FUNCTION outputc
- 28:     ST  3,-1(1)	Store return address 
- 29:     LD  3,-2(1)	Load parameter 
- 30:   OUTC  3,3,3	Output char 
- 31:     LD  3,-1(1)	Load return address 
- 32:     LD  1,0(1)	Adjust fp 
- 33:    JMP  7,0(3)	Return 
-* END FUNCTION outputc
-* 
-* ** ** ** ** ** ** ** ** ** ** ** **
-* FUNCTION outnl
- 34:     ST  3,-1(1)	Store return address 
- 35:  OUTNL  3,3,3	Output a newline 
- 36:     LD  3,-1(1)	Load return address 
- 37:     LD  1,0(1)	Adjust fp 
- 38:    JMP  7,0(3)	Return 
-* END FUNCTION outnl
-* 
-* ** ** ** ** ** ** ** ** ** ** ** **
-* FUNCTION main
-* TOFF set: -2
- 39:     ST  3,-1(1)	Store return address 
+* FuncK main
+ 33:     ST  3,-1(1)	Store return addr 
 * COMPOUND
-* TOFF set: -2
-* Compound Body
-* EXPRESSION
- 40:    LDC  3,666(6)	Load integer constant 
-* TOFF set: -2
+* START CONSTANT
+ 34:    LDC  3,666(6)	Load int const 
+* END CONSTANT
 * END COMPOUND
-* Add standard closing in case there is no return statement
- 41:    LDC  2,0(6)	Set return value to 0 
- 42:     LD  3,-1(1)	Load return address 
- 43:     LD  1,0(1)	Adjust fp 
- 44:    JMP  7,0(3)	Return 
-* END FUNCTION main
-  0:    JMP  7,44(7)	Jump to init [backpatch] 
-* INIT
- 45:    LDA  1,0(0)	set first frame at end of globals 
- 46:     ST  1,0(1)	store old fp (point to self) 
-* INIT GLOBALS AND STATICS
+ 35:    LDC  2,0(6)	Set return valuye to 0 
+ 36:     LD  3,-1(1)	Load return address 
+ 37:     LD  1,0(1)	Adjust file pointer 
+ 38:    JMP  7,0(3)	return 
+* End of Function main
+  0:    JMP  7,38(7)	Jump to init 
+* START INIT
+ 39:    LDA  1,0(0)	Set first frame after globals 
+ 40:     ST  1,0(1)	Store old fp 
+* START INIT GLOBALS AND STATICS
 * END INIT GLOBALS AND STATICS
- 47:    LDA  3,1(7)	Return address in ac 
- 48:    JMP  7,-10(7)	Jump to main 
- 49:   HALT  0,0,0	DONE! 
-* END INIT
+ 41:    LDA  3,1(7)	Load return address 

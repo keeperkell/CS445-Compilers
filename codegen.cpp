@@ -717,8 +717,8 @@ void pushLeft(){
 }
 
 void genMainFunc(TreeNode *t){
-    TreeNode *lookup;
 
+    TreeNode *lookup;
     //set backpatch and look for main
     int bp = emitSkip(0)-1;
     emitNewLoc(0);
@@ -734,7 +734,7 @@ void genMainFunc(TreeNode *t){
 
     emitRM((char *)"LDA", 3, 1, 7, (char *)("Load return address"));
     bp = emitSkip(0);
-    emitRM((char*)"JMP", 7, lookup->codeGenLineNum - bp - 1, 7, (char *)("Jump to main"));
+    emitRM((char*)"JMP", 7, lookup->offset - bp - 1, 7, (char *)("Jump to main"));
     emitRO((char *)"HALT", 0, 0, 0, (char *)("DONE"));
     emitComment((char *)("END INIT"));
 }
