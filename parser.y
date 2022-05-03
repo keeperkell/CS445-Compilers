@@ -739,10 +739,10 @@ int main(int argc, char *argv[])
         fileName = (char *)malloc(fileLen + 1);
         strcpy(fileName, out);
         fileName[fileLen - 2] = 't';
-        fileName[fileLen - 1] = m;
+        fileName[fileLen - 1] = 'm';
 
         IOconstructor();
-        codegen(fileName, AST);
+        codeGen(fileName, AST);
         printf("Number of warnings: %d\n", numWarnings);
         printf("Number of errors: %d\n", numErrors);
       }
