@@ -1,3 +1,9 @@
+* =======================================================
+* =======================================================
+* Keller TM Output
+* =======================================================
+* =======================================================
+* 
 * START FUNC INPUT
   0:     ST  3,-1(1)	Store return addr 
   1:     IN  2,2,2	Get int input 
@@ -71,6 +77,6 @@
 * START INIT GLOBALS AND STATICS
 * END INIT GLOBALS AND STATICS
  40:    LDA  3,1(7)	Load return address 
- 41:    JMP  7,-42(7)	Jump to main 
+ 41:    JMP  7,-9(7)	Jump to main 
  42:   HALT  0,0,0	DONE 
 * END INIT
