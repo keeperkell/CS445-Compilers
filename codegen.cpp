@@ -15,6 +15,7 @@ int breakLoc = 0;
 FILE *code;
 
 void codeGen(char *outputFile, TreeNode *t){
+    emitComment("Keller TM Output");
     char *temp = t->attr.name;
     //open file to write
     code = fopen(outputFile, "w");
