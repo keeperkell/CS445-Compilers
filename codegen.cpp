@@ -287,11 +287,11 @@ void codeGenExp(TreeNode *t){
                     if(t->child[0]){
                         genParse(t->child[0]);
                         int tempOff = loffset;
-                        tempOff--;
+                        //tempOff--;
                         emitRM((char *)"ST", 3, tempOff, 1, (char *)("Push left side"));;
                         genParse(t->child[1]);    
                         emitRM((char *)"LD", 4, tempOff, 1, (char *)("Load into 1"));
-                        tempOff++;
+                        //tempOff++;
                         emitComment((char *)("LOFF Line394:"), tempOff);
 
                         // check the ops
@@ -357,7 +357,7 @@ void codeGenExp(TreeNode *t){
             emitComment((char *)("START ASSIGN"));
             TreeNode *lookup = (TreeNode *)st.lookup(t->attr.name);
 
-            if(strcmp(t->attr.name, "<-")){
+            if(!strcmp(t->attr.name, "<-")){
                 if(!strcmp(t->child[0]->attr.name, "[")){
                     genParse(t->child[0]->child[1]);
                     emitRM((char *)"ST", 3, loffset, 1, (char *)("Push index on"));
