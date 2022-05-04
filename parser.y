@@ -563,7 +563,7 @@ constant      : NUMCONST                                        { $$ = newExpNod
               | BOOLCONST                                       { $$ = newExpNode(ConstantK, $1);
                                                                   $$->attr.value = $1->nvalue; 
                                                                   $$->expType = Boolean;
-                                                                  $$->attr.name = $1->tokeninput;
+                                                                  //$$->attr.name = $1->tokeninput;
                                                                   $$->memSize = 1;
                                                                 }
               ;

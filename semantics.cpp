@@ -249,9 +249,9 @@ void semanticAnalysis(TreeNode *t){
 
                         // if func scope has no return and isn't declared void, print warning
                         if(!hasReturn && t->expType != Void){
-                            numWarnings++;
+                            //numWarnings++;
 
-                            printf("WARNING(%d): Expecting to return type %s but function '%s' has no return statement.\n", t->linenum, returnExpType(t->expType), t->attr.name);
+                            //printf("WARNING(%d): Expecting to return type %s but function '%s' has no return statement.\n", t->linenum, returnExpType(t->expType), t->attr.name);
                         }
                         
                         // Only leave scope if you are not in global
@@ -1076,6 +1076,7 @@ void checkAssignOpK(TreeNode *t){
                     }
                 }
             }
+            /*
             // check for matching types of left and right
             else if(leftChildExp != rightChildExp){
                 if(!leftChildErr && !rightChildErr){
@@ -1099,8 +1100,8 @@ void checkAssignOpK(TreeNode *t){
                         if(!strcmp(t->child[0]->attr.name, "and") || !strcmp(t->child[0]->attr.name, "or")){
                             childType = Boolean;
                         }
-
-                        if(childType != leftChildExp){
+                        
+                        if((childType != leftChildExp && leftChildExp != UndefinedType && childType != UndefinedType)){
                             numErrors++;
 
                             //printf("----> VS Code Line 1013 && LineNum: %d\n", t->linenum);
@@ -1143,6 +1144,7 @@ void checkAssignOpK(TreeNode *t){
                     }
                 }
             }
+            */
         }
 
         //////
@@ -1304,9 +1306,9 @@ void checkIdK(TreeNode *t){
                             currentNode->isInit = true;
                         }
                         else{
-                            numErrors++;
+                            //numWarnings++;
 
-                            printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->attr.name);
+                            //printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->attr.name);
                         }
                     }
                 }
@@ -1339,9 +1341,9 @@ void checkIdK(TreeNode *t){
                         if(!currentNode->warningReported){
                             if(!currentNode->isStatic && !currentNode->isGlobal){
                                 if(!t->isInit){
-                                    numWarnings++;
+                                    //numWarnings++;
 
-                                    printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->attr.name);
+                                    //printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->attr.name);
 
                                     currentNode->warningReported = true;
                                     currentNode->isUsed = true;
@@ -1404,9 +1406,9 @@ void checkIdK(TreeNode *t){
             if(!currentNode->warningReported){
                 if(!currentNode->isStatic && !currentNode->isGlobal){
                     if(!t->isInit){
-                        numWarnings++;
+                        //numWarnings++;
 
-                        printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->attr.name);
+                        //printf("WARNING(%d): Variable '%s' may be uninitialized when used here.\n", t->linenum, t->attr.name);
 
                         currentNode->warningReported = true;
                     }
