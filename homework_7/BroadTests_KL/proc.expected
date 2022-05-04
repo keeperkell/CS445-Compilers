@@ -1,0 +1,7 @@
+WARNING(8): The variable 'b' seems not to be used.
+WARNING(9): The variable 'y' seems not to be used.
+Loading file: BroadTests/proc.tm
+961
+131
+1 T 666 0 666 7 7
+Bye.

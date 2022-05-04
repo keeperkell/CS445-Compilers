@@ -1,0 +1,19 @@
+## C-S22
+main()
+ begin 
+    if false then  output(101);
+    else if false then  output(103);
+    else output(105);
+
+    if false then  output(101);
+    else if true then  output(103);
+    else output(105);
+
+    if true then  output(101);
+    else if false then  output(103);
+    else output(105);
+
+    if true then  output(101);
+    else if true then  output(103);
+    else output(105);
+ end 

@@ -1,0 +1,30 @@
+## Brute force sieve for primes
+## C-05
+int main ()
+ begin 
+int max, k;
+bool n[201];
+
+max <- 200;
+
+k <- 2;
+while k<=max do  begin  n[k] <- true; k<-k+1;  end 
+
+k <- 2;
+while k*k <= max do  begin 
+      int j;
+
+      j<-k*k;
+      while j<=max do  begin 
+          n[j] <- false;  
+          j<-j+k;
+       end 
+      k<-k+1;
+      while k <= max  and   not n[k] do k<-k+1;
+   end 
+
+k<-2;
+while k <= max do  begin if n[k] then  begin output(k); outnl();  end   k<-k+1; end 
+
+return 0;
+ end 

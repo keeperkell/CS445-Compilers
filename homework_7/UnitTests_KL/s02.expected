@@ -1,0 +1,8 @@
+WARNING(7): The variable 'localGal' seems not to be used.
+WARNING(9): The variable 'localGuy' seems not to be used.
+Number of warnings: 2
+Number of errors: 0
+------------------------------------
+Loading file: UnitTests/s02.tm
+7000 669 7000
+Bye.

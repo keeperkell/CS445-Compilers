@@ -1,0 +1,44 @@
+outputs(char s[])
+ begin 
+    int i;
+
+    i <- 0;
+    while i<*s do  begin 
+          if s[i]='\0' then break;
+          outputc(s[i]);
+          i++;
+     end 
+ end 
+
+main()
+ begin 
+   char a[9]:"armadillo";
+   char b[3]:"bat";
+   char h[5]:"horse";
+   char big[10];
+   char small[2];
+
+   small <- a;
+   outputs(small);
+   outnl();
+   big <- a;
+   outputs(big);
+   outnl();
+   outnl();
+
+   small <- b;
+   outputs(small);
+   outnl();
+   big <- b;
+   outputs(big);
+   outnl();
+   outnl();
+
+   small <- h;
+   outputs(small);
+   outnl();
+   big <- h;
+   outputs(big);
+   outnl();
+   outnl();
+ end    

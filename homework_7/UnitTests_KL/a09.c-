@@ -1,0 +1,15 @@
+## C-S22
+char x;
+
+main()
+ begin 
+     char y;
+
+     x <- 'X';
+     y <- 'Y';
+     outputc(x);
+     outnl();
+     outputc(y);
+     outnl();
+ end 
+

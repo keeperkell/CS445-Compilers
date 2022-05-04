@@ -1,0 +1,362 @@
+##  tictactoe.c-
+##
+##  by Sarah Park
+##  Release 0.1 -- May 3, 2005, 10:00 pm.
+##  Release 0.2 -- May 3, 2005, 10:15 pm.
+## C-S20
+##
+##
+##  To play, enter the number you wish to move.
+##  A 'T' on the board represents a place you've gone.
+##  A 'F' on the board represents where the computer has gone.
+##  A number on the board represents the available moves.
+##
+##
+##  Release 0.1 Notes
+##
+##  -- Enjoy not 
+##
+##  Release 0.2 Notes
+##  
+##  -- Fixed flaw wherein computer gets to go again after
+##     win. 
+##  -- Display board before exit.
+##  -- Added more newlines between board displays.
+##
+
+int board[9];
+bool gamenotdone;
+
+move()
+ begin 
+    int i;
+    i <- 0;
+
+    while i<9 do  begin 
+        if board[i] = -1 then  begin 
+            break;
+         end 
+        i++;
+     end 
+
+    if i<9 then  begin 
+        board[i] <- 2;
+        gamenotdone <- true;
+     end 
+    else  begin 
+        gamenotdone <- false;
+     end 
+
+ end 
+
+bool win()
+ begin 
+    if (((board[0] = 2)  and  (board[1] = 2))
+          or  ((board[6] = 2)  and  (board[4] = 2))
+          or  ((board[8] = 2)  and  (board[5] = 2))
+        )
+         and  (board[2] = -1) then  begin 
+        board[2] <- 2;
+        gamenotdone <- false;
+     end 
+    else  begin 
+        if (((board[0] = 2)  and  (board[2] = 2))
+              or  ((board[4] = 2)  and  (board[7] = 2)))
+             and  (board[1] = -1) then  begin 
+            board[1] <- 2;
+            gamenotdone <- false;
+         end 
+        else  begin 
+            if (((board[2] = 2)  and  (board[1] = 2))
+                  or  ((board[6] = 2)  and  (board[3] = 2))
+                  or  ((board[4] = 2)  and  (board[8] = 2)))
+                 and  (board[0] = -1) then  begin 
+                board[0] <- 2;
+                gamenotdone <- false;
+             end 
+            else  begin 
+                if (((board[3] = 2)  and  (board[4] = 2))
+                      or  ((board[2] = 2)  and  (board[8] = 2)))
+                     and  (board[5] = -1) then  begin 
+                    board[5] <- 2;
+                    gamenotdone <- false;
+                 end 
+                else  begin 
+                    if (((board[3] = 2)  and  (board[5] = 2))
+                          or  ((board[0] = 2)  and  (board[8] = 2))
+                          or  ((board[2] = 2)  and  (board[6] = 2))
+                          or  ((board[1] = 2)  and  (board[7] = 2)))
+                         and  (board[4] = -1) then  begin 
+                        board[4] <- 2;
+                        gamenotdone <- false;
+                     end 
+                    else  begin 
+                        if (((board[4] = 2)  and  (board[5] = 2))
+                              or  ((board[0] = 2)  and  (board[6] = 2)))
+                             and  (board[3] = -1) then  begin 
+                            board[3] <- 2;
+                            gamenotdone <- false;
+                         end 
+                        else  begin 
+                            if (((board[6] = 2)  and  (board[7] = 2))
+                                  or  ((board[0] = 2)  and  (board[4] = 2))
+                                  or  ((board[2] = 2)  and  (board[5] = 2)))
+                                 and  (board[8] = -1) then  begin 
+                                board[8] <- 2;
+                                gamenotdone <- false;
+                             end 
+                            else  begin 
+                                if (((board[6] = 2)  and  (board[8] = 2))
+                                      or  ((board[4] = 2)  and  (board[1] = 2)))
+                                     and  (board[7] = -1) then  begin 
+                                    board[7] <- 2;
+                                    gamenotdone <- false;
+                                 end 
+                                else  begin 
+                                    if (((board[7] = 2)  and  (board[8] = 2))
+                                          or  ((board[4] = 2)
+                                              and  (board[2] = 2))
+                                          or  ((board[0] = 2)
+                                              and  (board[3] = 2)))
+                                         and  (board[6] = -1) then  begin 
+                                        board[6] <- 2;
+                                        gamenotdone <- false;
+                                     end 
+                                 end 
+                             end 
+                         end 
+                     end 
+                 end 
+             end 
+         end 
+     end 
+
+    if gamenotdone != false then  begin 
+        return false;
+     end 
+
+    return true;
+ end 
+
+bool blockplayer()
+ begin 
+    bool blocked;
+    blocked <- false;
+
+    if (((board[0] = 1)  and  (board[1] = 1))
+          or  ((board[6] = 1)  and  (board[4] = 1))
+          or  ((board[8] = 1)  and  (board[5] = 1)))
+         and  (board[2] = -1) then  begin 
+        board[2] <- 2;
+        blocked <- true;
+     end 
+    else  begin 
+        if (((board[0] = 1)  and  (board[2] = 1))
+              or  ((board[4] = 1)  and  (board[7] = 1)))
+             and  (board[1] = -1) then  begin 
+            board[1] <- 2;
+            blocked <- true;
+         end 
+        else  begin 
+            if (((board[2] = 1)  and  (board[1] = 1))
+                  or  ((board[6] = 1)  and  (board[3] = 1))
+                  or  ((board[4] = 1)  and  (board[8] = 1)))
+                 and  (board[0] = -1) then  begin 
+                board[0] <- 2;
+                blocked <- true;
+             end 
+            else  begin 
+                if (((board[3] = 1)  and  (board[4] = 1))
+                      or  ((board[2] = 1)  and  (board[8] = 1)))
+                     and  (board[5] = -1) then  begin 
+                    board[5] <- 2;
+                    blocked <- true;
+                 end 
+                else  begin 
+                    if (((board[3] = 1)  and  (board[5] = 1))
+                          or  ((board[0] = 1)  and  (board[8] = 1))
+                          or  ((board[2] = 1)  and  (board[6] = 1))
+                          or  ((board[1] = 1)  and  (board[7] = 1)))
+                         and  (board[4] = -1) then  begin 
+                        board[4] <- 2;
+                        blocked <- true;
+                     end 
+                    else  begin 
+                        if (((board[4] = 1)  and  (board[5] = 1))
+                              or  ((board[0] = 1)  and  (board[6] = 1)))
+                             and  (board[3] = -1) then  begin 
+                            board[3] <- 2;
+                            blocked <- true;
+                         end 
+                        else  begin 
+                            if (((board[6] = 1)  and  (board[7] = 1))
+                                  or  ((board[0] = 1)  and  (board[4] = 1))
+                                  or  ((board[2] = 1)  and  (board[5] = 1)))
+                                 and  (board[8] = -1) then  begin 
+                                board[8] <- 2;
+                                blocked <- true;
+                             end 
+                            else  begin 
+                                if (((board[6] = 1)  and  (board[8] = 1))
+                                      or  ((board[4] = 1)  and  (board[1] = 1)))
+                                     and  (board[7] = -1) then  begin 
+                                    board[7] <- 2;
+                                    blocked <- true;
+                                 end 
+                                else  begin 
+                                    if (((board[7] = 1)  and  (board[8] = 1))
+                                          or  ((board[4] = 1)
+                                              and  (board[2] = 1))
+                                          or  ((board[0] = 1)
+                                              and  (board[3] = 1)))
+                                         and  (board[6] = -1) then  begin 
+                                        board[6] <- 2;
+                                        blocked <- true;
+                                     end 
+                                 end 
+                             end 
+                         end 
+                     end 
+                 end 
+             end 
+         end 
+     end 
+
+    return blocked;
+ end 
+
+placey()
+ begin 
+
+    if  not win() then  begin 
+        if  not blockplayer() then  begin 
+            move();
+         end 
+     end 
+
+ end 
+
+bool xingrid(int x)
+ begin 
+    bool retval;
+    retval <- false;
+
+    if x >= 0  and  x <= 8 then  begin 
+        if board[x] != 1  and  board[x] != 2 then  begin 
+            board[x] <- 1;
+            retval <- true;
+         end 
+     end 
+
+    return retval;
+ end 
+
+printboard()
+ begin 
+    int i;
+    i <- 0;
+
+    while i<9 do  begin 
+        if board[i] = 1 then  begin 
+            outputb(true);
+         end 
+        else if board[i] = 2 then  begin 
+            outputb(false);
+         end 
+        else  begin 
+            output(i);
+         end 
+        if i = 2  or  i = 5  or  i = 8 then  begin 
+            outnl();
+         end 
+        i++;
+     end 
+
+ end 
+
+bool finished()
+ begin 
+    int i;
+
+    i <- 0;
+
+    if (board[0] != -1)  and  (((board[0] = board[1])
+                               and  (board[0] = board[2]))
+                              or  ((board[0] = board[4])
+                                  and  (board[0] = board[8]))
+                              or  ((board[0] = board[3])
+                                  and  (board[0] = board[6]))) then  begin 
+        return (true);
+     end 
+
+    if (board[1] != -1)
+         and  ((board[1] = board[4])  and  (board[1] = board[7])) then  begin 
+        return (true);
+     end 
+
+    if (board[2] != -1)  and  (((board[2] = board[4])
+                               and  (board[2] = board[6]))
+                              or  ((board[2] = board[5])
+                                  and  (board[2] = board[8]))) then  begin 
+        return (true);
+     end 
+
+    if (board[3] != -1)
+         and  ((board[3] = board[4])  and  (board[3] = board[5])) then  begin 
+        return (true);
+     end 
+
+    if (board[6] != -1)
+         and  ((board[6] = board[7])  and  (board[6] = board[8])) then  begin 
+        return (true);
+     end 
+
+    while board[i] != -1  and  i<9 do  begin 
+        i++;
+     end 
+
+    if i = 9 then  begin 
+        return (true);
+     end 
+    else  begin 
+        return (false);
+     end 
+ end 
+
+playgame()
+ begin 
+    int x;
+    x <- 9;
+
+    outnl();
+    printboard();
+
+    while not finished()  and  gamenotdone = true do  begin 
+        x <- input();
+
+        if xingrid(x)  and   not finished() then  begin 
+            placey();
+            outnl();
+            printboard();
+            outnl();
+         end 
+     end 
+ end 
+
+main()
+ begin 
+    int i;
+    i <- 0;
+
+    while i<9 do  begin 
+        board[i] <- -1;
+        i++;
+     end 
+
+    gamenotdone <- true;
+    playgame();
+
+    outnl();
+    printboard();
+    outnl();
+ end 

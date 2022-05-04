@@ -1,0 +1,7 @@
+## C-S22
+bool gb:true;
+main() begin 
+    outputb(gb);
+     begin 
+     end 
+ end 

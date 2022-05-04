@@ -1,0 +1,100 @@
+## an optimization task based on Walsh analysis
+int pow(int n, p)
+ begin 
+    int sqr;
+    int ans;
+
+    ans <- 1;
+    sqr <- n;
+    while true do  begin 
+        if p%2=1 then ans<-ans*sqr;
+        p <- p/2;
+        if p=0 then return ans;
+        sqr <- sqr*sqr;
+     end 
+ end 
+
+int getFunc(int f[])
+ begin 
+    int numbits;
+    int i;
+    int size;
+
+    if (numbits <- input())=0 then return 0;
+    size <- pow(2, numbits);
+    i <- 0;
+    while i<size do  begin 
+        f[i] <- input();
+        i <- i+1;
+     end 
+
+    return numbits;
+ end 
+
+printFunc(int f[], size)
+ begin 
+    int i;
+
+    i<-0;
+    while i<size do  begin 
+        output(f[i]);
+        i<-i+1;
+     end 
+    outnl();
+ end 
+        
+
+fwt(int w[], start, size)
+ begin 
+    int a, b, tmp;
+
+    size <- size/2;
+    if size>1 then  begin 
+        fwt(w, start, size);
+        fwt(w, start+size, size);
+     end 
+
+    a <- start;
+    b <- start+size; 
+    while a<start+size do  begin 
+        tmp <- w[a];
+        w[a] <- w[a] + w[b];
+        w[b] <- tmp - w[b];
+        a<-a+1; 
+        b<-b+1; 
+     end 
+ end 
+
+div(int f[], size)
+ begin 
+    int i;
+
+    i<-0;
+    while i<size do  begin 
+        f[i] <- f[i]/size;
+        i++;
+     end 
+ end 
+
+int main()
+ begin 
+    int f[256];
+
+    int size;
+    int numbits;
+    int half;
+
+    while true do  begin 
+        if (numbits <- getFunc(f))=0 then return 0;
+        size <- pow(2, numbits);
+        half <- size/2;
+
+        fwt(f, 0, size);
+        printFunc(f, size);
+
+        fwt(f, 0, size);
+        div(f, size);
+        printFunc(f, size);
+     end 
+    return 0;
+ end 

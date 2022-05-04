@@ -1,0 +1,7 @@
+## C-S22
+main() begin 
+     begin 
+        int rr[20];
+        output(*rr);
+     end 
+ end 

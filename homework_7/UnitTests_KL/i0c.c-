@@ -1,0 +1,7 @@
+## C-S22
+main() begin 
+     begin 
+        bool ss: not  true;
+        outputb(ss);
+     end 
+ end 

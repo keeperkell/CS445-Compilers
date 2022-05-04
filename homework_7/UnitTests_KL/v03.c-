@@ -1,0 +1,24 @@
+main()
+ begin 
+   char a[3]:"arm";
+   char b[4]:"army";
+
+   outputb(a=b);
+   outputb(b=a);
+   outnl();
+   outputb(a!=b);
+   outputb(b!=a);
+   outnl();
+   outputb(a>b);
+   outputb(b>a);
+   outnl();
+   outputb(a>=b);
+   outputb(b>=a);
+   outnl();
+   outputb(a<b);
+   outputb(b<a);
+   outnl();
+   outputb(a<=b);
+   outputb(b<=a);
+   outnl();
+ end    

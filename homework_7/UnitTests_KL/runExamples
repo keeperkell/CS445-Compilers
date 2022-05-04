@@ -1,0 +1,67 @@
+#!/bin/sh
+# file.c-  file to compile
+# file.in  file of commands to tm to run code
+# file.expected file of expected output
+
+# file.out file of output from compiler and then from running code
+# file.tm  file of tm code
+
+compiler=../Code/c-
+tmp=ztmp$$.txt
+
+if [ ! -x $compiler ]
+then
+    echo "ERROR: the C- compiler at \"$compiler\" either does not exist or is not executable"
+    echo "Be sure the compiler variable in the script gives a correct path to the compiler."
+    exit 1
+fi
+
+for file in *.c-
+do
+        echo "===================================="
+        echo "FILE: $file"
+	file=`basename $file '.c-'`
+        rm -f $file.tm $file.out
+        $compiler  $file.c- > $file.out
+        $compiler -M $file.c- > $file.mem
+        echo "------------------------------------" >> $file.out
+        if [ -f $file.tm ]
+        then
+            if [ -f $file.in ]
+            then 
+                tm $file.tm < $file.in |
+                    expand |
+                    sed -e 's/^  *//' -e 's/  *$//' -e 's/ *Halted//' |
+                    grep -v '^$' |
+                    grep -v 'Number' |
+                    egrep -v 'Status:|Memory|Addresses|Instruc|Enter|Limit|Source|command|PC|cmd|version' >> $file.out
+            else 
+                tm $file.tm < runExamples.in |
+                    expand |
+                    sed -e 's/^  *//' -e 's/  *$//' -e 's/ *Halted//' |
+                    grep -v '^$' |
+                    grep -v 'Number' |
+                    egrep -v 'Status:|Memory|Addresses|Instruc|Enter|Limit|Source|command|PC|cmd|version' >> $file.out
+            fi
+        fi
+	ls -l $file.*
+        if [ -f $file.expected ] 
+        then
+            cat $file.expected |
+                expand |
+                sed -e 's/^  *//' -e 's/  *$//' -e 's/ *Halted//' |
+                grep -v '^$' |
+                sed 's/ *Halted//' |
+                egrep -v 'Status:|Memory|Addresses|Instruc|Enter|Limit|Source|command|PC|cmd|version'  > $tmp
+            if cmp $file.out $tmp
+            then
+                echo "$file (Output OK)"
+            else
+                echo "$file (Output DIFF)"
+   	        sdiff -w200 $file.out $tmp
+            fi
+        else
+            echo "$file (NO EXPECTED FILE)"
+        fi
+done
+rm ztmp*

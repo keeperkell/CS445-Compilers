@@ -1,0 +1,113 @@
+## C-S22
+## evaluate all possible hands of poker
+##
+int numSuits, numPips, numCards;
+
+int suit(int c)  begin  return c%numSuits;  end 
+int pips(int c)  begin  return c/numSuits;  end 
+
+bool p(int a, b)  begin  return (pips(a)=pips(b));  end 
+bool ppp(int a, b, c)  begin  return (p(a, b)   and   p(b, c));  end 
+bool pppp(int a, b, c, d)  begin  return (p(a, b)   and   p(b, c)   and   p(c, d));  end 
+
+int handtype(int a, b, c, d, e) 
+ begin 
+    bool isflush;
+
+    isflush <- (suit(a)=suit(b))   and  
+        (suit(a)=suit(c))   and  
+        (suit(a)=suit(d))   and  
+        (suit(a)=suit(e));     
+
+    ## royal flush
+    if isflush   and   (pips(a)=0)   and   (pips(b)=numPips-4)   and   (pips(e)=numPips-1) then
+        return 0;
+
+    ## straight flush (all the same suit  and  adjacent pips)
+    else if isflush   and   (pips(a)=pips(e)-4) then
+        return 1;
+
+    ## four of a kind (all the same pip)
+    else if pppp(a, b, c, d)   or   pppp(b, c, d, e) then
+        return 2;
+
+    ## full house (3 of a kind + 2 of a kind) 
+    else if ppp(a, b, c)    and   p(d, e)   or   p(a, b)   and   ppp(c, d, e) then
+        return 3;
+
+    ## flush (all the same suit)
+    else if isflush then
+        return 4;
+
+    ## straight (all adjacent pips)
+    else if (pips(a)=pips(b)-1)   and   (pips(b)=pips(c)-1)   and   (pips(c)=pips(d)-1)   and   (pips(d)=pips(e)-1)   or  
+             ((pips(a)=0)   and   (pips(b)=numPips-4)   and   (pips(c)=numPips-3)   and   (pips(d)=numPips-2)   and   (pips(e)=numPips-1)) then ## ace high 
+             
+        return 5;
+
+    ## three of a kind (3 of same pips)
+    else if ppp(a, b, c)   or   ppp(b, c, d)   or   ppp(c, d, e)  then
+        return 6;
+
+    ## two pair (2 sets of 2 of same pips)
+    else if p(a, b)    and   p(c, d)   or   p(a, b)   and   p(d, e)   or   p(b, c)   and   p(d, e) then
+        return 7;
+
+    ## one pair
+    else if p(a, b)   or   p(b, c)   or   p(c, d)   or   p(d, e) then
+        return 8;
+    else
+        return 9;
+ end 
+
+int main()
+ begin 
+    int hands[10];
+    int a, b, c, d, e, h, possible, i;
+
+    i<-0;
+    while i<10 do  begin 
+        hands[i] <- 0;
+        i<-i+1;
+     end 
+
+    numSuits <- 4;
+    numPips <- 6;
+    numCards <- numPips * numSuits - 1;
+
+    possible<-0;
+    a<-0;
+    while a<=numCards do  begin 
+        output(a); outnl();
+        b<-a+1;
+        while b<=numCards do  begin 
+            c<-b+1;
+            while c<=numCards do  begin 
+                d<-c+1;
+                while d<=numCards do  begin 
+                    e<-d+1;
+                    while e<=numCards do  begin 
+                        possible<-possible+1;
+                        h <- handtype(a, b, c, d, e);
+                        hands[h]<-hands[h]+1;
+                        e++; 
+                     end 
+                    d++;
+                 end 
+                c++;
+             end 
+            b++;
+         end 
+        a++;
+     end 
+    h<-0;
+    while h<10 do  begin 
+        ## printf("%d %d\n", h, hands[h]);
+        output(h);
+        output(hands[h]);
+        outnl();
+        h<-h+1;
+     end 
+
+    return 0;
+ end 

@@ -1,0 +1,22 @@
+## C-S22
+cat(int x[], y)
+ begin 
+    if y>=0 then   begin 
+        x[y] <- y;
+        cat(x, y-1);
+     end 
+    return;
+ end 
+
+main()
+ begin 
+    int x[18], y;
+
+    y <- 12;
+    cat(x, y);
+    while y>=0 do  begin 
+       output(y);
+       outnl();
+       y <- y-1;
+     end 
+ end 

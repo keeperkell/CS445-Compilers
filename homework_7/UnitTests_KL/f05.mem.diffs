@@ -1,0 +1,4 @@
+18c18
+< .   .   Child: 1  Assign: := of type bool [line: 11]
+---
+> .   .   Child: 1  Assign: <- of type bool [line: 11]

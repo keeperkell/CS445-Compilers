@@ -1,0 +1,8 @@
+WARNING(35): Variable 'a' may be uninitialized when used here.
+WARNING(36): Variable 'b' may be uninitialized when used here.
+Loading file: BroadTests/unary.tm
+-88 -88
+-15 3
+F F T T F T
+7 5
+Bye.

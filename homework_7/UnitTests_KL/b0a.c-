@@ -1,0 +1,6 @@
+## C-S22
+main()
+ begin 
+     outputb(true  or  true);
+     outnl();
+ end 

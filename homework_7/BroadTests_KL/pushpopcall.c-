@@ -1,0 +1,15 @@
+int g, h;
+
+int dog(int x)  begin 
+   if x>0 then return 1000;
+   output(dog(666));
+   output(777+dog(888));
+   output(111+222*dog(333));
+   output(dog(dog(444)));
+   output(dog(x+1) + dog(1+x));
+   output(dog(555+666*x));
+
+   return 555;
+ end 
+
+main()  begin output(dog(0)); end 

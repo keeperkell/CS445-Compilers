@@ -1,0 +1,8 @@
+## C-S22
+int cat(int x) begin if x>0 then  return x+x; else x*x; end 
+
+main()
+ begin 
+    output(cat(88));
+    output(cat(-17));
+ end 

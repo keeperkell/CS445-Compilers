@@ -1,0 +1,234 @@
+## sudoku.c-
+##
+## Author by  Curt Stein
+## Date by  Fall 2007
+##
+## Description by  A Sudoku solver that uses basic logic  and  a backtracking
+## algorithm to find a solution to a Sudoku puzzle given as input.
+##
+## Instructions by 
+##
+## Input a Sudoku puzzle by specifying the number in each square going from
+## left to right, row by row.  For blank squares, enter 0.  If a solution is
+## found, it will be displayed as a 9x9 matrix of digits.  If no solution is
+## possible, the letter F will be displayed.
+##
+## It is recommended that you set the abort limit for the TM machine to at
+## least 1,000,000,000 instructions.  For most puzzles, a solution will be
+## found quickly, but for some puzzles, this program could run for a long time.
+
+int board[81];          ## Holds the current state of the Sudoku board
+bool locked[81];        ## Keeps track of which squares can! be changed
+
+## Clear the global board arrays
+initBoard()
+ begin 
+    int i;
+    i <- 0;
+    while i < 81 do  begin 
+        board[i] <- 0;
+        locked[i] <- false;
+        i++;
+     end 
+ end 
+
+## Sets the value of a square on the board
+setValue(int row, col, value)
+ begin 
+    board[(row*9) + col] <- value;
+ end 
+
+## Gets the value of a square on the board
+int getValue(int row, col)
+ begin 
+    return board[(row*9) + col];
+ end 
+
+## Sets the locked flag for a square on the board
+setLocked(int row, col; bool value)
+ begin 
+    locked[(row*9) + col] <- value;
+ end 
+
+## Gets the locked flag for a square on the board
+bool getLocked(int row, col)
+ begin 
+    return locked[(row*9) + col];
+ end 
+
+## Checks that assigning a value will not  break the rules
+bool isOkAt(int row, col, value)
+ begin 
+    int i, j, boxRowStart, boxColStart;
+
+    ## Check row  and  column
+    i <- 0;
+    while i < 9 do  begin 
+        if getValue(i, col) = value then return false;
+        if getValue(row, i) = value then return false;
+        i++;
+     end 
+
+    ## Check 3x3 Square
+    boxRowStart <- (row/3)*3;
+    boxColStart <- (col/3)*3;
+    i <- 0;
+    while i < 3 do  begin 
+        j <- 0;
+        while j < 3 do  begin 
+            if getValue(boxRowStart+i, boxColStart+j) = value then return false;
+            j++;
+         end 
+        i++;
+     end 
+
+    return true;
+ end 
+
+## Recursive function performs a depth first search
+bool search(int i, j)
+ begin 
+    if getLocked(i, j) then
+     begin 
+        if i = 8 and j = 8 then    return true;                    ## Success not  
+        else if j = 8 then return search(i+1, 0);
+        else return search(i, j+1);
+     end 
+    else
+     begin 
+        int n;
+        bool foundOne;
+        n <- 1;
+        while n <= 9 do  begin 
+            if isOkAt(i, j, n) then  begin 
+                setValue(i, j, n);
+                if i = 8 and j = 8 then    return true;            ## Success not  
+                else if j = 8 then foundOne <- search(i+1, 0);
+                else foundOne <- search(i, j+1);
+                if foundOne then return true;      ## done
+                else setValue(i, j, 0);
+             end 
+            n++;
+         end 
+     end 
+    return false;
+ end 
+
+## Finds all squares with only one possible value  and  assigns them
+searchTrivial()
+ begin 
+    int i, j, test, value;
+    bool changed, foundOne;
+
+    changed <- true;
+    while changed do  begin                    ## Loop until the board stops changing 
+        changed <- false;
+        i <- 0;
+        while i < 9 do  begin 
+            j <- 0;
+            while j < 9 do  begin 
+                if getLocked(i, j) = false then  begin 
+                    test <- 1;
+                    foundOne <- false;
+                    while test <= 9 do  begin 
+                        if isOkAt(i, j, test) then  begin 
+                            if foundOne then  begin 
+                                foundOne <- false;       ## Found two possibilities
+                                break;                          ## Move on
+                             end 
+                            else  begin 
+                                foundOne <- true;
+                                value <- test;
+                             end 
+                         end 
+                        test++;
+                     end 
+                    if foundOne then  begin 
+                        setValue(i, j, value);          ## Only one possibility
+                        setLocked(i, j, true);          ## Lock it in
+                        changed <- true;
+                     end 
+                 end 
+                j++;
+             end 
+            i++;
+         end 
+     end 
+ end 
+
+## Tries to solve the Sudoku puzzle, returns true if successful
+bool solve()
+ begin 
+    int i, j, n;
+    i <- 0;
+
+    ## Check for reasonable input
+    while i < 9 do  begin 
+        j <- 0;
+        while j < 9 do  begin 
+            n <- getValue(i, j);
+            setValue(i, j, 0);
+            if (getLocked(i,j) = true) and (isOkAt(i, j, n) = false) then 
+                return false;           ## No solution with this input
+            setValue(i, j, n);
+            j++;
+         end 
+        i++;
+     end 
+
+    searchTrivial();            ## Narrow it down
+    return search(0,0);         ## Look for a solution
+ end 
+
+## Displays the board as a 9x9 matrix of integers
+showBoard()
+ begin 
+    int i, j;
+    outnl();
+    i <- 0;
+    while i < 9 do  begin 
+        j <- 0;
+        while j < 9 do  begin 
+            output(getValue(i, j));
+            j++;
+         end 
+        outnl();
+        i++;
+     end 
+    outnl();
+ end 
+
+## Gets input as 81 integers, anything not  between 1  and  9 is considered blank
+getInput()
+ begin 
+    int i, j, inputVal;
+    i <- 0;
+    while i < 9 do  begin 
+        j <- 0;
+        while j < 9 do  begin 
+            inputVal <- input();
+            if inputVal > 0 and inputVal < 10 then           ## Ignore blanks/bad input
+             begin 
+                setValue(i, j, inputVal);
+                setLocked(i, j, true);
+             end 
+            j++;
+         end 
+        outnl();  ## separates rows of input for the user
+        i++;
+     end 
+ end 
+
+int main()
+ begin 
+    initBoard();
+    getInput();
+    if solve() then   begin 
+        showBoard();
+     end 
+    else  begin 
+        outputb(false);
+        outnl();
+     end 
+    return 0;
+ end 

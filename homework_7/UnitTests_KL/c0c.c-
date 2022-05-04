@@ -1,0 +1,13 @@
+## C-S22
+
+main()
+ begin 
+    int x;
+    int y;
+    int z;
+
+    x <- 753;
+    y <- 444;
+    output(z <- x <- y);
+    outnl();
+ end 

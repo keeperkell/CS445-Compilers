@@ -1,0 +1,38 @@
+
+int comb(int n, r)
+ begin 
+     int i, j, c;
+     
+     c<-n-r+1;
+     i<-n-r+2; 
+     j<-2; 
+     while i<=n do  begin 
+          c <- c*i/j;
+          i++; 
+          j++;
+      end  
+     return c;
+ end 
+
+main()
+ begin 
+     int max, n;
+     bool xx;
+     int r;
+     
+     max <- 15;
+
+     n<-2;
+     while n<=max do  begin 
+          r<-2;
+          while r<=n/2 do  begin 
+               output(n);
+               output(r);
+               output(comb(n, r));
+               outnl();
+               r++;
+           end 
+          n++;
+      end 
+ end 
+

@@ -1,0 +1,20 @@
+## C-S22
+int save(int z)
+ begin 
+        static int x, y;
+        x <- y;
+        y <- z;
+
+        return x;
+ end 
+
+int main()
+ begin 
+        output(save(1));
+        output(save(2));
+        output(save(3));
+        output(save(4));
+
+        return 0;
+ end 
+

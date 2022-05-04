@@ -1,0 +1,5 @@
+## C-S22
+main() begin 
+    int i:666;
+    output(i);
+ end 

@@ -1,0 +1,30 @@
+int g;
+main()
+ begin 
+    int a, b, c, d;
+
+    g<-331;
+    a<-2; b<-3; c<-5; d<-7;
+    output(d);
+    output(a+b*c);
+    outputb(d>a+b*c);
+    outputb(d>a+b*c or b<c);
+    outnl();
+     begin 
+        int a, b, c;
+        a<-101; b<-103; c<-107;
+
+        outputb(d*20<a-c/b);
+     end 
+     begin 
+        int w, x, y, z;
+
+        w<-101; x<-103; y<-107; z<-109;
+        output(w*x + y*z);
+        outnl();
+     end 
+    output(a*b + c*d);
+    output(g);
+    outnl();
+ end 
+int h;

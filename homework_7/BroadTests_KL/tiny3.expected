@@ -1,0 +1,5 @@
+WARNING(4): The variable 'w' seems not to be used.
+WARNING(10): The variable 'p' seems not to be used.
+Loading file: BroadTests/tiny3.tm
+700
+Bye.

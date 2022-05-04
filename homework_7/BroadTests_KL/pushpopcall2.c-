@@ -1,0 +1,12 @@
+int dog(int x, y)  begin return x*y; end 
+
+int g;
+main()  begin 
+     output(dog(111, 222));
+      begin 
+        int x, y, z;
+        x<-333; y<-444; z<-555;
+        output(dog(x, y));
+      end 
+     output(dog(333+33, 444*44));
+ end 

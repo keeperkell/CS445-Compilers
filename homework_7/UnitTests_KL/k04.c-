@@ -1,0 +1,10 @@
+main()
+ begin 
+     int i, j, k;
+     for i <- 300 to 313 by 2 do  begin 
+         int x, y;     
+         x <- i;
+         output(x);
+         outnl();
+      end 
+ end 

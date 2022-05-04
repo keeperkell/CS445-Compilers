@@ -1,0 +1,28 @@
+## C-S22
+## testing static variables
+
+int runningSum;
+
+int sum(bool init; int x)  begin 
+    int localGal;
+    static int runningSum;
+    int localGuy;
+
+    if init then  runningSum <- 0;
+
+    runningSum += x;
+
+    return runningSum;
+ end 
+
+main()
+ begin 
+    runningSum <- 7000;
+    output(runningSum);
+
+    sum(true, 666);
+    sum(false, 3);
+    output(sum(false, 0));
+
+    output(runningSum);
+ end 

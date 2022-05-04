@@ -1,0 +1,7 @@
+WARNING(16): The variable 'b' seems not to be used.
+Loading file: BroadTests/pushpoparray.tm
+11 22 100 100
+33 33
+22 6776
+22 89 66 89 22 90 66
+Bye.

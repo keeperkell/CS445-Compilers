@@ -1,0 +1,22 @@
+## C-S22
+dog(int x[])
+ begin 
+    output(x[3]++);
+    outnl();
+    output(x[3]);
+    outnl();
+
+    output(x[3]--);
+    outnl();
+    output(x[3]);
+    outnl();
+ end 
+
+main()
+ begin 
+    int x[7];
+
+    x[3] <- 1023;
+    dog(x);
+    output(x[3]);
+ end 

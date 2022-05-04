@@ -1,0 +1,6 @@
+## C-S22
+main()
+ begin 
+     outputc('Y');
+ end 
+

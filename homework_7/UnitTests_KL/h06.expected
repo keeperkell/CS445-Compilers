@@ -1,0 +1,19 @@
+WARNING(16): Variable 'x' may be uninitialized when used here.
+Number of warnings: 1
+Number of errors: 0
+------------------------------------
+Loading file: UnitTests/h06.tm
+12
+11
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+Bye.

@@ -1,0 +1,13 @@
+## C-S22
+int cat(int z[])
+ begin 
+    return z[3];
+ end 
+
+main()
+ begin 
+    int z[10];
+
+    z[3] <- 445;
+    output(cat(z));
+ end 

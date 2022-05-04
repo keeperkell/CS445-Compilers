@@ -1,0 +1,22 @@
+int main()
+ begin 
+     int i;
+
+     i<-0; 
+     while i<10 do  begin 
+          int j;
+
+          j<-0;
+          while j<=5 do  begin 
+             output(i);
+             output(j);
+             outnl();
+             if i>4 then break;
+             j++;
+           end 
+          if j>3 then break;
+          i++;
+      end 
+
+     return 0;
+ end 

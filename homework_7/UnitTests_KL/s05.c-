@@ -1,0 +1,43 @@
+## C-S22
+##
+int g;
+int h[11];
+
+cat()
+ begin 
+    int a, b[22];
+    static   int as, bs[23];
+     begin 
+        bool c, d[33];
+        static bool cs, ds[34];
+        output(*h);
+        output(*b);
+        output(*bs);
+        output(*d);
+        output(*ds);
+     end 
+
+     begin 
+        bool c, d[44];
+        static bool cs, ds[45];
+        output(*h);
+        output(*b);
+        output(*bs);
+        output(*d);
+        output(*ds);
+     end 
+ end 
+
+int i;
+int j[55];
+
+dog()
+ begin 
+    output(*j);
+ end 
+
+main()
+ begin 
+    cat();
+    dog();
+ end 

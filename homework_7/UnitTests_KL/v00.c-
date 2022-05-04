@@ -1,0 +1,17 @@
+main()
+ begin 
+   char a[5]:"acid";
+   char b[5];
+
+   outputc(a[0]);
+   outputc(a[1]);
+   outputc(a[2]);
+   outputc(a[3]);
+   outnl();
+   b <- a;
+   outputc(b[0]);
+   outputc(b[1]);
+   outputc(b[2]);
+   outputc(b[3]);
+   outnl();
+ end    

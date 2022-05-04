@@ -1,0 +1,7 @@
+## C-S22
+int ga:111;
+main() begin 
+    output(ga);
+     begin 
+     end 
+ end 

@@ -1,0 +1,4 @@
+20c20
+< .   .   .   Child: 1  Assign: := of type int [line: 9]
+---
+> .   .   .   Child: 1  Assign: <- of type int [line: 9]

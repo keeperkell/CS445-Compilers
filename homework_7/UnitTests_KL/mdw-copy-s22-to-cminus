@@ -1,0 +1,14 @@
+#!/bin/bash
+ 
+#
+# Copy all xxx.c-.s22 files to xxx.c-
+#
+
+for file in *.c-.s22
+do
+    stem=`echo $file | sed 's/.s22*$//'`
+    echo '=' $file ' >> ' $stem '='
+    #../../testCode/000/c- $file > $stem.comp.out 2>&1
+    cp $file $stem
+done
+

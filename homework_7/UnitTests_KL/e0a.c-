@@ -1,0 +1,21 @@
+## C-S22
+main()
+ begin 
+    int x;
+
+    x <- 0;
+    if true then 
+    while x<10 do  begin 
+        output(x);
+        x <- x+1;
+     end 
+    else output(666);
+
+    x <- 0;
+    if false then 
+    while x<10 do  begin 
+        output(x);
+        x <- x+1;
+     end 
+    else output(666);
+ end 

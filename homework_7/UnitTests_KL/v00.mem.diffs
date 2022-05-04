@@ -1,0 +1,4 @@
+33c33
+< .   .   Sibling: 5  Assign: := of array of type char [line: 11]
+---
+> .   .   Sibling: 5  Assign: <- of array of type char [line: 11]

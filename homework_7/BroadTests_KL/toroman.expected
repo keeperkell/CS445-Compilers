@@ -1,0 +1,56 @@
+WARNING(15): The variable 'i' seems not to be used.
+Loading file: BroadTests/toroman.tm
+entered: 1
+I
+entered: 2
+II
+entered: 3
+III
+entered: 4
+IV
+entered: 5
+V
+entered: 6
+VI
+entered: 7
+VII
+entered: 8
+VIII
+entered: 9
+IX
+entered: 10
+X
+entered: 11
+XI
+entered: 12
+XII
+entered: 13
+XIII
+entered: 14
+XIV
+entered: 15
+XV
+entered: 33
+XXXIII
+entered: 44
+XLIV
+entered: 55
+LV
+entered: 88
+LXXXVIII
+entered: 99
+XCIX
+entered: 101
+CI
+entered: 104
+CIV
+entered: 666
+DCLXVI
+entered: 721
+DCCXXI
+entered: 1666
+MDCLXVI
+entered: 5000
+MMMMM
+entered: 0
+Bye.

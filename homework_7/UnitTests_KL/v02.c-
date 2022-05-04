@@ -1,0 +1,24 @@
+main()
+ begin 
+   char a[5]:"acid";
+   char b[5]:"army";
+
+   outputb(a=b);
+   outputb(b=a);
+   outnl();
+   outputb(a!=b);
+   outputb(b!=a);
+   outnl();
+   outputb(a>b);
+   outputb(b>a);
+   outnl();
+   outputb(a>=b);
+   outputb(b>=a);
+   outnl();
+   outputb(a<b);
+   outputb(b<a);
+   outnl();
+   outputb(a<=b);
+   outputb(b<=a);
+   outnl();
+ end    

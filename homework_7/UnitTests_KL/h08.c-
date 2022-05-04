@@ -1,0 +1,36 @@
+## C-S22
+## nonsensical way to generate fibonacci numbers
+int fib(int x; int f[])
+ begin 
+    output(x);
+    outnl();
+    if x<2 then  begin 
+        f[0] <- f[1] <- 1;
+        return f[x];
+         end 
+    fib(x-1, f);
+    f[x] <- f[x-1] + f[x-2];
+    return f[x];
+ end 
+
+main()
+ begin 
+      int f[7];
+
+      f[0] <- 0;
+      f[1] <- 0;
+      f[2] <- 0;
+      f[3] <- 0;
+      f[4] <- 0;
+      f[5] <- 0;
+      f[6] <- 0;
+      fib(5, f);
+      output(f[0]);
+      output(f[1]);
+      output(f[2]);
+      output(f[3]);
+      output(f[4]);
+      output(f[5]);
+      output(f[6]);
+      outnl();
+ end 

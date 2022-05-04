@@ -1,0 +1,14 @@
+main()
+ begin 
+    int i;
+
+    i<-10;
+    while i>0 do  begin 
+        output(i);
+        i--;
+     end 
+    outnl();
+
+    while i<10 do i<-i+1;
+    output(i);
+ end 

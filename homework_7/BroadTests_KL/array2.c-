@@ -1,0 +1,18 @@
+ford(int x[])
+ begin 
+        int y;
+        y <- x[3];
+        output(y);
+        x[3] <- 777;
+ end 
+
+main()
+ begin 
+        int y[5];
+
+        y[3] <- 666;
+        ford(y);
+        y[3];
+        output(y[3]);
+ end 
+

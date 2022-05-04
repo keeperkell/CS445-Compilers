@@ -1,0 +1,4 @@
+23c23
+< .   .   Sibling: 1  Assign: := of type int [line: 15]
+---
+> .   .   Sibling: 1  Assign: <- of type int [line: 15]

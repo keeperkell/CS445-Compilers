@@ -1,0 +1,6 @@
+## C-S22
+main()
+ begin 
+     output(-666);
+     outnl();
+ end 

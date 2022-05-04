@@ -1,0 +1,12 @@
+20c20
+< .   .   Sibling: 3  Assign: := of type int [line: 13]
+---
+> .   .   Sibling: 3  Assign: <- of type int [line: 13]
+52c52
+< .   .   Sibling: 12  Assign: := of type int [line: 25]
+---
+> .   .   Sibling: 12  Assign: <- of type int [line: 25]
+58c58
+< .   .   Sibling: 15  Assign: := of type bool [line: 29]
+---
+> .   .   Sibling: 15  Assign: <- of type bool [line: 29]

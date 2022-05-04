@@ -1,0 +1,9 @@
+## C-S22
+cat()
+ begin 
+ end 
+
+main()
+ begin 
+        cat();
+ end 

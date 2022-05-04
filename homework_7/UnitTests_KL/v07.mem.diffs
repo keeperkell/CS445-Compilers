@@ -1,0 +1,44 @@
+15c15
+< .   .   Child: 1  Assign: := of type int [line: 5]
+---
+> .   .   Child: 1  Assign: <- of type int [line: 5]
+43c43
+< .   .   .   Child: 2  Assign: := of type int [line: 21]
+---
+> .   .   .   Child: 2  Assign: <- of type int [line: 21]
+55c55
+< .   .   .   Child: 2  Assign: := of type int [line: 22]
+---
+> .   .   .   Child: 2  Assign: <- of type int [line: 22]
+67c67
+< .   .   .   Child: 2  Assign: := of type int [line: 23]
+---
+> .   .   .   Child: 2  Assign: <- of type int [line: 23]
+74c74
+< .   .   Sibling: 3  Assign: := of type int [line: 24]
+---
+> .   .   Sibling: 3  Assign: <- of type int [line: 24]
+79c79
+< .   .   Sibling: 4  Assign: := of array of type int [line: 26]
+---
+> .   .   Sibling: 4  Assign: <- of array of type int [line: 26]
+84c84
+< .   .   Sibling: 6  Assign: := of array of type int [line: 28]
+---
+> .   .   Sibling: 6  Assign: <- of array of type int [line: 28]
+90c90
+< .   .   Sibling: 9  Assign: := of array of type int [line: 32]
+---
+> .   .   Sibling: 9  Assign: <- of array of type int [line: 32]
+95c95
+< .   .   Sibling: 11  Assign: := of array of type int [line: 34]
+---
+> .   .   Sibling: 11  Assign: <- of array of type int [line: 34]
+101c101
+< .   .   Sibling: 14  Assign: := of array of type int [line: 38]
+---
+> .   .   Sibling: 14  Assign: <- of array of type int [line: 38]
+106c106
+< .   .   Sibling: 16  Assign: := of array of type int [line: 40]
+---
+> .   .   Sibling: 16  Assign: <- of array of type int [line: 40]

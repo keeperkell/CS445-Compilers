@@ -1,0 +1,25 @@
+WARNING(33): Variable 'x' may be uninitialized when used here.
+Loading file: BroadTests/sort2.tm
+entered: 2
+entered: 91
+entered: 25
+entered: 90
+entered: 15
+entered: 42
+entered: 91
+entered: 59
+entered: 90
+entered: 1
+entered: 25
+entered: 18
+entered: 29
+entered: 78
+entered: 47
+entered: 64
+entered: 86
+entered: 78
+entered: 90
+entered: 67
+2 91 25 90 15 42 91 59 90 1 25 18 29 78 47 64 86 78 90 67
+1 2 15 18 25 25 29 42 47 59 64 67 78 78 86 90 90 90 91 91
+Bye.

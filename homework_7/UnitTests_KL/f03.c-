@@ -1,0 +1,12 @@
+## C-S22
+cat()
+ begin 
+    output(42);
+    return;
+ end 
+
+main()
+ begin 
+    cat();
+    output(43);
+ end 

@@ -1,0 +1,12 @@
+53c53
+< .   .   Sibling: 10  Assign: := of array of type char [line: 17]
+---
+> .   .   Sibling: 10  Assign: <- of array of type char [line: 17]
+56c56
+< .   .   Sibling: 11  Assign: := of array of type char [line: 18]
+---
+> .   .   Sibling: 11  Assign: <- of array of type char [line: 18]
+59c59
+< .   .   Sibling: 12  Assign: := of array of type char [line: 19]
+---
+> .   .   Sibling: 12  Assign: <- of array of type char [line: 19]

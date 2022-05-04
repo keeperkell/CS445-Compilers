@@ -1,0 +1,26 @@
+## C-S22
+main()
+ begin 
+        int x;
+
+        x<-0;
+        while x<8 do  begin 
+            output(x);
+            if x<=1 then  outputc('A');
+            else if x<=2 then  outputc('B');
+            else if x<=3 then  outputc('C');
+            else if x<=4 then  outputc('D');
+            else outputc('E');
+            outnl();
+
+            output(x);
+            if x<=1 then  outputc('A');
+            else if x<=2 then  outputc('B');
+            else if x<=3 then  outputc('C');
+            else if x<=4 then  outputc('D');
+            else outputc('E');
+            outnl();
+
+            x++;
+             end 
+ end 

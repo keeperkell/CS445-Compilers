@@ -1,0 +1,13 @@
+main()
+ begin 
+    int a, b, c;
+
+    a <- 11;
+    b <- 22;
+    c <- 13;
+    output(a);
+    output(a * b);
+    output(a - (b / c));
+    output(a - b / c);
+ end 
+           

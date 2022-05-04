@@ -1,0 +1,16 @@
+## C-S22
+int x[7];
+
+main()
+ begin 
+    x[3] <- 1023;
+    output(x[3]++);
+    outnl();
+    output(x[3]);
+    outnl();
+
+    output(x[3]--);
+    outnl();
+    output(x[3]);
+    outnl();
+ end 

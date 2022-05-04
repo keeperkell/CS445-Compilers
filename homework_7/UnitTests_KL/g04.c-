@@ -1,0 +1,12 @@
+## C-S22
+int z;
+
+int cat(int z, x)
+ begin 
+    return z * x - x;
+ end 
+
+main()
+ begin 
+    output(cat(33, 911));
+ end 
