@@ -729,7 +729,7 @@ int main(int argc, char *argv[])
       yyparse();
 
       //do codegen here???
-      
+      IOconstructor();
       semanticAnalysis(AST);
       if(numErrors == 0){
         
@@ -745,7 +745,6 @@ int main(int argc, char *argv[])
         fileName[fileLen - 2] = 't';
         fileName[fileLen - 1] = 'm';
 
-        IOconstructor();
         codeGen(fileName, AST);
         printf("Number of warnings: %d\n", numWarnings);
         printf("Number of errors: %d\n", numErrors);
