@@ -292,25 +292,30 @@ void codeGenExp(TreeNode *t){
                         loffset--;
                         genParse(t->child[1]);
                         loffset++;
+                        emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
+
                         
                         if (!strcmp(t->attr.name, "[")){
-                            emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
+                            //emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
                             emitRO((char *)"SUB", 3, 4, 3, (char *)("compute location from index"));
                             emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
                             emitComment((char *)("LOFF Line 296:"), tempOff);
                         }
                         // check the ops
                         if(!strcmp(t->attr.name, "+")){
+                            /*
                             if (!strcmp(t->child[0]->attr.name, "[")){
                                emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
                             }
+
+                            */
                             emitRO((char *)"ADD", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
                         }
                         else if(!strcmp(t->attr.name, "-")){
                             emitRO((char *)"SUB", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
                         }
                         else if(!strcmp(t->attr.name, "*")){
-                            emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
+                            //emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
                             emitRO((char *)"MUL", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
                         }
                         else if(!strcmp(t->attr.name, "/")){

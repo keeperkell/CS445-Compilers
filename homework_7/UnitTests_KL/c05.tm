@@ -78,14 +78,10 @@
 * COMPOUND
 * START COMPOUND BODY
 * START ASSIGN
-* START CONSTANT
  40:    LDC  3,2(6)	Load int const 
-* END CONSTANT
  41:     ST  3,-2(1)	Push index on 
 * LOFF Line478: -3
-* START CONSTANT
  42:    LDC  3,73(6)	Load int const 
-* END CONSTANT
 * LOFF Line481: -2
  43:     LD  4,-2(1)	Pop index off 
  44:    LDA  5,-1(0)	Load address of base of array x
@@ -93,14 +89,10 @@
  46:     ST  3,0(5)	Store var x
 * END ASSIGN
 * START ASSIGN
-* START CONSTANT
  47:    LDC  3,1(6)	Load int const 
-* END CONSTANT
  48:     ST  3,-2(1)	Push index on 
 * LOFF Line478: -3
-* START CONSTANT
  49:    LDC  3,211(6)	Load int const 
-* END CONSTANT
 * LOFF Line481: -2
  50:     LD  4,-2(1)	Pop index off 
  51:    LDA  5,-5(0)	Load address of base of array y
@@ -118,9 +110,7 @@
  55:    LDA  3,-1(0)	Load address of base of array1 x
 * END ID
  56:     ST  3,-4(1)	Push left side1 
-* START CONSTANT
  57:    LDC  3,2(6)	Load int const 
-* END CONSTANT
  58:     LD  4,-4(1)	Pop left into acl 1 
  59:    SUB  3,4,3	compute location from index 
  60:     LD  3,0(3)	Load array element 
@@ -132,9 +122,7 @@
  62:    LDA  3,-5(0)	Load address of base of array1 y
 * END ID
  63:     ST  3,-5(1)	Push left side1 
-* START CONSTANT
  64:    LDC  3,1(6)	Load int const 
-* END CONSTANT
  65:     LD  4,-5(1)	Pop left into acl 1 
  66:    SUB  3,4,3	compute location from index 
  67:     LD  3,0(3)	Load array element 
@@ -149,7 +137,7 @@
  72:    LDA  3,1(7)	Load return addr 
 * BackPatch 73
  73:    JMP  7,-68(7)	CALL OUTPUT output
- 74:    LDA  3,0(2)	Store 
+ 74:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -2
 * START CALL
@@ -158,7 +146,7 @@
  77:    LDA  3,1(7)	Load return addr 
 * BackPatch 78
  78:    JMP  7,-45(7)	CALL OUTPUT outnl
- 79:    LDA  3,0(2)	Store 
+ 79:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -2
 * END COMPOUND BODY
