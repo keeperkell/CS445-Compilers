@@ -74,56 +74,54 @@
 * FuncK main
 * LOFF Line87: -2
 * LOFF Line96: -2
- 39:     ST  3,-1(1)	Save result in ac 
+ 39:     ST  3,-1(1)	Store return addr 
 * COMPOUND
-* START CALL  output
- 40:     ST  1,-2(1)	Store fp in ghost frame for  output
+* START COMPOUND BODY
+* START CALL
+ 40:     ST  1,-2(1)	Store fp in ghost frame for outnl output
+* START Param 1
 * LOFF Line680: -3
 * LOFF Line685: -4
-* START Param 1
 * START OP  *
-* START CONSTANT
  41:    LDC  3,50(6)	Load int const 
-* END CONSTANT
- 42:     ST  3,-4(1)	Push left side 
-* START CONSTANT
+ 42:     ST  3,-4(1)	Push left side1 
  43:    LDC  3,13(6)	Load int const 
-* END CONSTANT
- 44:     LD  4,-4(1)	Pop left into ac1 
+ 44:     LD  4,-4(1)	Pop left into acl 1 
  45:    MUL  3,4,3	Op *
 * END OP  *
- 46:     ST  3,-4(1)	Push parameter 1 
- 47:    LDA  1,-2(1)	Ghost frame becomes new active frame 1 
+ 46:     ST  3,-4(1)	Push left side 
+ 47:    LDA  1,-2(1)	Ghost frame becomes new active frame 
 * END Param 1
  48:    LDA  3,1(7)	Load return addr 
 * BackPatch 49
  49:    JMP  7,-44(7)	CALL OUTPUT output
- 50:    LDA  3,0(2)	Store 
-* END CALL output
+ 50:    LDA  3,0(2)	Save the result in ac 
+* END CALL
 * LOFF Line749: -2
-* START CALL  outnl
- 51:     ST  1,-2(1)	Store fp in ghost frame for  outnl
- 52:    LDA  1,-2(1)	Ghost frame becomes new active frame 
+* START CALL
+ 51:     ST  1,-2(1)	Store fp in ghost frame for outnl outnl
+ 52:    LDA  1,-2(1)	Load fp 
  53:    LDA  3,1(7)	Load return addr 
 * BackPatch 54
  54:    JMP  7,-21(7)	CALL OUTPUT outnl
- 55:    LDA  3,0(2)	Store 
-* END CALL outnl
+ 55:    LDA  3,0(2)	Save the result in ac 
+* END CALL
 * LOFF Line749: -2
+* END COMPOUND BODY
 * LOFF Line188: -2
 * END COMPOUND
- 56:    LDC  2,0(6)	Set return value to 0 
+ 56:    LDC  2,0(6)	Set return valuye to 0 
  57:     LD  3,-1(1)	Load return address 
- 58:     LD  1,0(1)	Adjust fp 
- 59:    JMP  7,0(3)	Return 
+ 58:     LD  1,0(1)	Adjust file pointer 
+ 59:    JMP  7,0(3)	return 
 * End of Function main
-  0:    JMP  7,59(7)	Jump to init [backpatch] 
+  0:    JMP  7,59(7)	Jump to init 
 * START INIT
- 60:    LDA  1,0(0)	Set first frame at end of globals 
- 61:     ST  1,0(1)	Store old fp (point to self) 
+ 60:    LDA  1,0(0)	Set first frame after globals 
+ 61:     ST  1,0(1)	Store old fp 
 * START INIT GLOBALS AND STATICS
 * END INIT GLOBALS AND STATICS
- 62:    LDA  3,1(7)	Return address in ac 
+ 62:    LDA  3,1(7)	Load return address 
  63:    JMP  7,-25(7)	Jump to main 
  64:   HALT  0,0,0	DONE 
 * END INIT

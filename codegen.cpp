@@ -310,6 +310,7 @@ void codeGenExp(TreeNode *t){
                             emitRO((char *)"SUB", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
                         }
                         else if(!strcmp(t->attr.name, "*")){
+                            emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
                             emitRO((char *)"MUL", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
                         }
                         else if(!strcmp(t->attr.name, "/")){
@@ -443,7 +444,6 @@ void codeGenExp(TreeNode *t){
             
         case ConstantK:
         {
-            emitComment((char *)("START CONSTANT"));
             if(t->expType == Boolean){
                 emitRM((char *)"LDC", 3, t->attr.value, 6,(char *)"Load bool const");
             }
@@ -453,7 +453,6 @@ void codeGenExp(TreeNode *t){
             else if(t->expType == Integer){
                 emitRM((char *)"LDC", 3, t->attr.value, 6,(char *)"Load int const");
             }
-            emitComment((char *)("END CONSTANT"));
             break;
         }
 
@@ -657,7 +656,7 @@ void codeGenExp(TreeNode *t){
             int bp = emitSkip(0); 
             emitComment((char *)("BackPatch"), bp);
             emitRM((char *)"JMP", 7, (lookup->linenum - bp), 7, (char *)("CALL OUTPUT"), t->attr.name);
-            emitRM((char *)"LDA", 3, 0, 2, (char *)("Store"));
+            emitRM((char *)"LDA", 3, 0, 2, (char *)("Save the result in ac"));
 
             emitComment((char *)("END CALL"));
             loffset = tempOff;
