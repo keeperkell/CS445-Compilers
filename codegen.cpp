@@ -461,13 +461,13 @@ void codeGenExp(TreeNode *t){
                     }
                 }
                 else if(t->memKind == Local){
-                    if(t->isArray){
+                    if(!t->isArray){
                         storeInMem = false;
                         emitRM((char *)"ST", 3, t->offset, 1, (char *)("Store var"), (char *)t->attr.name);
                     }
                 }
                 else if(t->memKind == LocalStatic){
-                    if(t->isArray){
+                    if(!t->isArray){
                         storeInMem = false;
                         emitRM((char *)"ST", 3, t->offset, 0, (char *)("Store var"), (char *)t->attr.name);
                     }
@@ -544,7 +544,7 @@ void codeGenExp(TreeNode *t){
 
             // there are no params
             if(!t->child[0]){
-                emitRM((char *)"ST", 1, tempOff, 1, (char *)("Store fp"), (char *)t->attr.name);
+                emitRM((char *)"ST", 1, tempOff, 1, (char *)("Store fp in ghost frame for outnl"), (char *)t->attr.name);
                 emitRM((char *)"LDA", 1, loffset, 1, (char *)("Load fp"));
             }
             // params exists
@@ -565,7 +565,7 @@ void codeGenExp(TreeNode *t){
                     }
                     */
 
-                    emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame"), (char *)t->attr.name);
+                    emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for outnl"), (char *)t->attr.name);
                     emitComment((char *)("START Param 1"));
                     loffset--;
                     emitComment((char *)("LOFF Line680:"), loffset);
@@ -579,7 +579,7 @@ void codeGenExp(TreeNode *t){
                     
                     genParse(t->child[0]);
                     emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side"));
-                    emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Load fp of ghost frame"));
+                    emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Ghost frame becomes new active frame"));
                     emitComment((char *)("END Param 1"));
                 }
                 // more than 1 param in call
@@ -587,7 +587,7 @@ void codeGenExp(TreeNode *t){
                     
                     TreeNode *LUChild;
                     loffset++;
-                    emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame"), (char *)t->attr.name);
+                    emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for outnl"), (char *)t->attr.name);
 
                     if(t->child[0]->attr.name){
                         LUChild = (TreeNode *)st.lookup(t->child[0]->attr.name);
@@ -671,8 +671,11 @@ void genMainFunc(TreeNode *t){
     emitSkip(bp);
 
     emitRM((char *)"LDA", 1, goffset, 0, (char *)("Set first frame after globals"));
-    emitRM((char *)"ST", 1, 0, 1, (char *)("Store old fp"));    
+    emitRM((char *)"ST", 1, 0, 1, (char *)("Store old fp"));
+
+    emitComment((char *)("START INIT GLOBALS AND STATICS"));    
     genGlobAndStatics(t);
+    emitComment((char *)("END INIT GLOBALS AND STATICS"));
 
     emitRM((char *)"LDA", 3, 1, 7, (char *)("Load return address"));
     bp = emitSkip(0);
@@ -682,7 +685,6 @@ void genMainFunc(TreeNode *t){
 }
 
 void genGlobAndStatics(TreeNode *t){
-    emitComment((char *)("START INIT GLOBALS AND STATICS"));
 
     if(!t){
         return;
@@ -701,7 +703,6 @@ void genGlobAndStatics(TreeNode *t){
     if(t->sibling){
         genGlobAndStatics(t->sibling);
     }
-    emitComment((char *)("END INIT GLOBALS AND STATICS"));
 }
 
 void initIO(){

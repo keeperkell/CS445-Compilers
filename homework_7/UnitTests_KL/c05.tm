@@ -74,115 +74,102 @@
 * FuncK main
 * LOFF Line87: -2
 * LOFF Line96: -2
- 39:     ST  3,-1(1)	Store return addr 
+ 39:     ST  3,-1(1)	Save result in ac 
 * COMPOUND
-* START COMPOUND BODY
-* START ASSIGN
+* START ASSIGN <-
 * START CONSTANT
  40:    LDC  3,2(6)	Load int const 
 * END CONSTANT
- 41:     ST  3,-2(1)	Push index on 
-* LOFF Line478: -3
+ 41:     ST  3,-2(1)	Push index 
 * START CONSTANT
  42:    LDC  3,73(6)	Load int const 
 * END CONSTANT
-* LOFF Line481: -2
- 43:     LD  4,-2(1)	Pop index off 
- 44:    LDA  5,-1(0)	Load base of array addr x
- 45:    SUB  5,5,4	Get value offset 
+ 43:     LD  4,-2(1)	Pop index 
+ 44:    LDA  5,-1(0)	Load address of base of array x
+ 45:    SUB  5,5,4	Compute offset of value 
  46:     ST  3,0(5)	Store var x
-* END ASSIGN
-* START ASSIGN
+* END ASSIGN <-
+* START ASSIGN <-
 * START CONSTANT
  47:    LDC  3,1(6)	Load int const 
 * END CONSTANT
- 48:     ST  3,-2(1)	Push index on 
-* LOFF Line478: -3
+ 48:     ST  3,-2(1)	Push index 
 * START CONSTANT
  49:    LDC  3,211(6)	Load int const 
 * END CONSTANT
-* LOFF Line481: -2
- 50:     LD  4,-2(1)	Pop index off 
- 51:    LDA  5,-5(0)	Load base of array addr y
- 52:    SUB  5,5,4	Get value offset 
+ 50:     LD  4,-2(1)	Pop index 
+ 51:    LDA  5,-5(0)	Load address of base of array y
+ 52:    SUB  5,5,4	Compute offset of value 
  53:     ST  3,0(5)	Store var y
-* END ASSIGN
-* START CALL
- 54:     ST  1,-2(1)	Store fp in ghost frame output
+* END ASSIGN <-
+* START CALL  output
+ 54:     ST  1,-2(1)	Store fp in ghost frame for  output
 * START Param 1
 * LOFF Line680: -3
 * LOFF Line685: -4
 * START OP  +
 * START OP  [
-* START ID
+* START ID x
  55:     LD  3,-1(0)	Load base of array addr x
 * LOFF Line590: -5
-* END ID
+* END ID x
  56:     ST  3,-5(1)	Push left side 
 * START CONSTANT
  57:    LDC  3,2(6)	Load int const 
 * END CONSTANT
- 58:     LD  4,-5(1)	Load into 1 
-* LOFF Line394: -5
+ 58:     LD  4,-5(1)	Pop left into ac1 
 * END OP  [
  59:     ST  3,-5(1)	Push left side 
 * START OP  [
-* START ID
+* START ID y
  60:     LD  3,-5(0)	Load base of array addr y
 * LOFF Line590: -6
-* END ID
+* END ID y
  61:     ST  3,-6(1)	Push left side 
 * START CONSTANT
  62:    LDC  3,1(6)	Load int const 
 * END CONSTANT
- 63:     LD  4,-6(1)	Load into 1 
-* LOFF Line394: -6
+ 63:     LD  4,-6(1)	Pop left into ac1 
 * END OP  [
- 64:     LD  4,-5(1)	Load into 1 
-* LOFF Line394: -5
+ 64:     LD  4,-5(1)	Pop left into ac1 
  65:    ADD  3,4,3	Op +
 * END OP  +
  66:     ST  3,-6(1)	Push left side 
- 67:    LDA  1,-2(1)	Load fp of ghost frame 
+ 67:    LDA  1,-2(1)	Ghost frame becomes new active frame 
 * END Param 1
  68:    LDA  3,1(7)	Load return addr 
 * BackPatch 69
  69:    JMP  7,-64(7)	CALL OUTPUT output
  70:    LDA  3,0(2)	Store 
-* END CALL
+* END CALL output
 * LOFF Line749: -2
-* START CALL
- 71:     ST  1,-2(1)	Store fp outnl
- 72:    LDA  1,-2(1)	Load fp 
+* START CALL  outnl
+ 71:     ST  1,-2(1)	Store fp in ghost frame for  outnl
+ 72:    LDA  1,-2(1)	Ghost frame becomes new active frame 
  73:    LDA  3,1(7)	Load return addr 
 * BackPatch 74
  74:    JMP  7,-41(7)	CALL OUTPUT outnl
  75:    LDA  3,0(2)	Store 
-* END CALL
+* END CALL outnl
 * LOFF Line749: -2
-* END COMPOUND BODY
 * LOFF Line188: -2
 * END COMPOUND
- 76:    LDC  2,0(6)	Set return valuye to 0 
+ 76:    LDC  2,0(6)	Set return value to 0 
  77:     LD  3,-1(1)	Load return address 
- 78:     LD  1,0(1)	Adjust file pointer 
- 79:    JMP  7,0(3)	return 
+ 78:     LD  1,0(1)	Adjust fp 
+ 79:    JMP  7,0(3)	Return 
 * End of Function main
-  0:    JMP  7,79(7)	Jump to init 
+  0:    JMP  7,79(7)	Jump to init [backpatch] 
 * START INIT
- 80:    LDA  1,-9(0)	Set first frame after globals 
- 81:     ST  1,0(1)	Store old fp 
+ 80:    LDA  1,-9(0)	Set first frame at end of globals 
+ 81:     ST  1,0(1)	Store old fp (point to self) 
 * START INIT GLOBALS AND STATICS
- 82:    LDC  3,3(6)	Load array size x
- 83:     ST  3,0(0)	Store array size x
-* START INIT GLOBALS AND STATICS
- 84:    LDC  3,4(6)	Load array size y
- 85:     ST  3,-4(0)	Store array size y
-* START INIT GLOBALS AND STATICS
+ 82:    LDC  3,3(6)	Load size of array x
+ 83:     ST  3,0(0)	Save size of array x
+ 84:    LDC  3,4(6)	Load size of array y
+ 85:     ST  3,-4(0)	Save size of array y
 * END INIT GLOBALS AND STATICS
-* END INIT GLOBALS AND STATICS
-* END INIT GLOBALS AND STATICS
- 86:    LDA  3,1(7)	Load return address 
+ 86:    LDA  3,1(7)	Return address in ac 
  87:    JMP  7,-49(7)	Jump to main 
  88:   HALT  0,0,0	DONE 
 * END INIT

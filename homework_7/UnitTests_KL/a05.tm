@@ -1,8 +1,9 @@
-* =======================================================
-* =======================================================
-* Keller TM Output
-* =======================================================
-* =======================================================
+* =================================================
+* C- compiler version C-S22
+* Built: Apr 17 - May 8
+* Author: Keller Lawson
+* File Compiled:  homework_7/UnitTests_KL/a05.tm
+* =================================================
 * 
 * START FUNC INPUT
   1:     ST  3,-1(1)	Store return addr 
@@ -73,50 +74,48 @@
 * FuncK main
 * LOFF Line87: -2
 * LOFF Line96: -2
- 39:     ST  3,-1(1)	Store return addr 
+ 39:     ST  3,-1(1)	Save result in ac 
 * COMPOUND
-* START COMPOUND BODY
 * LOFF Line70: -3
-* START ASSIGN
+* START ASSIGN <-
 * START CONSTANT
  40:    LDC  3,273(6)	Load int const 
 * END CONSTANT
-* START ID
-* END ID
+* START ID x
  41:     ST  3,-2(1)	Store var x
-* END ASSIGN
-* START CALL
- 42:     ST  1,-3(1)	Store fp in ghost frame output
+* END ID x
+* END ASSIGN <-
+* START CALL  output
+ 42:     ST  1,-3(1)	Store fp in ghost frame for  output
 * START Param 1
 * LOFF Line680: -4
 * LOFF Line685: -5
-* START ID
+* START ID x
  43:     LD  3,-2(1)	Load var x
-* END ID
+* END ID x
  44:     ST  3,-5(1)	Push left side 
- 45:    LDA  1,-3(1)	Load fp of ghost frame 
+ 45:    LDA  1,-3(1)	Ghost frame becomes new active frame 
 * END Param 1
  46:    LDA  3,1(7)	Load return addr 
 * BackPatch 47
  47:    JMP  7,-42(7)	CALL OUTPUT output
  48:    LDA  3,0(2)	Store 
-* END CALL
+* END CALL output
 * LOFF Line749: -3
-* END COMPOUND BODY
-* LOFF Line188: -2
+* LOFF Line188: -3
 * END COMPOUND
- 49:    LDC  2,0(6)	Set return valuye to 0 
+ 49:    LDC  2,0(6)	Set return value to 0 
  50:     LD  3,-1(1)	Load return address 
- 51:     LD  1,0(1)	Adjust file pointer 
- 52:    JMP  7,0(3)	return 
+ 51:     LD  1,0(1)	Adjust fp 
+ 52:    JMP  7,0(3)	Return 
 * End of Function main
-  0:    JMP  7,52(7)	Jump to init 
+  0:    JMP  7,52(7)	Jump to init [backpatch] 
 * START INIT
- 53:    LDA  1,0(0)	Set first frame after globals 
- 54:     ST  1,0(1)	Store old fp 
+ 53:    LDA  1,0(0)	Set first frame at end of globals 
+ 54:     ST  1,0(1)	Store old fp (point to self) 
 * START INIT GLOBALS AND STATICS
 * END INIT GLOBALS AND STATICS
- 55:    LDA  3,1(7)	Load return address 
+ 55:    LDA  3,1(7)	Return address in ac 
  56:    JMP  7,-18(7)	Jump to main 
  57:   HALT  0,0,0	DONE 
 * END INIT

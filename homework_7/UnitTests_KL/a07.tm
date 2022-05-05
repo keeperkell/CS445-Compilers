@@ -83,16 +83,16 @@
  40:    LDC  3,341(6)	Load int const 
 * END CONSTANT
 * START ID
-* END ID
  41:     ST  3,0(0)	Store var x
+* END ID
 * END ASSIGN
 * START ASSIGN
 * START CONSTANT
  42:    LDC  3,273(6)	Load int const 
 * END CONSTANT
 * START ID
-* END ID
  43:     ST  3,-2(1)	Store var y
+* END ID
 * END ASSIGN
 * START CALL
  44:     ST  1,-3(1)	Store fp in ghost frame output
@@ -159,8 +159,6 @@
  72:    LDA  1,-1(0)	Set first frame after globals 
  73:     ST  1,0(1)	Store old fp 
 * START INIT GLOBALS AND STATICS
-* START INIT GLOBALS AND STATICS
-* END INIT GLOBALS AND STATICS
 * END INIT GLOBALS AND STATICS
  74:    LDA  3,1(7)	Load return address 
  75:    JMP  7,-37(7)	Jump to main 
