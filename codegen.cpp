@@ -260,13 +260,13 @@ void codeGenExp(TreeNode *t){
 
                     if(!strcmp(t->attr.name, "*")){
                         if(t->memKind == Global){
-                            emitRM((char *)"LDA", 3, t->child[0]->offset, 0, (char *)("Load base of array addr"), (char *)t->child[0]->attr.name);
+                            emitRM((char *)"LDA", 3, t->child[0]->offset, 0, (char *)("Load address of base of array"), (char *)t->child[0]->attr.name);
                         }
                         else if(t->memKind == Parameter){
-                            emitRM((char *)"LD", 3, t->child[0]->offset, 1, (char *)("Load base of array addr"), (char *)t->child[0]->attr.name);
+                            emitRM((char *)"LD", 3, t->child[0]->offset, 1, (char *)("Load address of base of array"), (char *)t->child[0]->attr.name);
                         }
                         else{
-                            emitRM((char *)"LDA", 3, t->child[0]->offset, 1, (char *)("Load base of array addr"), (char *)t->child[0]->attr.name);
+                            emitRM((char *)"LDA", 3, t->child[0]->offset, 1, (char *)("Load address of base of array"), (char *)t->child[0]->attr.name);
                         }
 
                         emitRM((char *)"LD", 3, 1, 3, (char *)("Load array size"));
@@ -277,22 +277,23 @@ void codeGenExp(TreeNode *t){
                     else if(!strcmp(t->attr.name, "?")){
                         emitRO((char *)"RND", 3, 3, 6, (char *)("Unary Op"), (char *)t->attr.name);
                     }
-                    else if(!strcmp(t->attr.name, "not")){
+                    else if(!strcmp(t->attr.name, "not") || (!strcmp(t->attr.name, "NOT"))){
                         emitRM((char *)"LDC",4,1,6,(char *)("Load 1"));
                         emitRO((char *)"XOR",3,3,4,(char *)("Op XOR for logical not"));
                     }
                 }
                 // else if for binary
                 else{
-                    if(t->child[0]){
+                    if(t->child[0] && t->child[1]){
+
                         genParse(t->child[0]);
                         int tempOff = loffset;
                         //tempOff--;
-                        emitRM((char *)"ST", 3, tempOff, 1, (char *)("Push left side"));;
+                        emitRM((char *)"ST", 3, tempOff, 1, (char *)("Push left side 292"));
                         genParse(t->child[1]);    
-                        emitRM((char *)"LD", 4, tempOff, 1, (char *)("Load into 1"));
+                        emitRM((char *)"LD", 4, tempOff, 1, (char *)("Pop left into ac1 294"));
                         //tempOff++;
-                        emitComment((char *)("LOFF Line394:"), tempOff);
+                        emitComment((char *)("LOFF Line 296:"), tempOff);
 
                         // check the ops
                         if(!strcmp(t->attr.name, "+")){
@@ -340,11 +341,33 @@ void codeGenExp(TreeNode *t){
                         else if(!strcmp(t->attr.name, "!=")){
                             emitRO((char *)"TNE", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
                         }
-                        else if(!strcmp(t->attr.name, "and")){
+                        else if(!strcmp(t->attr.name, "and") || (!strcmp(t->attr.name, "AND"))){
                             emitRO((char *)"AND", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
                         }
-                        else if(!strcmp(t->attr.name, "or")){
+                        else if(!strcmp(t->attr.name, "or") || (!strcmp(t->attr.name, "OR"))){
                             emitRO((char *)"OR", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
+                        }
+                        else if(strcmp(t->attr.name, "[")){
+                       
+                            if(t->child[0]->isArray){
+
+                                if(t->child[0]->memKind == Global){
+                                    emitRM((char *)"LDA", 3, t->child[0]->offset, 0, (char *)("Load address of base of array"), (char *)t->child[0]->attr.name);
+                                }
+                                else{
+                                    emitRM((char *)"LDA", 3, t->child[0]->offset, 1, (char *)("Load address of base of array"), (char *)t->child[0]->attr.name);
+                                }
+
+                                emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side"));
+                                loffset--;
+                                genParse(t->child[1]);
+                                loffset++;
+                                emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
+                                emitRO((char *)"SUB", 3, 4, 3, (char *)("compute location from index"));
+                                emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
+                                emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side"));
+
+                            }
                         }
                     }
                 }
@@ -369,10 +392,10 @@ void codeGenExp(TreeNode *t){
                     emitRM((char *)"LD", 4, loffset, 1, (char *)("Pop index off"));
 
                     if(t->child[0]->child[0]->memKind == Global){
-                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 0, (char *)("Load base of array addr"), (char *)t->child[0]->child[0]->attr.name);
+                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 0, (char *)("Load address of base of array"), (char *)t->child[0]->child[0]->attr.name);
                     }
                     else{
-                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 1, (char *)("Load base of array addr"), (char *)t->child[0]->child[0]->attr.name);
+                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array"), (char *)t->child[0]->child[0]->attr.name);
                     }
 
                     emitRO((char *)"SUB", 5, 5, 4, (char *)("Get value offset"));
@@ -478,7 +501,7 @@ void codeGenExp(TreeNode *t){
                 if(t->memKind == Global){
                     if(!isBinary){
                         if(t->isArray){
-                            emitRM((char *)"LD", 3, t->offset, 0, (char *)("Load base of array addr"), (char *)t->attr.name);
+                            emitRM((char *)"LD", 3, t->offset, 0, (char *)("Load address of base of array"), (char *)t->attr.name);
                             loffset--;
                             emitComment((char *)("LOFF Line590:"), loffset);
 
@@ -491,7 +514,7 @@ void codeGenExp(TreeNode *t){
                 else if(t->memKind == Local){
                     if(!isBinary){
                         if(t->isArray){
-                            emitRM((char *)"LD", 3, t->offset, 1, (char *)("Load base of array addr"), (char *)t->attr.name);
+                            emitRM((char *)"LD", 3, t->offset, 1, (char *)("Load address of base of array"), (char *)t->attr.name);
                             loffset--;
                             emitComment((char *)("LOFF Line606:"), loffset);
 
@@ -504,7 +527,7 @@ void codeGenExp(TreeNode *t){
                 else if(t->memKind == Parameter){
                     if(!isBinary){
                         if(t->isArray){
-                            emitRM((char *)"LD", 3, t->offset, 1, (char *)("Load base of array addr"), (char *)t->attr.name);
+                            emitRM((char *)"LD", 3, t->offset, 1, (char *)("Load address of base of array"), (char *)t->attr.name);
                             loffset--;
                             emitComment((char *)("LOFF Line622:"), loffset);
 
@@ -517,7 +540,7 @@ void codeGenExp(TreeNode *t){
                 else if(t->memKind == LocalStatic){
                     if(!isBinary){
                         if(t->isArray){
-                            emitRM((char *)"LD", 3, t->offset, 0, (char *)("Load base of array addr"), (char *)t->attr.name);
+                            emitRM((char *)"LD", 3, t->offset, 0, (char *)("Load address of base of array"), (char *)t->attr.name);
                             loffset--;
                             emitComment((char *)("LOFF Line638:"), loffset);
 
@@ -557,13 +580,6 @@ void codeGenExp(TreeNode *t){
                 }
 
                 if(numParams == 1){
-                    
-                    /*
-                    if(t->child[0]->subkind.exp == IdK){
-                        loffset--;
-                        tempOff--;
-                    }
-                    */
 
                     emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for outnl"), (char *)t->attr.name);
                     emitComment((char *)("START Param 1"));
@@ -607,10 +623,10 @@ void codeGenExp(TreeNode *t){
 
                         if(LUChild->isArray){
                             if(LUChild->memKind == Global){
-                                emitRM((char *)"LDA", 3, LUChild->offset, 0, (char *)("Load base of array addr"), (char *)LUChild->attr.name);
+                                emitRM((char *)"LDA", 3, LUChild->offset, 0, (char *)("Load address of base of array"), (char *)LUChild->attr.name);
                             }
                             else{
-                                emitRM((char *)"LDA", 3, LUChild->offset, 1, (char *)("Load base of array addr"), (char *)LUChild->attr.name);
+                                emitRM((char *)"LDA", 3, LUChild->offset, 1, (char *)("Load address of base of array"), (char *)LUChild->attr.name);
                             }
 
                             emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side"));;
