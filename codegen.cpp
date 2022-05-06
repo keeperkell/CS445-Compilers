@@ -580,6 +580,7 @@ void codeGenExp(TreeNode *t){
         case IdK:
         {
             emitComment((char *)("START ID"));
+            //emitComment((char *)"storeInMem: ", (int)storeInMem);
             // check if anything set to store in memory
             if(storeInMem){
                 if(t->memKind == Global){
@@ -598,6 +599,12 @@ void codeGenExp(TreeNode *t){
                     if(!t->isArray){
                         storeInMem = false;
                         emitRM((char *)"ST", 3, t->offset, 0, (char *)("Store var"), (char *)t->attr.name);
+                    }
+                }
+                else if(t->memKind == Parameter){
+                    if(!t->isArray){
+                        storeInMem = false;
+                        emitRM((char *)"ST", 3, t->offset, 1, (char *)("Store var"), (char *)t->attr.name);
                     }
                 }
             }
