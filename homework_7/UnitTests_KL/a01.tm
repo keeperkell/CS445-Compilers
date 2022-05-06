@@ -1,8 +1,9 @@
-* =======================================================
-* =======================================================
-* Keller TM Output
-* =======================================================
-* =======================================================
+* =================================================
+* C- compiler version C-S22
+* Built: Apr 17 - May 8
+* Author: Keller Lawson
+* File Compiled:  homework_7/UnitTests_KL/a01.tm
+* =================================================
 * 
 * START FUNC INPUT
   1:     ST  3,-1(1)	Store return addr 
@@ -71,35 +72,36 @@
 * 
 * ** ** ** ** ** ** ** ** ** ** ** **
 * FuncK main
-* LOFF Line87: -2
 * LOFF Line96: -2
  39:     ST  3,-1(1)	Store return addr 
 * COMPOUND
+* LOFF Line188: -2
 * START COMPOUND BODY
 * START CALL
+ 40:     ST  1,-2(1)	Store fp in ghost frame for  output
 * START Param 1
- 40:     ST  1,-2(1)	Store fp output
-* LOFF Line680: -4
-* START CONSTANT
+* LOFF Line680: -3
+* LOFF Line685: -4
  41:    LDC  3,987(6)	Load int const 
-* END CONSTANT
- 42:     ST  3,-4(1)	Push left side 
-* LOFF Line685: -5
- 43:    LDA  1,-2(1)	Load fp 
+ 42:     ST  3,-4(1)	Push parameter 623 
+* LOFF Line615: -5
 * END Param 1
+ 43:    LDA  1,-2(1)	Ghost frame becomes new active frame 
  44:    LDA  3,1(7)	Load return addr 
- 45:    JMP  7,-40(7)	CALL output
- 46:    LDA  3,0(2)	Store 
+* BackPatch 45
+ 45:    JMP  7,-40(7)	CALL OUTPUT output
+ 46:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -2
 * END COMPOUND BODY
-* LOFF Line188: -2
 * END COMPOUND
- 47:    LDC  2,0(6)	Set return valuye to 0 
+ 47:    LDC  2,0(6)	Set return value to 0 
  48:     LD  3,-1(1)	Load return address 
- 49:     LD  1,0(1)	Adjust file pointer 
+ 49:     LD  1,0(1)	Adjust fp 
  50:    JMP  7,0(3)	return 
 * End of Function main
+* 
+* =========================================================
   0:    JMP  7,50(7)	Jump to init 
 * START INIT
  51:    LDA  1,0(0)	Set first frame after globals 

@@ -1266,7 +1266,7 @@ void checkAssignOpK(TreeNode *t){
                             }
                     }
                     else{
-                        printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
+                        //printf("ERROR(%d): The operation '%s' does not work with arrays.\n", t->linenum, t->attr.name);
                     }
                 }
             }

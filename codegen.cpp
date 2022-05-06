@@ -82,7 +82,7 @@ void codeGenDecl(TreeNode *t){
 
             case FuncK:
                 {
-                    t->codeGenLineNum = emitSkip(0);
+                    t->codeGenLineNum = emitSkip(0) -1;
                     emitComment((char *)("FuncK"), (char *)t->attr.name);
 
                     TreeNode *LUChild = t->child[0];
@@ -107,6 +107,8 @@ void codeGenDecl(TreeNode *t){
                     emitRM((char *)"LD", 1, 0, 1, (char *)"Adjust fp");
                     emitRM((char *)"JMP", 7, 0, 3, (char *)"return");
                     emitComment((char *)("End of Function"), (char *)t->attr.name);
+                    emitComment((char *)(""));
+                    emitComment((char *)("========================================================="));
                     break;
                 }
 
@@ -297,8 +299,8 @@ void codeGenExp(TreeNode *t){
                             //emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
                             emitRO((char *)"SUB", 3, 4, 3, (char *)("compute location from index"));
                             emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
-                            loffset++;
-                            emitComment((char *)("LOFF Line 296:"), loffset);
+                            //loffset++;
+                            //emitComment((char *)("LOFF Line 296:"), loffset);
                         }
                             
                         // check the ops
@@ -353,7 +355,7 @@ void codeGenExp(TreeNode *t){
                         else if(!strcmp(t->attr.name, "or") || (!strcmp(t->attr.name, "OR"))){
                             emitRO((char *)"OR", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
                         }
-                        loffset = tempOff;
+                        //loffset = tempOff;
                     }
                 }
                 emitComment((char *)("END OP "), (char *)t->attr.name);
@@ -406,7 +408,7 @@ void codeGenExp(TreeNode *t){
                         emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 0, (char *)("Load address of base of array 406"), (char *)t->child[0]->child[0]->attr.name);
                     }
                     else{
-                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array 406"), (char *)t->child[0]->child[0]->attr.name);
+                        emitRM((char *)"LD", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array 406"), (char *)t->child[0]->child[0]->attr.name);
                     }
                     emitRO((char *)"SUB", 5, 5, 3, (char *)("Compute offset of value"));
                     emitRM((char *)"LD", 3, 0, 5, (char *)("Load lhs variable 435"), (char *)t->child[0]->child[0]->attr.name);
@@ -540,9 +542,6 @@ void codeGenExp(TreeNode *t){
                     if(!isBinary){
                         if(t->isArray){
                             emitRM((char *)"LD", 3, t->offset, 1, (char *)("Load address of base of array3"), (char *)t->attr.name);
-                            loffset--;
-                            emitComment((char *)("LOFF Line622:"), loffset);
-
                         }
                         else{
                             emitRM((char *)"LD", 3, t->offset, 1, (char *)("Load var"), (char *)t->attr.name);
@@ -585,8 +584,8 @@ void codeGenExp(TreeNode *t){
 
             // there are no params
             if(!t->child[0]){
-                emitRM((char *)"ST", 1, tempOff, 1, (char *)("Store fp in ghost frame for outnl"), (char *)t->attr.name);
-                emitRM((char *)"LDA", 1, loffset, 1, (char *)("Load fp"));
+                emitRM((char *)"ST", 1, tempOff, 1, (char *)("Store fp in ghost frame for"), (char *)t->attr.name);
+                emitRM((char *)"LDA", 1, loffset, 1, (char *)("Ghost frame becomes new active frame"));
             }
             // params exists
             else{
@@ -598,30 +597,87 @@ void codeGenExp(TreeNode *t){
                 }
 
                 if(numParams == 1){
+                    if(t->child[0]->subkind.exp == OpK || t->child[0]->subkind.exp == IdK){
+                        if(t->child[0]->isArray){
+                            storeInMem = false;
+                            emitComment((char *)("START Param 1 array id 602"));
+                            emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for "), (char *)t->attr.name);
+                            loffset -= 2;
+                            emitComment((char *)("LOFF Line605:"), loffset);
+                            genParse(t->child[0]);
+                            emitRM((char *)"ST", 3, loffset, 1, (char *)("Push parameter 606"));
+                            loffset--;
+                            emitComment((char *)("LOFF Line609:"), loffset);
+                            emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Ghost frame becomes new active frame"));
+                            
+                        }
+                        else if(!strcmp(t->child[0]->attr.name, "[")){
+                            emitComment((char *)("START Param 1 array op 606"));
 
-                    emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for outnl"), (char *)t->attr.name);
-                    emitComment((char *)("START Param 1"));
-                    loffset--;
-                    emitComment((char *)("LOFF Line680:"), loffset);
+                            emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for "), (char *)t->attr.name);
+                            loffset -= 2;
+                            genParse(t->child[0]->child[0]);
+                            
+                            emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left 610"));
+                            loffset--;
+                            emitComment((char *)("LOFF Line614:"), loffset);
+                            genParse(t->child[0]->child[1]);
+                            loffset++;
+                            emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
+                            emitRO((char *)"SUB", 3, 4, 3, (char *)("compute location from index"));
+                            emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
+                            emitRM((char *)"ST", 3, loffset, 1, (char *)("Push parameter 618"));
+                            loffset--;
+                            emitComment((char *)("LOFF Line622:"), loffset);
 
-                    if(!t->child[0]->isArray){
+                            emitComment((char *)("END Param 1"));
+                            emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Ghost frame becomes new active frame"));
+
+                        }
+                        else{
+                            emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for "), (char *)t->attr.name);
+                            emitComment((char *)("START Param 1"));
+                            loffset--;
+                            emitComment((char *)("LOFF Line680:"), loffset);
+
+                            
+                            loffset  -= numParams;
+                            emitComment((char *)("LOFF Line685:"), loffset);
+                            storeInMem = false;
+                            genParse(t->child[0]);
+                            
+                            emitRM((char *)"ST", 3, loffset, 1, (char *)("Push parameter 623"));
+                            loffset--;
+                            emitComment((char *)("LOFF Line615:"), loffset);
+                            emitComment((char *)("END Param 1"));
+                            emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Ghost frame becomes new active frame"));
+                        }
+                    }
+                    else{
+                        emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for "), (char *)t->attr.name);
+                        emitComment((char *)("START Param 1"));
+                        loffset--;
+                        emitComment((char *)("LOFF Line680:"), loffset);
+
+                        
                         loffset  -= numParams;
                         emitComment((char *)("LOFF Line685:"), loffset);
-
                         storeInMem = false;
+                        genParse(t->child[0]);
+                        
+                        emitRM((char *)"ST", 3, loffset, 1, (char *)("Push parameter 623"));
+                        loffset--;
+                        emitComment((char *)("LOFF Line615:"), loffset);
+                        emitComment((char *)("END Param 1"));
+                        emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Ghost frame becomes new active frame"));
                     }
-                    
-                    genParse(t->child[0]);
-                    emitRM((char *)"ST", 3, loffset, 1, (char *)("Push parameter"));
-                    emitComment((char *)("END Param 1"));
-                    emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Ghost frame becomes new active frame"));
                 }
                 // more than 1 param in call
                 else{
                     
                     TreeNode *LUChild;
                     loffset++;
-                    emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for outnl"), (char *)t->attr.name);
+                    emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for "), (char *)t->attr.name);
 
                     if(t->child[0]->attr.name){
                         LUChild = (TreeNode *)st.lookup(t->child[0]->attr.name);
@@ -672,7 +728,7 @@ void codeGenExp(TreeNode *t){
                         emitComment((char *)("END Param"));
                     }
 
-                    emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Load fp"));
+                    emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Ghost frame becomes new active frame"));
                 }
             }
              
@@ -680,7 +736,7 @@ void codeGenExp(TreeNode *t){
             emitRM((char *)"LDA", 3, 1, 7, (char *)("Load return addr"));
             int bp = emitSkip(0); 
             emitComment((char *)("BackPatch"), bp);
-            emitRM((char *)"JMP", 7, (lookup->linenum - bp), 7, (char *)("CALL OUTPUT"), t->attr.name);
+            emitRM((char *)"JMP", 7, (lookup->codeGenLineNum - bp), 7, (char *)("CALL OUTPUT"), t->attr.name);
             emitRM((char *)"LDA", 3, 0, 2, (char *)("Save the result in ac"));
 
             emitComment((char *)("END CALL"));
@@ -713,7 +769,7 @@ void genMainFunc(TreeNode *t){
 
     emitRM((char *)"LDA", 3, 1, 7, (char *)("Load return address"));
     bp = emitSkip(0);
-    emitRM((char*)"JMP", 7, (lookup->codeGenLineNum - bp - 1), 7, (char *)("Jump to main"));
+    emitRM((char*)"JMP", 7, (lookup->codeGenLineNum - bp), 7, (char *)("Jump to main"));
     emitRO((char *)"HALT", 0, 0, 0, (char *)("DONE"));
     emitComment((char *)("END INIT"));
 }
@@ -745,7 +801,7 @@ void initIO(){
 
     //INPUT Int
     tempLU = (TreeNode *)st.lookup("input");
-    tempLU->linenum = emitSkip(0) - 1;
+    tempLU->codeGenLineNum = emitSkip(0)-1;
 
     emitComment((char *)("START FUNC INPUT"));
     emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
@@ -759,7 +815,7 @@ void initIO(){
 
     //OUTPUT Int
     tempLU = (TreeNode *)st.lookup("output");
-    tempLU->linenum = emitSkip(0) - 1;
+    tempLU->codeGenLineNum = emitSkip(0)-1;
 
     emitComment((char *)("START FUNC OUTPUT"));
     emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
@@ -774,7 +830,7 @@ void initIO(){
     
     //INPUT Bool
     tempLU = (TreeNode *)st.lookup("inputb");
-    tempLU->linenum = emitSkip(0) - 1;
+    tempLU->codeGenLineNum = emitSkip(0)-1;
 
     emitComment((char *)("START FUNC INPUTB"));
     emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
@@ -788,7 +844,7 @@ void initIO(){
 
     //OUTPUT Bool
     tempLU = (TreeNode *)st.lookup("outputb");
-    tempLU->linenum = emitSkip(0) - 1;
+    tempLU->codeGenLineNum = emitSkip(0)-1;
 
     emitComment((char *)("START FUNC OUTPUTB"));
     emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
@@ -803,7 +859,7 @@ void initIO(){
 
     //INPUT Char
     tempLU = (TreeNode *)st.lookup("inputc");
-    tempLU->linenum = emitSkip(0) - 1;
+    tempLU->codeGenLineNum = emitSkip(0)-1;
 
     emitComment((char *)("START FUNC INPUTC"));
     emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
@@ -817,7 +873,7 @@ void initIO(){
 
     //OUTPUT Char
     tempLU = (TreeNode *)st.lookup("outputc");
-    tempLU->linenum = emitSkip(0) - 1;
+    tempLU->codeGenLineNum = emitSkip(0)-1;
 
     emitComment((char *)("START FUNC OUTPUTC"));
     emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
@@ -832,7 +888,7 @@ void initIO(){
 
     //OUTPUT Char
     tempLU = (TreeNode *)st.lookup("outnl");
-    tempLU->linenum = emitSkip(0) - 1;
+    tempLU->codeGenLineNum = emitSkip(0)-1;
 
     emitComment((char *)("START FUNC OUTNL"));
     emitRM((char *)"ST", 3, -1, 1, (char *)"Store return addr");
