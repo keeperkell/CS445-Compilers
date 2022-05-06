@@ -382,6 +382,9 @@ void codeGenExp(TreeNode *t){
                     if(t->child[0]->child[0]->memKind == Global){
                         emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 0, (char *)("Load address of base of array"), (char *)t->child[0]->child[0]->attr.name);
                     }
+                    else if(t->child[0]->child[0]->memKind == Parameter){
+                        emitRM((char *)"LD", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array"), (char *)t->child[0]->child[0]->attr.name);
+                    }
                     else{
                         emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array"), (char *)t->child[0]->child[0]->attr.name);
                     }
@@ -407,8 +410,11 @@ void codeGenExp(TreeNode *t){
                     if(t->child[0]->child[0]->memKind == Global){
                         emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 0, (char *)("Load address of base of array 406"), (char *)t->child[0]->child[0]->attr.name);
                     }
-                    else{
+                    else if(t->child[0]->child[0]->memKind == Parameter){
                         emitRM((char *)"LD", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array 406"), (char *)t->child[0]->child[0]->attr.name);
+                    }
+                    else{
+                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array 406"), (char *)t->child[0]->child[0]->attr.name);
                     }
                     emitRO((char *)"SUB", 5, 5, 3, (char *)("Compute offset of value"));
                     emitRM((char *)"LD", 3, 0, 5, (char *)("Load lhs variable 435"), (char *)t->child[0]->child[0]->attr.name);
