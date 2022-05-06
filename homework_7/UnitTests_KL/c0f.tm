@@ -96,166 +96,148 @@
 * LOFF Line680: -11
 * LOFF Line685: -12
 * START ASSIGN
-* START OP  [
-* START ID
- 50:    LDA  3,-3(1)	Load address of base of array2 x
-* END ID
- 51:     ST  3,-12(1)	Push left side1 
-* LOFF Line 289: -13
- 52:    LDC  3,3(6)	Load int const 
-* LOFF Line 292: -12
- 53:     LD  4,-12(1)	Pop left into acl 1 
- 54:    SUB  3,4,3	compute location from index 
- 55:     LD  3,0(3)	Load array element 
-* LOFF Line 296: -11
-* END OP  [
- 56:    LDA  3,1(3)	Increment ++ [
- 57:     ST  3,0(1)	Store var [
+ 50:    LDC  3,3(6)	Load int const 
+ 51:    LDA  5,-3(1)	Load address of base of array 406 x
+ 52:    SUB  5,5,3	Compute offset of value 
+ 53:     LD  3,0(5)	Load lhs variable 435 x
+ 54:    LDA  3,1(3)	Increment ++ x
+ 55:     ST  3,0(5)	Store var x
 * END ASSIGN
- 58:     ST  3,-12(1)	Push parameter 
- 59:    LDA  1,-10(1)	Ghost frame becomes new active frame 
+ 56:     ST  3,-12(1)	Push parameter 
 * END Param 1
- 60:    LDA  3,1(7)	Load return addr 
-* BackPatch 61
- 61:    JMP  7,-56(7)	CALL OUTPUT output
- 62:    LDA  3,0(2)	Save the result in ac 
+ 57:    LDA  1,-10(1)	Ghost frame becomes new active frame 
+ 58:    LDA  3,1(7)	Load return addr 
+* BackPatch 59
+ 59:    JMP  7,-54(7)	CALL OUTPUT output
+ 60:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -10
 * START CALL
- 63:     ST  1,-10(1)	Store fp in ghost frame for outnl outnl
- 64:    LDA  1,-10(1)	Load fp 
- 65:    LDA  3,1(7)	Load return addr 
-* BackPatch 66
- 66:    JMP  7,-33(7)	CALL OUTPUT outnl
- 67:    LDA  3,0(2)	Save the result in ac 
+ 61:     ST  1,-10(1)	Store fp in ghost frame for outnl outnl
+ 62:    LDA  1,-10(1)	Load fp 
+ 63:    LDA  3,1(7)	Load return addr 
+* BackPatch 64
+ 64:    JMP  7,-31(7)	CALL OUTPUT outnl
+ 65:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -10
 * START CALL
- 68:     ST  1,-10(1)	Store fp in ghost frame for outnl output
+ 66:     ST  1,-10(1)	Store fp in ghost frame for outnl output
 * START Param 1
 * LOFF Line680: -11
 * LOFF Line685: -12
 * START OP  [
 * START ID
- 69:    LDA  3,-3(1)	Load address of base of array2 x
+ 67:    LDA  3,-3(1)	Load address of base of array2 x
 * END ID
- 70:     ST  3,-12(1)	Push left side1 
+ 68:     ST  3,-12(1)	Push left side1 
 * LOFF Line 289: -13
- 71:    LDC  3,3(6)	Load int const 
+ 69:    LDC  3,3(6)	Load int const 
 * LOFF Line 292: -12
- 72:     LD  4,-12(1)	Pop left into acl 1 
- 73:    SUB  3,4,3	compute location from index 
- 74:     LD  3,0(3)	Load array element 
+ 70:     LD  4,-12(1)	Pop left into acl 1 
+ 71:    SUB  3,4,3	compute location from index 
+ 72:     LD  3,0(3)	Load array element 
 * LOFF Line 296: -11
 * END OP  [
- 75:     ST  3,-12(1)	Push parameter 
- 76:    LDA  1,-10(1)	Ghost frame becomes new active frame 
+ 73:     ST  3,-12(1)	Push parameter 
 * END Param 1
- 77:    LDA  3,1(7)	Load return addr 
-* BackPatch 78
- 78:    JMP  7,-73(7)	CALL OUTPUT output
- 79:    LDA  3,0(2)	Save the result in ac 
+ 74:    LDA  1,-10(1)	Ghost frame becomes new active frame 
+ 75:    LDA  3,1(7)	Load return addr 
+* BackPatch 76
+ 76:    JMP  7,-71(7)	CALL OUTPUT output
+ 77:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -10
 * START CALL
- 80:     ST  1,-10(1)	Store fp in ghost frame for outnl outnl
- 81:    LDA  1,-10(1)	Load fp 
- 82:    LDA  3,1(7)	Load return addr 
-* BackPatch 83
- 83:    JMP  7,-50(7)	CALL OUTPUT outnl
- 84:    LDA  3,0(2)	Save the result in ac 
+ 78:     ST  1,-10(1)	Store fp in ghost frame for outnl outnl
+ 79:    LDA  1,-10(1)	Load fp 
+ 80:    LDA  3,1(7)	Load return addr 
+* BackPatch 81
+ 81:    JMP  7,-48(7)	CALL OUTPUT outnl
+ 82:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -10
 * START CALL
- 85:     ST  1,-10(1)	Store fp in ghost frame for outnl output
+ 83:     ST  1,-10(1)	Store fp in ghost frame for outnl output
 * START Param 1
 * LOFF Line680: -11
 * LOFF Line685: -12
 * START ASSIGN
-* START OP  [
-* START ID
- 86:    LDA  3,-3(1)	Load address of base of array2 x
-* END ID
- 87:     ST  3,-12(1)	Push left side1 
-* LOFF Line 289: -13
- 88:    LDC  3,3(6)	Load int const 
-* LOFF Line 292: -12
- 89:     LD  4,-12(1)	Pop left into acl 1 
- 90:    SUB  3,4,3	compute location from index 
- 91:     LD  3,0(3)	Load array element 
-* LOFF Line 296: -11
-* END OP  [
- 92:    LDA  3,-1(3)	Decrement -- [
- 93:     ST  3,0(1)	Store var [
+ 84:    LDC  3,3(6)	Load int const 
+ 85:    LDA  5,-3(1)	Load address of base of array 406 x
+ 86:    SUB  5,5,3	Compute offset of value 
+ 87:     LD  3,0(5)	Load lhs variable 435 x
+ 88:    LDA  3,-1(3)	Decrement -- x
+ 89:     ST  3,0(5)	Store var x
 * END ASSIGN
- 94:     ST  3,-12(1)	Push parameter 
- 95:    LDA  1,-10(1)	Ghost frame becomes new active frame 
+ 90:     ST  3,-12(1)	Push parameter 
 * END Param 1
- 96:    LDA  3,1(7)	Load return addr 
-* BackPatch 97
- 97:    JMP  7,-92(7)	CALL OUTPUT output
- 98:    LDA  3,0(2)	Save the result in ac 
+ 91:    LDA  1,-10(1)	Ghost frame becomes new active frame 
+ 92:    LDA  3,1(7)	Load return addr 
+* BackPatch 93
+ 93:    JMP  7,-88(7)	CALL OUTPUT output
+ 94:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -10
 * START CALL
- 99:     ST  1,-10(1)	Store fp in ghost frame for outnl outnl
-100:    LDA  1,-10(1)	Load fp 
-101:    LDA  3,1(7)	Load return addr 
-* BackPatch 102
-102:    JMP  7,-69(7)	CALL OUTPUT outnl
-103:    LDA  3,0(2)	Save the result in ac 
+ 95:     ST  1,-10(1)	Store fp in ghost frame for outnl outnl
+ 96:    LDA  1,-10(1)	Load fp 
+ 97:    LDA  3,1(7)	Load return addr 
+* BackPatch 98
+ 98:    JMP  7,-65(7)	CALL OUTPUT outnl
+ 99:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -10
 * START CALL
-104:     ST  1,-10(1)	Store fp in ghost frame for outnl output
+100:     ST  1,-10(1)	Store fp in ghost frame for outnl output
 * START Param 1
 * LOFF Line680: -11
 * LOFF Line685: -12
 * START OP  [
 * START ID
-105:    LDA  3,-3(1)	Load address of base of array2 x
+101:    LDA  3,-3(1)	Load address of base of array2 x
 * END ID
-106:     ST  3,-12(1)	Push left side1 
+102:     ST  3,-12(1)	Push left side1 
 * LOFF Line 289: -13
-107:    LDC  3,3(6)	Load int const 
+103:    LDC  3,3(6)	Load int const 
 * LOFF Line 292: -12
-108:     LD  4,-12(1)	Pop left into acl 1 
-109:    SUB  3,4,3	compute location from index 
-110:     LD  3,0(3)	Load array element 
+104:     LD  4,-12(1)	Pop left into acl 1 
+105:    SUB  3,4,3	compute location from index 
+106:     LD  3,0(3)	Load array element 
 * LOFF Line 296: -11
 * END OP  [
-111:     ST  3,-12(1)	Push parameter 
-112:    LDA  1,-10(1)	Ghost frame becomes new active frame 
+107:     ST  3,-12(1)	Push parameter 
 * END Param 1
-113:    LDA  3,1(7)	Load return addr 
-* BackPatch 114
-114:    JMP  7,-109(7)	CALL OUTPUT output
-115:    LDA  3,0(2)	Save the result in ac 
+108:    LDA  1,-10(1)	Ghost frame becomes new active frame 
+109:    LDA  3,1(7)	Load return addr 
+* BackPatch 110
+110:    JMP  7,-105(7)	CALL OUTPUT output
+111:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -10
 * START CALL
-116:     ST  1,-10(1)	Store fp in ghost frame for outnl outnl
-117:    LDA  1,-10(1)	Load fp 
-118:    LDA  3,1(7)	Load return addr 
-* BackPatch 119
-119:    JMP  7,-86(7)	CALL OUTPUT outnl
-120:    LDA  3,0(2)	Save the result in ac 
+112:     ST  1,-10(1)	Store fp in ghost frame for outnl outnl
+113:    LDA  1,-10(1)	Load fp 
+114:    LDA  3,1(7)	Load return addr 
+* BackPatch 115
+115:    JMP  7,-82(7)	CALL OUTPUT outnl
+116:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -10
 * END COMPOUND BODY
 * END COMPOUND
-121:    LDC  2,0(6)	Set return valuye to 0 
-122:     LD  3,-1(1)	Load return address 
-123:     LD  1,0(1)	Adjust file pointer 
-124:    JMP  7,0(3)	return 
+117:    LDC  2,0(6)	Set return value to 0 
+118:     LD  3,-1(1)	Load return address 
+119:     LD  1,0(1)	Adjust fp 
+120:    JMP  7,0(3)	return 
 * End of Function main
-  0:    JMP  7,124(7)	Jump to init 
+  0:    JMP  7,120(7)	Jump to init 
 * START INIT
-125:    LDA  1,0(0)	Set first frame after globals 
-126:     ST  1,0(1)	Store old fp 
+121:    LDA  1,0(0)	Set first frame after globals 
+122:     ST  1,0(1)	Store old fp 
 * START INIT GLOBALS AND STATICS
 * END INIT GLOBALS AND STATICS
-127:    LDA  3,1(7)	Load return address 
-128:    JMP  7,-90(7)	Jump to main 
-129:   HALT  0,0,0	DONE 
+123:    LDA  3,1(7)	Load return address 
+124:    JMP  7,-86(7)	Jump to main 
+125:   HALT  0,0,0	DONE 
 * END INIT

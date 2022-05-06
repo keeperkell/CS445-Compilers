@@ -292,15 +292,15 @@ void codeGenExp(TreeNode *t){
                         emitComment((char *)("LOFF Line 292:"), loffset);
                         emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
 
-                        
                         if (!strcmp(t->attr.name, "[")){
+
                             //emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
                             emitRO((char *)"SUB", 3, 4, 3, (char *)("compute location from index"));
                             emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
                             loffset++;
                             emitComment((char *)("LOFF Line 296:"), loffset);
-                            
                         }
+                            
                         // check the ops
                         else if(!strcmp(t->attr.name, "+")){
                             emitRO((char *)"ADD", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
@@ -309,7 +309,6 @@ void codeGenExp(TreeNode *t){
                             emitRO((char *)"SUB", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
                         }
                         else if(!strcmp(t->attr.name, "*")){
-                            //emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
                             emitRO((char *)"MUL", 3, 4, 3, (char *)("Op"), (char *)t->attr.name);
                         }
                         else if(!strcmp(t->attr.name, "/")){
@@ -399,16 +398,40 @@ void codeGenExp(TreeNode *t){
             else if(!t->child[1]){
                 storeInMem = false;
                 isBinary = false;
-                
-                genParse(t->child[0]);
-                if(!strcmp(t->attr.name, "++")){
-                    emitRM((char *)"LDA", 3, 1, 3, (char *)("Increment ++"), (char *)t->child[0]->attr.name);
-                }
-                else if(!strcmp(t->attr.name, "--")){
-                    emitRM((char *)"LDA", 3, -1, 3, (char *)("Decrement --"), (char *)t->child[0]->attr.name);
-                }
 
-                emitRM((char *)"ST", 3 ,t->child[0]->offset, 1, (char *)("Store var"), (char *)t->child[0]->attr.name);
+                if(!strcmp(t->child[0]->attr.name, "[")){
+                    genParse(t->child[0]->child[1]);
+
+                    if(t->child[0]->child[0]->memKind == Global){
+                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 0, (char *)("Load address of base of array 406"), (char *)t->child[0]->child[0]->attr.name);
+                    }
+                    else{
+                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array 406"), (char *)t->child[0]->child[0]->attr.name);
+                    }
+                    emitRO((char *)"SUB", 5, 5, 3, (char *)("Compute offset of value"));
+                    emitRM((char *)"LD", 3, 0, 5, (char *)("Load lhs variable 435"), (char *)t->child[0]->child[0]->attr.name);
+
+                    if(!strcmp(t->attr.name, "++")){
+                        emitRM((char *)"LDA", 3, 1, 3, (char *)("Increment ++"), (char *)t->child[0]->child[0]->attr.name);
+                    }
+                    else if(!strcmp(t->attr.name, "--")){
+                        emitRM((char *)"LDA", 3, -1, 3, (char *)("Decrement --"), (char *)t->child[0]->child[0]->attr.name);
+                    }
+
+                    emitRM((char *)"ST", 3, 0, 5, (char *)("Store var"), (char *)t->child[0]->child[0]->attr.name);
+                }
+                else{
+
+                    genParse(t->child[0]);
+                    if(!strcmp(t->attr.name, "++")){
+                        emitRM((char *)"LDA", 3, 1, 3, (char *)("Increment ++"), (char *)t->child[0]->attr.name);
+                    }
+                    else if(!strcmp(t->attr.name, "--")){
+                        emitRM((char *)"LDA", 3, -1, 3, (char *)("Decrement --"), (char *)t->child[0]->attr.name);
+                    }
+
+                    emitRM((char *)"ST", 3 ,t->child[0]->offset, 1, (char *)("Store var"), (char *)t->child[0]->attr.name);
+                }
             }
             else{
                 storeInMem = false;
@@ -590,8 +613,8 @@ void codeGenExp(TreeNode *t){
                     
                     genParse(t->child[0]);
                     emitRM((char *)"ST", 3, loffset, 1, (char *)("Push parameter"));
-                    emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Ghost frame becomes new active frame"));
                     emitComment((char *)("END Param 1"));
+                    emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Ghost frame becomes new active frame"));
                 }
                 // more than 1 param in call
                 else{
