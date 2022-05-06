@@ -573,7 +573,6 @@ void codeGenExp(TreeNode *t){
             else if(t->expType == Integer){
                 emitRM((char *)"LDC", 3, t->attr.value, 6,(char *)"Load int const");
             }
-
             break;
         }
 
@@ -776,10 +775,9 @@ void codeGenExp(TreeNode *t){
                 else{
                     
                     TreeNode *LUChild;
-                    loffset++;
                     emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for "), (char *)t->attr.name);
 
-                    if(t->child[0]->attr.name){
+                    if(t->child[0]->subkind.exp == IdK){
                         LUChild = (TreeNode *)st.lookup(t->child[0]->attr.name);
                     }
                     else{
@@ -788,44 +786,36 @@ void codeGenExp(TreeNode *t){
 
                     loffset--;
                     emitComment((char *)("LOFF Line698:"), loffset);
-
+                    
+                    int loopCount = 1;
                     while(LUChild){
-                        emitComment((char *)("START Param"),(char*)t->attr.name);
                         loffset--;
                         emitComment((char *)("LOFF Line704:"), loffset);
-
-
-                        if(LUChild->isArray){
-                            if(LUChild->memKind == Global){
-                                emitRM((char *)"LDA", 3, LUChild->offset, 0, (char *)("Load address of base of array"), (char *)LUChild->attr.name);
-                            }
-                            else{
-                                emitRM((char *)"LDA", 3, LUChild->offset, 1, (char *)("Load address of base of array"), (char *)LUChild->attr.name);
-                            }
-
-                            emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side"));;
+                        emitComment((char *)("START Param"),loopCount);
+                        
+                        if(LUChild->subkind.exp == IdK || LUChild->subkind.exp == OpK){
+                            genParse(LUChild);
                         }
                         else{
-                            if(LUChild->expType == Boolean){
-                                if(!strcmp(LUChild->attr.name,"true")){
-                                    emitRM((char *)"LDC", 3, 1, 6,(char *)("Load bool const"));
+                            if(LUChild->subkind.exp == ConstantK){
+                                if(LUChild->expType == Boolean){
+                                    emitRM((char *)"LDC", 3, LUChild->attr.value, 6,(char *)"Load bool const");
                                 }
-                                else{
-                                    emitRM((char *)"LDC", 3, 0, 6,(char *)("Load bool const"));
+                                else if(LUChild->expType == Char){
+                                    emitRM((char *)"LDC", 3, LUChild->attr.value, 6,(char *)"Load char const");
+                                }
+                                else if(LUChild->expType == Integer){
+                                    emitRM((char *)"LDC", 3, LUChild->attr.value, 6,(char *)"Load int const");
                                 }
                             }
-                            else if(LUChild->expType == Char){
-                                emitRM((char *)"LDC", 3, LUChild->attr.value, 6,(char *)("Load char const"));
-                            }
-                            else if(LUChild->expType == Integer){
-                                emitRM((char *)"LDC", 3, LUChild->attr.value, 6,(char *)("Load int const"));
-                            }
-
-                            emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side"));;
                         }
 
+                        emitRM((char *)"ST", 3, loffset, 1, (char *)("Push paramter"));
+
                         LUChild = LUChild->sibling;
-                        emitComment((char *)("END Param"));
+                        emitComment((char *)("END Param"), loopCount);
+
+                        loopCount++;
                     }
 
                     emitRM((char *)"LDA", 1, tempOff, 1, (char *)("Ghost frame becomes new active frame"));

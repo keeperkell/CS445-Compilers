@@ -127,4 +127,51 @@
 * LOFF Line680: -3
 * LOFF Line685: -4
 * START CALL
- 59:     ST  1,-3(1)	Store fp in ghost frame for  cat
+ 59:     ST  1,-4(1)	Store fp in ghost frame for  cat
+* LOFF Line698: -5
+* LOFF Line704: -6
+* START Param 1
+ 60:    LDC  3,33(6)	Load int const 
+ 61:     ST  3,-6(1)	Push paramter 
+* END Param 1
+* LOFF Line704: -7
+* START Param 2
+ 62:    LDC  3,911(6)	Load int const 
+ 63:     ST  3,-7(1)	Push paramter 
+* END Param 2
+ 64:    LDA  1,-4(1)	Ghost frame becomes new active frame 
+ 65:    LDA  3,1(7)	Load return addr 
+* BackPatch 66
+ 66:    JMP  7,-28(7)	CALL OUTPUT cat
+ 67:    LDA  3,0(2)	Save the result in ac 
+* END CALL
+* LOFF Line749: -4
+ 68:     ST  3,-4(1)	Push parameter 623 
+* LOFF Line615: -5
+* END Param 1
+ 69:    LDA  1,-2(1)	Ghost frame becomes new active frame 
+ 70:    LDA  3,1(7)	Load return addr 
+* BackPatch 71
+ 71:    JMP  7,-66(7)	CALL OUTPUT output
+ 72:    LDA  3,0(2)	Save the result in ac 
+* END CALL
+* LOFF Line749: -2
+* END COMPOUND BODY
+* END COMPOUND
+ 73:    LDC  2,0(6)	Set return value to 0 
+ 74:     LD  3,-1(1)	Load return address 
+ 75:     LD  1,0(1)	Adjust fp 
+ 76:    JMP  7,0(3)	return 
+* End of Function main
+* 
+* =========================================================
+  0:    JMP  7,76(7)	Jump to init 
+* START INIT
+ 77:    LDA  1,-1(0)	Set first frame after globals 
+ 78:     ST  1,0(1)	Store old fp 
+* START INIT GLOBALS AND STATICS
+* END INIT GLOBALS AND STATICS
+ 79:    LDA  3,1(7)	Load return address 
+ 80:    JMP  7,-24(7)	Jump to main 
+ 81:   HALT  0,0,0	DONE 
+* END INIT
