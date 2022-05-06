@@ -100,33 +100,24 @@
  53:     ST  3,0(5)	Store var y
 * END ASSIGN
 * START ASSIGN
-* START OP  [
-* START ID
- 54:    LDA  3,-9(0)	Load address of base of array1 y
-* END ID
- 55:     ST  3,-2(1)	Push left side1 
-* LOFF Line 289: -3
- 56:    LDC  3,7(6)	Load int const 
-* LOFF Line 292: -2
- 57:     LD  4,-2(1)	Pop left into acl 1 
- 58:    SUB  3,4,3	compute location from index 
- 59:     LD  3,0(3)	Load array element 
-* END OP  [
-* [
-* START OP  [
-* START ID
- 60:     LD  4,-1(0)	Load lhs variable 1 x
-* END ID
- 61:     ST  3,-2(1)	Push left side1 
-* LOFF Line 289: -3
- 62:    LDC  3,5(6)	Load int const 
-* LOFF Line 292: -2
- 63:     LD  4,-2(1)	Pop left into acl 1 
- 64:    SUB  3,4,3	compute location from index 
- 65:     LD  3,0(3)	Load array element 
-* END OP  [
+ 54:    LDC  3,5(6)	Load int const 
+ 55:     ST  3,-2(1)	Push index on 
+* LOFF Line 453: -3
+ 56:    LDA  3,-9(0)	Load address of base of array 455 y
+ 57:     ST  3,-3(1)	Push left side1 
+* LOFF Line 470: -4
+ 58:    LDC  3,7(6)	Load int const 
+* LOFF Line 471: -3
+ 59:     LD  4,-3(1)	Pop left into acl 1 
+ 60:    SUB  3,4,3	compute location from index 
+ 61:     LD  3,0(3)	Load array element 
+* LOFF Line 475: -2
+ 62:     LD  4,-2(1)	Pop index 
+ 63:    LDA  5,-1(0)	Load address of base of array 472 x
+ 64:    SUB  5,5,4	Compute offset of value 
+ 65:     LD  4,0(5)	Load lhs variable 493 x
  66:    ADD  3,4,3	op +=
- 67:     ST  3,0(1)	Store var [
+ 67:     ST  3,0(5)	Store var x
 * END ASSIGN
 * START CALL
 * START Param 1 array op 606
@@ -151,33 +142,24 @@
 * END CALL
 * LOFF Line749: -2
 * START ASSIGN
-* START OP  [
-* START ID
- 80:    LDA  3,-1(0)	Load address of base of array1 x
-* END ID
- 81:     ST  3,-2(1)	Push left side1 
-* LOFF Line 289: -3
- 82:    LDC  3,5(6)	Load int const 
-* LOFF Line 292: -2
- 83:     LD  4,-2(1)	Pop left into acl 1 
- 84:    SUB  3,4,3	compute location from index 
- 85:     LD  3,0(3)	Load array element 
-* END OP  [
-* [
-* START OP  [
-* START ID
- 86:     LD  4,-9(0)	Load lhs variable 1 y
-* END ID
- 87:     ST  3,-2(1)	Push left side1 
-* LOFF Line 289: -3
- 88:    LDC  3,7(6)	Load int const 
-* LOFF Line 292: -2
- 89:     LD  4,-2(1)	Pop left into acl 1 
- 90:    SUB  3,4,3	compute location from index 
- 91:     LD  3,0(3)	Load array element 
-* END OP  [
+ 80:    LDC  3,7(6)	Load int const 
+ 81:     ST  3,-2(1)	Push index on 
+* LOFF Line 453: -3
+ 82:    LDA  3,-1(0)	Load address of base of array 455 x
+ 83:     ST  3,-3(1)	Push left side1 
+* LOFF Line 470: -4
+ 84:    LDC  3,5(6)	Load int const 
+* LOFF Line 471: -3
+ 85:     LD  4,-3(1)	Pop left into acl 1 
+ 86:    SUB  3,4,3	compute location from index 
+ 87:     LD  3,0(3)	Load array element 
+* LOFF Line 475: -2
+ 88:     LD  4,-2(1)	Pop index 
+ 89:    LDA  5,-9(0)	Load address of base of array 472 y
+ 90:    SUB  5,5,4	Compute offset of value 
+ 91:     LD  4,0(5)	Load lhs variable 493 y
  92:    SUB  3,4,3	op -=
- 93:     ST  3,0(1)	Store var [
+ 93:     ST  3,0(5)	Store var y
 * END ASSIGN
 * START CALL
 * START Param 1 array op 606

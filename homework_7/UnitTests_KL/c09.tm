@@ -90,27 +90,23 @@
 * END ID
 * END ASSIGN
 * START ASSIGN
-* START ID
- 44:     LD  3,-1(0)	Load var y
-* END ID
-* x
-* START ID
- 45:     LD  4,0(0)	Load lhs variable 1 x
-* END ID
+ 44:     LD  3,-1(0)	Load variable  y
+ 45:     LD  4,0(0)	Load lhs variable  x
  46:    ADD  3,4,3	op +=
  47:     ST  3,0(0)	Store var x
 * END ASSIGN
 * START CALL
- 48:     ST  1,-2(1)	Store fp in ghost frame for outnl output
+ 48:     ST  1,-2(1)	Store fp in ghost frame for  output
 * START Param 1
 * LOFF Line680: -3
 * LOFF Line685: -4
 * START ID
  49:     LD  3,0(0)	Load var x
 * END ID
- 50:     ST  3,-4(1)	Push parameter 
- 51:    LDA  1,-2(1)	Ghost frame becomes new active frame 
+ 50:     ST  3,-4(1)	Push parameter 623 
+* LOFF Line615: -5
 * END Param 1
+ 51:    LDA  1,-2(1)	Ghost frame becomes new active frame 
  52:    LDA  3,1(7)	Load return addr 
 * BackPatch 53
  53:    JMP  7,-48(7)	CALL OUTPUT output
@@ -118,27 +114,23 @@
 * END CALL
 * LOFF Line749: -2
 * START ASSIGN
-* START ID
- 55:     LD  3,0(0)	Load var x
-* END ID
-* y
-* START ID
- 56:     LD  4,-1(0)	Load lhs variable 1 y
-* END ID
+ 55:     LD  3,0(0)	Load variable  x
+ 56:     LD  4,-1(0)	Load lhs variable  y
  57:    SUB  3,4,3	op -=
  58:     ST  3,-1(0)	Store var y
 * END ASSIGN
 * START CALL
- 59:     ST  1,-2(1)	Store fp in ghost frame for outnl output
+ 59:     ST  1,-2(1)	Store fp in ghost frame for  output
 * START Param 1
 * LOFF Line680: -3
 * LOFF Line685: -4
 * START ID
  60:     LD  3,-1(0)	Load var y
 * END ID
- 61:     ST  3,-4(1)	Push parameter 
- 62:    LDA  1,-2(1)	Ghost frame becomes new active frame 
+ 61:     ST  3,-4(1)	Push parameter 623 
+* LOFF Line615: -5
 * END Param 1
+ 62:    LDA  1,-2(1)	Ghost frame becomes new active frame 
  63:    LDA  3,1(7)	Load return addr 
 * BackPatch 64
  64:    JMP  7,-59(7)	CALL OUTPUT output
@@ -146,8 +138,8 @@
 * END CALL
 * LOFF Line749: -2
 * START CALL
- 66:     ST  1,-2(1)	Store fp in ghost frame for outnl outnl
- 67:    LDA  1,-2(1)	Load fp 
+ 66:     ST  1,-2(1)	Store fp in ghost frame for outnl
+ 67:    LDA  1,-2(1)	Ghost frame becomes new active frame 
  68:    LDA  3,1(7)	Load return addr 
 * BackPatch 69
  69:    JMP  7,-36(7)	CALL OUTPUT outnl
@@ -156,11 +148,13 @@
 * LOFF Line749: -2
 * END COMPOUND BODY
 * END COMPOUND
- 71:    LDC  2,0(6)	Set return valuye to 0 
+ 71:    LDC  2,0(6)	Set return value to 0 
  72:     LD  3,-1(1)	Load return address 
- 73:     LD  1,0(1)	Adjust file pointer 
+ 73:     LD  1,0(1)	Adjust fp 
  74:    JMP  7,0(3)	return 
 * End of Function main
+* 
+* =========================================================
   0:    JMP  7,74(7)	Jump to init 
 * START INIT
  75:    LDA  1,-2(0)	Set first frame after globals 

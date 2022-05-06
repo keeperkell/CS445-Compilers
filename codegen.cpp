@@ -69,8 +69,8 @@ void codeGenDecl(TreeNode *t){
                     //check for locals first
                     if(t->memKind == Local){
                         if(!t->isArray){
-                            loffset -= t->memSize;
-                            emitComment((char *)("LOFF Line70:"), loffset);
+                            //loffset -= t->memSize;
+                            //emitComment((char *)("LOFF Line70:"), loffset);
                         }
                         else{
                             emitRM((char *)"LDC", 3, t->memSize - 1, 6, (char *)("load array size"), (char *)t->attr.name);
@@ -443,32 +443,110 @@ void codeGenExp(TreeNode *t){
             }
             else{
                 storeInMem = false;
-                genParse(t->child[1]);
                 isBinary = true;
-                emitComment((char *)t->child[0]->attr.name);
-                genParse(t->child[0]);
 
-                if(!strcmp(t->attr.name, "+=")){
-                    emitRO((char *)"ADD", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
-                }
-                else if(!strcmp(t->attr.name, "-=")){
-                    emitRO((char *)"SUB", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
-                }
-                else if(!strcmp(t->attr.name, "*=")){
-                    emitRO((char *)"MUL", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
-                }
-                else if(!strcmp(t->attr.name, "/=")){
-                    emitRO((char *)"DIV", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
-                }
+                if(!strcmp(t->child[1]->attr.name, "[")){
+                    if(!strcmp(t->child[0]->attr.name, "[")){
 
-                if(t->child[0]->memKind == Global){
-                    emitRM((char *)"ST", 3, t->child[0]->offset, 0, (char *)("Store var"), (char *)t->child[0]->attr.name);
+                        genParse(t->child[0]->child[1]);
+
+                        emitRM((char *)"ST", 3, loffset, 1, (char *)("Push index on"));
+                        loffset--;
+                        emitComment((char *)("LOFF Line 453:"), loffset);
+                        
+                        if(t->child[1]->child[0]->memKind == Global){
+                            emitRM((char *)"LDA", 3, t->child[1]->child[0]->offset, 0, (char *)("Load address of base of array 455"), (char *)t->child[1]->child[0]->attr.name);
+                        }
+                        else if(t->child[1]->child[0]->memKind == Parameter){
+                            emitRM((char *)"LD", 3, t->child[1]->child[0]->offset, 1, (char *)("Load address of base of array 457"), (char *)t->child[1]->child[0]->attr.name);
+                        }
+                        else{
+                            emitRM((char *)"LDA", 3, t->child[1]->child[0]->offset, 1, (char *)("Load address of base of array 459"), (char *)t->child[1]->child[0]->attr.name);
+                        }
+                        emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side1"));
+                        loffset--;
+                        emitComment((char *)("LOFF Line 470:"), loffset);
+                        genParse(t->child[1]->child[1]);
+                        loffset++;    
+                        emitComment((char *)("LOFF Line 471:"), loffset);             
+
+                        emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
+                        emitRO((char *)"SUB", 3, 4, 3, (char *)("compute location from index"));
+                        emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
+                        loffset++;
+                        emitComment((char *)("LOFF Line 475:"), loffset);
+                        emitRM((char *)"LD", 4, loffset, 1, (char *)("Pop index"));
+
+                        if(t->child[0]->child[0]->memKind == Global){
+                            emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 0, (char *)("Load address of base of array 472"), (char *)t->child[0]->child[0]->attr.name);
+                        }
+                        else if(t->child[0]->child[0]->memKind == Parameter){
+                            emitRM((char *)"LD", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array 476"), (char *)t->child[0]->child[0]->attr.name);
+                        }
+                        else{
+                            emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array 479"), (char *)t->child[0]->child[0]->attr.name);
+                        }
+
+                        emitRO((char *)"SUB", 5, 5, 4, (char *)("Compute offset of value"));
+                        //genParse(t->child[0]->child[0]);
+
+                        emitRM((char *)"LD", 4, 0, 5, (char *)("Load lhs variable 493"), (char *)t->child[0]->child[0]->attr.name);
+
+                        if(!strcmp(t->attr.name, "+=")){
+                            emitRO((char *)"ADD", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "-=")){
+                            emitRO((char *)"SUB", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "*=")){
+                            emitRO((char *)"MUL", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                        }
+                        else if(!strcmp(t->attr.name, "/=")){
+                            emitRO((char *)"DIV", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                        }
+
+                        emitRM((char *)"ST", 3, 0, 5, (char *)("Store var"), (char *)t->child[0]->child[0]->attr.name);
+                        isBinary = false;
+
+                    }
                 }
                 else{
-                    emitRM((char *)"ST", 3, t->child[0]->offset, 1, (char *)("Store var"), (char *)t->child[0]->attr.name);
-                }
 
-                isBinary = false;
+                    if(t->child[1]->subkind.exp == OpK || t->child[1]->subkind.exp == AssignK){
+                        genParse(t->child[1]);
+                    }
+                    else{
+                        emitRM((char *)"LD", 3, t->child[1]->offset, 0, (char *)("Load variable "), t->child[1]->attr.name);
+                    }
+
+                    
+                    //genParse(t->child[1]);
+                    emitRM((char *)"LD", 4, t->child[0]->offset, 0, (char *)("Load lhs variable "), t->child[0]->attr.name);
+                    //genParse(t->child[0]);
+
+                    if(!strcmp(t->attr.name, "+=")){
+                        emitRO((char *)"ADD", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                    }
+                    else if(!strcmp(t->attr.name, "-=")){
+                        emitRO((char *)"SUB", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                    }
+                    else if(!strcmp(t->attr.name, "*=")){
+                        emitRO((char *)"MUL", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                    }
+                    else if(!strcmp(t->attr.name, "/=")){
+                        emitRO((char *)"DIV", 3, 4, 3, (char *)("op"), (char *)t->attr.name);
+                    }
+
+                    if(t->child[0]->memKind == Global){
+                        emitRM((char *)"ST", 3, t->child[0]->offset, 0, (char *)("Store var"), (char *)t->child[0]->attr.name);
+                    }
+                    else{
+                        emitRM((char *)"ST", 3, t->child[0]->offset, 1, (char *)("Store var"), (char *)t->child[0]->attr.name);
+                    }
+
+                    isBinary = false;
+                    
+                }
             }
 
             emitComment((char *)("END ASSIGN"));

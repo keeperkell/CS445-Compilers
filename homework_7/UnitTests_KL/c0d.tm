@@ -77,9 +77,6 @@
 * COMPOUND
 * LOFF Line188: -5
 * START COMPOUND BODY
-* LOFF Line70: -6
-* LOFF Line70: -7
-* LOFF Line70: -8
 * START ASSIGN
  40:    LDC  3,753(6)	Load int const 
 * START ID
@@ -99,54 +96,49 @@
 * END ID
 * END ASSIGN
 * START CALL
- 46:     ST  1,-8(1)	Store fp in ghost frame for outnl output
+ 46:     ST  1,-5(1)	Store fp in ghost frame for  output
 * START Param 1
-* LOFF Line680: -9
-* LOFF Line685: -10
+* LOFF Line680: -6
+* LOFF Line685: -7
 * START ASSIGN
 * START ASSIGN
-* START ID
- 47:     LD  3,-3(1)	Load var y
-* END ID
-* x
-* START ID
- 48:     LD  4,-2(0)	Load lhs variable 2 x
-* END ID
+ 47:     LD  3,-3(0)	Load variable  y
+ 48:     LD  4,-2(0)	Load lhs variable  x
  49:    SUB  3,4,3	op -=
  50:     ST  3,-2(1)	Store var x
 * END ASSIGN
-* z
-* START ID
- 51:     LD  4,-4(0)	Load lhs variable 2 z
-* END ID
+ 51:     LD  4,-4(0)	Load lhs variable  z
  52:    SUB  3,4,3	op -=
  53:     ST  3,-4(1)	Store var z
 * END ASSIGN
- 54:     ST  3,-10(1)	Push parameter 
- 55:    LDA  1,-8(1)	Ghost frame becomes new active frame 
+ 54:     ST  3,-7(1)	Push parameter 623 
+* LOFF Line615: -8
 * END Param 1
+ 55:    LDA  1,-5(1)	Ghost frame becomes new active frame 
  56:    LDA  3,1(7)	Load return addr 
 * BackPatch 57
  57:    JMP  7,-52(7)	CALL OUTPUT output
  58:    LDA  3,0(2)	Save the result in ac 
 * END CALL
-* LOFF Line749: -8
+* LOFF Line749: -5
 * START CALL
- 59:     ST  1,-8(1)	Store fp in ghost frame for outnl outnl
- 60:    LDA  1,-8(1)	Load fp 
+ 59:     ST  1,-5(1)	Store fp in ghost frame for outnl
+ 60:    LDA  1,-5(1)	Ghost frame becomes new active frame 
  61:    LDA  3,1(7)	Load return addr 
 * BackPatch 62
  62:    JMP  7,-29(7)	CALL OUTPUT outnl
  63:    LDA  3,0(2)	Save the result in ac 
 * END CALL
-* LOFF Line749: -8
+* LOFF Line749: -5
 * END COMPOUND BODY
 * END COMPOUND
- 64:    LDC  2,0(6)	Set return valuye to 0 
+ 64:    LDC  2,0(6)	Set return value to 0 
  65:     LD  3,-1(1)	Load return address 
- 66:     LD  1,0(1)	Adjust file pointer 
+ 66:     LD  1,0(1)	Adjust fp 
  67:    JMP  7,0(3)	return 
 * End of Function main
+* 
+* =========================================================
   0:    JMP  7,67(7)	Jump to init 
 * START INIT
  68:    LDA  1,0(0)	Set first frame after globals 
