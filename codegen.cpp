@@ -794,7 +794,26 @@ void codeGenExp(TreeNode *t){
                         emitComment((char *)("START Param"),loopCount);
                         
                         if(LUChild->subkind.exp == IdK || LUChild->subkind.exp == OpK){
-                            genParse(LUChild);
+                            if(!strcmp(LUChild->attr.name, "[")){
+                                if(LUChild->child[0]->memKind == Global){
+                                    emitRM((char *)"LDA", 3, LUChild->child[0]->offset, 0, (char *)("Load address of base of array 799"), (char *)LUChild->child[0]->attr.name);
+                                }
+                                else if(LUChild->child[0]->memKind == Parameter){
+                                    emitRM((char *)"LD", 3, LUChild->child[0]->offset, 1, (char *)("Load address of base of array 802"), (char *)LUChild->child[0]->attr.name);
+                                }
+                                else{
+                                    emitRM((char *)"LDA", 3, LUChild->child[0]->offset, 1, (char *)("Load address of base of array 805"), (char *)LUChild->child[0]->attr.name);
+                                }
+
+                                emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side"));
+                                genParse(LUChild->child[1]);
+                                emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
+                                emitRO((char *)"SUB", 3, 4, 3, (char *)("compute location from index"));
+                                emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
+                            }
+                            else{
+                                genParse(LUChild);
+                            }
                         }
                         else{
                             if(LUChild->subkind.exp == ConstantK){
