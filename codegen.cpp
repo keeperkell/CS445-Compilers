@@ -129,26 +129,35 @@ void codeGenStmt(TreeNode *t){
             {
                 int thenLineNum = 0;
                 int elseLineNum = 0;
-                storeInMem = false;
+                
+                if(!t->child[2]){
+                    emitComment((char *)("START IF"));
+                    genParse(t->child[0]);
+                    thenLineNum = emitSkip(1);
+                    emitComment((char *)("THEN"));
+                    genParse(t->child[1]);
 
-                emitComment((char *)("IF"));
-                genParse(t->child[0]);
-                emitComment((char *)("THEN"));
-                thenLineNum = emitSkip(1);
+                    backPatchAJumpToHere((char *)("JZR"), 3, thenLineNum, (char *)("Jump around THEN if false [backpatch]"));
 
-                // second child exists if else is used
-                if(t->child[2]){
-                    elseLineNum = emitSkip(1);
+                    emitComment((char *)("END IF"));
                 }
+                else{
+                    emitComment((char *)("START IF"));
+                    genParse(t->child[0]);
+                    thenLineNum = emitSkip(1);
+                    emitComment((char *)("THEN"));
+                    genParse(t->child[1]);
+                    elseLineNum = emitSkip(1);
 
-                backPatchAJumpToHere((char *)("JZR"), 3, thenLineNum, (char *)("Jump around THEN if false [backpatch]"));
+                    backPatchAJumpToHere((char *)("JZR"), 3, thenLineNum, (char *)("Jump around THEN if false [backpatch]"));
 
-                if(t->child[2]){
                     emitComment((char *)("ELSE"));
                     genParse(t->child[2]);
                     backPatchAJumpToHere((char *)("JMP"), 3, elseLineNum, (char *)("Jump around ELSE [backpatch]"));
+
+                    emitComment((char *)("END IF"));
                 }
-                emitComment((char *)("END IF"));
+                
                 break;
             }
 
