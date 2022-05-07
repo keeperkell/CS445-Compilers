@@ -834,23 +834,20 @@ void codeGenExp(TreeNode *t){
                         
                         if(LUChild->subkind.exp == IdK || LUChild->subkind.exp == OpK){
                             if(LUChild->isArray){
-                                emitRM((char *)"LDA", 3, LUChild->offset, 1, (char *)"Load address of base of array", (char*)LUChild->attr.name);
+                                if(LUChild->memKind == Global){
+                                    emitRM((char *)"LDA", 3, LUChild->offset, 0, (char *)("Load address of base of array 838"), (char *)LUChild->attr.name);
+                                }
+                                else if(LUChild->memKind == Parameter){
+                                    emitRM((char *)"LD", 3, LUChild->offset, 1, (char *)("Load address of base of array 841"), (char *)LUChild->attr.name);
+                                }
+                                else{
+                                    emitRM((char *)"LDA", 3, LUChild->offset, 1, (char *)("Load address of base of array 844"), (char *)LUChild->attr.name);
+                                }
                                 emitRM((char *)"ST", 3, loffset, 1, (char *)"Push Parameter");
                             }
                             else if(!strcmp(LUChild->attr.name, "[")){
-                                /*
-                                69:    LDA  3,-3(1)	Load address of base of array z
-                                70:     ST  3,-17(1)	Push left side 
-                                * TOFF dec: -18
-                                71:    LDC  3,3(6)	Load integer constant 
-                                * TOFF inc: -17
-                                72:     LD  4,-17(1)	Pop left into ac1 
-                                73:    SUB  3,4,3	compute location from index 
-                                74:     LD  3,0(3)	Load array element 
-                                75:     ST  3,-17(1)	Push parameter
-                                */
 
-                               if(LUChild->memKind == Global){
+                                if(LUChild->memKind == Global){
                                     emitRM((char *)"LDA", 3, LUChild->child[0]->offset, 0, (char *)("Load address of base of array 804"), (char *)LUChild->child[0]->attr.name);
                                 }
                                 else if(LUChild->memKind == Parameter){
@@ -875,7 +872,10 @@ void codeGenExp(TreeNode *t){
                             else{
                                 emitComment((char *)("LUChild->non array"));
                                 storeInMem = false;
-                                //genParse(LUChild);
+                                genParse(LUChild);
+
+                                emitRM((char *)"ST", 3, loffset, 1, (char *)"Push Parameter");
+
                             }
                         }
                         else if(LUChild->subkind.exp == ConstantK){
