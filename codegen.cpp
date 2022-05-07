@@ -52,7 +52,7 @@ void genParse(TreeNode *t){
                 codeGenExp(t);
                 break;
         }
-        if(t->sibling){
+        if(t->sibling && t->sibling->memKind != Parameter){
             genParse(t->sibling);
         }
     }
@@ -870,10 +870,45 @@ void codeGenExp(TreeNode *t){
                                 emitRM((char *)"ST", 3, loffset, 1, (char *)"Push Parameter");
                             }
                             else{
-                                emitComment((char *)("LUChild->non array"));
+                                emitComment((char *)("LUChild->non array"), (char *)LUChild->attr.name);
                                 storeInMem = false;
                                 genParse(LUChild);
+                                /*
+                                // need to explicity check stuff
+                                if(LUChild->child[0]->subkind.exp == IdK){
+                                    emitRM((char *)"LD", 3, LUChild->child[0]->offset, 1, (char *)("Load var"), (char *)LUChild->child[0]->attr.name);
+                                    emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side 879"));
 
+                                    loffset--;
+                                    emitComment((char *)("LOFF Line 882:"), loffset);
+                                }
+                                else if(!strcmp(LUChild->child[0]->attr.name, "[")){
+
+                                }
+
+                                if(LUChild->child[1]->subkind.exp == ConstantK){
+                                    if(t->expType == Boolean){
+                                        emitRM((char *)"LDC", 3, LUChild->child[1]->attr.value, 6,(char *)"Load bool const");
+                                    }
+                                    else if(t->expType == Char){
+                                        emitRM((char *)"LDC", 3, LUChild->child[1]->attr.value, 6,(char *)"Load char const");
+                                    }
+                                    else if(t->expType == Integer){
+                                        emitRM((char *)"LDC", 3, LUChild->child[1]->attr.value, 6,(char *)"Load int const");
+                                    }
+
+                                    loffset++;
+                                    emitComment((char *)("LOFF Line 906:"), loffset);
+                                }
+                                else if(LUChild->child[1]->subkind.exp == IdK){
+
+                                }
+                                else if(!strcmp(LUChild->child[1]->attr.name, "[")){
+
+                                }
+
+                                emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 819"));
+                                */
                                 emitRM((char *)"ST", 3, loffset, 1, (char *)"Push Parameter");
 
                             }
