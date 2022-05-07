@@ -72,6 +72,12 @@ void codeGenDecl(TreeNode *t){
                             emitRM((char *)"ST", 3, t->offset, 1, (char *)("Store Var"), (char *)t->attr.name);
                         }                        
                     }
+                    else{
+                        if(t->isArray){
+                            emitRM((char *)"LDC", 3, t->memSize-1, 6, (char *)("Load array size"));
+                            emitRM((char *)"ST", 3, t->offset + 1, 0, (char *)("Save size of "), (char *)t->attr.name);
+                        }
+                    }
 
                     
                     break;

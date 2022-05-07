@@ -149,9 +149,11 @@ void semanticAnalysis(TreeNode *t){
                                     if(!strcmp(t->child[0]->attr.name, "-")){
                                         //cannot be used on array
                                         if(!t->isArray){
+                                            /*
                                             numErrors++;
 
                                             printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
+                                            */
                                         }
                                     }
                                 }
@@ -1588,9 +1590,11 @@ void checkRecursiveOps(TreeNode *t, TreeNode *t_Child){
     // all unaries fail except for not which just flips bool flag
     if(leftChild && !rightChild){
         if(strcmp(t_Child->attr.name, "not")){
+            /*
             numErrors++;
 
             printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
+            */
         }
     }
 
@@ -1607,15 +1611,19 @@ void checkRecursiveOps(TreeNode *t, TreeNode *t_Child){
         }
         // if no more recursive ops, print error if IdK
         else if(leftChild->subkind.exp == IdK || rightChild->subkind.exp == IdK){
+            /*
             numErrors++;
 
             printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
+            */
         }
         // if no more recursive ops, print error if CallK
         else if(leftChild->subkind.exp == CallK || rightChild->subkind.exp == CallK){
+            /*
             numErrors++;
 
             printf("ERROR(%d): Initializer for variable '%s' is not a constant expression.\n", t->linenum, t->attr.name);
+            */
         }
     }
 }
