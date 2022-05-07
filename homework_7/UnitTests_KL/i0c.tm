@@ -80,30 +80,31 @@
 * COMPOUND
 * LOFF Line188: -2
 * START COMPOUND BODY
+* LOFF Line 72: -3
 * START OP  not
  40:    LDC  3,1(6)	Load bool const 
  41:    LDC  4,1(6)	Load 1 
  42:    XOR  3,3,4	Op XOR for logical not 
 * END OP  not
- 43:     ST  3,-2(1)	Store Var ss
+ 43:     ST  3,-2(1)	Store Var 72 ss
 * START CALL outputb
- 44:     ST  1,-2(1)	Store fp in ghost frame for  outputb
+ 44:     ST  1,-3(1)	Store fp in ghost frame for  outputb
 * START Param 1
-* LOFF Line680: -3
-* LOFF Line685: -4
+* LOFF Line680: -4
+* LOFF Line685: -5
 * START ID
  45:     LD  3,-2(1)	Load var ss
 * END ID
- 46:     ST  3,-4(1)	Push parameter 623 
-* LOFF Line615: -5
+ 46:     ST  3,-5(1)	Push parameter 623 
+* LOFF Line615: -6
 * END Param 1
- 47:    LDA  1,-2(1)	Ghost frame becomes new active frame 
+ 47:    LDA  1,-3(1)	Ghost frame becomes new active frame 
  48:    LDA  3,1(7)	Load return addr 
 * BackPatch 49
  49:    JMP  7,-33(7)	CALL OUTPUT outputb
  50:    LDA  3,0(2)	Save the result in ac 
 * END CALL
-* LOFF Line749: -2
+* LOFF Line749: -3
 * END COMPOUND BODY
 * END COMPOUND
 * END COMPOUND BODY

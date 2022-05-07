@@ -68,14 +68,19 @@ void codeGenDecl(TreeNode *t){
                 {   
                     if(t->child[0]){
                         if(t->memKind == Local){
+                            loffset--;
+                            emitComment((char *)("LOFF Line 72:"), loffset);
                             genParse(t->child[0]);
-                            emitRM((char *)"ST", 3, t->offset, 1, (char *)("Store Var"), (char *)t->attr.name);
+                            emitRM((char *)"ST", 3, t->offset, 1, (char *)("Store Var 72"), (char *)t->attr.name);
                         }                        
                     }
                     else{
                         if(t->isArray){
-                            emitRM((char *)"LDC", 3, t->memSize-1, 6, (char *)("Load array size"));
-                            emitRM((char *)"ST", 3, t->offset + 1, 0, (char *)("Save size of "), (char *)t->attr.name);
+                            loffset -= t->memSize;
+                            emitComment((char *)("LOFF Line78:"), loffset);
+
+                            emitRM((char *)"LDC", 3, t->memSize-1, 6, (char *)("Load array size 80 "), (char *)t->attr.name);
+                            emitRM((char *)"ST", 3, t->offset + 1, 1, (char *)("Save size of 81 "), (char *)t->attr.name);
                         }
                     }
 
@@ -281,7 +286,7 @@ void codeGenExp(TreeNode *t){
                         }
                         */
 
-                        emitRM((char *)"LD", 3, 1, 3, (char *)("Load array size"));
+                        emitRM((char *)"LD", 3, 1, 3, (char *)("Load array size "));
                     }
                     else if(!strcmp(t->attr.name, "-")){
                         emitRO((char *)"NEG", 3, 3, 3, (char *)("Unary Op"), (char *)t->attr.name);
@@ -999,7 +1004,7 @@ void genGlobAndStatics(TreeNode *t){
                         emitRM((char *)"ST", 3, goffset+1, 0, (char *)("Store Var"), (char *)t->attr.name);
                     }
                     else{
-                        emitRM((char *)"LDC", 3, t->memSize-1, 3, (char *)("Load array size"));
+                        emitRM((char *)"LDC", 3, t->memSize-1, 3, (char *)("Load array size 1004"));
                         emitRM((char *)"ST", 3, goffset+1, 3, (char *)("Save size of "), (char *)t->attr.name);
                     }
                 }
@@ -1009,7 +1014,7 @@ void genGlobAndStatics(TreeNode *t){
                         emitRM((char *)"ST", 3, goffset+1, 0, (char *)("Store Var"), (char *)t->attr.name);
                     }
                     else{
-                        emitRM((char *)"LDC", 3, t->memSize-1, 6, (char *)("Load array size"));
+                        emitRM((char *)"LDC", 3, t->memSize-1, 6, (char *)("Load array size 1015"));
                         emitRM((char *)"ST", 3, t->offset + 1, 0, (char *)("Save size of "), (char *)t->attr.name);
                     }
                 }

@@ -80,29 +80,30 @@
 * COMPOUND
 * LOFF Line188: -2
 * START COMPOUND BODY
- 40:    LDC  3,20(6)	Load array size 
- 41:     ST  3,-2(0)	Save size of  rr
+* LOFF Line78: -23
+ 40:    LDC  3,20(6)	Load array size 80  rr
+ 41:     ST  3,-2(1)	Save size of 81  rr
 * START CALL output
- 42:     ST  1,-2(1)	Store fp in ghost frame for  output
+ 42:     ST  1,-23(1)	Store fp in ghost frame for  output
 * START Param 1
-* LOFF Line680: -3
-* LOFF Line685: -4
+* LOFF Line680: -24
+* LOFF Line685: -25
 * START OP  *
 * START ID
  43:    LDA  3,-3(1)	Load address of base of array2 rr
 * END ID
- 44:     LD  3,1(3)	Load array size 
+ 44:     LD  3,1(3)	Load array size  
 * END OP  *
- 45:     ST  3,-4(1)	Push parameter 623 
-* LOFF Line615: -5
+ 45:     ST  3,-25(1)	Push parameter 623 
+* LOFF Line615: -26
 * END Param 1
- 46:    LDA  1,-2(1)	Ghost frame becomes new active frame 
+ 46:    LDA  1,-23(1)	Ghost frame becomes new active frame 
  47:    LDA  3,1(7)	Load return addr 
 * BackPatch 48
  48:    JMP  7,-43(7)	CALL OUTPUT output
  49:    LDA  3,0(2)	Save the result in ac 
 * END CALL
-* LOFF Line749: -2
+* LOFF Line749: -23
 * END COMPOUND BODY
 * END COMPOUND
 * END COMPOUND BODY
