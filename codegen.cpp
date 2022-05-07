@@ -65,18 +65,15 @@ void codeGenDecl(TreeNode *t){
     else{
         switch(t->subkind.decl){
             case VarK:
-                {
-                    //check for locals first
-                    if(t->memKind == Local){
-                        if(!t->isArray){
-                            //loffset -= t->memSize;
-                            //emitComment((char *)("LOFF Line70:"), loffset);
-                        }
-                        else{
-                            emitRM((char *)"LDC", 3, t->memSize - 1, 6, (char *)("load array size"), (char *)t->attr.name);
-                            emitRM((char *)"ST", 3, t->offset + 1, 1, (char *)("save array size"), (char *)t->attr.name);
-                        }
+                {   
+                    if(t->child[0]){
+                        if(t->memKind == Local){
+                            genParse(t->child[0]);
+                            emitRM((char *)"ST", 3, loffset + 1, 1, (char *)("Store Var"), (char *)t->attr.name);
+                        }                        
                     }
+
+                    
                     break;
                 }
 
@@ -988,9 +985,15 @@ void genGlobAndStatics(TreeNode *t){
     else{
         if(t->subkind.decl == VarK){
             if(t->memKind == Global){
-                if(t->isArray){
-                    emitRM((char *)"LDC", 3, t->memSize - 1, 6, (char *)("Load array size"), (char *)t->attr.name);
-                    emitRM((char *)"ST", 3, t->offset + 1, 0, (char *)("Store array size"), (char *)t->attr.name);
+                if(t->child[0]){
+                    if(!t->isArray){
+                        genParse(t->child[0]);
+                        emitRM((char *)"ST", 3, goffset+1, 0, (char *)("Store Var"), (char *)t->attr.name);
+                    }
+                    else{
+                        emitRM((char *)"LDC", 3, t->memSize, 3, (char *)("Load array size"));
+                        emitRM((char *)"ST", 3, goffset+1, 3, (char *)("Save size of "), (char *)t->attr.name);
+                    }
                 }
             }
         }
