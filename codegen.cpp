@@ -52,7 +52,7 @@ void genParse(TreeNode *t){
                 codeGenExp(t);
                 break;
         }
-        if(t->sibling && t->sibling->memKind != Parameter){
+        if(t->sibling && t->sibling->memKind != Parameter ){
             genParse(t->sibling);
         }
     }
@@ -263,6 +263,7 @@ void codeGenExp(TreeNode *t){
                     genParse(t->child[0]);
 
                     if(!strcmp(t->attr.name, "*")){
+                        /*
                         if(t->memKind == Global){
                             emitRM((char *)"LDA", 3, t->child[0]->offset, 0, (char *)("Load address of base of array 270"), (char *)t->child[0]->attr.name);
                         }
@@ -272,6 +273,7 @@ void codeGenExp(TreeNode *t){
                         else{
                             emitRM((char *)"LDA", 3, t->child[0]->offset, 1, (char *)("Load address of base of array 276"), (char *)t->child[0]->attr.name);
                         }
+                        */
 
                         emitRM((char *)"LD", 3, 1, 3, (char *)("Load array size"));
                     }
@@ -991,8 +993,18 @@ void genGlobAndStatics(TreeNode *t){
                         emitRM((char *)"ST", 3, goffset+1, 0, (char *)("Store Var"), (char *)t->attr.name);
                     }
                     else{
-                        emitRM((char *)"LDC", 3, t->memSize, 3, (char *)("Load array size"));
+                        emitRM((char *)"LDC", 3, t->memSize-1, 3, (char *)("Load array size"));
                         emitRM((char *)"ST", 3, goffset+1, 3, (char *)("Save size of "), (char *)t->attr.name);
+                    }
+                }
+                else{
+                    if(!t->isArray){
+                        genParse(t->child[0]);
+                        emitRM((char *)"ST", 3, goffset+1, 0, (char *)("Store Var"), (char *)t->attr.name);
+                    }
+                    else{
+                        emitRM((char *)"LDC", 3, t->memSize-1, 6, (char *)("Load array size"));
+                        emitRM((char *)"ST", 3, t->offset + 1, 0, (char *)("Save size of "), (char *)t->attr.name);
                     }
                 }
             }

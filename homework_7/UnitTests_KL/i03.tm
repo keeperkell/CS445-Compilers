@@ -86,17 +86,16 @@
 * START ID
  41:    LDA  3,-1(0)	Load address of base of array1 gc
 * END ID
- 42:    LDA  3,-1(1)	Load address of base of array 276 gc
- 43:     LD  3,1(3)	Load array size 
+ 42:     LD  3,1(3)	Load array size 
 * END OP  *
- 44:     ST  3,-4(1)	Push parameter 623 
+ 43:     ST  3,-4(1)	Push parameter 623 
 * LOFF Line615: -5
 * END Param 1
- 45:    LDA  1,-2(1)	Ghost frame becomes new active frame 
- 46:    LDA  3,1(7)	Load return addr 
-* BackPatch 47
- 47:    JMP  7,-42(7)	CALL OUTPUT output
- 48:    LDA  3,0(2)	Save the result in ac 
+ 44:    LDA  1,-2(1)	Ghost frame becomes new active frame 
+ 45:    LDA  3,1(7)	Load return addr 
+* BackPatch 46
+ 46:    JMP  7,-41(7)	CALL OUTPUT output
+ 47:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -2
 * COMPOUND
@@ -106,20 +105,22 @@
 * END COMPOUND
 * END COMPOUND BODY
 * END COMPOUND
- 49:    LDC  2,0(6)	Set return value to 0 
- 50:     LD  3,-1(1)	Load return address 
- 51:     LD  1,0(1)	Adjust fp 
- 52:    JMP  7,0(3)	return 
+ 48:    LDC  2,0(6)	Set return value to 0 
+ 49:     LD  3,-1(1)	Load return address 
+ 50:     LD  1,0(1)	Adjust fp 
+ 51:    JMP  7,0(3)	return 
 * End of Function main
 * 
 * =========================================================
-  0:    JMP  7,52(7)	Jump to init 
+  0:    JMP  7,51(7)	Jump to init 
 * START INIT
- 53:    LDA  1,-14(0)	Set first frame after globals 
- 54:     ST  1,0(1)	Store old fp 
+ 52:    LDA  1,-14(0)	Set first frame after globals 
+ 53:     ST  1,0(1)	Store old fp 
 * START INIT GLOBALS AND STATICS
+ 54:    LDC  3,13(6)	Load array size 
+ 55:     ST  3,0(0)	Save size of  gc
 * END INIT GLOBALS AND STATICS
- 55:    LDA  3,1(7)	Load return address 
- 56:    JMP  7,-18(7)	Jump to main 
- 57:   HALT  0,0,0	DONE 
+ 56:    LDA  3,1(7)	Load return address 
+ 57:    JMP  7,-19(7)	Jump to main 
+ 58:   HALT  0,0,0	DONE 
 * END INIT
