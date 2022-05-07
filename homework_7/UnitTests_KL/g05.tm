@@ -130,32 +130,34 @@
  62:    LDC  3,445(6)	Load int const 
 * LOFF Line 481: -13
  63:     LD  4,-13(1)	Pop index off 
- 64:    LDA  5,-3(1)	Load address of base of array z
+ 64:    LDA  5,-3(1)	Load address of base of array 398 z
  65:    SUB  5,5,4	Compute offset of value 
  66:     ST  3,0(5)	Store var z
 * END ASSIGN
-* START CALL
+* START CALL output
  67:     ST  1,-13(1)	Store fp in ghost frame for  output
-* START Param 1
 * LOFF Line680: -14
 * LOFF Line685: -15
-* START CALL
+* START Param 1
+* START CALL cat
  68:     ST  1,-15(1)	Store fp in ghost frame for  cat
 * LOFF Line698: -16
 * LOFF Line704: -17
 * START Param 1
- 69:    LDA  3,-3(1)	Load address of base of array 805 z
- 70:     ST  3,-17(1)	Push left side 
+ 69:    LDA  3,-3(1)	Load address of base of array 810 z
+ 70:     ST  3,-17(1)	Push left side 813 
+* LOFF Line 815: -18
  71:    LDC  3,3(6)	Load int const 
- 72:     LD  4,-17(1)	Pop left into acl 1 
+* LOFF Line 818: -17
+ 72:     LD  4,-17(1)	Pop left into acl 819 
  73:    SUB  3,4,3	compute location from index 
  74:     LD  3,0(3)	Load array element 
- 75:     ST  3,-17(1)	Push paramter 
+ 75:     ST  3,-17(1)	Push Parameter 
 * END Param 1
 * LOFF Line704: -18
 * START Param 2
  76:    LDC  3,911(6)	Load int const 
- 77:     ST  3,-18(1)	Push paramter 
+ 77:     ST  3,-18(1)	Push Parameter 
 * END Param 2
  78:    LDA  1,-15(1)	Ghost frame becomes new active frame 
  79:    LDA  3,1(7)	Load return addr 

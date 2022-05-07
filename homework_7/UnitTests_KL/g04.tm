@@ -121,23 +121,23 @@
 * COMPOUND
 * LOFF Line188: -2
 * START COMPOUND BODY
-* START CALL
+* START CALL output
  58:     ST  1,-2(1)	Store fp in ghost frame for  output
-* START Param 1
 * LOFF Line680: -3
 * LOFF Line685: -4
-* START CALL
+* START Param 1
+* START CALL cat
  59:     ST  1,-4(1)	Store fp in ghost frame for  cat
 * LOFF Line698: -5
 * LOFF Line704: -6
 * START Param 1
  60:    LDC  3,33(6)	Load int const 
- 61:     ST  3,-6(1)	Push paramter 
+ 61:     ST  3,-6(1)	Push Parameter 
 * END Param 1
 * LOFF Line704: -7
 * START Param 2
  62:    LDC  3,911(6)	Load int const 
- 63:     ST  3,-7(1)	Push paramter 
+ 63:     ST  3,-7(1)	Push Parameter 
 * END Param 2
  64:    LDA  1,-4(1)	Ghost frame becomes new active frame 
  65:    LDA  3,1(7)	Load return addr 

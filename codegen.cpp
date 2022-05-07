@@ -267,13 +267,13 @@ void codeGenExp(TreeNode *t){
 
                     if(!strcmp(t->attr.name, "*")){
                         if(t->memKind == Global){
-                            emitRM((char *)"LDA", 3, t->child[0]->offset, 0, (char *)("Load address of base of array"), (char *)t->child[0]->attr.name);
+                            emitRM((char *)"LDA", 3, t->child[0]->offset, 0, (char *)("Load address of base of array 270"), (char *)t->child[0]->attr.name);
                         }
                         else if(t->memKind == Parameter){
-                            emitRM((char *)"LD", 3, t->child[0]->offset, 1, (char *)("Load address of base of array"), (char *)t->child[0]->attr.name);
+                            emitRM((char *)"LD", 3, t->child[0]->offset, 1, (char *)("Load address of base of array 273"), (char *)t->child[0]->attr.name);
                         }
                         else{
-                            emitRM((char *)"LDA", 3, t->child[0]->offset, 1, (char *)("Load address of base of array"), (char *)t->child[0]->attr.name);
+                            emitRM((char *)"LDA", 3, t->child[0]->offset, 1, (char *)("Load address of base of array 276"), (char *)t->child[0]->attr.name);
                         }
 
                         emitRM((char *)"LD", 3, 1, 3, (char *)("Load array size"));
@@ -389,13 +389,13 @@ void codeGenExp(TreeNode *t){
                     emitRM((char *)"LD", 4, loffset, 1, (char *)("Pop index off"));
 
                     if(t->child[0]->child[0]->memKind == Global){
-                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 0, (char *)("Load address of base of array"), (char *)t->child[0]->child[0]->attr.name);
+                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 0, (char *)("Load address of base of array 392"), (char *)t->child[0]->child[0]->attr.name);
                     }
                     else if(t->child[0]->child[0]->memKind == Parameter){
-                        emitRM((char *)"LD", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array"), (char *)t->child[0]->child[0]->attr.name);
+                        emitRM((char *)"LD", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array 395"), (char *)t->child[0]->child[0]->attr.name);
                     }
                     else{
-                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array"), (char *)t->child[0]->child[0]->attr.name);
+                        emitRM((char *)"LDA", 5, t->child[0]->child[0]->offset, 1, (char *)("Load address of base of array 398"), (char *)t->child[0]->child[0]->attr.name);
                     }
 
                     emitRO((char *)"SUB", 5, 5, 4, (char *)("Compute offset of value"));
@@ -612,9 +612,7 @@ void codeGenExp(TreeNode *t){
                 if(t->memKind == Global){
                     if(!isBinary){
                         if(t->isArray){
-
                             emitRM((char *)"LDA", 3, t->offset, 0, (char *)("Load address of base of array1"), (char *)t->attr.name);
-
                         }
                         else{
                             emitRM((char *)"LD", 3, t->offset, 0, (char *)("Load var"), (char *)t->attr.name);
@@ -654,9 +652,6 @@ void codeGenExp(TreeNode *t){
                     if(!isBinary){
                         if(t->isArray){
                             emitRM((char *)"LD", 3, t->offset, 0, (char *)("Load address of base of array4"), (char *)t->attr.name);
-                            loffset--;
-                            emitComment((char *)("LOFF Line638:"), loffset);
-
                         }
                         else{
                             emitRM((char *)"LD", 3, t->offset, 0, (char *)("Load var"), (char *)t->attr.name);
@@ -673,7 +668,7 @@ void codeGenExp(TreeNode *t){
 
         case CallK:
         {
-            emitComment((char *)("START CALL"));
+            emitComment((char *)("START CALL"), (char*)t->attr.name);
 
             int numParams = 0;
             int tempOff = 0;
@@ -754,13 +749,12 @@ void codeGenExp(TreeNode *t){
                     }
                     else{
                         emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for "), (char *)t->attr.name);
-                        emitComment((char *)("START Param 1"));
+                        
                         loffset--;
                         emitComment((char *)("LOFF Line680:"), loffset);
-
-                        
-                        loffset  -= numParams;
+                        loffset--;
                         emitComment((char *)("LOFF Line685:"), loffset);
+                        emitComment((char *)("START Param 1"));
                         storeInMem = false;
                         genParse(t->child[0]);
                         
@@ -777,12 +771,7 @@ void codeGenExp(TreeNode *t){
                     TreeNode *LUChild;
                     emitRM((char *)"ST", 1, loffset, 1, (char *)("Store fp in ghost frame for "), (char *)t->attr.name);
 
-                    if(t->child[0]->subkind.exp == IdK){
-                        LUChild = (TreeNode *)st.lookup(t->child[0]->attr.name);
-                    }
-                    else{
-                        LUChild = t->child[0];
-                    }
+                    LUChild = t->child[0];
 
                     loffset--;
                     emitComment((char *)("LOFF Line698:"), loffset);
@@ -794,42 +783,65 @@ void codeGenExp(TreeNode *t){
                         emitComment((char *)("START Param"),loopCount);
                         
                         if(LUChild->subkind.exp == IdK || LUChild->subkind.exp == OpK){
-                            if(!strcmp(LUChild->attr.name, "[")){
-                                if(LUChild->child[0]->memKind == Global){
-                                    emitRM((char *)"LDA", 3, LUChild->child[0]->offset, 0, (char *)("Load address of base of array 799"), (char *)LUChild->child[0]->attr.name);
+                            if(LUChild->isArray){
+                                emitRM((char *)"LDA", 3, LUChild->offset, 1, (char *)"Load address of base of array", (char*)LUChild->attr.name);
+                                emitRM((char *)"ST", 3, loffset, 1, (char *)"Push Parameter");
+                            }
+                            else if(!strcmp(LUChild->attr.name, "[")){
+                                /*
+                                69:    LDA  3,-3(1)	Load address of base of array z
+                                70:     ST  3,-17(1)	Push left side 
+                                * TOFF dec: -18
+                                71:    LDC  3,3(6)	Load integer constant 
+                                * TOFF inc: -17
+                                72:     LD  4,-17(1)	Pop left into ac1 
+                                73:    SUB  3,4,3	compute location from index 
+                                74:     LD  3,0(3)	Load array element 
+                                75:     ST  3,-17(1)	Push parameter
+                                */
+
+                               if(LUChild->memKind == Global){
+                                    emitRM((char *)"LDA", 3, LUChild->child[0]->offset, 0, (char *)("Load address of base of array 804"), (char *)LUChild->child[0]->attr.name);
                                 }
-                                else if(LUChild->child[0]->memKind == Parameter){
-                                    emitRM((char *)"LD", 3, LUChild->child[0]->offset, 1, (char *)("Load address of base of array 802"), (char *)LUChild->child[0]->attr.name);
+                                else if(LUChild->memKind == Parameter){
+                                    emitRM((char *)"LD", 3, LUChild->child[0]->offset, 1, (char *)("Load address of base of array 807"), (char *)LUChild->child[0]->attr.name);
                                 }
                                 else{
-                                    emitRM((char *)"LDA", 3, LUChild->child[0]->offset, 1, (char *)("Load address of base of array 805"), (char *)LUChild->child[0]->attr.name);
+                                    emitRM((char *)"LDA", 3, LUChild->child[0]->offset, 1, (char *)("Load address of base of array 810"), (char *)LUChild->child[0]->attr.name);
                                 }
 
-                                emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side"));
+                                emitRM((char *)"ST", 3, loffset, 1, (char *)("Push left side 813"));
+                                loffset--;
+                                emitComment((char *)("LOFF Line 815:"), loffset);
                                 genParse(LUChild->child[1]);
-                                emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 1"));
+                                loffset++;
+                                emitComment((char *)("LOFF Line 818:"), loffset);
+                                emitRM((char *)"LD", 4 , loffset, 1, (char *)("Pop left into acl 819"));
                                 emitRO((char *)"SUB", 3, 4, 3, (char *)("compute location from index"));
                                 emitRM((char *)"LD", 3, 0, 3, (char *)("Load array element"));
+
+                                emitRM((char *)"ST", 3, loffset, 1, (char *)"Push Parameter");
                             }
                             else{
-                                genParse(LUChild);
+                                emitComment((char *)("LUChild->non array"));
+                                storeInMem = false;
+                                //genParse(LUChild);
                             }
                         }
-                        else{
-                            if(LUChild->subkind.exp == ConstantK){
-                                if(LUChild->expType == Boolean){
-                                    emitRM((char *)"LDC", 3, LUChild->attr.value, 6,(char *)"Load bool const");
-                                }
-                                else if(LUChild->expType == Char){
-                                    emitRM((char *)"LDC", 3, LUChild->attr.value, 6,(char *)"Load char const");
-                                }
-                                else if(LUChild->expType == Integer){
-                                    emitRM((char *)"LDC", 3, LUChild->attr.value, 6,(char *)"Load int const");
-                                }
+                        else if(LUChild->subkind.exp == ConstantK){
+                            if(t->expType == Boolean){
+                                emitRM((char *)"LDC", 3, LUChild->attr.value, 6,(char *)"Load bool const");
                             }
-                        }
+                            else if(t->expType == Char){
+                                emitRM((char *)"LDC", 3, LUChild->attr.value, 6,(char *)"Load char const");
+                            }
+                            else if(t->expType == Integer){
+                                emitRM((char *)"LDC", 3, LUChild->attr.value, 6,(char *)"Load int const");
+                            }
 
-                        emitRM((char *)"ST", 3, loffset, 1, (char *)("Push paramter"));
+                            emitRM((char *)"ST", 3, loffset, 1, (char *)"Push Parameter");
+                        }
+                        
 
                         LUChild = LUChild->sibling;
                         emitComment((char *)("END Param"), loopCount);
