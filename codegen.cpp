@@ -69,7 +69,7 @@ void codeGenDecl(TreeNode *t){
                     if(t->child[0]){
                         if(t->memKind == Local){
                             genParse(t->child[0]);
-                            emitRM((char *)"ST", 3, loffset + 1, 1, (char *)("Store Var"), (char *)t->attr.name);
+                            emitRM((char *)"ST", 3, t->offset, 1, (char *)("Store Var"), (char *)t->attr.name);
                         }                        
                     }
 
