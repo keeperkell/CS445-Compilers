@@ -95,11 +95,11 @@
  45:     ST  3,-4(1)	Store var z
 * END ID
 * END ASSIGN
-* START CALL
+* START CALL output
  46:     ST  1,-5(1)	Store fp in ghost frame for  output
-* START Param 1
 * LOFF Line680: -6
 * LOFF Line685: -7
+* START Param 1
 * START ASSIGN
 * START ASSIGN
  47:     LD  3,-3(0)	Load variable  y
@@ -121,7 +121,7 @@
  58:    LDA  3,0(2)	Save the result in ac 
 * END CALL
 * LOFF Line749: -5
-* START CALL
+* START CALL outnl
  59:     ST  1,-5(1)	Store fp in ghost frame for outnl
  60:    LDA  1,-5(1)	Ghost frame becomes new active frame 
  61:    LDA  3,1(7)	Load return addr 

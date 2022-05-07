@@ -205,9 +205,6 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
                     
                     case IfK:
                         printf("If [line: %d]\n", t->linenum);
-                        if(memTyping){
-                                printf(" [mem: %s loc: %d size: %d]", returnMemKind(t->memKind), t->offset, t->memSize);
-                            }
                         break;
 
                     case WhileK:
@@ -235,9 +232,7 @@ void printTree(TreeNode *t, bool typing_option, int numSiblings, bool memTyping)
 
                     case ReturnK:
                         printf("Return [line: %d]\n", t->linenum);
-                        if(memTyping){
-                                printf(" [mem: %s loc: %d size: %d]", returnMemKind(t->memKind), t->offset, t->memSize);
-                            }
+                        
                         break;
 
                     case BreakK:
