@@ -12,6 +12,7 @@ int loffset = -2;
 bool storeInMem = false;
 int breakLoc = 0;
 bool isBinary = false;
+bool inFor = false;
 
 FILE *code;
 
@@ -198,13 +199,58 @@ void codeGenStmt(TreeNode *t){
             
         case ForK:
             {
+                emitComment((char *)("START FOR"));
+                inFor = true;
+
+                loffset-= 3;
+                int tempOff = loffset;
+                emitComment((char *)("LOFF Line 202:"), loffset);
+
+                //first child should be the indexing 
+                genParse(t->child[0]);
+                //second child should be the Range
+                genParse(t->child[1]);
+                loffset--;
+                emitComment((char *)("LOFF Line 211:"), loffset);
+
+                int forLoc = emitSkip(0);
+                emitRM((char *)"LD", 4, loffset + 3, 1, (char *)"loop index");
+                emitRM((char *)"LD", 5, loffset + 2, 1, (char *)"Stop value");
+                emitRM((char *)"LD", 3, loffset + 1, 1, (char *)"Step value");
+
+                emitRO((char *)"SLT", 3, 4, 5, (char *)"Op <");
+                emitRM((char *)"JNZ", 3, 1, 7, (char *)"Jump to loop body");
+
+                int endForLoc = emitSkip(1);
+
+                //third child should be compound
+                genParse(t->child[2]);
+
+                emitRM((char *)"LD", 3, loffset + 3, 1, (char *)"Load index");
+                emitRM((char *)"LD", 5, loffset + 1, 1, (char *)"Load step");
+
+                emitRO((char *)"ADD", 3, 3, 5, (char *)"increment");
+
+                emitRM((char *)"ST", 3, loffset + 3, 1, (char *)"store back to index");
+
+                loffset = tempOff +1;
+                emitComment((char *)("LOFF Line 234:"), loffset);
+
+                emitGotoAbs(forLoc, (char *)"go to beginning of loop");
+                backPatchAJumpToHere(endForLoc, (char *)"Jump past loop [backpatch]");
+
+                inFor = false;
+                emitComment((char *)("END FOR"));
                 break;
             }
 
         case CompoundK:
             {
                 emitComment((char *)("COMPOUND"));
-                loffset = t->memSize;
+                if(!inFor){
+                    loffset = t->memSize;
+                }
+                
                 emitComment((char *)("LOFF Line188:"), loffset);
 
                 emitComment((char *)("START COMPOUND BODY"));
@@ -259,6 +305,35 @@ void codeGenStmt(TreeNode *t){
             }
 
         case RangeK:
+
+            genParse(t->child[0]);
+            loffset++;
+            emitComment((char *)("LOFF Line 300:"), loffset);
+            emitRM((char *)"ST", 3, loffset + 3, 1, (char *)"save starting value in index variable");
+
+            
+
+            genParse(t->child[1]);
+            emitRM((char *)"ST", 3, loffset + 2, 1, (char *)"save stop value 303");
+
+
+            if (t->child[2])
+            {
+                genParse(t->child[2]);
+                emitRM((char *)"ST", 3, loffset + 1, 1, (char *)"save step value 324");
+
+                loffset++;
+                emitComment((char *)("LOFF Line 318:"), loffset);
+
+            }
+            else
+            {
+                emitRM((char *)"LDC", 3, 1, 6, (char *)"default increment by 1");
+                emitRM((char *)"ST", 3, loffset + 1, 1, (char *)"save step value 314");
+                
+                loffset++;
+                emitComment((char *)("LOFF Line 318:"), loffset);
+            }
             break;
     }
 }
